@@ -33,10 +33,7 @@ namespace Team5_LUSS
             services.AddControllersWithViews();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSession();
-            //services.AddDbContext<MyDbContext>
-            //   (opt => opt.UseLazyLoadingProxies()
-            //.UseSqlServer(Configuration.GetConnectionString("DbConn"))
-            //);
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,39 +63,7 @@ namespace Team5_LUSS
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            //dbcontext.Database.EnsureDeleted();
-            //dbcontext.Database.EnsureCreated();
-
-
-            ////static string Encrypt(string value)
-            ////{
-            ////    using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
-            ////    {
-            ////        UTF8Encoding utf8 = new UTF8Encoding();
-            ////        byte[] data = md5.ComputeHash(utf8.GetBytes(value));
-            ////        return Convert.ToBase64String(data);
-            ////    }
-            ////}
-            
-            //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
-            //dbcontext.AddRange(itemCategories);
-
-            //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
-            //dbcontext.AddRange(allCollectionPoints);
-
-            //List<Supplier> suppliers = AddSupplier.getAllSuppliers();
-            //dbcontext.AddRange(suppliers);
-
-
-            //List<Department> allDepartments= AddDepartment.getAllDepartment(allCollectionPoints);
-            //dbcontext.AddRange(allDepartments);
-
-            //List<User> allUsers = AddUsers.getAllUsers();
-            //dbcontext.AddRange(allUsers);
-
-            //dbcontext.SaveChanges();
-
-
+          
         }
     }
 }

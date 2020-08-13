@@ -13,6 +13,7 @@ namespace Team5_LUSS.Controllers
     {
         public IActionResult Dashboard()
         {
+            Console.WriteLine("test");
             return View();
         }
       

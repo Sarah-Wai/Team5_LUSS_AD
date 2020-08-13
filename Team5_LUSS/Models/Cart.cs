@@ -11,7 +11,9 @@ namespace Team5_LUSS.Models
     public class Cart
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)] 
+
+
         public int CartID { get; set; }
         [Required]
         public int UserID   { get; set; }

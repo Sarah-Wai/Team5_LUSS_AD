@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var CollectionPoints = (List<CollectionPoint>)ViewData["collectionPoints"];
+}
+
+
+<!-- START: Main Content-->
+<main>
+    <div class="container-fluid site-width">
+
+
+        <!-- START: Card Data-->
+        <div class="row">
+            <div class="col-12  mt-3">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title">Current Collection Point</h4>
+                    </div>
+                    <div class="card-body">
+                        Behind the Tree @@Collection Name + Description
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Card DATA-->
+    </div>
+    <form>
+        <div class="col-12 col-md-6 mt-3">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">All Collection Points</h4>
+                </div>
+                <div class="card-body">
+                    <div class="skin skin-flat">
+
+                        <ul class="list list-unstyled  mr-3">
+                            @{
+                                foreach (var c in CollectionPoints)
+                                {
+                                    <li>
+                                        <input tabindex="7" type="radio" id="minimal-radio-11" name="minimal-radio">
+                                        <label for="minimal-radio-11">@c.Location + " - " + @c.Description </label>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</main>
+<!-- END: Content-->

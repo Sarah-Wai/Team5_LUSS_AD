@@ -12,13 +12,19 @@ namespace LUSS_API.Models
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int CartID { get; set; }
+        public int NotificationId { get; set; }
         [Required]
-        public int UserID   { get; set; }
+        public int FromUser { get; set; }
         [Required]
-        public int ItemID   { get; set; }
+        public int ToUser { get; set; }
         [Required]
-        public int Qty   { get; set; }
+        public string RouteUri { get; set; }
+        [Required]
+        public string Type { get; set; }
+        [Required]
+        public string Description { get; set; }
+        [Required]
+        public bool IsRead { get; set; }
         public virtual Item Item{ get; set; }
     }
 }

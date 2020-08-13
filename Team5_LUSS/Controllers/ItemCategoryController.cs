@@ -12,7 +12,7 @@ namespace Team5_LUSS.Controllers
 {
     public class ItemCategoryController : Controller
     {
-      
+
         public async Task<IActionResult> ItemCategory()
         {
             List<ItemCategory> catList = new List<ItemCategory>();
@@ -31,6 +31,11 @@ namespace Team5_LUSS.Controllers
 
         public ViewResult GetItemCategory() => View();
 
+        public IActionResult CollectionPoints()
+        {
+            return View();
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> GetItemCategory(int id)
@@ -46,7 +51,7 @@ namespace Team5_LUSS.Controllers
             }
             return View(itemCategory);
         }
-      
+
 
         public ViewResult AddItemCategory() => View();
 

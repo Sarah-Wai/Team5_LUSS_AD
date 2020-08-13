@@ -28,11 +28,9 @@ namespace Team5_LUSS.Models
         [Required]
         [MaxLength(50)]
         public string ItemCode   { get; set; }
+       
         [Required]
-        [MaxLength(50)]
-        public string ImageURL { get; set; }
-        [Required]
-        public int LowStockLevel   { get; set; }
+        public int ReStockLevel   { get; set; }
 
         [Required]
         [MaxLength(500)]

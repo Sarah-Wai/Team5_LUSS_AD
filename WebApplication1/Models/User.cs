@@ -33,8 +33,8 @@ namespace LUSS_API.Models
 
         [Required]
         public bool IsRepresentative { get; set; }
-        [Required]
-        public int ReportToID   { get; set; }
+      
+        public int? ReportToID   { get; set; }
         [Required]
         public int DepartmentID   { get; set; }
 

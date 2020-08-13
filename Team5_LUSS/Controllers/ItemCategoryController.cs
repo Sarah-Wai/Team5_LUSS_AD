@@ -12,13 +12,13 @@ namespace Team5_LUSS.Controllers
 {
     public class ItemCategoryController : Controller
     {
-
+        string api_url = "https://localhost:44312/ItemCategory";
         public async Task<IActionResult> ItemCategory()
         {
             List<ItemCategory> catList = new List<ItemCategory>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44312/ItemCategory"))
+                using (var response = await httpClient.GetAsync(api_url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     catList = JsonConvert.DeserializeObject<List<ItemCategory>>(apiResponse);
@@ -43,7 +43,7 @@ namespace Team5_LUSS.Controllers
             ItemCategory itemCategory = new ItemCategory();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44312/SaveItemCategory/" + id))
+                using (var response = await httpClient.GetAsync(api_url + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     itemCategory = JsonConvert.DeserializeObject<ItemCategory>(apiResponse);
@@ -63,7 +63,7 @@ namespace Team5_LUSS.Controllers
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(reservation), Encoding.UTF8, "application/json");
 
-                using (var response = await httpClient.PostAsync("https://localhost:44312/ItemCategory", content))
+                using (var response = await httpClient.PostAsync(api_url, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     receivedItemCategory = JsonConvert.DeserializeObject<ItemCategory>(apiResponse);
@@ -77,7 +77,7 @@ namespace Team5_LUSS.Controllers
             ItemCategory itemCategory = new ItemCategory();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44312/ItemCategory/" + id))
+                using (var response = await httpClient.GetAsync(api_url+"/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     itemCategory = JsonConvert.DeserializeObject<ItemCategory>(apiResponse);
@@ -96,7 +96,7 @@ namespace Team5_LUSS.Controllers
                 content.Add(new StringContent(itemCategory.CategoryID.ToString()), "CategoryID");
                 content.Add(new StringContent(itemCategory.CategoryName), "CategoryName");
 
-                using (var response = await httpClient.PutAsync("https://localhost:44312/ItemCategory", content))
+                using (var response = await httpClient.PutAsync(api_url, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     ViewBag.Result = "Success";
@@ -111,7 +111,7 @@ namespace Team5_LUSS.Controllers
         {
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.DeleteAsync("https://localhost:44312/ItemCategory/" + ItemCategoryID))
+                using (var response = await httpClient.DeleteAsync(api_url+"/" + ItemCategoryID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                 }

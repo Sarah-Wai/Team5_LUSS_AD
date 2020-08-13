@@ -54,8 +54,8 @@ namespace LUSS_API
                 endpoints.MapControllers();
             });
 
-            dbcontext.Database.EnsureDeleted();
-            dbcontext.Database.EnsureCreated();
+            //dbcontext.Database.EnsureDeleted();
+            //dbcontext.Database.EnsureCreated();
 
 
             //static string Encrypt(string value)
@@ -68,23 +68,23 @@ namespace LUSS_API
             //    }
             //}
 
-            List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
-            dbcontext.AddRange(itemCategories);
+            //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
+            //dbcontext.AddRange(itemCategories);
 
-            List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
-            dbcontext.AddRange(allCollectionPoints);
+            //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
+            //dbcontext.AddRange(allCollectionPoints);
 
-            List<Supplier> suppliers = AddSupplier.getAllSuppliers();
-            dbcontext.AddRange(suppliers);
+            //List<Supplier> suppliers = AddSupplier.getAllSuppliers();
+            //dbcontext.AddRange(suppliers);
 
 
-            List<Department> allDepartments = AddDepartment.getAllDepartment(allCollectionPoints);
-            dbcontext.AddRange(allDepartments);
+            //List<Department> allDepartments = AddDepartment.getAllDepartment(allCollectionPoints);
+            //dbcontext.AddRange(allDepartments);
 
-            List<User> allUsers = AddUsers.getAllUsers();
-            dbcontext.AddRange(allUsers);
+            //List<User> allUsers = AddUsers.getAllUsers();
+            //dbcontext.AddRange(allUsers);
 
-            dbcontext.SaveChanges();
+            //dbcontext.SaveChanges();
 
         }
     }

@@ -30,6 +30,8 @@ namespace LUSS_API.Models
         public string RequestType { get; set; }
         [Required]
         public int ParentRequestID { get; set; }
+        [Required]
+        public DateTime CollectionTime { get; set; }
         public virtual User RequestedUser { get; set; }
         public virtual User ModifiedUser { get; set; }
         public virtual ICollection<RequestDetails> RequestDetails { get; set; }

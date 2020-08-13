@@ -23,11 +23,19 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<CollectionPoint> GetItemCategory()
+        public IEnumerable<CollectionPoint> GetAllCollectionPoints()
         {
             List<CollectionPoint> collectionPoints = context123.CollectionPoint.ToList();
             return collectionPoints;
+        }
 
+        [HttpGet("{id}")]
+        public CollectionPoint GetCollectionPointByDeptID(int id)
+        {
+            CollectionPoint collectionPoint = (from d in context123.Department
+                                               where d.DepartmentID.Equals(id)
+                                               select d.CollectionPoint).FirstOrDefault();
+            return collectionPoint;
         }
 
     }

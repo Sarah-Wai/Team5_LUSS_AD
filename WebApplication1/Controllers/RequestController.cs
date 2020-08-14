@@ -24,11 +24,15 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        // GET: api/<controller>
+
+        //// GET: api/<controller>
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Request> GetRequest()
         {
-            return new string[] { "value1", "value2" };
+            List<Request> requests = context123.Request.ToList();
+            return requests;
+
         }
 
         // GET api/<controller>/5

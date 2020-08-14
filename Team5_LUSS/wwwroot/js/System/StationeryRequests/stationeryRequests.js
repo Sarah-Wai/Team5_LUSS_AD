@@ -1,137 +1,80 @@
+(function ($) {
+    "use strict";
 
-//    var dataGrid = $("#gridContainer").dxDataGrid({
-//        dataSource: request_list,
-//        columnsAutoWidth: true,
-//        showBorders: true,
-//        filterRow: {
-//            visible: true,
-//            applyFilter: "auto"
-//        },
-//        searchPanel: {
-//            visible: true,
-//            width: 240,
-//            placeholder: "Search..."
-//        },
-//        headerFilter: {
-//            visible: true
-//        },
-//        columns: [{
-//            dataField: "OrderNumber",
-//            caption: "Invoice Number",
-//            width: 140,
-//            headerFilter: {
-//                groupInterval: 10000
-//            }
-//        }, {
-//            dataField: "OrderDate",
-//            alignment: "right",
-//            dataType: "date",
-//            width: 120,
-//            calculateFilterExpression: function (value, selectedFilterOperations, target) {
-//                if (target === "headerFilter" && value === "weekends") {
-//                    return [[getOrderDay, "=", 0], "or", [getOrderDay, "=", 6]];
-//                }
-//                return this.defaultCalculateFilterExpression.apply(this, arguments);
-//            },
-//            headerFilter: {
-//                dataSource: function (data) {
-//                    data.dataSource.postProcess = function (results) {
-//                        results.push({
-//                            text: "Weekends",
-//                            value: "weekends"
-//                        });
-//                        return results;
-//                    };
-//                }
-//            }
-//        }, {
-//            dataField: "DeliveryDate",
-//            alignment: "right",
-//            dataType: "datetime",
-//            width: 180,
-//            format: "M/d/yyyy, HH:mm"
-//        }, {
-//            dataField: "SaleAmount",
-//            alignment: "right",
-//            format: "currency",
-//            editorOptions: {
-//                format: "currency",
-//                showClearButton: true
-//            },
-//            headerFilter: {
-//                dataSource: [{
-//                    text: "Less than $3000",
-//                    value: ["SaleAmount", "<", 3000]
-//                }, {
+    var invoice;
+    flatpickr(document.getElementById('due-date'), {
+        enableTime: true,
+        dateFormat: "d M Y",
+        minDate: new Date()
+    });
 
-//                    text: "$3000 - $5000",
-//                    value: [["SaleAmount", ">=", 3000], ["SaleAmount", "<", 5000]]
-//                }, {
+    $('.invoice-menu a').on('click', function () {
+        $('.invoice-menu a').removeClass('active');
+        $(this).addClass('active');
+        $('.invoice').hide();
+        $('.' + $(this).data("invoicetype")).show(500);
+        return false;
+    });
 
-//                    text: "$5000 - $10000",
-//                    value: [["SaleAmount", ">=", 5000], ["SaleAmount", "<", 10000]]
-//                }, {
+    $(".invoices").on("click", ".delete-invoice", function () {
+        $(this).closest('.invoice').addClass('outline-badge-danger');
+        $(this).closest('.invoice').slideUp(550, function () {
+            $(this).closest('.invoice').remove();
+        });
+    });
 
-//                    text: "$10000 - $20000",
-//                    value: [["SaleAmount", ">=", 10000], ["SaleAmount", "<", 20000]]
-//                }, {
-//                    text: "Greater than $20000",
-//                    value: ["SaleAmount", ">=", 20000]
-//                }]
-//            }
-//        }, "Employee", {
-//            caption: "City",
-//            dataField: "CustomerStoreCity",
-//            headerFilter: {
-//                allowSearch: true
-//            }
-//        }]
-//    }).dxDataGrid('instance');
 
-//    var applyFilterTypes = [{
-//        key: "auto",
-//        name: "Immediately"
-//    }, {
-//        key: "onClick",
-//        name: "On Button Click"
-//    }];
+    $(".invoices").on("click", ".edit-invoice", function () {
+        invoice = $(this).closest('.invoice');
+        $('#due-date').val($(this).closest('.invoice').find('.invoice-due-date').html());
 
-//    var applyFilterModeEditor = $("#useFilterApplyButton").dxSelectBox({
-//        items: applyFilterTypes,
-//        value: applyFilterTypes[0].key,
-//        valueExpr: "key",
-//        displayExpr: "name",
-//        onValueChanged: function (data) {
-//            dataGrid.option("filterRow.applyFilter", data.value);
-//        }
-//    }).dxSelectBox("instance");
+        $('#status').val($(this).closest('.invoice').find('.invoice-content').data('status'));
+        $("#editinvoice").modal();
 
-//    $("#filterRow").dxCheckBox({
-//        text: "Filter Row",
-//        value: true,
-//        onValueChanged: function (data) {
-//            dataGrid.clearFilter();
-//            dataGrid.option("filterRow.visible", data.value);
-//            applyFilterModeEditor.option("disabled", !data.value);
-//        }
-//    });
+    });
+    $(".edit-invoice-form").submit(function (event) {
+        var duedate = $('#due-date').val();
+        var status = $('#status').val();
+        invoice.find('.invoice-due-date').html(duedate);
+        invoice.removeClass('paid-invoice');
+        invoice.removeClass('pending-invoice');
+        invoice.removeClass('canceled-invoice');
+        invoice.addClass(status);
+        invoice.find('.invoice-content').data('status', status);
+        $('#editinvoice').modal('toggle');
+        event.preventDefault();
+    });
 
-//    $("#headerFilter").dxCheckBox({
-//        text: "Header Filter",
-//        value: true,
-//        onValueChanged: function (data) {
-//            dataGrid.clearFilter();
-//            dataGrid.option("headerFilter.visible", data.value);
-//        }
-//    });
+    $(".invoice-search").on("keyup", function () {
+        var v = $(".invoice-search").val().toLowerCase();
+        var rows = $('.' + $('.invoice-menu li a.active').data("invoicetype"));
 
-//    function getOrderDay(rowData) {
-//        return (new Date(rowData.OrderDate)).getDay();
-//    }
+        for (var i = 0; i < rows.length; i++) {
+            var fullname = rows[i].getElementsByClassName("invoice-content");
+            fullname = fullname[0].innerHTML.toLowerCase();
+            if (fullname) {
+                if (v.length == 0 || (v.length < 1 && fullname.indexOf(v) == 0) || (v.length >= 1 && fullname.indexOf(v) > -1)) {
+                    rows[i].style.animation = 'fadein 7s';
+                    rows[i].style.display = "block";
+                } else {
+                    rows[i].style.display = "none";
+                    rows[i].style.animation = 'fadeout 7s';
+                }
+            }
+        }
+    });
 
-function loadDocumentManagerForDocument(documentid) {
-    if (documentid) {
-        //AJAX call to Razor page handler to fetch the document details
-      
-    }
-}
+    $(".invoice-info").on("click", function () {
+        $('.inv-no').html($(this).closest('.invoice').find('.invoice-no').html());
+
+        $('.view-invoice').fadeIn(1000);
+    });
+    $(".back-to-invoice").on("click", function () {
+
+        $('.view-invoice').fadeOut();
+    });
+
+})(jQuery);
+
+
+

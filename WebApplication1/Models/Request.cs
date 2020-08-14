@@ -33,6 +33,6 @@ namespace LUSS_API.Models
         public DateTime CollectionTime { get; set; }
         public virtual User ModifiedByUser { get; set; }
         public virtual User RequestByUser { get; set; }
-        public virtual ICollection<RequestDetails> RequestDetails { get; set; }
+       // public virtual ICollection<RequestDetails> RequestDetails { get; set; }
     }
 }

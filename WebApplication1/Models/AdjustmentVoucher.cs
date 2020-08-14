@@ -23,10 +23,7 @@ namespace LUSS_API.Models
         public string Status   { get; set; }
         [Required]
         public int TotalCost   { get; set; }
-        [Required]
-        public int RequestBy   { get; set; }
-        [Required]
-        public int ApprovedBy   { get; set; }
+      
         [Required]
         public DateTime IssuedDate   { get; set; }
         [Required]
@@ -36,8 +33,16 @@ namespace LUSS_API.Models
         public string Comment  { get; set; }
         [Required]
         public int ItemID { get; set; }
-        public virtual User RequestUser { get; set; }
-        public virtual User ApprovedUser { get; set; }
+       
+        //public int ApprovedByID { get; set; }
+
+        //public int RequestByID { get; set; }
+
+        [ForeignKey("RequestByID")]
+        public virtual User RequestBy { get; set; }
+
+        [ForeignKey("ApprovedByID")]
+        public virtual User ApprovedBy { get; set; }
         public virtual Item Item { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using LUSS_API.DB;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualBasic;
@@ -21,13 +21,16 @@ namespace Team5_LUSS.Controllers
         {
             //Get All the Collection Points
             List<CollectionPoint> collectionPointInfo = new List<CollectionPoint>();
+            CollectionPoint dept_CP = new CollectionPoint();
+
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url))
+                using (var response = await httpClient.GetAsync(api_url))  
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     collectionPointInfo = JsonConvert.DeserializeObject<List<CollectionPoint>>(apiResponse);
                 }
+
             }
             //last object is the Department Collection Point
             ViewData["collectionPoints"] = collectionPointInfo;
@@ -43,24 +46,32 @@ namespace Team5_LUSS.Controllers
                 CollectionPointID = 1
             };
 
-            return View(d);
+            //dept_CP = collectionPointInfo.Where(x => x.CollectionPointID == d.CollectionPointID).FirstOrDefault();
+            //ViewData["dept_CollectionPoint"] = d;
+            return View();
         }
-
 
 
         [HttpPost]
         public async Task<IActionResult> collectionPoints(int deptID, int cpID)
         {
-            Department updated_Dept = new Department();
+            string dept_cpID;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + deptID))
+                using (var response = await httpClient.GetAsync(api_url + "/" + deptID + "/" + cpID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    updated_Dept = JsonConvert.DeserializeObject<Department>(apiResponse);
+                    dept_cpID = apiResponse;
                 }
+
+                return RedirectToAction("collectionPoints", new { id = dept_cpID });
             }
-            return View(updated_Dept);
+        }
+
+
+        public async Task<IActionResult> collectionList()
+        {
+            return View();
         }
     }
 }

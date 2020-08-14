@@ -32,27 +32,15 @@ namespace LUSS_API.Controllers
             return collectionPoints;
         }
 
-
         [HttpGet("{deptID}/{cpID}")]
-        public Department GetDepartment(int deptID, int cpID)
+        public string UpdateCollectionPoint(int deptID, int cpID)
         {
             int dummyID = 1;//TO replace by real ID
             Department dp = context123.Department.Where(x => x.DepartmentID == dummyID).FirstOrDefault();
             dp.CollectionPointID = cpID;
             context123.SaveChanges();
-
-            return dp;
-        }
-
-        [HttpPost("{deptID}")]
-        public Department UpdateCollectionPoint(int deptID, int cpID)
-        {
-            int dummyID = 1;//TO replace by real ID
-            Department dp = context123.Department.Where(x => x.DepartmentID == dummyID).FirstOrDefault();
-            dp.CollectionPointID = cpID;
-            context123.SaveChanges();
-
-            return dp;
+            string dept_cpID = dp.CollectionPointID.ToString();
+            return dept_cpID;
         }
 
     }

@@ -12,7 +12,6 @@ namespace Team5_LUSS.Models
     public class Department
     {
         [Required]
-        [MaxLength(20)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int DepartmentID { get; set; }
         [Required]

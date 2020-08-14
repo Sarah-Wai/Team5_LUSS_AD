@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Team5_LUSS.Controllers
 {
-    public class AdjustVouncherController : Controller
+    public class AdjustVoucherController : Controller
     {
         public IActionResult Index()
         {
-            return View();
+            return View("AdjustVoucherListingClerk");
         }
     }
 }

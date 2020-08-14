@@ -7,6 +7,6 @@ namespace Team5_LUSS.Models
 {
     public class Status
     {
-        public enum EOrderStatus { New,Processing,Completed}
+        public enum EOrderStatus { Pending, Approved, Rejected, Packed, PendingDelivery, Received, Completed }
     }
 }

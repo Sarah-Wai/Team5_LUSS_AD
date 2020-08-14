@@ -10,7 +10,13 @@ namespace Team5_LUSS.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            //return View();
+            //return View("PO_LowStock");
+            //return View("PO_History");
+            //return View("PO_Receive");
+            //return View("PO_Create");
+            //return View("PO_Create_Bulk");
+            return View("PO_Create_Low");
         }
     }
 }

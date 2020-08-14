@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "Receive Purchase Order";
+}
+
+<form>
+    <div class="container-fluid site-width">
+        <div>
+            <div class="row">
+                <div class="col-12 col-md-12">
+                    <div class="card border-0">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>PO No.:</b> 1234<br>
+                                            <b>Expected Date:</b> 1/09/2020 <br>
+                                            <b>Supplier ID:</b> S005<br>
+                                            <b>Supplier Name:</b> Stationery World<br><br>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                @*table content*@
+                <div class="col-12 col-md-12">
+                    <div class="card border-0">
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td><b>Item Code</b></td>
+                                        <td><b>Description</b></td>
+                                        <td class="text-right"><b>UOM</b></td>
+                                        <td class="text-right"><b>Ordered Qty</b></td>
+                                        <td class="text-right"><b>Received Qty</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>P021</td>
+                                        <td class="text-right">Paper Clip</td>
+                                        <td class="text-right">Dozen</td>
+                                        <td class="text-right">10</td>
+                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>P021</td>
+                                        <td class="text-right">Paper Clip</td>
+                                        <td class="text-right">Dozen</td>
+                                        <td class="text-right">10</td>
+                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-right p-5">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <input type="hidden" id="edit-date">
+                            <button type="submit" class="btn btn-success add-todo">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+

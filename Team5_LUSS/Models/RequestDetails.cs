@@ -11,19 +11,18 @@ namespace Team5_LUSS.Models
 {
     public class RequestDetails
     {
-
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int RequestDetailID { get; set; }
         [Required]
         public int RequestQty { get; set; }
         [Required]
-        public int ItemID    { get; set; }
+        public int ItemID { get; set; }
         [Required]
         public int RequestID { get; set; }
-        public int FullfillQty { get; set; }
-       
-        public int ReceivedQty { get; set; }
+        public int? FullfillQty { get; set; }
+
+        public int? ReceivedQty { get; set; }
         public virtual Request Request { get; set; }
         public virtual Item Item { get; set; }
     }

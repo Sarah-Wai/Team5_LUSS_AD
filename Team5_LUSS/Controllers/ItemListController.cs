@@ -30,6 +30,7 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     itemCatList = JsonConvert.DeserializeObject<List<ItemCategory>>(apiResponse);
                 }
+
             }
             ViewData["items"] = itemList;
             ViewData["itemCatList"] = itemCatList;

@@ -28,13 +28,23 @@ namespace LUSS_API.Controllers
             return items;
         }
 
+        
         [HttpGet("{id}")]
+        [Route("/GetItemByID/{id}")]
         public Item GetItemByID(int id)
         {
             Item item = (from i in context123.Item
                          where i.ItemID == id
                          select i).FirstOrDefault();
             return item;
+        }
+
+        [HttpGet("{id}")]
+        [Route("[action]")]
+        public IEnumerable<Item> GetItemListByCategoryID(int id)
+        {
+            IEnumerable<Item> itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();                        
+            return itemList;
         }
 
         [HttpPost]

@@ -12,21 +12,11 @@ namespace Team5_LUSS.Controllers
 {
     public class StationeryRequestsController : Controller
     {
-        string api_url = "https://localhost:44312/api/Request";
+        string api_url = "https://localhost:44312/Request";
       
-        public async Task<IActionResult> StationeryRequests()
+        public IActionResult StationeryRequests()
         {
-            List<Request> requests = new List<Request>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(api_url))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
-                }
-            }
-          //  requests.Remove(RequestDetails);
-            ViewData["requests"] = requests;
+          
             return View();
 
         }
@@ -35,18 +25,17 @@ namespace Team5_LUSS.Controllers
         {
             JsonResult result = null;
 
-            Request itemCategory = new Request();
+            List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url +"/"+ id))
+                using (var response = await httpClient.GetAsync(api_url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    itemCategory = JsonConvert.DeserializeObject<Request>(apiResponse);
-                    result = new JsonResult(itemCategory);
-                   
+                   requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                 }
             }
-           
+            result = new JsonResult(requests);
+            // ViewData["requests"] = requests;
             return result;
         }
 

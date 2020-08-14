@@ -7,7 +7,7 @@ using static LUSS_API.Models.Status;
 
 namespace LUSS_API.DB
 {
-    public class AddRequestNDetails
+    public class AddRequests
     {
         public static List<Request> getAllRequest()
         {

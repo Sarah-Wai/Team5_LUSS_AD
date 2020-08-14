@@ -35,7 +35,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
             result = new JsonResult(requests);
-            // ViewData["requests"] = requests;
+            //ViewData["requests"] = requests;
             return result;
         }
 

@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "AdjustVoucherDetailsClerk";
     var adjustment = (AdjustmentVoucher)ViewData["adjustmentById"];
+    var price = (int)ViewData["price"];
 }
 
 <style>
@@ -50,7 +51,7 @@
                         </tr>
                         <tr>
                             <td><b>Unit Cost:</b></td>
-                            <td></td>
+                            <td>@price</td>
                         </tr>
                         <tr>
                             <td><b>UOM:</b></td>
@@ -62,11 +63,11 @@
                         </tr>
                         <tr>
                             <td><b>Total Value:</b></td>
-                            <td></td>
+                            <td>@adjustment.AdjustQty*@price</td>
                         </tr>
                         <tr>
                             <td><b>Reason:</b></td>
-                            <td></td>
+                            <td>@adjustment.Reason</td>
                         </tr>
                         <tr>
                             <td><b>Status:</b></td>

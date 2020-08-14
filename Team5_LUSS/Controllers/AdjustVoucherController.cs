@@ -13,6 +13,7 @@ namespace Team5_LUSS.Controllers
     public class AdjustVoucherController : Controller
     {
         string api_url = "https://localhost:44312/AdjustmentVoucher";
+        string api_url_itemPrice = "https://localhost:44312/ItemPrice";
 
         public async Task<IActionResult> AdjustmentVouchers()
         {
@@ -76,6 +77,7 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> GetAdjustmentVoucherById(int id)
         {
             AdjustmentVoucher adjustment = new AdjustmentVoucher();
+            int price;
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url + "adjustmentId" + id))
@@ -83,7 +85,14 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
                 }
+
+                using (var response = await httpClient.GetAsync(api_url_itemPrice + adjustment.ItemID))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    price = JsonConvert.DeserializeObject<int>(apiResponse);
+                }
             }
+            ViewData["price"] = price;
             ViewData["adjustmentById"] = adjustment;
             return View(adjustment);
         }

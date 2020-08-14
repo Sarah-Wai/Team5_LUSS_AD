@@ -10,7 +10,7 @@ namespace Team5_LUSS.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View("AdjustVoucherListingClerk");
         }
     }
 }

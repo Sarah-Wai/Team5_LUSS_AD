@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LUSS_API.DB;
+using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,7 +15,14 @@ namespace LUSS_API.Controllers
     [Route("[controller]")]
     public class ItemPriceController : ControllerBase
     {
-        
+        public MyDbContext context123;
+        private readonly ILogger<ItemPriceController> _logger;
+        public ItemPriceController(ILogger<ItemPriceController> logger, MyDbContext context123)
+        {
+            _logger = logger;
+            this.context123 = context123;
+        }
+
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -20,9 +30,14 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public int GetItemPrice(int id)
         {
-            return "value";
+            ItemPrice itemPrice = context123.ItemPrice
+                .Where(x => x.ItemID == id).FirstOrDefault();
+
+            int price = itemPrice.Price;
+            
+            return price; 
         }
 
         // POST api/<controller>

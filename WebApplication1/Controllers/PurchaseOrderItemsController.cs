@@ -22,5 +22,31 @@ namespace LUSS_API.Controllers
             _logger = logger;
             this.context123 = context123;
         }
+
+        [HttpGet]
+        public IEnumerable<PurchaseOrderItems> Get()
+        {
+            List<PurchaseOrderItems> poItemsList = context123.PurchaseOrderItems.ToList();
+            return poItemsList;
+        }
+
+
+        [HttpGet("{id}")]
+        public PurchaseOrderItems GetById(int id)
+        {
+            PurchaseOrderItems poItem = context123.PurchaseOrderItems.First(x => x.POItemID == id);
+            return poItem;
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult<PurchaseOrderItems>> Post([FromBody]PurchaseOrderItems poItem)
+        {
+            context123.PurchaseOrderItems.Add(poItem);
+            await context123.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetById), poItem);
+        }
+
     }
 }

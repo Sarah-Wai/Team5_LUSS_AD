@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LUSS_API.Models
+namespace Team5_LUSS.Models
 {
-    public class Status
+    public class RequestType
     {
-        public enum EOrderStatus { Pending,Processing,Completed}
+        public enum ERequestType {New, Discrepancy }
     }
 }

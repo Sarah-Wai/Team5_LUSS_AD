@@ -25,13 +25,6 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        
-        [HttpGet]
-        public IEnumerable<Request> Get()
-        {
-            List<Request> requestList = context123.Request.Where(x => x.RequestStatus != EOrderStatus.Rejected && x.RequestStatus != EOrderStatus.Pending ).ToList();
-            return requestList;
-        }
 
         
         [HttpGet("{id}")]
@@ -41,6 +34,8 @@ namespace LUSS_API.Controllers
             return request;
         }
 
+
+        }
       
     }
-}
+

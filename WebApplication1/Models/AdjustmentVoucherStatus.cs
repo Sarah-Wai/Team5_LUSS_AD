@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace LUSS_API.Models
 {
-    public class Status
+    public class AdjustmentVoucherStatus
     {
-        public enum EOrderStatus { Pending,Processing,Completed}
+        public enum AdjustmentStatus { Pending, Approved, Rejected }
     }
 }

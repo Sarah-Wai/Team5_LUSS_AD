@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using static Team5_LUSS.Models.PurchaseOrderStatus;
 
 namespace Team5_LUSS.Models
 {
@@ -22,7 +23,7 @@ namespace Team5_LUSS.Models
         [Required]
         public int SupplierID   { get; set; }
         [Required]
-        public string Status  { get; set; }
+        public POStatus Status  { get; set; }
         [Required]
         public DateTime ReceivedDate  { get; set; }
         //[Required]

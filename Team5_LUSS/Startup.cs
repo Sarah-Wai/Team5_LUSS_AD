@@ -61,7 +61,7 @@ namespace Team5_LUSS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=StationeryRequests}/{action=StationeryRequests}/{id?}");
             });
           
         }

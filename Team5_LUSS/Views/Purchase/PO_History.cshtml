@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewData["Title"] = "Purchase Orders";
+}
+
+
+<div class="container-fluid site-width">
+    <!-- START: Card Data-->
+    <div class="row ">
+        <div class="col-12  align-self-center">
+            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+            </div>
+            <div class="btn-group mb-2">
+                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                    Low Stock
+                </a>
+                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                    PO History
+                </a>
+                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                    New PO
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row row-eq-height">
+        <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+            <div class="card border h-100 invoice-list-section">
+                <div class="card-header border-bottom p-1 d-flex">
+                    <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
+                    <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
+                </div>
+                <div class="col-12 col-md-12">
+                    <div class="card-body p-0">
+                        <div class="invoices list">
+                            <div class="invoice">
+                                <div class="invoice-content" data-status="generated-invoice">
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Issued Date: </p>
+                                        <p class="invocie-date">20 June 2020</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">PO No.: </p>
+                                        <p class="invoice-no">000001</p>
+                                    </div>
+                                    <div class="invoice-status-info">
+                                        <p class="mb-0 small">Status </p>
+                                        <p class="invoice-status"></p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                            Receiving
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invoice paid-invoice" data-status="paid-invoice">
+                                <div class="invoice-content">
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Issued Date: </p>
+                                        <p class="invocie-date">20 June 2020</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">PO No.: </p>
+                                        <p class="invoice-no">000001</p>
+                                    </div>
+                                    <div class="invoice-status-info">
+                                        <p class="mb-0 small">Status </p>
+                                        <p class="invoice-status"></p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                            Receiving
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invoice pending-invoice" data-status="pending-invoice">
+                                <div class="invoice-content">
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Issued Date: </p>
+                                        <p class="invocie-date">20 June 2020</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">PO No.: </p>
+                                        <p class="invoice-no">000001</p>
+                                    </div>
+                                    <div class="invoice-status-info">
+                                        <p class="mb-0 small">Status </p>
+                                        <p class="invoice-status"></p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                            Receiving
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invoice canceled-invoice" data-status="canceled-invoice">
+                                <div class="invoice-content">
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Issued Date: </p>
+                                        <p class="invocie-date">20 June 2020</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">PO No.: </p>
+                                        <p class="invoice-no">000001</p>
+                                    </div>
+                                    <div class="invoice-status-info">
+                                        <p class="mb-0 small">Status </p>
+                                        <p class="invoice-status"></p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                            Receiving
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

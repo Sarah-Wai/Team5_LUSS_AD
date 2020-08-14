@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 
 namespace LUSS_API.Controllers
 {
@@ -29,13 +32,27 @@ namespace LUSS_API.Controllers
             return collectionPoints;
         }
 
-        [HttpGet("{id}")]
-        public CollectionPoint GetCollectionPointByDeptID(int id)
+
+        [HttpGet("{deptID}/{cpID}")]
+        public Department GetDepartment(int deptID, int cpID)
         {
-            CollectionPoint collectionPoint = (from d in context123.Department
-                                               where d.DepartmentID.Equals(id)
-                                               select d.CollectionPoint).FirstOrDefault();
-            return collectionPoint;
+            int dummyID = 1;//TO replace by real ID
+            Department dp = context123.Department.Where(x => x.DepartmentID == dummyID).FirstOrDefault();
+            dp.CollectionPointID = cpID;
+            context123.SaveChanges();
+
+            return dp;
+        }
+
+        [HttpPost("{deptID}")]
+        public Department UpdateCollectionPoint(int deptID, int cpID)
+        {
+            int dummyID = 1;//TO replace by real ID
+            Department dp = context123.Department.Where(x => x.DepartmentID == dummyID).FirstOrDefault();
+            dp.CollectionPointID = cpID;
+            context123.SaveChanges();
+
+            return dp;
         }
 
     }

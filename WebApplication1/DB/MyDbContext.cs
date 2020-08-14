@@ -33,7 +33,7 @@ namespace LUSS_API.DB
             model.Entity<Item>().HasKey(x => x.ItemID);
             model.Entity<ItemCategory>().HasKey(x => x.CategoryID);
             model.Entity<ItemPrice>().HasKey(x => x.ItemPriceID);
-            model.Entity<Request>().HasKey(x => x.RequestBy);
+            model.Entity<Request>().HasKey(x => x.RequestID);
             model.Entity<RequestDetails>().HasKey(x => x.RequestDetailID);
             model.Entity<PurchaseOrder>().HasKey(x => x.POID);
             model.Entity<PurchaseOrderItems>().HasKey(x => x.POItemID);
@@ -50,11 +50,12 @@ namespace LUSS_API.DB
         public DbSet<Item> Item { get; set; }
         public DbSet<ItemCategory> ItemCategory { get; set; }
         public DbSet<ItemPrice> ItemPrice { get; set; }
-        public DbSet<Request> Order { get; set; }
-        public DbSet<RequestDetails> OrderDetails { get; set; }
+        public DbSet<Request> Request{ get; set; }
+        public DbSet<RequestDetails> RequestDetails { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
         public DbSet<PurchaseOrderItems> PurchaseOrderItems { get; set; }
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<User> User { get; set; }
+      
     }
 }

@@ -13,20 +13,7 @@ namespace LUSS_API.DB
             List<Item> items = new List<Item>();
 
            
-                Item item = new Item()
-                {
-                    ItemID = 1,
-                    ItemName = "Clips Double 1\"",
-                    UOM = "Dozen",
-                    ReStockQty = 30,
-                    InStockQty = 60,
-                    CategoryID = 1,
-                    ItemCode = "C001",
-                    ReStockLevel = 50,
-                    StoreItemLocation = "C"
-
-
-                };
+           
             Item item1 = new Item(); item1.ItemID = 1; item1.ItemName = "Clips Double 1''"; item1.UOM = "Dozen"; item1.ReStockQty = 30; item1.InStockQty = 60; item1.CategoryID = 2; item1.ItemCode = "C001"; item1.ReStockLevel = 50; item1.StoreItemLocation = "C";
             Item item2 = new Item(); item2.ItemID = 2; item2.ItemName = "Clips Double 2''"; item2.UOM = "Dozen"; item2.ReStockQty = 30; item2.InStockQty = 60; item2.CategoryID = 2; item2.ItemCode = "C002"; item2.ReStockLevel = 50; item2.StoreItemLocation = "C";
             Item item3 = new Item(); item3.ItemID = 3; item3.ItemName = "Clips Double 3/4''"; item3.UOM = "Dozen"; item3.ReStockQty = 30; item3.InStockQty = 60; item3.CategoryID = 2; item3.ItemCode = "C003"; item3.ReStockLevel = 50; item3.StoreItemLocation = "C";

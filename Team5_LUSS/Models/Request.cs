@@ -13,25 +13,26 @@ namespace Team5_LUSS.Models
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int RequestID   { get; set; }
+        public int RequestID { get; set; }
         [Required]
         public EOrderStatus RequestStatus { get; set; }
         [Required]
         public DateTime RequestDate { get; set; }
-        [Required]
-        public int RequestPrice { get; set; }
+
         [Required]
         public int RequestBy { get; set; }
         [Required]
-        public int ModifiedBy   { get; set; }
+        public int ModifiedBy { get; set; }
         [MaxLength(50)]
-        public string Comment   { get; set; }
+        public string Comment { get; set; }
         [MaxLength(50)]
         public string RequestType { get; set; }
+
+        public int? ParentRequestID { get; set; }
         [Required]
-        public int ParentRequestID { get; set; }
-        public virtual User RequestedUser { get; set; }
-        public virtual User ModifiedUser { get; set; }
+        public DateTime CollectionTime { get; set; }
+        public virtual User ModifiedByUser { get; set; }
+        public virtual User RequestByUser { get; set; }
         public virtual ICollection<RequestDetails> RequestDetails { get; set; }
     }
 }

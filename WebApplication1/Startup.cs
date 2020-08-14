@@ -28,7 +28,7 @@ namespace LUSS_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options=>options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<MyDbContext>
                (opt => opt.UseLazyLoadingProxies()
             .UseSqlServer(Configuration.GetConnectionString("DbConn"))
@@ -54,8 +54,8 @@ namespace LUSS_API
                 endpoints.MapControllers();
             });
 
-             //dbcontext.Database.EnsureDeleted();
-             //dbcontext.Database.EnsureCreated();
+            //dbcontext.Database.EnsureDeleted();
+            //dbcontext.Database.EnsureCreated();
 
 
             //static string Encrypt(string value)
@@ -86,6 +86,11 @@ namespace LUSS_API
 
             //List<User> allUsers = AddUsers.getAllUsers();
             //dbcontext.AddRange(allUsers);
+
+            //List<Request> requests = AddRequestNDetails.getAllRequest();
+            //dbcontext.AddRange(requests);
+            //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
+            //dbcontext.AddRange(requestDetails);
 
             //dbcontext.SaveChanges();
 

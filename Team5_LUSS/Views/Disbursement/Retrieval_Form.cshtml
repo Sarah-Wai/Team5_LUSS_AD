@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewData["Title"] = "Retrieval Form";
+}
+<form>
+    <div class="container-fluid site-width">
+        <div>
+            <div class="row">
+                <div class="col-12 col-md-12">
+                    <div class="card border-0">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                        </div>
+                    </div>
+                </div>
+                @*table content*@
+                <div class="col-12 col-md-12">
+                    <div class="card border-0">
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td class="text-right"><b>Item Code</b></td>
+                                        <td class="text-right"><b>Description</b></td>
+                                        <td class="text-right"><b>Location</b></td>
+                                        <td class="text-right"><b>UOM</b></td>
+                                        <td class="text-right"><b>Requested Qty</b></td>
+                                        <td class="text-right"><b>InStock Qty</b></td>
+                                        <td class="text-right"><b>Retrieved Qty</b></td>
+                                        <td class="text-right"><b></b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-right">P021</td>
+                                        <td class="text-right">Paper Clip</td>
+                                        <td class="text-right">A51</td>
+                                        <td class="text-right">Dozen</td>
+                                        <td class="text-right">10</td>
+                                        <td class="text-right">10</td>
+                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
+                                        <td class="text-right">
+                                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
+                                                Adjust
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right">P021</td>
+                                        <td class="text-right">Paper Clip</td>
+                                        <td class="text-right">A51</td>
+                                        <td class="text-right">Dozen</td>
+                                        <td class="text-right">10</td>
+                                        <td class="text-right">10</td>
+                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
+                                        <td class="text-right">
+                                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
+                                                Adjust
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right">P021</td>
+                                        <td class="text-right">Paper Clip</td>
+                                        <td class="text-right">A51</td>
+                                        <td class="text-right">Dozen</td>
+                                        <td class="text-right">10</td>
+                                        <td class="text-right">10</td>
+                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
+                                        <td class="text-right">
+                                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
+                                                Adjust
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-right p-5">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <input type="hidden" id="edit-date">
+                            <button type="submit" class="btn btn-success add-todo">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+

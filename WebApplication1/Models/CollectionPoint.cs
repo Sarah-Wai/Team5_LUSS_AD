@@ -11,7 +11,6 @@ namespace LUSS_API.Models
     public class CollectionPoint
     {
         [Required]
-        [MaxLength(20)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CollectionPointID { get; set; }
         [Required]

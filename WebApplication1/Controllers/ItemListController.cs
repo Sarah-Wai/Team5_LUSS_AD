@@ -31,7 +31,7 @@ namespace LUSS_API.Controllers
         [HttpGet("{id}")]
         public Item GetItemByID(int id)
         {
-            Item item = context123.Item.First(i => i.ItemID == id);
+            Item item = null;// context123.Item.First(i => i.ItemID == id);
 
             return item;
         }

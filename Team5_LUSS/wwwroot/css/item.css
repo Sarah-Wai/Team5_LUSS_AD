@@ -1,4 +1,9 @@
-﻿
+﻿.d-flex{
+    display: flex;
+}
+.float-r{
+    float:right;
+}
 .item-wrapper {
     padding: 20px;
     border: 1px solid #eaeaea;

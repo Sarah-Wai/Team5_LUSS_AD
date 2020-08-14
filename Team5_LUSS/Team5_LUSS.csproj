@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\NewFolder1\**" />
+    <Compile Remove="Views\NewFolder2\**" />
+    <Content Remove="Views\NewFolder1\**" />
+    <Content Remove="Views\NewFolder2\**" />
+    <EmbeddedResource Remove="Views\NewFolder1\**" />
+    <EmbeddedResource Remove="Views\NewFolder2\**" />
+    <None Remove="Views\NewFolder1\**" />
+    <None Remove="Views\NewFolder2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.6" />
@@ -21,10 +32,9 @@
 
   <ItemGroup>
     <Folder Include="Connected Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="bin\DevExpress.ExpressApp.Design.NetCore.2019.v20.1.dll" />
+    <Folder Include="Views\Items\" />
+    <Folder Include="Views\NewFolder\" />
+    <Folder Include="wwwroot\js\System\" />
   </ItemGroup>
 
   <ItemGroup>

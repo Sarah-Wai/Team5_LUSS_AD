@@ -13,12 +13,11 @@ namespace LUSS_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RequestController : ControllerBase
+    public class RequestDetailsController : Controller
     {
-
         public MyDbContext context123;
         private readonly ILogger<CollectionPointController> _logger;
-        public RequestController(ILogger<CollectionPointController> logger, MyDbContext context123)
+        public RequestDetailsController(ILogger<CollectionPointController> logger, MyDbContext context123)
         {
             _logger = logger;
             this.context123 = context123;

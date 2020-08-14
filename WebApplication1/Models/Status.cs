@@ -7,6 +7,6 @@ namespace LUSS_API.Models
 {
     public class Status
     {
-        public enum EOrderStatus { Pending , Approved, Rejected , Received }
+        public enum EOrderStatus {Pending,Approved,Rejected,Packed,PendingDelivery,Received,Completed }
     }
 }

@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "Disbursement Form";
+}
+
+<div class="container-fluid site-width">
+    <div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="card border-0">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <b>Dept Name:</b> Management<br>
+                                        <b>Dept Code:</b> MNGT<br>
+
+                                        <b>Dept Rep:</b> Johnny Ng<br>
+                                        <b>Collection Point:</b> demo<br><br>
+                                        <b>Collection Date</b> 06/08/2020<br>
+                                    </td>
+                                    <td>
+                                        <b>Staff Name:</b> Esther<br>
+                                        <b>Staff ID:</b> 1234<br>
+                                        <b>Staff Email:</b> esther@lu.edu<br><br><br>
+                                        <b>Status:</b> Received<br>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @*table content*@
+            <div class="col-12 col-md-12">
+                <div class="card border-0">
+                    <div class="card-body table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td><b>Item Code</b></td>
+                                    <td><b>Description</b></td>
+                                    <td class="text-right"><b>UOM</b></td>
+                                    <td class="text-right"><b>Requested Qty</b></td>
+                                    <td class="text-right"><b>Fulfilled Qty</b></td>
+                                    <td class="text-right"><b>Received Qty</b></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>P021</td>
+                                    <td class="text-right">Paper Clip</td>
+                                    <td class="text-right">Dozen</td>
+                                    <td class="text-right">10</td>
+                                    <td class="text-right">10</td>
+                                    <td class="text-right">10</td>
+                                </tr>
+                                <tr>
+                                    <td>P021</td>
+                                    <td class="text-right">Paper Clip</td>
+                                    <td class="text-right">Dozen</td>
+                                    <td class="text-right">10</td>
+                                    <td class="text-right">10</td>
+                                    <td class="text-right">10</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6"> Received by: Sherren Soesanto</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    @*if recquisition status == "Received", show [Deny] & [Complete] button. Otherwise, hide the button*@
+                    <div class="text-right p-5">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Deny</button>
+                        <input type="hidden" id="edit-date">
+                        <button type="submit" class="btn btn-success add-todo">Complete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

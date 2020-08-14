@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Team5_LUSS.Models
 {
-    public class AdjustmentVouncher
+    public class AdjustmentVoucher
     {
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -31,7 +31,7 @@ namespace Team5_LUSS.Models
         public DateTime IssuedDate   { get; set; }
         [Required]
         [MaxLength(50)]
-        public string VouncherNo   { get; set; }
+        public string VoucherNo   { get; set; }
         [MaxLength(500)]
         public string Comment  { get; set; }
         [Required]

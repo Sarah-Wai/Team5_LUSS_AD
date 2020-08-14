@@ -1,0 +1,312 @@
+﻿
+@{
+    ViewData["Title"] = "AdjustVoucherListingClerk";
+}
+
+<!-- START: Main Content-->
+<div class="container-fluid site-width">
+    <!-- START: Breadcrumbs-->
+    <div class="row ">
+        <div class="col-12  align-self-center">
+            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                <div class="w-sm-100 mr-auto"><h4 class="mb-0">Stock Adjustment</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-12  align-self-center">
+            <div class="btn-group mb-2">
+                <button type="button" class="btn btn-primary">New Adjustment Voucher</button>
+            </div>
+        </div>
+    </div>
+    <!-- END: Breadcrumbs-->
+    <!-- START: Card Data-->
+    <div class="row row-eq-height">
+        <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+            <div class="card border h-100 invoice-list-section">
+
+                <div class="view-invoice">
+                    <div class="row">
+                        <div class="col-12 col-md-12">
+                            <div class="card border-0">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white back-to-invoice">
+                                        Back
+                                    </a><h4 class="card-title">Invoice# <span class="inv-no"></span></h4>
+                                </div>
+                                <div class="card-body table-responsive">
+                                    <table class="table table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <address>
+                                                        <strong>Your Store</strong><br>
+                                                        2940 Rainbow Road Alhambra, CA 91801 California
+                                                    </address>
+                                                    <b>Telephone:</b> 123456789<br>
+                                                    <b>E-Mail:</b> demo@demo.com<br>
+                                                    <b>Web Site:</b> <a href="#">http://abc.com</a>
+                                                </td>
+                                                <td>
+                                                    <b>Date Added:</b> 26/09/2016<br>
+                                                    <b>Order ID:</b> 3135<br>
+                                                    <b>Payment Method:</b> Cash On Delivery<br>
+                                                    <b>Shipping Method:</b> Flat Shipping Rate<br>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <div class="card border-0">
+                                <div class="card-body table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td style="width: 50%;"><b>To</b></td>
+                                                <td style="width: 50%;"><b>Ship To (if different address)</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <address>
+                                                        2940  Rainbow Road<br>Alhambra, CA<br>91801 California
+                                                    </address>
+                                                </td>
+                                                <td>
+                                                    <address>
+                                                        1424  Brown Avenue<br>Knoxville, TN<br>91801 Tennessee
+                                                    </address>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <div class="card border-0">
+                                <div class="card-body table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td><b>Product</b></td>
+                                                <td><b>Model</b></td>
+                                                <td class="text-right"><b>Quantity</b></td>
+                                                <td class="text-right"><b>Unit Price</b></td>
+                                                <td class="text-right"><b>Total</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    HP LP3065 <br>
+                                                    &nbsp;<small> - Delivery Date: 2011-04-22</small>
+                                                </td>
+                                                <td>Product 21</td>
+                                                <td class="text-right">1</td>
+                                                <td class="text-right">$122.00</td>
+                                                <td class="text-right">$122.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right" colspan="4"><b>Sub-Total</b></td>
+                                                <td class="text-right">$100.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right" colspan="4"><b>Flat Shipping Rate</b></td>
+                                                <td class="text-right">$5.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right" colspan="4"><b>Eco Tax (-2.00)</b></td>
+                                                <td class="text-right">$4.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right" colspan="4"><b>VAT (20%)</b></td>
+                                                <td class="text-right">$21.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right" colspan="4"><b>Total</b></td>
+                                                <td class="text-right">$130.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <div class="card redial-border-light redial-shadow">
+                                <div class="card-body table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td><b>Comment</b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>This is comment section</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-header border-bottom p-1 d-flex">
+                    <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
+                    <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
+                </div>
+                <div class="card-body p-0">
+                    <div class="invoices list">
+
+                        <div class="invoice">
+                            <div class="invoice-content" data-status="generated-invoice">
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Submitted Date: </p>
+                                    <p class="invoice-no">12 June 2020</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Voucher No:</p>
+                                    <p class="cliname">00001</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Status: </p>
+                                    <p class="invocie-date">Pending</p>
+                                </div>
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-primary">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice">
+                            <div class="invoice-content" data-status="generated-invoice">
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Submitted Date: </p>
+                                    <p class="invoice-no">10 June 2020</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Voucher No:</p>
+                                    <p class="cliname">00002</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Status: </p>
+                                    <p class="invocie-date">Approved</p>
+                                </div>
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-primary">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice">
+                            <div class="invoice-content" data-status="generated-invoice">
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Submitted Date: </p>
+                                    <p class="invoice-no">10 June 2020</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Voucher No:</p>
+                                    <p class="cliname">00003</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Status: </p>
+                                    <p class="invocie-date">Pending</p>
+                                </div>
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-primary">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice">
+                            <div class="invoice-content" data-status="generated-invoice">
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Submitted Date: </p>
+                                    <p class="invoice-no">12 June 2020</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Voucher No:</p>
+                                    <p class="cliname">00004</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Status: </p>
+                                    <p class="invocie-date">Appoved</p>
+                                </div>
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-primary">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice">
+                            <div class="invoice-content" data-status="generated-invoice">
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Submitted Date: </p>
+                                    <p class="invoice-no">12 June 2020</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Voucher No:</p>
+                                    <p class="cliname">00005</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Status: </p>
+                                    <p class="invocie-date">Approved</p>
+                                </div>
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-primary">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice">
+                            <div class="invoice-content" data-status="generated-invoice">
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Submitted Date: </p>
+                                    <p class="invoice-no">12 June 2020</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Voucher No:</p>
+                                    <p class="cliname">00001</p>
+                                </div>
+                                <div class="invoice-info">
+                                    <p class="mb-0 small">Status: </p>
+                                    <p class="invocie-date">Pending</p>
+                                </div>
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-primary">Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Card DATA-->
+</div>
+<!-- END: Content-->
+<!-- START: Back to top-->
+<a href="#" class="scrollup text-center">
+    <i class="icon-arrow-up"></i>
+</a>
+<!-- END: Back to top-->
+<!-- START: Template JS-->
+<script src="dist/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script src="dist/vendors/jquery-ui/jquery-ui.min.js"></script>
+<script src="dist/vendors/moment/moment.js"></script>
+<script src="dist/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="dist/vendors/slimscroll/jquery.slimscroll.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<!-- END: Template JS-->
+<!-- START: APP JS-->
+<script src="dist/js/app.js"></script>
+<!-- END: APP JS-->
+<!-- START: Page JS-->
+<script src="~/js/UI/app.invoicelist.js"></script>
+<!-- END: Page JS-->

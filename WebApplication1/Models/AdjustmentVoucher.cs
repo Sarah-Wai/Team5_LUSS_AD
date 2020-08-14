@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using static LUSS_API.Models.AdjustmentVoucherStatus;
 
 namespace LUSS_API.Models
 {
@@ -20,7 +21,7 @@ namespace LUSS_API.Models
         public string AdjustType  { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Status   { get; set; }
+        public AdjustmentStatus Status   { get; set; }
         [Required]
         public int TotalCost   { get; set; }
         [Required]
@@ -34,6 +35,7 @@ namespace LUSS_API.Models
         public string VoucherNo   { get; set; }
         [MaxLength(500)]
         public string Comment  { get; set; }
+        public string Reason { get; set; }
         [Required]
         public int ItemID { get; set; }
         public virtual User RequestUser { get; set; }

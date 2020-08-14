@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using static LUSS_API.Models.RequestType;
 using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Models
@@ -26,8 +27,7 @@ namespace LUSS_API.Models
         [MaxLength(50)]
         public string Comment   { get; set; }
         [MaxLength(50)]
-        public string RequestType { get; set; }
-      
+        public ERequestType RequestType { get; set; }
         public int? ParentRequestID { get; set; }
         [Required]
         public DateTime CollectionTime { get; set; }

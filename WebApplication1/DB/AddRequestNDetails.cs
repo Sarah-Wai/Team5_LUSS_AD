@@ -21,7 +21,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -34,7 +34,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -47,7 +47,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -62,7 +62,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -75,7 +75,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -88,7 +88,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -102,7 +102,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -115,7 +115,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -128,7 +128,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -142,7 +142,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -155,7 +155,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -168,7 +168,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -181,7 +181,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -194,7 +194,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -207,7 +207,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 

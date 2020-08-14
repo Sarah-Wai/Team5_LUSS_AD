@@ -54,8 +54,8 @@ namespace LUSS_API
                 endpoints.MapControllers();
             });
 
-             //dbcontext.Database.EnsureDeleted();
-             //dbcontext.Database.EnsureCreated();
+            //dbcontext.Database.EnsureDeleted();
+            //dbcontext.Database.EnsureCreated();
 
 
             //static string Encrypt(string value)

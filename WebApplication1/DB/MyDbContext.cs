@@ -25,7 +25,7 @@ namespace LUSS_API.DB
         override void OnModelCreating(ModelBuilder model)
         {
             //Set Primarykey
-            model.Entity<AdjustmentVouncher>().HasKey(x => x.AdjustmentID);
+            model.Entity<AdjustmentVoucher>().HasKey(x => x.AdjustmentID);
             model.Entity<Cart>().HasKey(x => x.CartID);
             model.Entity<CollectionPoint>().HasKey(x => x.CollectionPointID);
             model.Entity<DelegatedManager>().HasKey(x => x.DelegatedManagerID);
@@ -42,7 +42,7 @@ namespace LUSS_API.DB
 
         }
 
-        public DbSet<AdjustmentVouncher> AdjustmentVouncher { get; set; }
+        public DbSet<AdjustmentVoucher> AdjustmentVouncher { get; set; }
         public DbSet<Cart> Cart { get; set; }
         public DbSet<CollectionPoint> CollectionPoint { get; set; }
         public DbSet<DelegatedManager> DelegatedManager { get; set; }

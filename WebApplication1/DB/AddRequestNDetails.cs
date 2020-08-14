@@ -176,7 +176,7 @@ namespace LUSS_API.DB
             Request r13 = new Request()
             {
                 RequestID = 13,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.PendingDelivery,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
@@ -189,7 +189,7 @@ namespace LUSS_API.DB
             Request r14 = new Request()
             {
                 RequestID = 14,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Rejected,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
@@ -202,7 +202,7 @@ namespace LUSS_API.DB
             Request r15 = new Request()
             {
                 RequestID = 15,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Approved,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,

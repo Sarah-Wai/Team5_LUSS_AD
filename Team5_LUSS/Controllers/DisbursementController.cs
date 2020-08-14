@@ -11,6 +11,9 @@ namespace Team5_LUSS.Controllers
         public IActionResult Index()
         {
             return View();
+            //return View("Disbursement_Form_View");
+            //return View("Retrieval_Form");
+            //return View("Disbursement_Form_Create");
         }
     }
 }

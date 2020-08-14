@@ -1,0 +1,83 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+    var Items = (List<Item>)ViewData["items"];
+    var Categories = (List<ItemCategory>)ViewData["itemCatList"];
+}
+
+
+
+<!--SearchBar-->
+<div clss="row" style="padding-top:10px;">
+    <div class="col-12 mt-3 d-flex">
+        <div class="col-md-3 col-lg-3">
+            <h3>Item List</h3>
+        </div>
+        <div class="col-md-3 col-lg-3 ">
+            @Html.DropDownList("SelectedCategory", ((Categories)).Select(m => new SelectListItem { Text = m.CategoryName, Value = Convert.ToString(m.CategoryID) }), new { @class = "btn btn-outline-info float-r" })
+        </div>
+        <div class="col-md-3 col-lg-3 ">
+            
+                <input type="text" id="fname" name="fname" class="float-r">
+            
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <button type="button" class="btn btn-outline-info rounded-btn">Search</button>
+        </div>
+
+    </div>
+</div>
+    @{
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <!-- item loop -->
+                            @foreach (var item in Items)
+                            {
+                                string img = "/images/itemImgs/" + item.ItemCode + ".jpg";
+                                var maxQty = item.InStockQty;
+                                <div class="col-md-6 col-lg-3 mb-4">
+                                    <div class="item-wrapper">
+                                        <div class="position-relative item-img-wrapper">
+                                            <img src=@img alt="" class="img-fluid item-img">
+                                            <div class="caption-bg fade bg-transparent text-right">
+                                                <div class="d-table w-100 h-100 ">
+                                                    <div class="d-table-cell align-bottom">
+                                                        <div class="mb-3">
+                                                            <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pt-3 item-desc-wrapper">
+                                            <p class="mb-2"><a href="#" class="font-weight-bold text-primary">@item.ItemName</a></p>
+                                            <div class="def-number-input number-input safari_only">
+                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                                                <input class="quantity" min="1" max=@maxQty name="quantity" value="1" type="number">
+                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                            </div>
+                                            <div class="btn-group mb-2">
+                                                <button type="button" class="btn btn-outline-info rounded-btn">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+

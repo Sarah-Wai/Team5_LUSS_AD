@@ -11,7 +11,6 @@ namespace LUSS_API.Models
     public class Department
     {
         [Required]
-        [MaxLength(20)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int DepartmentID { get; set; }
         [Required]

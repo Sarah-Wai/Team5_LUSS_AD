@@ -32,6 +32,8 @@ namespace LUSS_API.Controllers
             return collectionPoints;
         }
 
+
+        
         [HttpGet("{deptID}/{cpID}")]
         public string UpdateCollectionPoint(int deptID, int cpID)
         {

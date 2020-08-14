@@ -46,8 +46,8 @@ namespace Team5_LUSS.Controllers
                 CollectionPointID = 1
             };
 
-            //dept_CP = collectionPointInfo.Where(x => x.CollectionPointID == d.CollectionPointID).FirstOrDefault();
-            //ViewData["dept_CollectionPoint"] = d;
+            dept_CP = collectionPointInfo.Where(x => x.CollectionPointID == d.CollectionPointID).FirstOrDefault();
+            ViewData["dept_CollectionPoint"] = dept_CP;
             return View();
         }
 
@@ -55,17 +55,16 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> collectionPoints(int deptID, int cpID)
         {
-            string dept_cpID;
+           
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url + "/" + deptID + "/" + cpID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    dept_cpID = apiResponse;
                 }
-
-                return RedirectToAction("collectionPoints", new { id = dept_cpID });
+                
             }
+            return RedirectToAction("collectionPoints");
         }
 
 

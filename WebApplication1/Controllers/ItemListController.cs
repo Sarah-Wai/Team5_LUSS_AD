@@ -30,7 +30,7 @@ namespace LUSS_API.Controllers
 
         
         [HttpGet("{id}")]
-        [Route("/GetItemByID/{id}")]
+        [Route("GetItemByID/{id}")]
         public Item GetItemByID(int id)
         {
             Item item = (from i in context123.Item
@@ -40,7 +40,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Route("[action]")]
+        [Route("GetItemListByCategoryID/{id}")]
         public IEnumerable<Item> GetItemListByCategoryID(int id)
         {
             IEnumerable<Item> itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();                        

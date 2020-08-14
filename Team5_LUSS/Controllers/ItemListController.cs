@@ -16,8 +16,8 @@ namespace Team5_LUSS.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<ItemCategory> itemCatList = new List<ItemCategory>();
-            List<Item> itemList = new List<Item>();
+            List<Item> itemList = new List<Item>();                       
+            List<ItemCategory> itemCatList = new List<ItemCategory>();   //for DropDownList
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url + "ItemCategory"))
@@ -27,6 +27,9 @@ namespace Team5_LUSS.Controllers
                 }
 
             }
+
+            //check whether we have data inside Session first
+            //if null, we load full item images
             if (HttpContext.Session.GetString("itemListSession") == null)
             {
                 using (var httpClient = new HttpClient())
@@ -41,6 +44,8 @@ namespace Team5_LUSS.Controllers
                 }
                
             }
+
+            //if not null, we will only show what is inside Session
             else
             {
                 itemList = JsonConvert.DeserializeObject<List<Item>>(HttpContext.Session.GetString("itemListSession"));
@@ -48,10 +53,11 @@ namespace Team5_LUSS.Controllers
             ViewData["items"] = itemList;
             ViewData["itemCatList"] = itemCatList;
 
-
+            
             return View();
         }
 
+        //FindItemByCategory action using Session to store data
         public async Task<IActionResult>FindByCat(int id)
         {
             List<Item> itemList = new List<Item>();
@@ -65,8 +71,8 @@ namespace Team5_LUSS.Controllers
                 }
             }
             ViewData["items"] = itemList;
-            string itemListJson = Newtonsoft.Json.JsonConvert.SerializeObject(itemList);
-            HttpContext.Session.SetString("itemListSession", itemListJson);
+            string itemListJson = Newtonsoft.Json.JsonConvert.SerializeObject(itemList);    //store Json string value inside Session
+            HttpContext.Session.SetString("itemListSession", itemListJson);                 //set Session String as (key,value) format
             return RedirectToAction("Index");
         }
 

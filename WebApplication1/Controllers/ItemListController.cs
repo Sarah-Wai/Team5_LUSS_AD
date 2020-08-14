@@ -21,6 +21,7 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
+        //for index home page
         [HttpGet]
         public IEnumerable<Item> GetAllItems()
         {
@@ -28,7 +29,7 @@ namespace LUSS_API.Controllers
             return items;
         }
 
-        
+        //for add function
         [HttpGet("{id}")]
         [Route("GetItemByID/{id}")]
         public Item GetItemByID(int id)
@@ -39,6 +40,7 @@ namespace LUSS_API.Controllers
             return item;
         }
 
+        //for dropdownList
         [HttpGet("{id}")]
         [Route("GetItemListByCategoryID/{id}")]
         public IEnumerable<Item> GetItemListByCategoryID(int id)

@@ -81,6 +81,8 @@
     </div>
 
 }
+
+<!--use ajax for dropdownList to get the item data then talk to controller-->
 @section Scripts{
 
     <script>
@@ -91,7 +93,7 @@
             url: '@Url.Action("FindByCat", "ItemList")',
             data: { id },
             success: function (result) {
-                location.reload();
+                location.reload(); 
             }
          })
      }

@@ -56,6 +56,7 @@ namespace LUSS_API.DB
         public DbSet<PurchaseOrderItems> PurchaseOrderItems { get; set; }
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<User> User { get; set; }
-      
+        public DbSet<Notification> Notification { get; set; }
+
     }
 }

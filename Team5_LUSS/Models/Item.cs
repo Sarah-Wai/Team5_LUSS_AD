@@ -22,7 +22,7 @@ namespace Team5_LUSS.Models
         [Required]
         public int ReStockQty   { get; set; }
         [Required]
-        public int  InSrockQty   { get; set; }
+        public int InStockQty { get; set; }
         [Required]
         public int  CategoryID   { get; set; }
         [Required]

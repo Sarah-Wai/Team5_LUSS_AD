@@ -31,10 +31,46 @@ namespace LUSS_API.Controllers
         [HttpGet("{id}")]
         public Item GetItemByID(int id)
         {
-            Item item = null;// context123.Item.First(i => i.ItemID == id);
-
+            Item item = (from i in context123.Item
+                         where i.ItemID == id
+                         select i).FirstOrDefault();
             return item;
         }
-        
+
+        [HttpPost]
+        public async Task<ActionResult<Item>> SaveItem(Item item)
+        {
+            context123.Item.Add(item);
+            await context123.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAllItems), item);
+        }
+
+        [HttpPut]
+        public Item Put([FromForm] Item item)
+        {
+            Item i = context123.Item
+                  .Where(x => x.ItemID == item.ItemID).SingleOrDefault();
+            i.ItemName = item.ItemName;
+            i.UOM = item.UOM;
+            i.ReStockQty = item.ReStockQty;
+            i.InStockQty = item.InStockQty;
+            i.CategoryID = item.CategoryID;
+            i.ItemCode = item.ItemCode;
+            i.ReStockLevel = item.ReStockLevel;
+            i.StoreItemLocation = item.StoreItemLocation;
+            context123.SaveChanges();
+            return i;
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            Item item = (from i in context123.Item
+                         where i.ItemID == id
+                         select i).FirstOrDefault();
+            context123.Item.Remove(item);
+            context123.SaveChanges();
+        }
     }
 }

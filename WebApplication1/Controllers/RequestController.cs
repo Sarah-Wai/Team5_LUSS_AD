@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using static LUSS_API.Models.Status;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LUSS_API.Controllers
 {
@@ -26,7 +25,23 @@ namespace LUSS_API.Controllers
         }
 
 
-        
+        //[HttpGet]
+        //public IEnumerable<Request> GetRequest()
+        //{
+        //    List<Request> requests = context123.Request.ToList();
+        //    return requests;
+
+        //}
+
+        [HttpGet]
+        public IEnumerable<Request> Get()
+        {
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus != EOrderStatus.Rejected && x.RequestStatus != EOrderStatus.Pending).ToList();
+            return requestList;
+        }
+
+
+
         [HttpGet("{id}")]
         public Request GetById(int id)
         {

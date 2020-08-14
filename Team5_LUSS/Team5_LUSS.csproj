@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="Connected Services\" />
+    <Folder Include="Views\Items\" />
     <Folder Include="Views\NewFolder\" />
     <Folder Include="wwwroot\js\System\" />
   </ItemGroup>

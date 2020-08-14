@@ -18,8 +18,7 @@ namespace LUSS_API.Models
         public EOrderStatus RequestStatus { get; set; }
         [Required]
         public DateTime RequestDate { get; set; }
-        [Required]
-        public int RequestPrice { get; set; }
+       
         [Required]
         public int RequestBy { get; set; }
         [Required]
@@ -28,12 +27,12 @@ namespace LUSS_API.Models
         public string Comment   { get; set; }
         [MaxLength(50)]
         public string RequestType { get; set; }
-        [Required]
-        public int ParentRequestID { get; set; }
+      
+        public int? ParentRequestID { get; set; }
         [Required]
         public DateTime CollectionTime { get; set; }
-        public virtual User RequestedUser { get; set; }
-        public virtual User ModifiedUser { get; set; }
+        public virtual User ModifiedByUser { get; set; }
+        public virtual User RequestByUser { get; set; }
         public virtual ICollection<RequestDetails> RequestDetails { get; set; }
     }
 }

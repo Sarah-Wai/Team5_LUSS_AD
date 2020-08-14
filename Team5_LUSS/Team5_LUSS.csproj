@@ -21,8 +21,10 @@
 
   <ItemGroup>
     <Folder Include="Connected Services\" />
-    <Folder Include="Views\NewFolder\" />
-    <Folder Include="wwwroot\js\System\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\DevExpress.ExpressApp.Design.NetCore.2019.v20.1.dll" />
   </ItemGroup>
 
   <ItemGroup>

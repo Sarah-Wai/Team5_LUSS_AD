@@ -25,10 +25,10 @@ namespace Team5_LUSS.Models
         public string Status  { get; set; }
         [Required]
         public DateTime ReceivedDate  { get; set; }
-        [Required]
-        public string PONo { get; set; }
-        [Required]
-        public int SubTotal  { get; set; }
-        public virtual ICollection<PurchaseOrderItems> PurchaseOrderItems { get; set; }
+        //[Required]
+        //public string PONo { get; set; }
+        //[Required]
+        //public int SubTotal  { get; set; }
+        //public virtual ICollection<PurchaseOrderItems> PurchaseOrderItems { get; set; }
     }
 }

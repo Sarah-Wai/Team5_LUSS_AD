@@ -21,13 +21,16 @@ namespace Team5_LUSS.Controllers
         {
             //Get All the Collection Points
             List<CollectionPoint> collectionPointInfo = new List<CollectionPoint>();
+            CollectionPoint dept_CP = new CollectionPoint();
+
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url))
+                using (var response = await httpClient.GetAsync(api_url))  
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     collectionPointInfo = JsonConvert.DeserializeObject<List<CollectionPoint>>(apiResponse);
                 }
+
             }
             //last object is the Department Collection Point
             ViewData["collectionPoints"] = collectionPointInfo;
@@ -43,24 +46,31 @@ namespace Team5_LUSS.Controllers
                 CollectionPointID = 1
             };
 
-            return View(d);
+            dept_CP = collectionPointInfo.Where(x => x.CollectionPointID == d.CollectionPointID).FirstOrDefault();
+            ViewData["dept_CollectionPoint"] = dept_CP;
+            return View();
         }
-
 
 
         [HttpPost]
         public async Task<IActionResult> collectionPoints(int deptID, int cpID)
         {
-            Department updated_Dept = new Department();
+           
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + deptID))
+                using (var response = await httpClient.GetAsync(api_url + "/" + deptID + "/" + cpID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    updated_Dept = JsonConvert.DeserializeObject<Department>(apiResponse);
                 }
+                
             }
-            return View(updated_Dept);
+            return RedirectToAction("collectionPoints");
+        }
+
+
+        public async Task<IActionResult> collectionList()
+        {
+            return View();
         }
     }
 }

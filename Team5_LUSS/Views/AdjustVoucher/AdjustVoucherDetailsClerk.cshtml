@@ -1,155 +1,88 @@
 ﻿
 @{
     ViewData["Title"] = "AdjustVoucherDetailsClerk";
+    var adjustment = (AdjustmentVoucher)ViewData["adjustmentById"];
+    var price = (int)ViewData["price"];
 }
 
+<style>
+    td {
+        width: 150px;
+        text-align: left;
+        padding: 5px
+    }
+</style>
 <!-- START: Main Content-->
 <div class="container-fluid site-width">
     <!-- START: Breadcrumbs-->
     <div class="row ">
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0">Stock Adjustment</h4></div>
-            </div>
-        </div>
-    </div>
-    <div class="row ">
-        <div class="col-12  align-self-center">
-            <div class="btn-group mb-2">
-                <button type="button" class="btn btn-primary">New Adjustment Voucher</button>
+                <div class="w-sm-100 mr-auto"><h4 class="mb-0">Adjustment Voucher Details</h4></div>
             </div>
         </div>
     </div>
     <!-- END: Breadcrumbs-->
     <!-- START: Card Data-->
-    <div class="row row-eq-height">
-        <div class="col-12 col-lg-10 mt-3 pl-lg-0">
-            <div class="card border h-100 invoice-list-section">
-                <div class="card-header border-bottom p-1 d-flex">
-                    <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
-                    <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
+    <div class="row">
+        <div class="col-12  mt-3">
+            <div class="card" style="text-align: left">
+                <div class="card-body">
+                    <table style="width: 30%; padding-bottom: 8px">
+                        <tr>
+                            <td><b>Date Issue:</b></td>
+                            <td>@adjustment.IssuedDate</td>
+                        </tr>
+                        <tr>
+                            <td><b>Voucher No:</b></td>
+                            <td>@adjustment.VoucherNo</td>
+                        </tr>
+                        <tr>
+                            <td><b>Item Code:</b></td>
+                            <td>@adjustment.ItemID</td>
+                        </tr>
+                        <tr>
+                            <td><b>Category:</b></td>
+                            <td>@adjustment.Item.ItemCategory</td>
+                        </tr>
+                        <tr>
+                            <td><b>Description:</b></td>
+                            <td>@adjustment.Item.ItemName</td>
+                        </tr>
+                        <tr>
+                            <td><b>Unit Cost:</b></td>
+                            <td>@price</td>
+                        </tr>
+                        <tr>
+                            <td><b>UOM:</b></td>
+                            <td>@adjustment.Item.UOM</td>
+                        </tr>
+                        <tr>
+                            <td><b>Quantity:</b></td>
+                            <td>@adjustment.AdjustQty</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total Value:</b></td>
+                            <td>@adjustment.AdjustQty*@price</td>
+                        </tr>
+                        <tr>
+                            <td><b>Reason:</b></td>
+                            <td>@adjustment.Reason</td>
+                        </tr>
+                        <tr>
+                            <td><b>Status:</b></td>
+                            <td>@adjustment.Status</td>
+                        </tr>
+                        <tr>
+                            <td><b>Comment:</b></td>
+                            <td>@adjustment.Comment</td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="card-body p-0">
-                    <div class="invoices list">
+            </div>
 
-                        <div class="invoice">
-                            <div class="invoice-content" data-status="generated-invoice">
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Submitted Date: </p>
-                                    <p class="invoice-no">12 June 2020</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Voucher No:</p>
-                                    <p class="cliname">00001</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Status: </p>
-                                    <p class="invocie-date">Pending</p>
-                                </div>
-                                <div class="btn-group mb-2">
-                                    <button type="button" class="btn btn-primary">Details</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="invoice">
-                            <div class="invoice-content" data-status="generated-invoice">
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Submitted Date: </p>
-                                    <p class="invoice-no">10 June 2020</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Voucher No:</p>
-                                    <p class="cliname">00002</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Status: </p>
-                                    <p class="invocie-date">Approved</p>
-                                </div>
-                                <div class="btn-group mb-2">
-                                    <button type="button" class="btn btn-primary">Details</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="invoice">
-                            <div class="invoice-content" data-status="generated-invoice">
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Submitted Date: </p>
-                                    <p class="invoice-no">10 June 2020</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Voucher No:</p>
-                                    <p class="cliname">00003</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Status: </p>
-                                    <p class="invocie-date">Pending</p>
-                                </div>
-                                <div class="btn-group mb-2">
-                                    <button type="button" class="btn btn-primary">Details</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="invoice">
-                            <div class="invoice-content" data-status="generated-invoice">
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Submitted Date: </p>
-                                    <p class="invoice-no">12 June 2020</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Voucher No:</p>
-                                    <p class="cliname">00004</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Status: </p>
-                                    <p class="invocie-date">Appoved</p>
-                                </div>
-                                <div class="btn-group mb-2">
-                                    <button type="button" class="btn btn-primary">Details</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="invoice">
-                            <div class="invoice-content" data-status="generated-invoice">
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Submitted Date: </p>
-                                    <p class="invoice-no">12 June 2020</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Voucher No:</p>
-                                    <p class="cliname">00005</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Status: </p>
-                                    <p class="invocie-date">Approved</p>
-                                </div>
-                                <div class="btn-group mb-2">
-                                    <button type="button" class="btn btn-primary">Details</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="invoice">
-                            <div class="invoice-content" data-status="generated-invoice">
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Submitted Date: </p>
-                                    <p class="invoice-no">12 June 2020</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Voucher No:</p>
-                                    <p class="cliname">00001</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Status: </p>
-                                    <p class="invocie-date">Pending</p>
-                                </div>
-                                <div class="btn-group mb-2">
-                                    <button type="button" class="btn btn-primary">Details</button>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
+            <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
+                <button type="button" class="btn btn-primary">Back</button>
             </div>
         </div>
     </div>
@@ -167,12 +100,8 @@
 <script src="dist/vendors/moment/moment.js"></script>
 <script src="dist/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="dist/vendors/slimscroll/jquery.slimscroll.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <!-- END: Template JS-->
 <!-- START: APP JS-->
 <script src="dist/js/app.js"></script>
 <!-- END: APP JS-->
-<!-- START: Page JS-->
-<script src="dist/js/app.invoicelist.js"></script>
-<!-- END: Page JS-->

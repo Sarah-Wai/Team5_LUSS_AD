@@ -13,39 +13,37 @@ namespace LUSS_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PurchaseOrderController : Controller
+    public class ItemPriceController : ControllerBase
     {
         public MyDbContext context123;
-        private readonly ILogger<CollectionPointController> _logger;
-        public PurchaseOrderController(ILogger<CollectionPointController> logger, MyDbContext context123)
+        private readonly ILogger<ItemPriceController> _logger;
+        public ItemPriceController(ILogger<ItemPriceController> logger, MyDbContext context123)
         {
             _logger = logger;
             this.context123 = context123;
         }
 
         [HttpGet]
-        public IEnumerable<PurchaseOrder> Get()
+        public IEnumerable<string> Get()
         {
-            List<PurchaseOrder> purchaseList = context123.PurchaseOrder.ToList();
-            return purchaseList;
+            return new string[] { "value1", "value2" };
         }
 
-       
         [HttpGet("{id}")]
-        public PurchaseOrder GetById(int id)
+        public int GetItemPrice(int id)
         {
-            PurchaseOrder purchase = context123.PurchaseOrder.First(x => x.POID == id);
-            return purchase;
+            ItemPrice itemPrice = context123.ItemPrice
+                .Where(x => x.ItemID == id).FirstOrDefault();
+
+            int price = itemPrice.Price;
+            
+            return price; 
         }
 
-        
+        // POST api/<controller>
         [HttpPost]
-        public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po)
+        public void Post([FromBody]string value)
         {
-            context123.PurchaseOrder.Add(po);
-            await context123.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetById), po);
         }
 
         // PUT api/<controller>/5

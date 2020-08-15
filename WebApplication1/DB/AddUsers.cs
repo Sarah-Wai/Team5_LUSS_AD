@@ -33,7 +33,7 @@ namespace LUSS_API.DB
                 Email = "sarah@gmail.com",
                 Password = "123",
                 Role = "dept_employee",
-                IsRepresentative = false,
+                IsRepresentative = true,
                 ReportToID = u1.UserID,
                 DepartmentID = 1
             };

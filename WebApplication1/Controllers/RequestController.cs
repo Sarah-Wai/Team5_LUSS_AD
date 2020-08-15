@@ -6,8 +6,8 @@ using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using static LUSS_API.Models.Status;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LUSS_API.Controllers
 {
@@ -25,39 +25,32 @@ namespace LUSS_API.Controllers
         }
 
 
-        //// GET: api/<controller>
+        //[HttpGet]
+        //public IEnumerable<Request> GetRequest()
+        //{
+        //    List<Request> requests = context123.Request.ToList();
+        //    return requests;
+
+        //}
 
         [HttpGet]
-        public IEnumerable<Request> GetRequest()
+        public IEnumerable<Request> Get()
         {
-            List<Request> requests = context123.Request.ToList();
-            return requests;
-
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus != EOrderStatus.Rejected && x.RequestStatus != EOrderStatus.Pending).ToList();
+            return requestList;
         }
 
-        // GET api/<controller>/5
+
+
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Request GetById(int id)
         {
-            return "value";
+            Request request = context123.Request.Where(x => x.RequestID == id).First();
+            return request;
         }
 
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
         }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      
     }
-}
+

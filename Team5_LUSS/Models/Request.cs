@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using static Team5_LUSS.Models.RequestType;
 using static Team5_LUSS.Models.Status;
 
 namespace Team5_LUSS.Models
@@ -21,13 +22,12 @@ namespace Team5_LUSS.Models
 
         [Required]
         public int RequestBy { get; set; }
-        [Required]
+        //[Required]
         public int ModifiedBy { get; set; }
         [MaxLength(50)]
         public string Comment { get; set; }
         [MaxLength(50)]
-        public string RequestType { get; set; }
-
+        public ERequestType RequestType { get; set; }
         public int? ParentRequestID { get; set; }
         [Required]
         public DateTime CollectionTime { get; set; }

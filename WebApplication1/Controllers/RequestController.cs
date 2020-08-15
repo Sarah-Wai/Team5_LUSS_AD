@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
@@ -24,15 +26,6 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-
-        //[HttpGet]
-        //public IEnumerable<Request> GetRequest()
-        //{
-        //    List<Request> requests = context123.Request.ToList();
-        //    return requests;
-
-        //}
-
         [HttpGet]
         public IEnumerable<Request> Get()
         {
@@ -41,16 +34,37 @@ namespace LUSS_API.Controllers
         }
 
 
+        [HttpGet("{status}")]
+        public IEnumerable<dynamic> GetRequestByStatus(string status)
+        {
+            EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+            List<Request> requests = context123.Request.ToList();
+            List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+            List<Item> items = context123.Item.ToList();
 
-        [HttpGet("{id}")]
+            var iter = (from r in requests
+                       join rd in requestDetailsList on r.RequestID equals rd.RequestID 
+                       where r.RequestStatus.Equals(st)
+                       group rd by rd.ItemID into n
+                       join i in items on n.FirstOrDefault().ItemID equals i.ItemID
+                       select new {
+                           ItemCode = i.ItemCode,
+                           TotalQty = n.Sum(x => x.RequestQty),
+                           ItemName = i.ItemName,
+                           ItemUOM = i.UOM,
+                           CollectionTime = n.Select(x=>x.Request.CollectionTime).First(),
+                           RequestIds = n.Select(x=>x.Request.RequestID).ToList()
+                       }).ToList();
+            return iter;
+        }
+
+/*        [HttpGet("{id}")]
         public Request GetById(int id)
         {
             Request request = context123.Request.Where(x => x.RequestID == id).First();
             return request;
-        }
-
-
-        }
+        }*/
+    }
       
     }
 

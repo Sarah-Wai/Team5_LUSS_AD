@@ -29,7 +29,6 @@ namespace LUSS_API.Models
         [MaxLength(50)]
         public ERequestType RequestType { get; set; }
         public int? ParentRequestID { get; set; }
-        [Required]
         public DateTime CollectionTime { get; set; }
         public virtual User ModifiedByUser { get; set; }
         public virtual User RequestByUser { get; set; }

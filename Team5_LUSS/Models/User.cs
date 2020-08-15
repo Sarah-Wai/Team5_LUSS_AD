@@ -39,7 +39,7 @@ namespace Team5_LUSS.Models
         public int DepartmentID   { get; set; }
 
         public virtual Department Department { get; set; }
-       
-
+        public virtual ICollection<Request> RequestMade { get; set; }
+        public virtual ICollection<Request> RequestModified { get; set; }
     }
 }

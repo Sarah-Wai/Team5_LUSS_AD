@@ -11,9 +11,9 @@ namespace Team5_LUSS.Controllers
 {
     public class DisbursementController : Controller
     {
-        string api_url = "https://localhost:44312/Request";
-        string api_url_user = "https://localhost:44312/User";
-        string api_url_requestDetails = "https://localhost:44312/RequestDetails";
+        string api_url = "https://localhost:44312/Request/";
+        string api_url_user = "https://localhost:44312/User/";
+        string api_url_requestDetails = "https://localhost:44312/RequestDetails/";
         public IActionResult Index()
         {
             return View();
@@ -36,13 +36,14 @@ namespace Team5_LUSS.Controllers
                     request = JsonConvert.DeserializeObject<Request>(apiResponse);
                 }
 
+                //using (var response = await httpClient.GetAsync(api_url_user + 1))
                 using (var response = await httpClient.GetAsync(api_url_user + request.RequestByUser.DepartmentID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     deptRep = JsonConvert.DeserializeObject<User>(apiResponse);
                 }
 
-                using (var response = await httpClient.GetAsync(api_url_requestDetails + request.RequestID))
+                using (var response = await httpClient.GetAsync(api_url_requestDetails + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);

@@ -34,12 +34,14 @@ namespace Team5_LUSS.Models
         [Required]
         public bool IsRepresentative { get; set; }
         [Required]
-        public int ReportToID   { get; set; }
+        public int? ReportToID   { get; set; }
         [Required]
         public int DepartmentID   { get; set; }
 
         public virtual Department Department { get; set; }
         public virtual ICollection<Request> RequestMade { get; set; }
         public virtual ICollection<Request> RequestModified { get; set; }
+        public virtual ICollection<AdjustmentVoucher> RequestedBy { get; set; }
+        public virtual ICollection<AdjustmentVoucher> ApprovedBy { get; set; }
     }
 }

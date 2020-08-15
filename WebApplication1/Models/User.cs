@@ -44,6 +44,9 @@ namespace LUSS_API.Models
 
         public virtual ICollection<Request> RequestModified { get; set; }
 
+        public virtual ICollection<AdjustmentVoucher> RequestedBy { get; set; }
+        public virtual ICollection<AdjustmentVoucher> ApprovedBy { get; set; }
+
 
     }
 }

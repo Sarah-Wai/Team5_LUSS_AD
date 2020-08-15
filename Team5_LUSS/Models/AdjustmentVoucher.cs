@@ -25,9 +25,9 @@ namespace Team5_LUSS.Models
         [Required]
         public int TotalCost   { get; set; }
         [Required]
-        public int RequestBy   { get; set; }
+        public int RequestByID   { get; set; }
         [Required]
-        public int ApprovedBy   { get; set; }
+        public int ApprovedByID   { get; set; }
         [Required]
         public DateTime IssuedDate   { get; set; }
         [Required]
@@ -38,8 +38,8 @@ namespace Team5_LUSS.Models
         public string Reason { get; set; }
         [Required]
         public int ItemID { get; set; }
-        public virtual User RequestUser { get; set; }
-        public virtual User ApprovedUser { get; set; }
+        public virtual User RequestedByUser { get; set; }
+        public virtual User ApprovedByUser { get; set; }
         public virtual Item Item { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace Team5_LUSS.Controllers
         //[HttpPost]
         public async Task<IActionResult> GetAdjustmentVoucherByRequestor(int id)
         {
-            id = 0;
+            id = 1;
             List<AdjustmentVoucher> adjustments = new List<AdjustmentVoucher>();
             using(var httpClient = new HttpClient())
             {
@@ -73,20 +73,20 @@ namespace Team5_LUSS.Controllers
             return View(adjustment);
         }
    
-        [HttpPost]
+        //[HttpPost]
         public async Task<IActionResult> GetAdjustmentVoucherById(int id)
         {
             AdjustmentVoucher adjustment = new AdjustmentVoucher();
             int price;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "adjustmentId" + id))
+                using (var response = await httpClient.GetAsync(api_url + "/adjustmentId/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
-                }
+                } 
 
-                using (var response = await httpClient.GetAsync(api_url_itemPrice + adjustment.ItemID))
+                using (var response = await httpClient.GetAsync(api_url_itemPrice + "/" +adjustment.ItemID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     price = JsonConvert.DeserializeObject<int>(apiResponse);
@@ -94,13 +94,13 @@ namespace Team5_LUSS.Controllers
             }
             ViewData["price"] = price;
             ViewData["adjustmentById"] = adjustment;
-            return View(adjustment);
-        }
-
-        public ViewResult GetAdjustmentVoucherById()
-        {
             return View("AdjustVoucherDetailsClerk");
         }
+
+        //public ViewResult GetAdjustmentVoucherById()
+        //{
+        //    return View("AdjustVoucherDetailsClerk");
+        //}
 
 
         public IActionResult Index()

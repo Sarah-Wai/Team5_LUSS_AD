@@ -25,11 +25,12 @@ namespace LUSS_API.Models
         [Required]
         public POStatus Status  { get; set; }
         [Required]
-        public DateTime ReceivedDate  { get; set; }
-        //[Required]
-        //public string PONo { get; set; }
+        public DateTime? ReceivedDate  { get; set; }
+        [Required]
+        public string POno { get; set; }
         //[Required]
         //public int SubTotal  { get; set; }
-        //public virtual ICollection<PurchaseOrderItems> PurchaseOrderItems { get; set; }
+        public virtual ICollection<PurchaseOrderItems> PurchaseOrderItems { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }

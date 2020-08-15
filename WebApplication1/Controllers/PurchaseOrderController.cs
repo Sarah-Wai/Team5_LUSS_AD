@@ -24,7 +24,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<PurchaseOrder> Get()
+        public IEnumerable<PurchaseOrder> GetAllPurchaseOrders()
         {
             List<PurchaseOrder> purchaseList = context123.PurchaseOrder.ToList();
             return purchaseList;
@@ -32,7 +32,7 @@ namespace LUSS_API.Controllers
 
        
         [HttpGet("{id}")]
-        public PurchaseOrder GetById(int id)
+        public PurchaseOrder GetPurchaseOrderById(int id)
         {
             PurchaseOrder purchase = context123.PurchaseOrder.First(x => x.POID == id);
             return purchase;
@@ -45,7 +45,7 @@ namespace LUSS_API.Controllers
             context123.PurchaseOrder.Add(po);
             await context123.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), po);
+            return CreatedAtAction(nameof(GetPurchaseOrderById), po);
         }
 
         // PUT api/<controller>/5

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Logging;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LUSS_API.Controllers
-{   
+{
     [ApiController]
     [Route("[controller]")]
     public class RetrievalController : Controller
@@ -24,17 +25,24 @@ namespace LUSS_API.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("{status}")]
+        public IEnumerable<Request> GetRetrievalForm(Status.EOrderStatus orderStatus)
         {
-            return new string[] { "value1", "value2" };
+            orderStatus = Status.EOrderStatus.Approved;
+
+            //var requests = from rh in context123.Request join rd in context123.RequestDetails on rh.RequestID equals rd.RequestID where rh.RequestStatus == orderStatus group rh by rd.ItemID into reqQtyPerItem;
+
+            List<Request> requests = new List<Request>();
+            return requests;
+
+           
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{status}")]
+        public string[] GetRetrivalForm(Status.EOrderStatus status)
         {
-            return "value";
+            return new string[] { "value1", "value2" };
         }
 
         // POST api/<controller>

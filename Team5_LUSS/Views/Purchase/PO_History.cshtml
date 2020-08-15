@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Purchase Orders";
+    var purchases = (List<PurchaseOrder>)ViewData["purchases"];
 }
 
 
@@ -36,90 +37,39 @@
                 <div class="col-12 col-md-12">
                     <div class="card-body p-0">
                         <div class="invoices list">
-                            <div class="invoice">
-                                <div class="invoice-content" data-status="generated-invoice">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Issued Date: </p>
-                                        <p class="invocie-date">20 June 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">PO No.: </p>
-                                        <p class="invoice-no">000001</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="mr-3">
-                                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                                            Receiving
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="invoice paid-invoice" data-status="paid-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Issued Date: </p>
-                                        <p class="invocie-date">20 June 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">PO No.: </p>
-                                        <p class="invoice-no">000001</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="mr-3">
-                                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                                            Receiving
-                                        </a>
+                            @foreach (var p in purchases)
+                            {
+                                <div class="invoice">
+                                    <div class="invoice-content" data-status="generated-invoice">
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Issued Date: </p>
+                                            <p class="invocie-date">@p.CreatedOn</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">PO No.: </p>
+                                            <p class="invoice-no">@p.PONo</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Status </p>
+                                            <p class="invoice-date">@p.Status</p>
+                                        </div>
+                                        <div class="mr-3">
+                                            <a asp-action="PurchaseOrderDetails" asp-route-id="@p.POID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                                Details
+                                            </a>
+                                        </div>
+                                        @if (p.Status == PurchaseOrderStatus.POStatus.Pending)
+                                        {
+                                            <div class="mr-3">
+                                                <a asp-action="" asp-route-id="@p.POID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                                    Receiving
+                                                </a>
+                                            </div>
+                                        }
+
                                     </div>
                                 </div>
-                            </div>
-                            <div class="invoice pending-invoice" data-status="pending-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Issued Date: </p>
-                                        <p class="invocie-date">20 June 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">PO No.: </p>
-                                        <p class="invoice-no">000001</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="mr-3">
-                                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                                            Receiving
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="invoice canceled-invoice" data-status="canceled-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Issued Date: </p>
-                                        <p class="invocie-date">20 June 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">PO No.: </p>
-                                        <p class="invoice-no">000001</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="mr-3">
-                                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                                            Receiving
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>

@@ -51,6 +51,8 @@ namespace LUSS_API.DB
 
             model.Entity<Item>().HasOne(i => i.ItemCategory).WithMany(c => c.Items).HasForeignKey(i => i.CategoryID);
 
+            model.Entity<PurchaseOrderItems>().HasOne(p => p.PurchaseOrder).WithMany(p => p.PurchaseOrderItems).HasForeignKey(p => p.POID).OnDelete(DeleteBehavior.Restrict);
+
         }
 
         public DbSet<AdjustmentVoucher> AdjustmentVouncher { get; set; }
@@ -68,6 +70,7 @@ namespace LUSS_API.DB
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<Retrieval> Retrieval { get; set; }
 
     }
 }

@@ -14,14 +14,14 @@ namespace Team5_LUSS.Controllers
     {
         string api_url = "https://localhost:44312/Request";
       
-        public IActionResult StationeryRequests()
+        public IActionResult StationeryRequests8()
         {
           
             return View();
 
         }
 
-        public async Task<JsonResult> GetStationeryRequests(int id)
+        public async Task<JsonResult> StationeryRequests(int id)
         {
             JsonResult result = null;
 
@@ -31,11 +31,11 @@ namespace Team5_LUSS.Controllers
                 using (var response = await httpClient.GetAsync(api_url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                   requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                 }
             }
-            result = new JsonResult(requests);
-            // ViewData["requests"] = requests;
+            //result = new JsonResult(requests);
+            ViewData["requests"] = requests;
             return result;
         }
 

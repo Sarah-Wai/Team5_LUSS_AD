@@ -43,7 +43,7 @@
                         </tr>
                         <tr>
                             <td><b>Category:</b></td>
-                            <td>@adjustment.Item.ItemCategory</td>
+                            <td>@adjustment.Item.ItemCategory.CategoryName</td>
                         </tr>
                         <tr>
                             <td><b>Description:</b></td>
@@ -63,7 +63,7 @@
                         </tr>
                         <tr>
                             <td><b>Total Value:</b></td>
-                            <td>@adjustment.AdjustQty*@price</td>
+                            <td>@adjustment.TotalCost</td>
                         </tr>
                         <tr>
                             <td><b>Reason:</b></td>
@@ -82,7 +82,7 @@
             </div>
 
             <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
-                <button type="button" class="btn btn-primary">Back</button>
+                <a asp-action="GetAdjustmentVoucherByRequestor" asp-route-id="@adjustment.RequestByID" class="btn btn-primary">Back </a>
             </div>
         </div>
     </div>

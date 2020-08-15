@@ -22,7 +22,7 @@ namespace Team5_LUSS.Models
 
         [Required]
         public int RequestBy { get; set; }
-        [Required]
+        //[Required]
         public int ModifiedBy { get; set; }
         [MaxLength(50)]
         public string Comment { get; set; }

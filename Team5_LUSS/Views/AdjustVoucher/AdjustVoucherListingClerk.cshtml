@@ -42,7 +42,7 @@
                                             <p class="mb-0 small">Submitted Date: </p>
                                             <p class="invoice-no">@adj.IssuedDate</p>
                                         </div>
-                                        
+
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Voucher No:</p>
                                             <p class="cliname">@adj.VoucherNo</p>
@@ -50,9 +50,10 @@
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Status: </p>
                                             <p class="invocie-date">@adj.Status</p>
+                                            <p>@adj.AdjustmentID</p>
                                         </div>
                                         <div class="btn-group mb-2">
-                                            <a>(<button type="button" class="btn btn-primary">Details</button></a>
+                                            <a asp-action="GetAdjustmentVoucherById" asp-route-id="@adj.AdjustmentID" class="btn btn-primary">Details </a>
                                         </div>
                                     </div>
                                 </div>

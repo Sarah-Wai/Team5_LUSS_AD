@@ -40,6 +40,17 @@ namespace LUSS_API.DB
             model.Entity<Supplier>().HasKey(x => x.SupplierID);
             model.Entity<User>().HasKey(x => x.UserID);
 
+
+            model.Entity<Request>().HasOne(r => r.RequestByUser).WithMany(u => u.RequestMade).HasForeignKey(r => r.RequestBy).OnDelete(DeleteBehavior.Restrict);
+
+            model.Entity<Request>().HasOne(r => r.ModifiedByUser).WithMany(u => u.RequestModified).HasForeignKey(r => r.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
+
+            model.Entity<AdjustmentVoucher>().HasOne(a => a.RequestedByUser).WithMany(u => u.RequestedBy).HasForeignKey(a => a.RequestByID).OnDelete(DeleteBehavior.Restrict);
+
+            model.Entity<AdjustmentVoucher>().HasOne(a => a.ApprovedByUser).WithMany(u => u.ApprovedBy).HasForeignKey(a => a.ApprovedByID).OnDelete(DeleteBehavior.Restrict);
+
+            model.Entity<Item>().HasOne(i => i.ItemCategory).WithMany(c => c.Items).HasForeignKey(i => i.CategoryID);
+
         }
 
         public DbSet<AdjustmentVoucher> AdjustmentVouncher { get; set; }

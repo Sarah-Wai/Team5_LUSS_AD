@@ -74,11 +74,12 @@ namespace LUSS_API
             //List<Item> items = AddItems.getAllItem();
             //dbcontext.AddRange(items);
 
-            List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
-            dbcontext.AddRange(itemPrices);
+            //List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
+            //dbcontext.AddRange(itemPrices);
 
-            List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
-            dbcontext.AddRange(allCollectionPoints);
+            //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
+            //dbcontext.AddRange(allCollectionPoints);
+
             //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
             //dbcontext.AddRange(allCollectionPoints);
 

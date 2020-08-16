@@ -89,9 +89,6 @@ namespace LUSS_API
             //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
             //dbcontext.AddRange(allCollectionPoints);
 
-            //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
-            //dbcontext.AddRange(allCollectionPoints);
-
             //List<Supplier> suppliers = AddSupplier.getAllSuppliers();
             //dbcontext.AddRange(suppliers);
 
@@ -107,7 +104,10 @@ namespace LUSS_API
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
             //dbcontext.AddRange(requestDetails);
 
-            //dbcontext.SaveChanges();
+            //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO();
+            //dbcontext.AddRange(purchaseOrders);
+
+            dbcontext.SaveChanges();
 
         }
     }

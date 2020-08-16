@@ -21,7 +21,7 @@ namespace LUSS_API.Models
         public int OrderQty   { get; set; }
         //[Required]
         //public int Amount   { get; set; }
-        [Required]
+        //[Required]
         public int ReceivedQty   { get; set; }
         //[Required]
         //public int Price   { get; set; }

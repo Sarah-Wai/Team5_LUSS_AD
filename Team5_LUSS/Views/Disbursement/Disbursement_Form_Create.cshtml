@@ -6,7 +6,7 @@
     List<RequestDetails> reqItems = (List<RequestDetails>)ViewData["reqItems"];
 }
 
-<form>
+<form method="post">
     <div class="container-fluid site-width">
         <div>
             <div class="row">
@@ -25,7 +25,7 @@
 
                                             <b>Dept Rep:</b> @deptRep.FirstName @deptRep.LastName<br>
                                             <b>Collection Point:</b> @deptRep.Department.CollectionPoint.Location @deptRep.Department.CollectionPoint.Description<br><br>
-                                            <b>Collection Date: </b> <input type="date"><br>
+                                            <b>Collection Date: </b> <input type="date" name="collectionTime" value="@request.CollectionTime"><br>
                                         </td>
                                         <td>
                                             <b>Staff Name:</b> @request.RequestByUser.FirstName  @request.RequestByUser.LastName<br>
@@ -45,10 +45,10 @@
                             <table class="table table-bordered" id="tblReqItems">
                                 <thead>
                                     <tr>
-                                        <td>#</td>
-                                        <td>#</td>
-                                        <td><b>Item Code</b></td>
-                                        <td><b>Description</b></td>
+                                        @*<td>#</td>
+                                        <td>#</td>*@
+                                        <td class="text-right"><b>Item Code</b></td>
+                                        <td class="text-right"><b>Description</b></td>
                                         <td class="text-right"><b>UOM</b></td>
                                         <td class="text-right"><b>Requested Qty</b></td>
                                         <td class="text-right"><b>Fulfilled Qty</b></td>
@@ -58,23 +58,23 @@
                                 <tbody>
                                     @foreach (RequestDetails r in reqItems)
                                     {
-                                        <tr>
-                                            <td>@r.RequestDetailID</td>
-                                            <td>@r.RequestID</td>
-                                            <td>@r.ItemID</td>
-                                            <td class="text-right">@r.Item.ItemName</td>
-                                            <td class="text-right">@r.Item.UOM</td>
-                                            <td class="text-right">@r.RequestQty</td>
-                                            <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                            <td class="text-right">
-                                                <a href="#" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
-                                                    Reset
-                                                </a>
-                                                <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                                    Full Amount
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        @*<td>@r.RequestDetailID</td>
+        <td>@r.RequestID</td>*@
+                                        <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
+                                        <td class="text-right">@r.Item.ItemName</td>
+                                        <td class="text-right">@r.Item.UOM</td>
+                                        <td class="text-right">@r.RequestQty</td>
+                                        <td class="text-right" ><input type="number" name="fulfillQty" value="@r.FullfillQty" min="0" max="@r.RequestQty"/></td>
+                                        <td class="text-right">
+                                            <a href="#" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
+                                                Reset
+                                            </a>
+                                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
+                                                Full Amount
+                                            </a>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

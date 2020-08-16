@@ -13,7 +13,8 @@ namespace Team5_LUSS.Controllers
     {
         string api_url = "https://localhost:44312/PurchaseOrder";
         string api_url_POdetails = "https://localhost:44312/PurchaseOrderItems";
-
+        string api_url_Item = "https://localhost:44312/ItemList";
+        string api_url_ItemPrice = "https://localhost:44312/ItemPrice";
         public async Task<IActionResult> PurchaseOrders()
         {
             List<PurchaseOrder> purchases = new List<PurchaseOrder>();
@@ -54,6 +55,53 @@ namespace Team5_LUSS.Controllers
             ViewData["orderItems"] = orderItems;
             return View("PO_Details");
         }
+
+        public async Task<IActionResult> ViewLowStockItems()
+        {
+            List<Item> lowStockItems = new List<Item>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_Item + "/get-low-stock-items"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    
+                    lowStockItems = JsonConvert.DeserializeObject<List<Item>>(apiResponse);
+                }
+            }
+            ViewData["lowStockItems"] = lowStockItems;
+            return View("PO_LowStock");
+        }
+
+        public async Task<IActionResult> POCreateLow(int id)
+        {
+            Item item = new Item();
+            List<Supplier> suppliers = new List<Supplier>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_Item + "/GetItemById/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    item = JsonConvert.DeserializeObject<Item>(apiResponse);
+                }
+                using (var response = await httpClient.GetAsync(api_url_ItemPrice + "/get-supplier-by-item/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    suppliers = JsonConvert.DeserializeObject<List<Supplier>>(apiResponse);
+                }
+            }
+
+            ViewData["item"] = item;
+            ViewData["suppliers"] = suppliers;
+            return View("PO_Create_Low");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> POCreateLow(int itemID, int orderQty, DateTime expectedDate, int supplierID)
+        {
+       
+            return RedirectToAction("ViewLowStockItems");
+        }
+
         public IActionResult Index()
         {
             //return View();

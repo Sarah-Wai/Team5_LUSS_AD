@@ -1,56 +1,63 @@
 (function ($) {
     "use strict";
 
-    var invoice;
+    var request;
     flatpickr(document.getElementById('due-date'), {
         enableTime: true,
         dateFormat: "d M Y",
         minDate: new Date()
     });
 
-    $('.invoice-menu a').on('click', function () {
-        $('.invoice-menu a').removeClass('active');
+    $('.request-menu a').on('click', function () {
+        $('.request-menu a').removeClass('active');
         $(this).addClass('active');
-        $('.invoice').hide();
-        $('.' + $(this).data("invoicetype")).show(500);
+        $('.request').hide();
+        $('.' + $(this).data("requesttype")).show(500);
         return false;
     });
 
-    $(".invoices").on("click", ".delete-invoice", function () {
-        $(this).closest('.invoice').addClass('outline-badge-danger');
-        $(this).closest('.invoice').slideUp(550, function () {
-            $(this).closest('.invoice').remove();
+    $(".requests").on("click", ".delete-request", function () {
+        $(this).closest('.request').addClass('outline-badge-danger');
+        $(this).closest('.request').slideUp(550, function () {
+            $(this).closest('.request').remove();
         });
     });
 
 
-    $(".invoices").on("click", ".edit-invoice", function () {
-        invoice = $(this).closest('.invoice');
-        $('#due-date').val($(this).closest('.invoice').find('.invoice-due-date').html());
+    $(".requests").on("click", ".edit-request", function () {
+        request = $(this).closest('.request');
+        $('#lblRequestID').val($(this).closest('.request').find('.request-due-date').html());
+        $('#lblRequestBy').val($(this).closest('.request').find('.request-due-date').html());
+        $('#lblStatus').val($(this).closest('.request').find('.request-due-date').html());
+        $('#lblUpdateBy').val($(this).closest('.request').find('.request-due-date').html());
+        $('#txtComment').html($(this).closest('.request').find('.request-due-date').html());
 
-        $('#status').val($(this).closest('.invoice').find('.invoice-content').data('status'));
-        $("#editinvoice").modal();
+        $('#status').val($(this).closest('.request').find('.request-content').data('status'));
+        $("#editrequest").modal();
 
     });
-    $(".edit-invoice-form").submit(function (event) {
+
+    
+    
+    $(".edit-request-form").submit(function (event) {
         var duedate = $('#due-date').val();
         var status = $('#status').val();
-        invoice.find('.invoice-due-date').html(duedate);
-        invoice.removeClass('paid-invoice');
-        invoice.removeClass('pending-invoice');
-        invoice.removeClass('canceled-invoice');
-        invoice.addClass(status);
-        invoice.find('.invoice-content').data('status', status);
-        $('#editinvoice').modal('toggle');
+        request.find('.request-due-date').html(duedate);
+        request.removeClass('paid-request');
+        request.removeClass('pending-request');
+        request.removeClass('canceled-request');
+        request.addClass(status);
+        request.find('.request-content').data('status', status);
+        $('#editrequest').modal('toggle');
         event.preventDefault();
     });
 
-    $(".invoice-search").on("keyup", function () {
-        var v = $(".invoice-search").val().toLowerCase();
-        var rows = $('.' + $('.invoice-menu li a.active').data("invoicetype"));
+    $(".request-search").on("keyup", function () {
+        var v = $(".request-search").val().toLowerCase();
+        var rows = $('.' + $('.request-menu li a.active').data("requesttype"));
 
         for (var i = 0; i < rows.length; i++) {
-            var fullname = rows[i].getElementsByClassName("invoice-content");
+            var fullname = rows[i].getElementsByClassName("request-content");
             fullname = fullname[0].innerHTML.toLowerCase();
             if (fullname) {
                 if (v.length == 0 || (v.length < 1 && fullname.indexOf(v) == 0) || (v.length >= 1 && fullname.indexOf(v) > -1)) {
@@ -64,14 +71,14 @@
         }
     });
 
-    $(".invoice-info").on("click", function () {
-        $('.inv-no').html($(this).closest('.invoice').find('.invoice-no').html());
+    $(".request-info").on("click", function () {
+        $('.inv-no').html($(this).closest('.request').find('.request-no').html());
 
-        $('.view-invoice').fadeIn(1000);
+        $('.view-request').fadeIn(1000);
     });
-    $(".back-to-invoice").on("click", function () {
+    $(".back-to-request").on("click", function () {
 
-        $('.view-invoice').fadeOut();
+        $('.view-request').fadeOut();
     });
 
 })(jQuery);

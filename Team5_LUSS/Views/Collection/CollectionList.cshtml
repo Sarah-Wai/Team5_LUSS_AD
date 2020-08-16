@@ -6,7 +6,6 @@
 
 
 <div class="container-fluid site-width">
-
     <div class="modal fade" id="editinvoice">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -18,35 +17,40 @@
                         <i class="icon-close"></i>
                     </button>
                 </div>
-                <form class="edit-invoice-form">
+                <form class="edit-invoice-form" method="post" id="form">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Item Code</th>
-                                        <th scope="col">Item Name</th>
-                                        <th scope="col">Rqt Qty</th>
-                                        <th scope="col">Accpt Qty</th>
-                                    </tr>
-                                </thead>
-                                @foreach (var r in collectionList)
-                                {
+                            @if (collectionList != null)
+                            {
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Item Code</th>
+                                            <th scope="col">Item Name</th>
+                                            <th scope="col">Rqt Qty</th>
+                                            <th scope="col">Accpt Qty</th>
+                                        </tr>
+                                    </thead>
+
+                                    
+                                    @foreach (var r in collectionList)
+                                    {
                                     <tbody>
                                         <tr>
                                             <th scope="row">@r.itemCode</th>
                                             <td>@r.itemName</td>
                                             <td>@r.totalQty</td>
-                                            <td><input type="number" class="form-control" value="@r.totalQty" max="@r.totalQty" min="0" name="ReceivedQty"></td>
+                                            <td><input type="number" class="form-control" value="@r.totalQty" max="@r.totalQty" min="0" name="AcceptedQty"></td>
                                         </tr>
                                     </tbody>
-                                }
-                            </table>
-                        </div>
+                                    }
+                                </table>
+                            }
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="edit-date">
-                        <button type="submit" class="btn btn-primary add-todo">Confirm</button>
+                        <button type="submit" class="btn btn-primary add-todo" id="submitBtn">Confirm</button>
                     </div>
                 </form>
             </div>
@@ -89,34 +93,38 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editinvoice">Collect</button>
                     </div>
                     <div class="invoices list">
-
-
-                       @foreach (var r in collectionList)
+                        @if (collectionList != null)
                         {
-                        <div class="invoice">
-                            <div class="invoice-content">
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Item Code</p>
-                                    <p class="invoice-no">@r.itemCode</p>
+                            foreach (var r in collectionList)
+                            {
+                                <div class="invoice">
+                                    <div class="invoice-content">
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Item Code</p>
+                                            <p class="invoice-no">@r.itemCode</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Item Name</p>
+                                            <p class="cliname">@r.itemName</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Unit</p>
+                                            <p class="invocie-date">@r.itemUOM</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Requested Quantity</p>
+                                            <p class="invoice-due-date">@r.totalQty</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Item Name</p>
-                                    <p class="cliname">@r.itemName</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Unit</p>
-                                    <p class="invocie-date">@r.itemUOM</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Requested Quantity</p>
-                                    <p class="invoice-due-date">@r.totalQty</p>
-                                </div>
-                                <div class="invoice-info">
-
-                                </div>
-                            </div>
-                        </div>
-                        }                            
+                            }
+                        }
+                        else
+                        {
+                            <div class="invoice">There is nothing there.</div>
+                        }
                     </div>
                 </div>
             </div>

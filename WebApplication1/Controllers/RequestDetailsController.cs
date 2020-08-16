@@ -23,13 +23,13 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        [HttpGet("{reqid}")]
-        public List<RequestDetails> GetRequestDetailsByRequest(int reqid)
+        [HttpGet("get-by-request/{id}")]
+        public List<RequestDetails> GetByRequest(int id)
         {
-            List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == reqid).ToList(); 
+            List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
             return requestItems;
         }
 
-     
+
     }
 }

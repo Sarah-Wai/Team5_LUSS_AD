@@ -58,13 +58,51 @@ namespace LUSS_API.Controllers
             return iter;
         }
 
-/*        [HttpGet("{id}")]
+        [HttpGet("get-request/{id}")]
         public Request GetById(int id)
         {
             Request request = context123.Request.Where(x => x.RequestID == id).First();
             return request;
-        }*/
+        }
+
+
+        [HttpGet("get-retrieval")]
+        public IEnumerable<dynamic> GetRetrieval()
+        {
+            EOrderStatus st = EOrderStatus.Approved;
+            List<Request> requests = context123.Request.ToList();
+            List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+            List<Item> items = context123.Item.ToList();
+
+            var iter = (from r in requests
+                        join rd in requestDetailsList on r.RequestID equals rd.RequestID
+                        where r.RequestStatus.Equals(st)
+                        group rd by rd.ItemID into n
+                        join i in items on n.FirstOrDefault().ItemID equals i.ItemID
+                        select new
+                        {
+                            ItemCode = i.ItemCode,
+                            ItemName = i.ItemName,
+                            Location = i.StoreItemLocation,
+                            ItemUOM = i.UOM,
+                            TotalQty = n.Sum(x => x.RequestQty),
+                            InStockQty = i.InStockQty,
+                            RequestIds = n.Select(x => x.Request.RequestID).ToList()
+                        }).ToList();
+            return iter;
+        }
+
+        //Update request status to pending delivery after disbursement
+        [HttpPut("update-pending-delivery/{id}")]
+        public Request updatePendingDelivery([FromForm] int id)
+        {
+            Request request = GetById(id);
+            request.RequestStatus = EOrderStatus.PendingDelivery;
+            context123.SaveChanges();
+            return request;
+        }
+
     }
-      
-    }
+
+}
 

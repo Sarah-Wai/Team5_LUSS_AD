@@ -1,0 +1,290 @@
+﻿/* request List */
+.view-request {
+    position: absolute;
+    z-index: 100000000;
+    background: var(--mainbackground);
+    width: 100%;
+    height: 100%;
+    display: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.request-menu-section {
+    -webkit-border-radius: 5px;
+    -webkit-border-top-right-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    -moz-border-radius: 5px;
+    -moz-border-radius-topright: 0px;
+    -moz-border-radius-bottomright: 0px;
+    border-radius: 5px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    transition: all 0.5s;
+}
+
+.request-list-section {
+    overflow: hidden;
+}
+
+@media (min-width: 992px) {
+    .request-list-section {
+        -webkit-border-radius: 0px;
+        -webkit-border-top-right-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
+        -moz-border-radius: 0px;
+        -moz-border-radius-topright: 5px;
+        -moz-border-radius-bottomright: 5px;
+        border-radius: 0px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        transition: all 0.5s;
+        border-left: none !important;
+    }
+}
+
+.request-menu {
+    margin-top: 30px;
+}
+
+    .request-menu li {
+        padding: 5px 15px;
+    }
+
+        .request-menu li a {
+            font-weight: 700;
+            position: relative;
+        }
+
+            .request-menu li a.active, .request-menu li a:hover {
+                color: var(--primarycolor);
+            }
+
+                .request-menu li a.active:after, .request-menu li a:hover:after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background: var(--primarycolor);
+                    opacity: 0.2;
+                    left: 0px;
+                    top: 0px;
+                    z-index: 0;
+                    border-radius: 20px;
+                }
+
+.requests {
+    padding: 0px;
+    margin: 0px;
+}
+
+@media (max-width: 767px) {
+    .requests {
+        overflow-x: scroll;
+    }
+}
+
+.requests .request {
+    padding: 10px 15px;
+    display: inline-flex;
+    width: 100%;
+    font-size: 15px;
+}
+
+@media (max-width: 767px) {
+    .requests .request {
+        width: auto;
+    }
+}
+
+.requests .request .request-content {
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: .75rem .625rem;
+    position: relative;
+    display: inline-flex;
+    min-width: 0;
+    word-wrap: break-word;
+    justify-content: space-between;
+    border-radius: 6px;
+    padding: 13px 18px;
+    width: 100%;
+    min-width: 767px;
+    transition: all 0.35s ease;
+    box-shadow: 0px 0px 0px 1px rgba(126, 142, 177, 0.12);
+}
+
+    .requests .request .request-content .request-info {
+        width: 20%;
+        cursor: pointer;
+    }
+
+@media (max-width: 767px) {
+    .requests .request .request-content .request-info {
+        width: auto;
+    }
+}
+
+.requests .request .request-content .request-status-info {
+    width: 10%;
+}
+
+@media (max-width: 767px) {
+    .requests .request .request-content .request-status-info {
+        width: auto;
+    }
+}
+
+.requests .request .request-content > div:last-child {
+    margin-left: 10px;
+    display: flex;
+    width: 10%;
+}
+
+    .requests .request .request-content > div:last-child a {
+        margin: 0px 10px;
+    }
+
+.requests .request .request-content p {
+    margin-bottom: 0px;
+}
+
+.requests .request .request-status {
+    line-height: 1.4;
+    padding: 3px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    display: inline-block;
+    border: 1px solid var(--primarycolor);
+    width: 80px;
+    height: 25px;
+    margin-top: 5px;
+}
+
+    .requests .request .request-status:before {
+        content: "Generated";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        color: var(--primarycolor);
+        text-align: center;
+        left: 0px;
+        top: 0px;
+        line-height: 22px;
+    }
+
+    .requests .request .request-status:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: var(--primarycolor);
+        opacity: 0.2;
+        left: 0px;
+        top: 0px;
+        z-index: 0;
+    }
+
+.requests .request.pending-request .request-status {
+    border: 1px solid var(--danger);
+    color: var(--primarycolor);
+}
+
+    .requests .request.pending-request .request-status:after {
+        background: var(--danger);
+    }
+
+    .requests .request.pending-request .request-status:before {
+        content: "Pending";
+        color: var(--danger);
+    }
+
+.requests .request.approved-request .request-status {
+    border: 1px solid var(--primarycolor);
+    color: var(--info);
+}
+
+    .requests .request.approved-request .request-status:after {
+        background: var(--primarycolor);
+    }
+
+    .requests .request.approved-request .request-status:before {
+        content: "Approved";
+        color: var(--primarycolor);
+    }
+
+.requests .request.rejected-request .request-status {
+    border: 1px solid var(--warning);
+    color: var(--primarycolor);
+}
+
+    .requests .request.rejected-request .request-status:after {
+        background: var(--warning);
+    }
+
+    .requests .request.rejected-request .request-status:before {
+        content: "Rejected";
+        color: var(--warning);
+    }
+
+.requests .request.packed-request .request-status {
+    border: 1px solid var(--dark);
+    color: var(--light);
+}
+
+    .requests .request.packed-request .request-status:after {
+        background: var(--dark);
+    }
+
+    .requests .request.packed-request .request-status:before {
+        content: "Packed";
+        color: var(--dark);
+    }
+
+.requests .request.pendingDelivery-request .request-status {
+    border: 1px solid var(--info);
+    color: var(--primarycolor);
+}
+
+    .requests .request.pendingDelivery-request .request-status:after {
+        background: var(--info);
+    }
+
+    .requests .request.pendingDelivery-request .request-status:before {
+        content: "PendingDelivery";
+        color: var(--info);
+    }
+
+.requests .request.received-request .request-status {
+    border: 1px solid var(--secondary);
+    color: var(--primarycolor);
+}
+
+    .requests .request.received-request .request-status:after {
+        background: var(--secondary);
+    }
+
+    .requests .request.received-request .request-status:before {
+        content: "Received";
+        color: var(--secondary);
+    }
+.requests .request.completed-request .request-status {
+    border: 1px solid var(--success);
+    color: var(--primarycolor);
+}
+
+    .requests .request.completed-request .request-status:after {
+        background: var(--success);
+    }
+
+    .requests .request.completed-request .request-status:before {
+        content: "Completed";
+        color: var(--success);
+    }

@@ -21,22 +21,38 @@ namespace Team5_LUSS.Controllers
 
         }
 
-        public async Task<JsonResult> StationeryRequests(int id)
+       [HttpGet]
+        public async Task<IActionResult> StationeryRequests()
         {
-            JsonResult result = null;
-
+            
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url))
+                using (var response = await httpClient.GetAsync(api_url+ "/getAllRequest"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                 }
             }
-            result = new JsonResult(requests);
-            // ViewData["requests"] = requests;
-            return result;
+          
+            ViewData["requests"] = requests;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveRequestByDepHead(int hidRequestID, string comment)
+        {
+            Request request = new Request();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url + "/ApproveRequestByDepHead/"+hidRequestID+"/"+comment))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    ViewBag.Result = "Success";
+                    request = JsonConvert.DeserializeObject<Request>(apiResponse);
+                }
+            }
+            return RedirectToAction("StationeryRequests", "StationeryRequests");
         }
 
     }

@@ -14,10 +14,10 @@ namespace LUSS_API.DB
 
            
            
-            Item item1 = new Item(); item1.ItemID = 1; item1.ItemName = "Clips Double 1''"; item1.UOM = "Dozen"; item1.ReStockQty = 30; item1.InStockQty = 60; item1.CategoryID = 2; item1.ItemCode = "C001"; item1.ReStockLevel = 50; item1.StoreItemLocation = "C";
-            Item item2 = new Item(); item2.ItemID = 2; item2.ItemName = "Clips Double 2''"; item2.UOM = "Dozen"; item2.ReStockQty = 30; item2.InStockQty = 60; item2.CategoryID = 2; item2.ItemCode = "C002"; item2.ReStockLevel = 50; item2.StoreItemLocation = "C";
+            Item item1 = new Item(); item1.ItemID = 1; item1.ItemName = "Clips Double 1''"; item1.UOM = "Dozen"; item1.ReStockQty = 30; item1.InStockQty = 30; item1.CategoryID = 2; item1.ItemCode = "C001"; item1.ReStockLevel = 50; item1.StoreItemLocation = "C";
+            Item item2 = new Item(); item2.ItemID = 2; item2.ItemName = "Clips Double 2''"; item2.UOM = "Dozen"; item2.ReStockQty = 30; item2.InStockQty = 20; item2.CategoryID = 2; item2.ItemCode = "C002"; item2.ReStockLevel = 50; item2.StoreItemLocation = "C";
             Item item3 = new Item(); item3.ItemID = 3; item3.ItemName = "Clips Double 3/4''"; item3.UOM = "Dozen"; item3.ReStockQty = 30; item3.InStockQty = 60; item3.CategoryID = 2; item3.ItemCode = "C003"; item3.ReStockLevel = 50; item3.StoreItemLocation = "C";
-            Item item4 = new Item(); item4.ItemID = 4; item4.ItemName = "Clips Paper Large"; item4.UOM = "Box"; item4.ReStockQty = 30; item4.InStockQty = 60; item4.CategoryID = 2; item4.ItemCode = "C004"; item4.ReStockLevel = 50; item4.StoreItemLocation = "C";
+            Item item4 = new Item(); item4.ItemID = 4; item4.ItemName = "Clips Paper Large"; item4.UOM = "Box"; item4.ReStockQty = 30; item4.InStockQty = 10; item4.CategoryID = 2; item4.ItemCode = "C004"; item4.ReStockLevel = 50; item4.StoreItemLocation = "C";
             Item item5 = new Item(); item5.ItemID = 5; item5.ItemName = "Clips Paper Medium "; item5.UOM = "Box"; item5.ReStockQty = 30; item5.InStockQty = 60; item5.CategoryID = 2; item5.ItemCode = "C005"; item5.ReStockLevel = 50; item5.StoreItemLocation = "C";
             Item item6 = new Item(); item6.ItemID = 6; item6.ItemName = "Clips Paper Small"; item6.UOM = "Box"; item6.ReStockQty = 30; item6.InStockQty = 60; item6.CategoryID = 2; item6.ItemCode = "C006"; item6.ReStockLevel = 50; item6.StoreItemLocation = "C";
             Item item7 = new Item(); item7.ItemID = 7; item7.ItemName = "Envelope Brown (3''x6'')"; item7.UOM = "Each"; item7.ReStockQty = 400; item7.InStockQty = 720; item7.CategoryID = 1; item7.ItemCode = "E001"; item7.ReStockLevel = 600; item7.StoreItemLocation = "E";

@@ -1,9 +1,10 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Index";
     var Items = (List<Item>)ViewData["items"];
     var Categories = (List<ItemCategory>)ViewData["itemCatList"];
+
 }
 
 
@@ -16,14 +17,15 @@
         </div>
         <div class="col-md-6 col-lg-6 d-flex">
             <div class="col-md-5 col-lg-5">
-                @Html.DropDownList("SelectedCategory", ((Categories)).Select(m => new SelectListItem { Text = m.CategoryName, Value = Convert.ToString(m.CategoryID) }),
-                new { @class = "btn btn-outline-info" , onchange=@"searchAtn()" })
+                @Html.DropDownList("SelectedCategory", (Categories).Select(m => new SelectListItem
+           { Text = m.CategoryName, Value = Convert.ToString(m.CategoryID) }),
+                new { @class = "btn btn-outline-info ddlCat", onchange = @"searchAtn()" })
             </div>
             <div class="col-md-5 col-lg-5">
-                <input type="text" class="form-control" id="search" name="search">
+                <input type="text" class="form-control" id="searchName" name="search">
             </div>
             <div class="col-md-2 col-lg-2">
-                <button type="button" onclick="searchAtn()" class="btn btn-outline-info rounded-btn">Search</button>
+                <button type="button" onclick="searchNameFn()" class="btn btn-outline-info rounded-btn">Search</button>
             </div>
         </div>
 
@@ -32,51 +34,56 @@
 @{
     <div class="row">
         <div class="col-12 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
+          
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
 
-                        <!-- item loop -->
-                        @foreach (var item in Items)
+                            <!-- item loop -->
+                            @foreach (var item in Items)
                             {
                                 string img = "/images/itemImgs/" + item.ItemCode + ".jpg";
+                                string qtyclassname = "qty" + item.ItemID;
+                                string itemname = "item" + item.ItemID;
                                 var maxQty = item.InStockQty;
-                        <div class="col-md-6 col-lg-3 mb-4">
-                            <div class="item-wrapper">
-                                <div class="position-relative item-img-wrapper">
-                                    <img src=@img alt="" class="img-fluid item-img">
-                                    <div class="caption-bg fade bg-transparent text-right">
-                                        <div class="d-table w-100 h-100 ">
-                                            <div class="d-table-cell align-bottom">
-                                                <div class="mb-3">
-                                                    <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                                </div>
-                                                <div class="mb-4">
-                                                    <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
+                                <div class="col-md-6 col-lg-3 mb-4">
+                                    <div class="item-wrapper">
+                                        <div class="position-relative item-img-wrapper">
+                                            <img src=@img alt="" class="img-fluid item-img">
+                                            <div class="caption-bg fade bg-transparent text-right">
+                                                <div class="d-table w-100 h-100 ">
+                                                    <div class="d-table-cell align-bottom">
+                                                        <div class="mb-3">
+                                                            <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="pt-3 item-desc-wrapper">
+                                            <p class="mb-2"><a href="#" class="font-weight-bold text-primary" id=@itemname>@item.ItemName</a></p>
+                                            
+                                            <div class="def-number-input number-input safari_only">
+                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                                                <input class=@qtyclassname min="1" max=@maxQty name="quantity" value="1" type="number">
+                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                            </div>
+                                            <div class="btn-group mb-2">
+                                                <button type="button" class="btn btn-outline-info rounded-btn" onclick="addToCart(@item.ItemID)">Add</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="pt-3 item-desc-wrapper">
-                                    <p class="mb-2"><a href="#" class="font-weight-bold text-primary">@item.ItemName</a></p>
-                                    <div class="def-number-input number-input safari_only">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                                        <input class="quantity" min="1" max=@maxQty name="quantity" value="1" type="number">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-                                    </div>
-                                    <div class="btn-group mb-2">
-                                        <button type="button" class="btn btn-outline-info rounded-btn">Add</button>
-                                    </div>
-                                </div>
-                            </div>
 
-                        </div>
+                                </div>
                             }
 
+                        </div>
                     </div>
                 </div>
-            </div>
+             
         </div>
     </div>
 
@@ -86,6 +93,60 @@
 @section Scripts{
 
     <script>
+       //setting auto default '0' inside Session
+        $(document).ready(function () {
+            var selectedCat = '@Context.Session.GetString("selectedCat")';
+
+            $(".ddlCat").val(selectedCat);
+
+            toastr.options = {
+                tapToDismiss: true,
+                toastClass: 'toast',
+                containerId: 'toast-container',
+                iconClass: 'toast-info',
+                positionClass: 'toast-top-right',
+                timeOut: 1000, // Set timeOut to 0 to make it sticky
+                titleClass: 'toast-title',
+                messageClass: 'toast-message'
+            }
+        });
+
+        var addToCart = function (id) {
+           
+            var itemId = id;          
+            var qty = $('.qty' + itemId).val();
+            var itemname = $('#item' + itemId).html();
+            console.log()
+             $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("AddToCart", "ItemList")',
+                    data: { itemId, qty },
+                     success: function (result) {
+                         $('.qty' + itemId).val(1);
+                         toastr["success"](itemname + " is successfully added to cart.");
+                        }
+                })
+        }
+        //get id and name from search bar using ajax
+        var searchNameFn = function () {
+            var name = $("#searchName").val();
+            var id = $("#SelectedCategory").val();
+            console.log(name);
+            console.log(id);
+            if (name) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("FindByCatIDAndName", "ItemList")',
+                    data: { id, name },
+                    success: function (result) {
+                        location.reload();
+                    }
+                })
+            } else {
+                searchAtn();
+            }
+        }
+        //get itemID from dropdownList
         var searchAtn = function() {
             var id = $("#SelectedCategory").val();
         $.ajax({
@@ -93,7 +154,7 @@
             url: '@Url.Action("FindByCat", "ItemList")',
             data: { id },
             success: function (result) {
-                location.reload(); 
+                location.reload();
             }
          })
      }

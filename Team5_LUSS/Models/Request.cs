@@ -18,6 +18,7 @@ namespace Team5_LUSS.Models
         [Required]
         public EOrderStatus RequestStatus { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0: MM/dd/yyyy}")]
         public DateTime RequestDate { get; set; }
 
         [Required]

@@ -17,20 +17,26 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> Index()
         {
             List<Item> itemList = new List<Item>();                       
-            List<ItemCategory> itemCatList = new List<ItemCategory>();   //for DropDownList
+            List<ItemCategory> itemCatList = new List<ItemCategory>();
+            ItemCategory defaultItem = new ItemCategory();
+            defaultItem.CategoryID = 0;
+            defaultItem.CategoryName = "All";
+            
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url + "ItemCategory"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     itemCatList = JsonConvert.DeserializeObject<List<ItemCategory>>(apiResponse);
+                    itemCatList.Add(defaultItem);
+                    itemCatList = itemCatList.OrderBy(o => o.CategoryName).ToList();
                 }
 
             }
 
             //check whether we have data inside Session first
-            //if null, we load full item images
-            if (HttpContext.Session.GetString("itemListSession") == null)
+            //if null, we load full item list
+            if (HttpContext.Session.GetString("itemListSession") == null || HttpContext.Session.GetString("selectedCat") == "0")
             {
                 using (var httpClient = new HttpClient())
                 {
@@ -38,6 +44,7 @@ namespace Team5_LUSS.Controllers
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         itemList = JsonConvert.DeserializeObject<List<Item>>(apiResponse);
+                        HttpContext.Session.SetString("selectedCat", "0");
                     }
 
 
@@ -45,7 +52,7 @@ namespace Team5_LUSS.Controllers
                
             }
 
-            //if not null, we will only show what is inside Session
+            //if not null, we will only show those item list what is inside Session
             else
             {
                 itemList = JsonConvert.DeserializeObject<List<Item>>(HttpContext.Session.GetString("itemListSession"));
@@ -73,6 +80,33 @@ namespace Team5_LUSS.Controllers
             ViewData["items"] = itemList;
             string itemListJson = Newtonsoft.Json.JsonConvert.SerializeObject(itemList);    //store Json string value inside Session
             HttpContext.Session.SetString("itemListSession", itemListJson);                 //set Session String as (key,value) format
+            HttpContext.Session.SetString("selectedCat", id.ToString()); ;
+            return RedirectToAction("Index");
+        }
+
+        //getting ID and ItemName from View by ajax
+        public async Task<IActionResult> FindByCatIDAndName(int id, string name)
+        {
+            List<Item> itemList = new List<Item>();
+            using (var httpClient = new HttpClient())
+            {
+                string str = api_url + "ItemList/" + "FindByCatTDAndCatName" + '/' + id + '/' + name;
+                using (var response = await httpClient.GetAsync(str))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    itemList = JsonConvert.DeserializeObject<List<Item>>(apiResponse);
+                }
+            }
+            ViewData["items"] = itemList;
+            string itemListJson = Newtonsoft.Json.JsonConvert.SerializeObject(itemList);    //store Json string value inside Session
+            HttpContext.Session.SetString("itemListSession", itemListJson);                 //set Session String as (key,value) format
+            HttpContext.Session.SetString("selectedCat", id.ToString()); ;
+            return RedirectToAction("Index");
+        }
+
+        //Add to Cart 
+        public IActionResult AddToCart(int itemId, string qty)
+        {
             return RedirectToAction("Index");
         }
 

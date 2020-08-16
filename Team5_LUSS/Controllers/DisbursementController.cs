@@ -58,7 +58,7 @@ namespace Team5_LUSS.Controllers
             ViewData["items"] = items;
             return View("Retrieval_Form");
         }
-    
+
 
         public async Task<IActionResult> View(int id)
         {
@@ -67,7 +67,7 @@ namespace Team5_LUSS.Controllers
             List<RequestDetails> reqItems = new List<RequestDetails>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + id))
+                using (var response = await httpClient.GetAsync(api_url + "get-request/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     request = JsonConvert.DeserializeObject<Request>(apiResponse);
@@ -79,7 +79,7 @@ namespace Team5_LUSS.Controllers
                     deptRep = JsonConvert.DeserializeObject<User>(apiResponse);
                 }
 
-                using (var response = await httpClient.GetAsync(api_url_requestDetails + id))
+                using (var response = await httpClient.GetAsync(api_url_requestDetails + "get-by-request/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
@@ -91,9 +91,42 @@ namespace Team5_LUSS.Controllers
             return View("Disbursement_Form_View");
         }
 
-        //public ViewResult CreateByRequest() => View("Disbursement_Form_Create");
 
+        public async Task<IActionResult> Create(int id)
+        {
+            Request request = new Request();
+            User deptRep = new User();
+            List<RequestDetails> reqItems = new List<RequestDetails>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url + "get-request/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    request = JsonConvert.DeserializeObject<Request>(apiResponse);
+                }
 
+                using (var response = await httpClient.GetAsync(api_url_user + "get-representative/" + request.RequestByUser.DepartmentID))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    deptRep = JsonConvert.DeserializeObject<User>(apiResponse);
+                }
 
+                using (var response = await httpClient.GetAsync(api_url_requestDetails + "get-by-request/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
+                }
+            }
+            ViewData["request"] = request;
+            ViewData["deptRep"] = deptRep;
+            ViewData["reqItems"] = reqItems;
+            return View("Disbursement_Form_Create");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(List<int> fulfillQty, List<String> itemID, DateTime collectionTime)
+        {
+            return RedirectToAction("View");
+        }
     }
 }

@@ -365,6 +365,7 @@ File: Main Style
     right: 18px;
     font-weight: 300;
     padding: 3px 6px;
+    display: none;
 }
 
 #header-fix .ring {

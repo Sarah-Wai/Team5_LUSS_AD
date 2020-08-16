@@ -72,7 +72,7 @@ namespace Team5_LUSS.Controllers
                 //if (userDetails.Role == "sales")
                 if (userDetails.Department.DepartmentName == "sales")
                 {
-                    return RedirectToAction("Sales", "Dashboard");
+                    return RedirectToAction("Dashboard", "Dashboard");
                 }
                 else
                 {

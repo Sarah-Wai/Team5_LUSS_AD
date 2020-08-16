@@ -6,7 +6,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Team5_LUSS.Models;
 
@@ -17,6 +19,7 @@ namespace Team5_LUSS.Controllers
     {
 
         string api_url = "https://localhost:44312/CollectionPoint";
+        string api_url_rqst = "https://localhost:44312/Request";
         public async Task<IActionResult> collectionPoints()
         {
             //Get All the Collection Points
@@ -25,7 +28,7 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url))  
+                using (var response = await httpClient.GetAsync(api_url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     collectionPointInfo = JsonConvert.DeserializeObject<List<CollectionPoint>>(apiResponse);
@@ -55,14 +58,14 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> collectionPoints(int deptID, int cpID)
         {
-           
+
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url + "/" + deptID + "/" + cpID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                 }
-                
+
             }
             return RedirectToAction("collectionPoints");
         }
@@ -70,7 +73,31 @@ namespace Team5_LUSS.Controllers
 
         public async Task<IActionResult> collectionList()
         {
+            List<dynamic> pd_collectionList = new List<dynamic>();
+            string status = "PendingDelivery";
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + status))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    pd_collectionList = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
+                }
+            }
+
+            //TODO:
+            DateTime date = pd_collectionList.Select(x => x.collectionTime).First();
+            string fm_date = date.ToString("MMMM dd, yyyy");
+            ViewData["collectionTime"] = fm_date;
+            
+            //TODO: filter pd_requestList by department 
+            //TODO: pass User-Dept-Collectionpoint 
+            //ViewData["sessionUser"] 
+            ViewData["collectionRequest"] = pd_collectionList;
             return View();
         }
+
+
     }
 }
+
+

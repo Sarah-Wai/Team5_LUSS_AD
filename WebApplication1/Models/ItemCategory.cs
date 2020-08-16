@@ -17,5 +17,6 @@ namespace LUSS_API.Models
         [Required]
         [MaxLength(50)]
         public string CategoryName  { get; set; }
-}
+        public virtual ICollection<Item> Items { get; set; }
+    }
 }

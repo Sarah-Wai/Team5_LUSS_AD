@@ -22,17 +22,16 @@ namespace LUSS_API.Models
        
         [Required]
         public int RequestBy { get; set; }
-        [Required]
+        //[Required]
         public int ModifiedBy   { get; set; }
         [MaxLength(50)]
         public string Comment   { get; set; }
         [MaxLength(50)]
         public ERequestType RequestType { get; set; }
         public int? ParentRequestID { get; set; }
-        [Required]
         public DateTime CollectionTime { get; set; }
         public virtual User ModifiedByUser { get; set; }
         public virtual User RequestByUser { get; set; }
-       // public virtual ICollection<RequestDetails> RequestDetails { get; set; }
+        public virtual ICollection<RequestDetails> RequestDetails { get; set; }
     }
 }

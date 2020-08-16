@@ -17,7 +17,8 @@
     <div class="row ">
         <div class="col-12  align-self-center">
             <div class="btn-group mb-2">
-                <button type="button" class="btn btn-primary">New Adjustment Voucher</button>
+                <a asp-action="" asp-controller="" class="btn btn-primary">New Adjustment Voucher </a>
+                @*<button type="button" class="btn btn-primary">New Adjustment Voucher</button>*@
             </div>
         </div>
     </div>
@@ -42,7 +43,7 @@
                                             <p class="mb-0 small">Submitted Date: </p>
                                             <p class="invoice-no">@adj.IssuedDate</p>
                                         </div>
-                                        
+
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Voucher No:</p>
                                             <p class="cliname">@adj.VoucherNo</p>
@@ -52,7 +53,7 @@
                                             <p class="invocie-date">@adj.Status</p>
                                         </div>
                                         <div class="btn-group mb-2">
-                                            <a>(<button type="button" class="btn btn-primary">Details</button></a>
+                                            <a asp-action="GetAdjustmentVoucherById" asp-route-id="@adj.AdjustmentID" class="btn btn-primary">Details </a>
                                         </div>
                                     </div>
                                 </div>

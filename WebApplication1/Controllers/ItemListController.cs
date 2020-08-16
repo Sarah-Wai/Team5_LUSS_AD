@@ -45,7 +45,16 @@ namespace LUSS_API.Controllers
         [Route("GetItemListByCategoryID/{id}")]
         public IEnumerable<Item> GetItemListByCategoryID(int id)
         {
-            IEnumerable<Item> itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();
+            List<Item> itemList = new List<Item>();
+            if (id == 0)
+            {
+                itemList = context123.Item.ToList();
+            }
+            else
+            {
+                itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();
+            }
+            
             return itemList;
         }
 
@@ -57,9 +66,21 @@ namespace LUSS_API.Controllers
             List<Item> itemList = new List<Item>();
             if (id == 0)
             {
-                 itemList = context123.Item.Where(x => x.ItemName.Contains(name)).ToList();
+                if (!String.IsNullOrEmpty(name))
+                {
+                    itemList = context123.Item.Where(x => x.ItemName.Contains(name)).ToList();
+                }
+                else
+                {
+                    itemList = context123.Item.ToList();
+                }
+                
             }
-            itemList = context123.Item.Where(x => x.CategoryID.Equals(id) && x.ItemName.Contains(name)).ToList();
+            else
+            {
+                itemList = context123.Item.Where(x => x.CategoryID.Equals(id) && x.ItemName.Contains(name)).ToList();
+            }
+           
             return itemList;
         }
 

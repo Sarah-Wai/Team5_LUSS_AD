@@ -111,7 +111,7 @@
                 messageClass: 'toast-message'
             }
 
-            
+
         });
 
         var addToCart = function (id) {
@@ -127,8 +127,10 @@
                      success: function (result) {
                          $('.qty' + itemId).val(1);
                          toastr["success"](itemname + " is successfully added to cart.");
-                        
-                         $("#cartpartial").load('ItemList/PartialViewCart');
+                         var url = '@Url.Action("PartialViewCart","ItemList")';
+                         $("#cartpartial").load(url);
+
+                        // $("#cartpartial").load('ItemList/PartialViewCart');
                         }
                 })
         }

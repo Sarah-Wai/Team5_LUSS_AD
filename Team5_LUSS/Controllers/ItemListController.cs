@@ -39,7 +39,7 @@ namespace Team5_LUSS.Controllers
 
             //check whether we have data inside Session first
             //if null or CategoryID '0', we load full item list
-            if (HttpContext.Session.GetString("itemListSession") == null || HttpContext.Session.GetString("selectedCat") == "0")
+            if (HttpContext.Session.GetString("itemListSession") == null || (HttpContext.Session.GetString("selectedCat") == "0" && HttpContext.Session.GetString("itemListSession") == null))
             {
                 using (var httpClient = new HttpClient())
                 {
@@ -51,10 +51,10 @@ namespace Team5_LUSS.Controllers
                     }
                 }           
             }
-
             //if not null, we will only show those items list which is inside Session
             else
             {
+
                 itemList = JsonConvert.DeserializeObject<List<Item>>(HttpContext.Session.GetString("itemListSession"));
             }
             ViewData["items"] = itemList;

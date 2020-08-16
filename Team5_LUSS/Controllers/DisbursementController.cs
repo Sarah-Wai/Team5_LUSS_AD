@@ -58,7 +58,7 @@ namespace Team5_LUSS.Controllers
             ViewData["items"] = items;
             return View("Retrieval_Form");
         }
-    
+
 
         public async Task<IActionResult> View(int id)
         {
@@ -91,7 +91,7 @@ namespace Team5_LUSS.Controllers
             return View("Disbursement_Form_View");
         }
 
-        
+
         public async Task<IActionResult> Create(int id)
         {
             Request request = new Request();
@@ -99,7 +99,7 @@ namespace Team5_LUSS.Controllers
             List<RequestDetails> reqItems = new List<RequestDetails>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+ "get-request/" + id))
+                using (var response = await httpClient.GetAsync(api_url + "get-request/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     request = JsonConvert.DeserializeObject<Request>(apiResponse);
@@ -123,6 +123,10 @@ namespace Team5_LUSS.Controllers
             return View("Disbursement_Form_Create");
         }
 
-
+        [HttpPost]
+        public async Task<IActionResult> Create(List<int> fulfillQty, List<String> itemID, DateTime collectionTime)
+        {
+            return RedirectToAction("View");
+        }
     }
 }

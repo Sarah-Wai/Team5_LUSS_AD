@@ -1,5 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<dynamic> collectionList = (List<dynamic>)ViewData["collectionRequest"];
+    var collectionTime = ViewData["collectionTime"];
 }
 
 
@@ -28,20 +30,17 @@
                                         <th scope="col">Accpt Qty</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">00001</th>
-                                        <td>Pen</td>
-                                        <td>30</td>
-                                        <td><input type="number" class="form-control" value="30" max="" min=""></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">00002</th>
-                                        <td>Clip Clip</td>
-                                        <td>20</td>
-                                        <td><input type="number" class="form-control" value="18" max="" min=""></td>
-                                    </tr>
-                                </tbody>
+                                @foreach (var r in collectionList)
+                                {
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">@r.itemCode</th>
+                                            <td>@r.itemName</td>
+                                            <td>@r.totalQty</td>
+                                            <td><input type="number" class="form-control" value="@r.totalQty" max="@r.totalQty" min="0" name="ReceivedQty"></td>
+                                        </tr>
+                                    </tbody>
+                                }
                             </table>
                         </div>
                     </div>
@@ -58,7 +57,7 @@
         <div class="card text-white bg-info">
             <div class="card-body">
                 <h5 class="card-title">Upcoming Collection</h5>
-                <p class="card-text">Time: 2020-08-08</p>
+                <p class="card-text">Time:@collectionTime</p>
                 <p class="card-text">Location: Behind the Tree</p>
             </div>
         </div>
@@ -90,50 +89,34 @@
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editinvoice">Collect</button>
                     </div>
                     <div class="invoices list">
+
+
+                       @foreach (var r in collectionList)
+                        {
                         <div class="invoice">
                             <div class="invoice-content">
                                 <div class="invoice-info">
                                     <p class="mb-0 small">Item Code</p>
-                                    <p class="invoice-no">000001</p>
+                                    <p class="invoice-no">@r.itemCode</p>
                                 </div>
                                 <div class="invoice-info">
                                     <p class="mb-0 small">Item Name</p>
-                                    <p class="cliname">Pen</p>
+                                    <p class="cliname">@r.itemName</p>
                                 </div>
                                 <div class="invoice-info">
                                     <p class="mb-0 small">Unit</p>
-                                    <p class="invocie-date">1 box</p>
+                                    <p class="invocie-date">@r.itemUOM</p>
                                 </div>
                                 <div class="invoice-info">
                                     <p class="mb-0 small">Requested Quantity</p>
-                                    <p class="invoice-due-date">20</p>
+                                    <p class="invoice-due-date">@r.totalQty</p>
                                 </div>
-                                <div class="line-h-1 h5">
+                                <div class="invoice-info">
+
                                 </div>
                             </div>
                         </div>
-                        <div class="invoice pending-invoice">
-                            <div class="invoice-content">
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Item Code</p>
-                                    <p class="invoice-no">000003</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Item Name</p>
-                                    <p class="cliname">Clip Clip Clip</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Unit</p>
-                                    <p class="invocie-date">100 p</p>
-                                </div>
-                                <div class="invoice-info">
-                                    <p class="mb-0 small">Requested Quantity</p>
-                                    <p class="invoice-due-date">30</p>
-                                </div>
-                                <div class="line-h-1 h5">
-                                </div>
-                            </div>
-                        </div>
+                        }                            
                     </div>
                 </div>
             </div>

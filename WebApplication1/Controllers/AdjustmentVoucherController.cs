@@ -35,7 +35,7 @@ namespace LUSS_API.Controllers
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucherByRequestor(int id)
         {
             List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher
-                .Where(x => x.RequestBy.UserID == id).ToList();
+                .Where(x => x.RequestByID == id).ToList();
             return adjustments;
         }
 

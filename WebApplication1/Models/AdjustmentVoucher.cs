@@ -35,16 +35,16 @@ namespace LUSS_API.Models
         public string Reason { get; set; }
         [Required]
         public int ItemID { get; set; }
-       
-        //public int ApprovedByID { get; set; }
 
-        //public int RequestByID { get; set; }
+        public int ApprovedByID { get; set; }
 
-        [ForeignKey("RequestByID")]
-        public virtual User RequestBy { get; set; }
+        public int RequestByID { get; set; }
 
-        [ForeignKey("ApprovedByID")]
-        public virtual User ApprovedBy { get; set; }
+        //[ForeignKey("RequestByID")]
+        public virtual User RequestedByUser { get; set; }
+
+        //[ForeignKey("ApprovedByID")]
+        public virtual User ApprovedByUser { get; set; }
         public virtual Item Item { get; set; }
     }
 }

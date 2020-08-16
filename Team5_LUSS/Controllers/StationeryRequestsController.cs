@@ -34,8 +34,8 @@ namespace Team5_LUSS.Controllers
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                 }
             }
-            //result = new JsonResult(requests);
-            ViewData["requests"] = requests;
+            result = new JsonResult(requests);
+            // ViewData["requests"] = requests;
             return result;
         }
 

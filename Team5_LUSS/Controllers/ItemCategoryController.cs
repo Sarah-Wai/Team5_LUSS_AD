@@ -12,16 +12,16 @@ namespace Team5_LUSS.Controllers
 {
     public class ItemCategoryController : Controller
     {
-        string api_url = "https://localhost:44312/ItemCategory";
+        string api_url = "https://localhost:44312/ItemCategory"; // connect to API project Controller class
         public async Task<IActionResult> ItemCategory()
         {
-            List<ItemCategory> catList = new List<ItemCategory>();
+            List<ItemCategory> catList = new List<ItemCategory>(); // create a new list with objects of "ItemCatergory"
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url))
+                using (var response = await httpClient.GetAsync(api_url)) // connect to call api
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    catList = JsonConvert.DeserializeObject<List<ItemCategory>>(apiResponse);
+                    catList = JsonConvert.DeserializeObject<List<ItemCategory>>(apiResponse); // convert the packets from https link to the object
                 }
             }
             ViewData["products"] = catList;

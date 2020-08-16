@@ -38,7 +38,6 @@ namespace LUSS_API.Controllers
             return purchase;
         }
 
-        
         [HttpPost]
         public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po)
         {
@@ -46,18 +45,6 @@ namespace LUSS_API.Controllers
             await context123.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPurchaseOrderById), po);
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

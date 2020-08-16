@@ -62,6 +62,15 @@ namespace LUSS_API.Controllers
             return itemList;
         }
 
+
+        //get low stock item list
+        [HttpGet("get-low-stock-items")]
+        public IEnumerable<Item> GetLowStockItems()
+        {
+            List<Item> items = context123.Item.Where(x => x.InStockQty < x.ReStockLevel).ToList();
+            return items;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Item>> SaveItem(Item item)
         {

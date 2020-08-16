@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
@@ -38,6 +39,15 @@ namespace LUSS_API.Controllers
             int price = itemPrice.Price;
             
             return price; 
+        }
+
+        //get supplier list by item
+        [HttpGet("get-supplier-by-item/{id}")]
+        public List<Supplier> GetSupplierByItem(int id)
+        {
+            List<ItemPrice> itemPriceList = context123.ItemPrice.Where(x => x.ItemID == id).ToList();
+            List<Supplier> suppliers = itemPriceList.Select(x => x.Supplier).ToList();
+            return suppliers;
         }
 
         // POST api/<controller>

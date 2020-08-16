@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Team5_LUSS.Models.ViewModels;
+@{
+    List<AddToCartItem> cartItems = new List<AddToCartItem>();
+    if (@Context.Session.GetString("addedItemSession") != null)
+    {
+        cartItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<AddToCartItem>>(@Context.Session.GetString("addedItemSession"));
+    }
+
+}
+    <li class="dropdown align-self-center">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-expanded="false">
+            <i class="icon-basket h4"></i>
+            <span class="badge badge-default">
+                <span class="ring">
+                </span><span class="ring-point">
+                </span>
+            </span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right border  py-0">
+            @if (@Context.Session.GetString("addedItemSession") != null)
+            {
+                foreach (var item in cartItems)
+                {
+                    string img = "/images/itemImgs/" + item.ItemCode + ".jpg";
+                    <li>
+                        <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
+                            <div class="media">
+                                <img src=@img alt="" class="d-flex mr-3 img-fluid rounded-circle">
+                                <div class="media-body">
+                                    <p class="mb-0">@item.ItemName</p>
+                                    <span class="text-success">Quantity : @item.SelectedQty</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                }
+                <li><a class="dropdown-item text-center py-2" href="#">View Cart<i class="icon-arrow-right pl-2 small"></i></a></li>
+            }
+            else
+            {
+                <li><a class="dropdown-item text-center py-2" href="#">No item in cart.<i class="icon-arrow-right pl-2 small"></i></a></li>
+            }
+
+
+
+
+        </ul>
+
+    </li>

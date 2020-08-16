@@ -49,6 +49,7 @@ namespace LUSS_API.Controllers
             return itemList;
         }
 
+        //for search function
         [HttpGet("{id}/{name}")]
         [Route("FindByCatTDAndCatName/{id}/{name}")]
         public IEnumerable<Item> FindByCatTDAndCatName(int id, string name)
@@ -62,7 +63,6 @@ namespace LUSS_API.Controllers
             return itemList;
         }
 
-
         //get low stock item list
         [HttpGet("get-low-stock-items")]
         public IEnumerable<Item> GetLowStockItems()
@@ -71,23 +71,6 @@ namespace LUSS_API.Controllers
             return items;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Item>> SaveItem(Item item)
-        {
-            context123.Item.Add(item);
-            await context123.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetAllItems), item);
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            Item item = (from i in context123.Item
-                         where i.ItemID == id
-                         select i).FirstOrDefault();
-            context123.Item.Remove(item);
-            context123.SaveChanges();
-        }
+        
     }
 }

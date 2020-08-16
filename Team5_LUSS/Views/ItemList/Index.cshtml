@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http;
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Index";
@@ -105,15 +106,17 @@
                 containerId: 'toast-container',
                 iconClass: 'toast-info',
                 positionClass: 'toast-top-right',
-                timeOut: 1000, // Set timeOut to 0 to make it sticky
+                timeOut: 500, // Set timeOut to 0 to make it sticky
                 titleClass: 'toast-title',
                 messageClass: 'toast-message'
             }
+
+            
         });
 
         var addToCart = function (id) {
-           
-            var itemId = id;          
+
+            var itemId = id;
             var qty = $('.qty' + itemId).val();
             var itemname = $('#item' + itemId).html();
             console.log()
@@ -124,6 +127,8 @@
                      success: function (result) {
                          $('.qty' + itemId).val(1);
                          toastr["success"](itemname + " is successfully added to cart.");
+                        
+                         $("#cartpartial").load('ItemList/PartialViewCart');
                         }
                 })
         }
@@ -137,6 +142,7 @@
                 $.ajax({
                     type: "GET",
                     url: '@Url.Action("FindByCatIDAndName", "ItemList")',
+                    contentType: 'application/json',
                     data: { id, name },
                     success: function (result) {
                         location.reload();
@@ -152,6 +158,7 @@
         $.ajax({
             type: "GET",
             url: '@Url.Action("FindByCat", "ItemList")',
+            contentType: 'application/json',
             data: { id },
             success: function (result) {
                 location.reload();

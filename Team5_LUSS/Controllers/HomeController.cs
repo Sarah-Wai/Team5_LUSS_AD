@@ -20,73 +20,73 @@ namespace Team5_LUSS.Controllers
         List<User> Users = new List<User>();
 
 
-        string api_url = "https://localhost:44312/ItemCategory"; // connect to API project Controller class
-        public async Task<IActionResult> ItemCategory()
+        string api_url = "https://localhost:44312/Login"; // connect to API project Controller class
+        public async Task<IActionResult> Login(string Email, string Password)
         {
-            List<User> Users = new List<User>(); // create a new list with objects of "ItemCatergory"
+            User  login_user = new User(); // create a new objects of "User"
+            string Hword = Password;    // string Hword = Encrypt(Password);    Change Later
+            string action_name = "";string controller_name = "";
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url)) // connect to call api
+                using (var response = await httpClient.GetAsync(api_url+"/"+Email+"/"+ Hword)) // connect to call api
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    Users = JsonConvert.DeserializeObject<List<User>>(apiResponse); // convert the packets from https link to the object
+                    login_user = JsonConvert.DeserializeObject<User>(apiResponse); // convert the packets from https link to the object
+                }
+                if (login_user == null)
+                {
+                    //userModel.LoginErrorMessage = "Wrong Credentials.";
+                    TempData["Alert"] = "Login Failed";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                else
+                {
+                    ViewData["User"] = login_user;
+                    HttpContext.Session.SetString("Email", Email);
+                    HttpContext.Session.SetInt32("UserID", login_user.UserID);
+                    TempData["Alert"] = "Login Successful";
+
+
+                    //if (HttpContext.Session.GetString("cartHistoryList") != null && HttpContext.Session.GetString("cartHistoryList") != "")
+                    //if (userDetails.Role == "sales")
+                    //store_clerk / store_supervisor / store_manager /  dept_employee / dept_rep / dept_delegate / dept_head
+                    if (login_user.Department.DepartmentName == "store")
+                    {
+                        switch (login_user.Role)
+                        {
+                            case "store_clerk": action_name = "Index"; controller_name = "ItemList"; break;
+                            case "store_supervisor": action_name = "Dashboard"; controller_name = "Dashboard"; break;
+                            case "store_manager": action_name = "Dashboard"; controller_name = "Dashboard"; break;  ;
+                        }
+                        return RedirectToAction("Dashboard", "Dashboard");
+                    }
+                    else
+                    {
+                        switch (login_user.Role)
+                        {
+                            case "dept_employee": action_name = "Index";controller_name = "ItemList"; break;
+                            case "dept_head": action_name = "Dashboard"; controller_name = "Dashboard"; break;
+                                //case "dept_delegate": break;
+                        }
+                        
+                    }
+                    return RedirectToAction(action_name, controller_name);
                 }
             }
-            
-            ViewData["Users"] = Users;
-            return View();
-
         }
 
 
         private readonly ILogger<HomeController> _logger;
-
-        
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Login(string Email, string Password)
-        {
-            string Hword = Encrypt(Password);
-
-            var userDetails = Users.Where(x => x.Email == Email && x.Password == Hword).FirstOrDefault();
-            if (userDetails == null)
-            {
-                //userModel.LoginErrorMessage = "Wrong Credentials.";
-                TempData["Alert"] = "Login Failed";
-                return RedirectToAction("Index", "Home");
-            }
-
-             else
-            {
-                //Session["userID"] = userDetails.Email;
-                HttpContext.Session.SetString("Email", Email);
-                HttpContext.Session.SetInt32("UserID", userDetails.UserID);
-                TempData["Alert"] = "Login Successful";
-
-                
-                //if (HttpContext.Session.GetString("cartHistoryList") != null && HttpContext.Session.GetString("cartHistoryList") != "")
-                //if (userDetails.Role == "sales")
-                if (userDetails.Department.DepartmentName == "sales")
-                {
-                    return RedirectToAction("Dashboard", "Dashboard");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-
-        }
-
-
         public IActionResult Index()
         {
-           // return View();
-           return RedirectToAction("Dashboard", "Dashboard");
+            return View();
+           
         }
 
         public IActionResult Privacy()

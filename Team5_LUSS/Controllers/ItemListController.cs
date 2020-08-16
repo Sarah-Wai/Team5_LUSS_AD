@@ -29,7 +29,7 @@ namespace Team5_LUSS.Controllers
             }
 
             //check whether we have data inside Session first
-            //if null, we load full item images
+            //if null, we load full item list
             if (HttpContext.Session.GetString("itemListSession") == null)
             {
                 using (var httpClient = new HttpClient())
@@ -45,7 +45,7 @@ namespace Team5_LUSS.Controllers
                
             }
 
-            //if not null, we will only show what is inside Session
+            //if not null, we will only show those item list what is inside Session
             else
             {
                 itemList = JsonConvert.DeserializeObject<List<Item>>(HttpContext.Session.GetString("itemListSession"));

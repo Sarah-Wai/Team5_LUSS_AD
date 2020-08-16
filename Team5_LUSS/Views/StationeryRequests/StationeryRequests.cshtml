@@ -1,97 +1,165 @@
-﻿
+﻿@{
 
-    @{
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        var requests = (List<Request>)ViewData["Requests"];
-    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var requests = (List<Request>)ViewData["Requests"];
+    var status = "";
+}
+@model Request
+<!-- START: Breadcrumbs-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link href="~/js/System/StationeryRequests/RequestStyle.css" rel="stylesheet" />
+<div class="row ">
+    <div class="col-12  align-self-center">
+        <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+            <div class="w-sm-100 mr-auto"><h4 class="mb-0">App request List</h4></div>
 
-    <!-- START: Breadcrumbs-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <div class="row ">
-        <div class="col-12  align-self-center">
-            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0">App Invoice List</h4></div>
-
-                <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
-                    <li class="breadcrumb-item">Home</li>
-                    <li class="breadcrumb-item">App</li>
-                    <li class="breadcrumb-item active"><a href="#">Invoice List</a></li>
-                </ol>
-            </div>
+            <ol class="breadcrumb bg-transparent align-self-center m-0 p-0">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item">App</li>
+                <li class="breadcrumb-item active"><a href="#">request List</a></li>
+            </ol>
         </div>
     </div>
-    <!-- END: Breadcrumbs-->
-    <!-- Edit Invoice -->
-    <div class="modal fade" id="editinvoice">
+</div>
+<!-- END: Breadcrumbs-->
+<!-- Edit request -->
+@foreach (Request c in requests)
+{
+    <div class="modal fade" id="editrequest_@c.RequestID">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="icon-pencil"></i> Edit Invoice
+                        <i class="icon-pencil"></i> Edit request
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="icon-close"></i>
                     </button>
                 </div>
-                <form class="edit-invoice-form">
-                    <div class="modal-body">
+                
+                    <form class="edit-request-form" method="post" asp-action="ApproveRequestByDepHead">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="hidden" name="hidRequestID" value="@c.RequestID" />
+                                    <div class="row">
+                                        <label for="requestID" class="col-sm-4 col-form-label">Request ID :</label>
+                                        <label for="requestID" class="col-sm-4 col-form-label"><span id="lblRequestID_@c.RequestID">@c.RequestID</span></label>
 
-                        <div class="form-group">
-                            <label for="due-date" class="col-form-label">Due Date</label>
-                            <input type="text" id="due-date" class="form-control" required="">
+                                    </div>
+                                    <div class="row">
+                                        <label for="requestBy" class="col-sm-4 col-form-label">Request By :</label>
+                                        <label for="requestBy" class="col-sm-4 col-form-label"><span id="lblRequestBy_@c.RequestID">@c.RequestID</span></label>
+                                    </div>
+                                    <div class="row">
+                                        <label for="status" class="col-sm-4 col-form-label">Status :</label>
+                                        <label for="status" class="col-sm-4 col-form-label"><span id="lblStatus_@c.RequestID">@c.RequestStatus</span></label>
+
+                                    </div>
+                                    <div class="row">
+                                        <label for="updataBy" class="col-sm-4 col-form-label">Update By :</label>
+                                        <label for="updataBy" class="col-sm-4 col-form-label"><span id="lblUpdateBy_@c.RequestID">@c.ModifiedByUser.FirstName  @c.ModifiedByUser.LastName</span></label>
+
+                                    </div>
+                                    <div class="row">
+                                        <label for="username" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <div class="table-responsive">
+                                                <table class="table layout-secondary">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">ItemName</th>
+                                                            <th scope="col">UOM</th>
+                                                            <th scope="col">Request Qty</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="requestItem">
+                                                        @foreach (RequestDetails d in c.RequestDetails)
+                                                        {
+                                                            <tr>
+                                                                <th scope="row">@d.Item.ItemName</th>
+                                                                <td>@d.Item.UOM</td>
+                                                                <td>@d.ReceivedQty</td>
+
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label for="username" class="col-sm-2 col-form-label">Comment</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" name="comment" id="txtComment" placeholder="Comment....">@c.Comment</textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
+                        <div class="modal-footer">
 
-                        <div class="form-group">
-                            <label for="status" class="col-form-label">Status</label>
-                            <select class="form-control" id="status">
-                                <option value="generated-invoice">Generated</option>
-                                <option value="paid-invoice">Paid</option>
-                                <option value="pending-invoice">Pending</option>
-                                <option value="canceled-invoice">Canceled</option>
-                            </select>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Sign in</button>
+                                <button type="submit" class="btn btn-outline-warning">Reset</button>
+                            </div>
+
                         </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" id="edit-date">
-                        <button type="submit" class="btn btn-primary add-todo">Update</button>
-                    </div>
-                </form>
+                    </form>
             </div>
         </div>
     </div>
+}
 
 
     <!-- START: Card Data-->
     <div class="row row-eq-height">
         <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
             <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
-            <div class="card border h-100 invoice-menu-section">
+            <div class="card border h-100 request-menu-section">
 
-                <ul class="nav flex-column invoice-menu">
+                <ul class="nav flex-column request-menu">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" data-invoicetype="invoice">
+                        <a class="nav-link active" href="#" data-requesttype="request">
                             <i class="fas fa-list-alt"></i> All
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-invoicetype="0">
+                        <a class="nav-link" href="#" data-requesttype="pending-request">
                             <i class="fas fa-money-check-alt"></i> Pending
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-invoicetype="1">
+                        <a class="nav-link" href="#" data-requesttype="approved-request">
                             <i class="far fa-money-bill-alt"></i> Approved
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-invoicetype="2">
+                        <a class="nav-link" href="#" data-requesttype="rejected-request">
                             <i class="far fa-window-close"></i> Rejected
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-invoicetype="3">
+                        <a class="nav-link" href="#" data-requesttype="packed-request">
+                            <i class="far fa-window-close"></i> Packed
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-requesttype="pendingDelivery-request">
+                            <i class="far fa-window-close"></i> PendingDelivery
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-requesttype="received-request">
+                            <i class="far fa-window-close"></i> Received
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-requesttype="completed-request">
                             <i class="far fa-window-close"></i> Completed
                         </a>
                     </li>
@@ -101,357 +169,64 @@
             </div>
         </div>
         <div class="col-12 col-lg-10 mt-3 pl-lg-0">
-            <div class="card border h-100 invoice-list-section">
-
-                <div class="view-invoice">
-                    <div class="row">
-                        <div class="col-12 col-md-12">
-                            <div class="card border-0">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white back-to-invoice">
-                                        Back
-                                    </a><h4 class="card-title">Invoice# <span class="inv-no"></span></h4>
-                                </div>
-                                <div class="card-body table-responsive">
-                                    <table class="table table-borderless">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <address>
-                                                        <strong>Your Store</strong><br>
-                                                        2940 Rainbow Road Alhambra, CA 91801 California
-                                                    </address>
-                                                    <b>Telephone:</b> 123456789<br>
-                                                    <b>E-Mail:</b> demo@demo.com<br>
-                                                    <b>Web Site:</b> <a href="#">http://abc.com</a>
-                                                </td>
-                                                <td>
-                                                    <b>Date Added:</b> 26/09/2016<br>
-                                                    <b>Order ID:</b> 3135<br>
-                                                    <b>Payment Method:</b> Cash On Delivery<br>
-                                                    <b>Shipping Method:</b> Flat Shipping Rate<br>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-12">
-                            <div class="card border-0">
-                                <div class="card-body table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td style="width: 50%;"><b>To</b></td>
-                                                <td style="width: 50%;"><b>Ship To (if different address)</b></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <address>
-                                                        2940  Rainbow Road<br>Alhambra, CA<br>91801 California
-                                                    </address>
-                                                </td>
-                                                <td>
-                                                    <address>
-                                                        1424  Brown Avenue<br>Knoxville, TN<br>91801 Tennessee
-                                                    </address>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-12">
-                            <div class="card border-0">
-                                <div class="card-body table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td><b>Product</b></td>
-                                                <td><b>Model</b></td>
-                                                <td class="text-right"><b>Quantity</b></td>
-                                                <td class="text-right"><b>Unit Price</b></td>
-                                                <td class="text-right"><b>Total</b></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    HP LP3065 <br>
-                                                    &nbsp;<small> - Delivery Date: 2011-04-22</small>
-                                                </td>
-                                                <td>Product 21</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$122.00</td>
-                                                <td class="text-right">$122.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right" colspan="4"><b>Sub-Total</b></td>
-                                                <td class="text-right">$100.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right" colspan="4"><b>Flat Shipping Rate</b></td>
-                                                <td class="text-right">$5.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right" colspan="4"><b>Eco Tax (-2.00)</b></td>
-                                                <td class="text-right">$4.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right" colspan="4"><b>VAT (20%)</b></td>
-                                                <td class="text-right">$21.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-right" colspan="4"><b>Total</b></td>
-                                                <td class="text-right">$130.00</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-12">
-                            <div class="card redial-border-light redial-shadow">
-                                <div class="card-body table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td><b>Comment</b></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>This is comment section</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
+            <div class="card border h-100 request-list-section">
                 <div class="card-header border-bottom p-1 d-flex">
                     <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
-                    <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
+                    <input type="text" class="form-control border-0 p-2 w-100 h-100 request-search" placeholder="Search ...">
                 </div>
                 <div class="card-body p-0">
-                    <div class="invoices list">
-                        @*@foreach (var c in requests)
+                    <div class="requests list">
+
+                        @foreach (Request c in requests)
                         {
-                            <div class="invoice">
-                                <div class="invoice-content  @c.RequestStatus" data-status="generated-invoice">
-                                    <div class="invoice-info">
+                            @switch (c.RequestStatus)
+                            {
+                                case Status.EOrderStatus.Pending: status = "pending-request"; break;
+                                case Status.EOrderStatus.Approved: status = "approved-request"; break;
+                                case Status.EOrderStatus.Rejected: status = "rejected-request"; break;
+                                case Status.EOrderStatus.Packed: status = "packed-request"; break;
+                                case Status.EOrderStatus.PendingDelivery: status = "pendingDelivery-request"; break;
+                                case Status.EOrderStatus.Received: status = "received-request"; break;
+                                case Status.EOrderStatus.Completed: status = "completed-request"; break;
+                            }
+                            <div class="request @status">
+                                <div class="request-content  @status" data-status=@status>
+                                    <div class="request-info">
                                         <p class="mb-0 small">ID: </p>
-                                        <p class="invoice-no">@c.RequestID</p>
+                                        <p class="request-no">@c.RequestID</p>
                                     </div>
-                                    <div class="invoice-info">
+                                    <div class="request-info">
                                         <p class="mb-0 small">Request By: </p>
-                                        <p class="cliname">@c.RequestByUser.FirstName</p>
+                                        <p class="cliname">@c.RequestByUser.FirstName   @c.RequestByUser.LastName  </p>
                                     </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Status: </p>
-                                        <p class="invocie-date">@c.RequestStatus</p>
+
+                                    <div class="request-status-info">
+                                        <p class="mb-0 small">Status </p>
+                                        <p class="request-status"></p>
                                     </div>
-                                    <div class="invoice-info">
+                                    <div class="request-info">
                                         <p class="mb-0 small">Request Date: </p>
-                                        <p class="invoice-due-date">@c.RequestDate</p>
+                                        <p class="request-due-date">@Html.DisplayFor(modelItem => c.RequestDate)</p>
                                     </div>
-                                   
+
                                     <div class="line-h-1 h5">
-                                        <a class="text-success edit-invoice" href="#" data-toggle="modal" data-target="#editinvoice"><i class="icon-pencil"></i></a>
-                                        <a class="text-danger delete-invoice" href="#"><i class="icon-trash"></i></a>
+                                        <a class="text-success" href="#"  data-toggle="modal" data-target="#editrequest_@c.RequestID"><i class="icon-note"></i> View</a>
+
                                     </div>
                                 </div>
                             </div>
 
-                        }*@
+                        }
 
-                            <div class="invoice paid-invoice" data-status="paid-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Number: </p>
-                                        <p class="invoice-no">000002</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Client: </p>
-                                        <p class="cliname">Albert Watkins</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Date: </p>
-                                        <p class="invocie-date">02 June 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Due Date: </p>
-                                        <p class="invoice-due-date">10 June 2020</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="line-h-1 h5">
-                                        <a class="text-success edit-invoice" href="#" data-toggle="modal" data-target="#editinvoice"><i class="icon-pencil"></i></a>
-                                        <a class="text-danger delete-invoice" href="#"><i class="icon-trash"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="invoice pending-invoice" data-status="pending-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Number: </p>
-                                        <p class="invoice-no">000003</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Client: </p>
-                                        <p class="cliname">Johnny Fernandez</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Date: </p>
-                                        <p class="invocie-date">28 May 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Due Date: </p>
-                                        <p class="invoice-due-date">30 May 2020</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="line-h-1 h5">
-                                        <a class="text-success edit-invoice" href="#" data-toggle="modal" data-target="#editinvoice"><i class="icon-pencil"></i></a>
-                                        <a class="text-danger delete-invoice" href="#"><i class="icon-trash"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="invoice canceled-invoice" data-status="canceled-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Number: </p>
-                                        <p class="invoice-no">000004</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Client: </p>
-                                        <p class="cliname">Gilbert Edwards</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Date: </p>
-                                        <p class="invocie-date">12 May 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Due Date: </p>
-                                        <p class="invoice-due-date">15 May 2020</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="line-h-1 h5">
-                                        <a class="text-success edit-invoice" href="#" data-toggle="modal" data-target="#editinvoice"><i class="icon-pencil"></i></a>
-                                        <a class="text-danger delete-invoice" href="#"><i class="icon-trash"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="invoice" data-status="generated-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Number: </p>
-                                        <p class="invoice-no">000005</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Client: </p>
-                                        <p class="cliname">Norman Hill</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Date: </p>
-                                        <p class="invocie-date">22 April 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Due Date: </p>
-                                        <p class="invoice-due-date">30 April 2020</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="line-h-1 h5">
-                                        <a class="text-success edit-invoice" href="#" data-toggle="modal" data-target="#editinvoice"><i class="icon-pencil"></i></a>
-                                        <a class="text-danger delete-invoice" href="#"><i class="icon-trash"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="invoice pending-invoice" data-status="pending-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Number: </p>
-                                        <p class="invoice-no">000006</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Client: </p>
-                                        <p class="cliname">Samantha Murphy</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Date: </p>
-                                        <p class="invocie-date">13 April 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Due Date: </p>
-                                        <p class="invoice-due-date">18 April 2020</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="line-h-1 h5">
-                                        <a class="text-success edit-invoice" href="#" data-toggle="modal" data-target="#editinvoice"><i class="icon-pencil"></i></a>
-                                        <a class="text-danger delete-invoice" href="#"><i class="icon-trash"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="invoice paid-invoice" data-status="paid-invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Number: </p>
-                                        <p class="invoice-no">000007</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Client: </p>
-                                        <p class="cliname">Addison Nichols</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Date: </p>
-                                        <p class="invocie-date">20 June 2020</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Invoice Due Date: </p>
-                                        <p class="invoice-due-date">30 June 2020</p>
-                                    </div>
-                                    <div class="invoice-status-info">
-                                        <p class="mb-0 small">Status </p>
-                                        <p class="invoice-status"></p>
-                                    </div>
-                                    <div class="line-h-1 h5">
-                                        <a class="text-success edit-invoice" href="#" data-toggle="modal" data-target="#editinvoice"><i class="icon-pencil"></i></a>
-                                        <a class="text-danger delete-invoice" href="#"><i class="icon-trash"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- END: Card DATA-->
-        <!-- START: Page JS-->
+    </div>
+    <!-- END: Card DATA-->
+    <!-- START: Page JS-->
 
-        <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
-        <script src="~/js/System/StationeryRequests/stationeryRequests.js"></script>
-
-        <!-- END: Page JS-->
+    <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
+  <script src="~/js/System/StationeryRequests/stationeryRequests.js"></script>
+  
+    <!-- END: Page JS-->

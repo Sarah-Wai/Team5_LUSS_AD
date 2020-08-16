@@ -23,7 +23,7 @@ namespace LUSS_API.Models
         [Required]
         public int ModifiedBy { get; set; }
 
-        public virtual Request Request { get; set; }
+        public virtual ICollection<Request> Request { get; set; }
         public virtual User User { get; set; }
     }
 }

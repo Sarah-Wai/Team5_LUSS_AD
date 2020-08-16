@@ -45,8 +45,30 @@ namespace LUSS_API.Controllers
         [Route("GetItemListByCategoryID/{id}")]
         public IEnumerable<Item> GetItemListByCategoryID(int id)
         {
-            IEnumerable<Item> itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();                        
+            IEnumerable<Item> itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();
             return itemList;
+        }
+
+        [HttpGet("{id}/{name}")]
+        [Route("FindByCatTDAndCatName/{id}/{name}")]
+        public IEnumerable<Item> FindByCatTDAndCatName(int id, string name)
+        {
+            List<Item> itemList = new List<Item>();
+            if (id == 0)
+            {
+                 itemList = context123.Item.Where(x => x.ItemName.Contains(name)).ToList();
+            }
+            itemList = context123.Item.Where(x => x.CategoryID.Equals(id) && x.ItemName.Contains(name)).ToList();
+            return itemList;
+        }
+
+
+        //get low stock item list
+        [HttpGet("get-low-stock-items")]
+        public IEnumerable<Item> GetLowStockItems()
+        {
+            List<Item> items = context123.Item.Where(x => x.InStockQty < x.ReStockLevel).ToList();
+            return items;
         }
 
         [HttpPost]
@@ -56,23 +78,6 @@ namespace LUSS_API.Controllers
             await context123.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetAllItems), item);
-        }
-
-        [HttpPut]
-        public Item Put([FromForm] Item item)
-        {
-            Item i = context123.Item
-                  .Where(x => x.ItemID == item.ItemID).SingleOrDefault();
-            i.ItemName = item.ItemName;
-            i.UOM = item.UOM;
-            i.ReStockQty = item.ReStockQty;
-            i.InStockQty = item.InStockQty;
-            i.CategoryID = item.CategoryID;
-            i.ItemCode = item.ItemCode;
-            i.ReStockLevel = item.ReStockLevel;
-            i.StoreItemLocation = item.StoreItemLocation;
-            context123.SaveChanges();
-            return i;
         }
 
         [HttpDelete("{id}")]

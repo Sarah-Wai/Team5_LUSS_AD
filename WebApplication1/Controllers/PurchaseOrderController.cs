@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,40 +25,40 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<PurchaseOrder> Get()
+        public IEnumerable<PurchaseOrder> GetAllPurchaseOrders()
         {
             List<PurchaseOrder> purchaseList = context123.PurchaseOrder.ToList();
             return purchaseList;
         }
 
-       
+
         [HttpGet("{id}")]
-        public PurchaseOrder GetById(int id)
+        public PurchaseOrder GetPurchaseOrderById(int id)
         {
             PurchaseOrder purchase = context123.PurchaseOrder.First(x => x.POID == id);
             return purchase;
         }
 
+        [HttpGet("get/new-po-id")]
+        public int GetNewPOId()
+        {
+            int maxId = 0; 
+            int? currentId = context123.PurchaseOrder.Max(x => x.POID);
+            if(currentId != null)
+            {
+                maxId = (int)currentId;
+            }
+            return maxId + 1;
+        }
         
+
         [HttpPost]
-        public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po)
+        public async Task<ActionResult<PurchaseOrder>> Post(PurchaseOrder po, int itemID, int orderQty)
         {
             context123.PurchaseOrder.Add(po);
             await context123.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), po);
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return CreatedAtAction(nameof(GetPurchaseOrderById), po);
         }
     }
 }

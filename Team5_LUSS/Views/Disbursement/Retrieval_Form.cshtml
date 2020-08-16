@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Retrieval Form";
+    List<dynamic> items = (List<dynamic>)ViewData["items"];
 }
 <form>
     <div class="container-fluid site-width">
@@ -30,54 +31,36 @@
                                         <td class="text-right"><b></b></td>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-right">P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">A51</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right">
-                                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                                Adjust
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-right">P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">A51</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right">
-                                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                                Adjust
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-right">P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">A51</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right">
-                                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                                Adjust
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <tbody id="itemlist">
+                                    @foreach (var item in items)
+                                    {
+                                        <tr>
+                                            <td class="text-right">@item.itemCode</td>
+                                            <td class="text-right">@item.itemName</td>
+                                            <td class="text-right">@item.location</td>
+                                            <td class="text-right">@item.uom</td>
+                                            <td class="text-right">@item.totalQty</td>
+                                            <td class="text-right">@item.inStock</td>
+                                            @if (item.totalQty <= item.inStock)
+                                            {
+                                                <td class="text-right"><input type="number" value="@item.totalQty" min="0" max="@item.totalQty" /></td>
+                                            }
+                                            @if (item.totalQty > item.inStock)
+                                            {
+                                                <td class="text-right"><input type="number" value="@item.inStock" min="0" max="@item.inStock" /></td>
+                                            }
+                                            <td class="text-right">
+                                                <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModal(@item.itemID)">
+                                                    Adjust
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
                         <div class="text-right p-5">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <a asp-action="" class="btn btn-danger">Cancel</a>
                             <input type="hidden" id="edit-date">
                             <button type="submit" class="btn btn-success add-todo">Update</button>
                         </div>
@@ -88,4 +71,155 @@
     </div>
 </form>
 
+<!--raised adjustment-->
+<style>
+    td {
+        width: 150px;
+        text-align: left;
+        padding: 10px
+    }
+</style>
+<div class="modal fade" id="createAdjVoucher">
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">
+                Create Adjustment Voucher
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                <i class="icon-close"></i>
+            </button>
+        </div>
+        <form class="edit-invoice-form">
+            <div class="modal-body">
+                <div class="form-group">
+                        <table style="width:30%">
+                            <tr>
+                                <td>
+                                    <b>Item Code:</b>
+                                </td>
+                                <td id="itemCode">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Category:</b>
+                                </td>
+                                <td id="itemCategory">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Description:</b>
+                                </td>
+                                <td id="itemName">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Unit Cost:</b>
+                                </td>
+                                <td id="itemPrice"> $
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>UOM:</b>
+                                </td>
+                                <td id="UOM">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">
+                                    <b>Quantity</b>
+                                </td>
+                                <td>
+                                    <input tabindex="7" type="radio" id="minimal-radio-12" class="radioBtn" checked="checked"  name="minimal-radio" onchange="pick();calculate()">
+                                    <label for="minimal-radio-12" style="min-width:50px" id="deduct">Deduct</label>
+                                    <input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input tabindex="7" type="radio" id="minimal-radio-12" class="radioBtn" name="minimal-radio" onchange="pick();calculate()">
+                                    <label for="minimal-radio-12" style="min-width:50px" id="add">Add</label>
+                                    <input type="number" id="qty_add" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Total Value</b>
+                                </td>
+                                <td id="totalPrice">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Reason:</b>
+                                </td>
+                                <td>
+                                    <input type="text" id="reason" placeholder="" style="width:250px; height:80px">
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+            </div>
+            <div class="text-right p-5">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="close">Cancel</button>
+                <input type="hidden" id="edit-date"/>
+                <button type="submit" class="btn btn-success">Confirm</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
 
+<script>
+    function showModal(itemID) {
+        resetForm();
+        $("#createAdjVoucher").modal('show');
+        $.ajax({
+            method: "GET",
+            url: "https://localhost:44312/ItemPrice/getItem/" + itemID,
+
+        })
+            .done(function (msg) {
+                console.log(msg);
+                $("#itemCode").html(msg.item.itemCode);
+                $("#itemCategory").html(msg.item.itemCategory.categoryName);
+                $("#itemName").html(msg.item.itemName);
+                $("#itemPrice").html(msg.price);
+                $("#UOM").html(msg.item.uom);
+                calculate();
+                pick();
+
+            });
+    }
+    function calculate() {
+        $checked = $("input[name='minimal-radio']:checked").next().next();
+        var a = parseFloat($checked.val());
+        a = isNaN(a) ? 0 : a;
+
+        var b = parseFloat($("#itemPrice").html());
+        b = isNaN(b) ? 0 : b;
+        $("#totalPrice").html(a * b);
+    }
+
+    function pick() {
+        $checked = $("input[name='minimal-radio']:checked").next().next();
+        $unchecked = $("input[name='minimal-radio']:not(:checked)").next().next();
+
+        $checked.removeAttr('disabled');
+        $unchecked.attr('disabled', true);
+        $unchecked.val("1");
+    }
+
+    function resetForm() {
+        $("input[name='minimal-radio']").removeProp('checked');
+        $("input[name='minimal-radio']").first().prop('checked', true);
+        $('#qty_deduct').val("1");
+        $('#qty_add').val("1");
+    }
+
+
+</script>

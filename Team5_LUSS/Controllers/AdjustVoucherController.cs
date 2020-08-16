@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace Team5_LUSS.Controllers
     {
         string api_url = "https://localhost:44312/AdjustmentVoucher";
         string api_url_itemPrice = "https://localhost:44312/ItemPrice";
+        string api_url_itemList = "https://localhost:44312/ItemList";
 
         public async Task<IActionResult> AdjustmentVouchers()
         {
@@ -72,6 +74,22 @@ namespace Team5_LUSS.Controllers
             ViewData["adjustment"] = adjustment;
             return View(adjustment);
         }
+
+        public async Task<IActionResult> GetItemForAdjustment(int id)
+        {
+            Item item = new Item();
+            
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_itemList + "/GetItemByID/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    item = JsonConvert.DeserializeObject<Item>(apiResponse);
+                }
+            }
+            ViewData["item"] = item;
+            return View("");
+        }
    
         //[HttpPost]
         public async Task<IActionResult> GetAdjustmentVoucherById(int id)
@@ -86,7 +104,7 @@ namespace Team5_LUSS.Controllers
                     adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
                 } 
 
-                using (var response = await httpClient.GetAsync(api_url_itemPrice + "/" +adjustment.ItemID))
+                using (var response = await httpClient.GetAsync(api_url_itemPrice + "getPrice/" +adjustment.ItemID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     price = JsonConvert.DeserializeObject<int>(apiResponse);

@@ -28,6 +28,13 @@ namespace LUSS_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("EnableCors", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddControllers().AddNewtonsoftJson(options=>options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<MyDbContext>
                (opt => opt.UseLazyLoadingProxies()
@@ -47,6 +54,8 @@ namespace LUSS_API
 
             app.UseRouting();
 
+            app.UseCors("EnableCors");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -54,8 +63,8 @@ namespace LUSS_API
                 endpoints.MapControllers();
             });
 
-            dbcontext.Database.EnsureDeleted();
-            dbcontext.Database.EnsureCreated();
+            //dbcontext.Database.EnsureDeleted();
+            //dbcontext.Database.EnsureCreated();
 
 
             //static string Encrypt(string value)
@@ -68,29 +77,35 @@ namespace LUSS_API
             //    }
             //}
 
-            List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
-            dbcontext.AddRange(itemCategories);
+            //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
+            //dbcontext.AddRange(itemCategories);
 
-            List<Item> items = AddItems.getAllItem();
-            dbcontext.AddRange(items);
+            //List<Item> items = AddItems.getAllItem();
+            //dbcontext.AddRange(items);
 
-            List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
-            dbcontext.AddRange(allCollectionPoints);
+            //List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
+            //dbcontext.AddRange(itemPrices);
 
-            List<Supplier> suppliers = AddSupplier.getAllSuppliers();
-            dbcontext.AddRange(suppliers);
+            //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
+            //dbcontext.AddRange(allCollectionPoints);
+
+            //List<Supplier> suppliers = AddSupplier.getAllSuppliers();
+            //dbcontext.AddRange(suppliers);
 
 
-            List<Department> allDepartments = AddDepartment.getAllDepartment(allCollectionPoints);
-            dbcontext.AddRange(allDepartments);
+            //List<Department> allDepartments = AddDepartment.getAllDepartment(allCollectionPoints);
+            //dbcontext.AddRange(allDepartments);
 
-            List<User> allUsers = AddUsers.getAllUsers();
-            dbcontext.AddRange(allUsers);
+            //List<User> allUsers = AddUsers.getAllUsers();
+            //dbcontext.AddRange(allUsers);
 
-            List<Request> requests = AddRequests.getAllRequest();
-            dbcontext.AddRange(requests);
-            List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
-            dbcontext.AddRange(requestDetails);
+            //List<Request> requests = AddRequests.getAllRequest();
+            //dbcontext.AddRange(requests);
+            //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
+            //dbcontext.AddRange(requestDetails);
+
+            //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO();
+            //dbcontext.AddRange(purchaseOrders);
 
             dbcontext.SaveChanges();
 

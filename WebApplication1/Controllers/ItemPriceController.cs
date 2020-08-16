@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -29,7 +31,7 @@ namespace LUSS_API.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("getPrice/{id}")]
         public int GetItemPrice(int id)
         {
             ItemPrice itemPrice = context123.ItemPrice
@@ -38,6 +40,24 @@ namespace LUSS_API.Controllers
             int price = itemPrice.Price;
             
             return price; 
+        }
+
+        [HttpGet("getItem/{id}")]
+        public ItemPrice GetItemById(int id)
+        {
+            ItemPrice item = context123.ItemPrice
+                .Where(x => x.ItemID == id).FirstOrDefault();
+
+            return item;
+        }
+
+        //get supplier list by item
+        [HttpGet("get-supplier-by-item/{id}")]
+        public List<Supplier> GetSupplierByItem(int id) 
+        {
+            List<ItemPrice> itemPriceList = context123.ItemPrice.Where(x => x.ItemID == id).ToList();
+            List<Supplier> suppliers = itemPriceList.Select(x => x.Supplier).ToList();
+            return suppliers;
         }
 
         // POST api/<controller>

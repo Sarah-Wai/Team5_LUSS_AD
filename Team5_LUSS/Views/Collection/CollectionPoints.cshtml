@@ -1,54 +1,52 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var CollectionPoints = (List<CollectionPoint>)ViewData["collectionPoints"];
+    CollectionPoint dept_cp = (CollectionPoint)ViewData["dept_CollectionPoint"];
+    //pass the actual Department ID
 }
-@model Department 
 
 <!-- START: Main Content-->
-<main>
-    <div class="container-fluid site-width">
-
-        <!-- START: Card Data-->
-        <div class="row">
-            <div class="col-12  mt-3">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Current Collection Point</h4>
-                    </div>
-                    <div class="card-body">
-                        @Model.CollectionPointID
-                           @*@Model.CollectionPoint.Description - @Model.CollectionPoint.Location*@
-                    </div>
+<div class="container-fluid site-width">
+    <!-- START: Card Data-->
+    <div class="row">
+        <div class="col-12  mt-3">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Current Collection Point</h4>
+                </div>
+                <div class="card-body">
+                    @dept_cp.Description - @dept_cp.Location
                 </div>
             </div>
         </div>
-        <!-- END: Card DATA-->
     </div>
-    <div class="col-12  mt-3">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="card-title">All Collection Points</h4>
-            </div>
-            <div class="card-body">
-                <form method="post">
-                    <input name="deptID" value=@Model.DepartmentID class="display: hidden" />
-                    <div class="skin skin-flat">
-                        <ul class="list list-unstyled  mr-3">
+    <!-- END: Card DATA-->
+</div>
+<div class="col-12  mt-3">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title">Pick a New Collection Points</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <!--remember to replace the value with deptID-->
+                <input type="text" style="display:none" value="2" name="deptID"/>
+                <div class="skin skin-flat">
+                    <ul class="list list-unstyled  mr-3">
                         @{
-                            for (int i = 0; i < CollectionPoints.Count - 1; i++)
+                            foreach (CollectionPoint cp in CollectionPoints)
                             {
                                 <li>
-                                    <input tabindex="7" type="radio" id="minimal-radio-11" value="@CollectionPoints[i].CollectionPointID" name="cpID">
-                                    <label>@CollectionPoints[i].Location - @CollectionPoints[i].Description </label>
+                                    <input tabindex="7" type="radio" id="minimal-radio-11" value="@cp.CollectionPointID" name="cpID">
+                                    <label>@cp.Location - @cp.Description </label>
                                 </li>
                             }
                         }
-                        </ul>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
-            </div>
+                    </ul>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
         </div>
     </div>
-</main>
+</div>
 <!-- END: Content-->

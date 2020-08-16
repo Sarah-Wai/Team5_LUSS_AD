@@ -16,8 +16,8 @@ namespace LUSS_API.Controllers
     public class AdjustmentVoucherController : ControllerBase
     {
         public MyDbContext context123;
-        private readonly ILogger<CollectionPointController> _logger;
-        public AdjustmentVoucherController(ILogger<CollectionPointController> logger, MyDbContext context123)
+        private readonly ILogger<AdjustmentVoucherController> _logger;
+        public AdjustmentVoucherController(ILogger<AdjustmentVoucherController> logger, MyDbContext context123)
         {
             _logger = logger;
             this.context123 = context123;
@@ -25,22 +25,36 @@ namespace LUSS_API.Controllers
 
         
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucher()
         {
-            return new string[] { "value1", "value2" };
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher.ToList();
+            return adjustments;
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("requestorId/{id}")]
+        public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucherByRequestor(int id)
         {
-            return "value";
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher
+                .Where(x => x.RequestByID == id).ToList();
+            return adjustments;
         }
 
-        // POST api/<controller>
+        [HttpGet("adjustmentId/{id}")]
+        public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
+        {
+            AdjustmentVoucher adjustment = context123.AdjustmentVouncher.First(a => a.AdjustmentID == id);
+            
+            return adjustment;
+        }
+
+        
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
         {
+            context123.AdjustmentVouncher.Add(adjustment);
+            await context123.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
         }
 
         // PUT api/<controller>/5

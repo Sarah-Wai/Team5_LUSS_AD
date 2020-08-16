@@ -13,23 +13,22 @@ namespace LUSS_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RequestDetailsController : Controller
+    public class UserController : Controller
     {
         public MyDbContext context123;
-        private readonly ILogger<RequestDetailsController> _logger;
-        public RequestDetailsController(ILogger<RequestDetailsController> logger, MyDbContext context123)
+        private readonly ILogger<UserController> _logger;
+        public UserController(ILogger<UserController> logger, MyDbContext context123)
         {
             _logger = logger;
             this.context123 = context123;
         }
 
-        [HttpGet("get-by-request/{id}")]
-        public List<RequestDetails> GetByRequest(int id)
+        [HttpGet("get-representative/{id}")]
+        public User GetDeptRep(int id)
         {
-            List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
-            return requestItems;
+            User rep = context123.User.First(x => x.DepartmentID == id && x.IsRepresentative == true);
+            return rep;
         }
-
 
     }
 }

@@ -6,7 +6,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Team5_LUSS.Models;
 
@@ -17,10 +19,13 @@ namespace Team5_LUSS.Controllers
     {
 
         string api_url = "https://localhost:44312/CollectionPoint";
+        string api_url_rqst = "https://localhost:44312/Request";
         public async Task<IActionResult> collectionPoints()
         {
             //Get All the Collection Points
             List<CollectionPoint> collectionPointInfo = new List<CollectionPoint>();
+            CollectionPoint dept_CP = new CollectionPoint();
+
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url))
@@ -28,6 +33,7 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     collectionPointInfo = JsonConvert.DeserializeObject<List<CollectionPoint>>(apiResponse);
                 }
+
             }
             //last object is the Department Collection Point
             ViewData["collectionPoints"] = collectionPointInfo;
@@ -43,24 +49,55 @@ namespace Team5_LUSS.Controllers
                 CollectionPointID = 1
             };
 
-            return View(d);
+            dept_CP = collectionPointInfo.Where(x => x.CollectionPointID == d.CollectionPointID).FirstOrDefault();
+            ViewData["dept_CollectionPoint"] = dept_CP;
+            return View();
         }
-
 
 
         [HttpPost]
         public async Task<IActionResult> collectionPoints(int deptID, int cpID)
         {
-            Department updated_Dept = new Department();
+
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + deptID))
+                using (var response = await httpClient.GetAsync(api_url + "/" + deptID + "/" + cpID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    updated_Dept = JsonConvert.DeserializeObject<Department>(apiResponse);
+                }
+
+            }
+            return RedirectToAction("collectionPoints");
+        }
+
+
+        public async Task<IActionResult> collectionList()
+        {
+            List<dynamic> pd_collectionList = new List<dynamic>();
+            string status = "PendingDelivery";
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + status))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    pd_collectionList = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
                 }
             }
-            return View(updated_Dept);
+
+            //TODO:
+            DateTime date = pd_collectionList.Select(x => x.collectionTime).First();
+            string fm_date = date.ToString("MMMM dd, yyyy");
+            ViewData["collectionTime"] = fm_date;
+            
+            //TODO: filter pd_requestList by department 
+            //TODO: pass User-Dept-Collectionpoint 
+            //ViewData["sessionUser"] 
+            ViewData["collectionRequest"] = pd_collectionList;
+            return View();
         }
+
+
     }
 }
+
+

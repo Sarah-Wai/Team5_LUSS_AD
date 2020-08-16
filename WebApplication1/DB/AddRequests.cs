@@ -7,7 +7,7 @@ using static LUSS_API.Models.Status;
 
 namespace LUSS_API.DB
 {
-    public class AddRequestNDetails
+    public class AddRequests
     {
         public static List<Request> getAllRequest()
         {
@@ -21,7 +21,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -34,7 +34,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -47,7 +47,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -62,7 +62,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -75,7 +75,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -88,7 +88,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -102,7 +102,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -115,7 +115,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -128,7 +128,7 @@ namespace LUSS_API.DB
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -137,12 +137,12 @@ namespace LUSS_API.DB
             Request r10 = new Request()
             {
                 RequestID = 10,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Rejected,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -150,12 +150,12 @@ namespace LUSS_API.DB
             Request r11 = new Request()
             {
                 RequestID = 11,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Received,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -163,12 +163,12 @@ namespace LUSS_API.DB
             Request r12 = new Request()
             {
                 RequestID = 12,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.PendingDelivery,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -176,12 +176,12 @@ namespace LUSS_API.DB
             Request r13 = new Request()
             {
                 RequestID = 13,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Packed,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -189,12 +189,12 @@ namespace LUSS_API.DB
             Request r14 = new Request()
             {
                 RequestID = 14,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Completed,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 
@@ -202,12 +202,12 @@ namespace LUSS_API.DB
             Request r15 = new Request()
             {
                 RequestID = 15,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Approved,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
-                RequestType = "New",
+                RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now
 

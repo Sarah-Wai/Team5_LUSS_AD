@@ -87,10 +87,10 @@ namespace LUSS_API
             //List<User> allUsers = AddUsers.getAllUsers();
             //dbcontext.AddRange(allUsers);
 
-            List<Request> requests = AddRequests.getAllRequest();
-            dbcontext.AddRange(requests);
-            List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
-            dbcontext.AddRange(requestDetails);
+            //List<Request> requests = AddRequests.getAllRequest();
+            //dbcontext.AddRange(requests);
+            //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
+            //dbcontext.AddRange(requestDetails);
 
             //dbcontext.SaveChanges();
 

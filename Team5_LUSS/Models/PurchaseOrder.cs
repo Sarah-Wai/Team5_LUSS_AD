@@ -24,7 +24,7 @@ namespace Team5_LUSS.Models
         public int SupplierID   { get; set; }
         [Required]
         public POStatus Status  { get; set; }
-        [Required]
+        //[Required]
         public DateTime? ReceivedDate  { get; set; }
         [Required]
         public string PONo { get; set; }

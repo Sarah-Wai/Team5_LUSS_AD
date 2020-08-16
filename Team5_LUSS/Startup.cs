@@ -34,6 +34,7 @@ namespace Team5_LUSS
             services.AddControllersWithViews();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSession();
+            
          
         }
 
@@ -55,6 +56,7 @@ namespace Team5_LUSS
             app.UseStaticFiles();
 
             app.UseRouting();
+            
 
             app.UseAuthorization();
             app.UseSession();
@@ -63,9 +65,8 @@ namespace Team5_LUSS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=ItemList}/{action=Index}");
+                    pattern: "{controller=Disbursement}/{action=RetrievalForm}/{id?}");
             });
-          
         }
     }
 }

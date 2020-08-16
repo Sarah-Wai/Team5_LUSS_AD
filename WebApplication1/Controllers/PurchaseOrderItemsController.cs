@@ -49,7 +49,7 @@ namespace LUSS_API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<PurchaseOrderItems>> Post([FromBody]PurchaseOrderItems poItem)
+        public async Task<ActionResult<PurchaseOrderItems>> Post(PurchaseOrderItems poItem)
         {
             context123.PurchaseOrderItems.Add(poItem);
             await context123.SaveChangesAsync();

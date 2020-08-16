@@ -15,6 +15,7 @@ namespace Team5_LUSS.Controllers
         string api_url = "https://localhost:44312/Request/";
         string api_url_user = "https://localhost:44312/User/";
         string api_url_requestDetails = "https://localhost:44312/RequestDetails/";
+        string api_url_retrieval = "https://localhost:44312/Retrieval";
         public IActionResult Index()
         {
             return View();
@@ -22,7 +23,43 @@ namespace Team5_LUSS.Controllers
             //return View("Retrieval_Form");
             //return View("Disbursement_Form_Create");
         }
-  
+
+        public async Task<IActionResult> GetAllRetrieval()
+        {
+            List<Retrieval> retrievals = new List<Retrieval>();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    retrievals = JsonConvert.DeserializeObject<List<Retrieval>>(apiResponse);
+                }
+            }
+
+            ViewData["retrievals"] = retrievals;
+            return View("Disbursement_By_Retrieval");
+        }
+
+        public async Task<IActionResult> RetrievalForm()
+        {
+            List<dynamic> items = new List<dynamic>();
+            string status = "Pending";
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/" + status))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    items = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
+                }
+            }
+
+            ViewData["items"] = items;
+            return View("Retrieval_Form");
+        }
+    
+
         public async Task<IActionResult> View(int id)
         {
             Request request = new Request();

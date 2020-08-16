@@ -7,6 +7,7 @@ using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using static LUSS_API.Models.Status;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,36 +15,54 @@ namespace LUSS_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RetrievalController : Controller
+    public class RetrievalController : ControllerBase
     {
         public MyDbContext context123;
-        private readonly ILogger<CollectionPointController> _logger;
-        public RetrievalController(ILogger<CollectionPointController> logger, MyDbContext context123)
+        private readonly ILogger<RetrievalController> _logger;
+        public RetrievalController(ILogger<RetrievalController> logger, MyDbContext context123)
         {
             _logger = logger;
             this.context123 = context123;
         }
 
-        // GET: api/<controller>
-        [HttpGet("{status}")]
-        public IEnumerable<Request> GetRetrievalForm(Status.EOrderStatus orderStatus)
+        [HttpGet]
+        public IEnumerable<Retrieval> GetRetrievals()
         {
-            orderStatus = Status.EOrderStatus.Approved;
+            List<Retrieval> retrievals = context123.Retrieval.ToList();
+            return retrievals;
+        }
 
-            //var requests = from rh in context123.Request join rd in context123.RequestDetails on rh.RequestID equals rd.RequestID where rh.RequestStatus == orderStatus group rh by rd.ItemID into reqQtyPerItem;
+        [HttpGet("{status}")]
+        public IEnumerable<dynamic> GetRequestByStatus(string status)
+        {
+            EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+            List<Request> requests = context123.Request.ToList();
+            List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+            List<Item> items = context123.Item.ToList();
 
-            List<Request> requests = new List<Request>();
-            return requests;
-
-           
+            var iter = (from r in requests
+                        join rd in requestDetailsList on r.RequestID equals rd.RequestID
+                        where r.RequestStatus.Equals(st)
+                        group rd by rd.ItemID into n
+                        join i in items on n.FirstOrDefault().ItemID equals i.ItemID
+                        select new
+                        {
+                            ItemID = i.ItemID,
+                            ItemName = i.ItemName,
+                            UOM = i.UOM,
+                            Location = i.StoreItemLocation,
+                            InStock = i.InStockQty,
+                            TotalQty = n.Sum(x => x.RequestQty)
+                        }).ToList();
+            return iter;
         }
 
         // GET api/<controller>/5
-        [HttpGet("{status}")]
-        public string[] GetRetrivalForm(Status.EOrderStatus status)
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //[HttpGet("{status}")]
+        //public string[] GetRetrivalForm(Status.EOrderStatus status)
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
 
         // POST api/<controller>
         [HttpPost]

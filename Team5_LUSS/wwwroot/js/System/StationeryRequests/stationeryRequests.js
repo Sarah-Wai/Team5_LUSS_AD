@@ -24,18 +24,18 @@
     });
 
 
-    $(".requests").on("click", ".edit-request", function () {
-        request = $(this).closest('.request');
-        $('#lblRequestID').val($(this).closest('.request').find('.request-due-date').html());
-        $('#lblRequestBy').val($(this).closest('.request').find('.request-due-date').html());
-        $('#lblStatus').val($(this).closest('.request').find('.request-due-date').html());
-        $('#lblUpdateBy').val($(this).closest('.request').find('.request-due-date').html());
-        $('#txtComment').html($(this).closest('.request').find('.request-due-date').html());
+    //$(".requests").on("click", ".edit-request", function () {
+    //    request = $(this).closest('.request');
+    //    $('#lblRequestID').val($(this).closest('.request').find('.request-due-date').html());
+    //    $('#lblRequestBy').val($(this).closest('.request').find('.request-due-date').html());
+    //    $('#lblStatus').val($(this).closest('.request').find('.request-due-date').html());
+    //    $('#lblUpdateBy').val($(this).closest('.request').find('.request-due-date').html());
+    //    $('#txtComment').html($(this).closest('.request').find('.request-due-date').html());
 
-        $('#status').val($(this).closest('.request').find('.request-content').data('status'));
-        $("#editrequest").modal();
+    //    $('#status').val($(this).closest('.request').find('.request-content').data('status'));
+    //    $("#editrequest").modal();
 
-    });
+    //});
 
     
     

@@ -54,7 +54,7 @@ namespace LUSS_API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<PurchaseOrder>> Post(PurchaseOrder po, int itemID, int orderQty, int supplierId)
+        public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po, int itemID, int orderQty, int supplierId)
         {
             //, int itemID, int orderQty, int supplierId
             po.POID = GetNewPOId();

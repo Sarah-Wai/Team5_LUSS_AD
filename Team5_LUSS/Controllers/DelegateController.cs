@@ -13,12 +13,18 @@ namespace Team5_LUSS.Controllers
     public class DelegateController : Controller
     {
         string api_user_url = "https://localhost:44312/User"; // connect to API project Controller class
-        public IActionResult Index()
+        string api_delegate_url = "https://localhost:44312/Delegate";
+        public IActionResult Delegate()
         {
+            ViewData["DeleteMsg"] = TempData["Msg"];
             return View();
         }
 
-
+        public IActionResult DeleteDelegate(int id)
+        {
+            Task<string>  tesk=DeleteDelegateTask(id);
+            return RedirectToAction("AddDelegate");
+        }
 
         [HttpGet]
         public async Task<IActionResult> AddDelegate(int id)
@@ -27,14 +33,52 @@ namespace Team5_LUSS.Controllers
             id = 1;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_user_url + "/GetAllDeptUsers"+"/"+id ))
+                using (var response = await httpClient.GetAsync(api_user_url + "/"+id ))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     users = JsonConvert.DeserializeObject<List<User>>(apiResponse);
                 }
             }
+            ViewData["DeleteMsg"] = "Removed Successfully!";
             ViewData["users"] = users;
             return View();
         }
+
+
+        [HttpPost]
+        public async Task<string> DeleteDelegateTask(int id)
+        {
+            string apiResponse = "";
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.DeleteAsync(api_delegate_url + "/DeleteDelegate/" + id))
+                {
+                     apiResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+            TempData["Msg"] = "Removed Successfully!";
+            return apiResponse;
+        }
+     
+
+        [HttpPost]
+        public async Task<IActionResult> AddDelegate(DelegatedManager delegatedManage)
+        {
+            string receivedDelegatedManager = "";
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(delegatedManage), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync(api_delegate_url+"/SaveDelegatedManager", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                  
+                }
+            }
+            ViewData["products"] = receivedDelegatedManager;
+            TempData["Msg"] = "Assigned Successfully!";
+            return RedirectToAction("AddDelegate");
+        }
+
     }
 }

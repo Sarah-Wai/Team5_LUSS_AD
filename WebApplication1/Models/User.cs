@@ -46,7 +46,7 @@ namespace LUSS_API.Models
 
         public virtual ICollection<AdjustmentVoucher> RequestedBy { get; set; }
         public virtual ICollection<AdjustmentVoucher> ApprovedBy { get; set; }
-        public virtual ICollection<DelegatedManager> DelegatedManagers { get; set; }
+        public virtual DelegatedManager DelegatedManager { get; set; }
 
 
     }

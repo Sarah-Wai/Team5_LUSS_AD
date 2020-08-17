@@ -11,7 +11,7 @@ namespace LUSS_API.Models
     public class DelegatedManager
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DelegatedManagerID   { get; set; }
         [Required]
         public DateTime FromDate   { get; set; }

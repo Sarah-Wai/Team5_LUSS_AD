@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Dictionary<string, string> status_byDept = (Dictionary<string, string>)ViewData["status_byDept"];
+
+}
+
+<!-- START: Main Content-->
+
+<div class="container-fluid site-width">
+    <div class="row ">
+        <div class="col-12  align-self-center">
+            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                <div class="w-sm-100 mr-auto"><h4 class="mb-0">Stationary Delivery - Department View</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid site-width">
+        <!-- START: Card Data-->
+        <div class="row row-eq-height">
+            <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
+                <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
+                <div class="card border h-100 invoice-menu-section">
+                    <ul class="nav flex-column invoice-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="DeptConfirmDelivery">
+                                All Requests
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="DeptConfirmDelivery" asp-route-status="PendingDelivery">
+                                Pending Delivery
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="DeptConfirmDelivery" asp-route-status="Received">
+                                Received
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="DeptConfirmDelivery" asp-route-status="Completed">
+                                Completed
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+                <div class="card border h-100 invoice-list-section">
+                    <div class="card-body p-0">
+                        <div class="invoices liststatus_byDept">
+                            @for (int i = 0; i < status_byDept.Count(); i++)
+                            {
+                                <div class="invoice">
+                                    <div class="invoice-content">
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Department Name</p>
+                                            <p class="cliname">@status_byDept.ElementAt(i).Key</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Department Code</p>
+                                            <p class="invoice-no">@status_byDept.ElementAt(i).Value</p>
+                                        </div>
+                                        <div class="line-h-1 h5">
+                                            <a class="text-success edit-invoice" href="#">View</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Card DATA-->
+</div>
+<!-- END: Content-->

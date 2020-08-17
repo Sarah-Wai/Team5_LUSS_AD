@@ -16,7 +16,7 @@ namespace LUSS_API.DB
             Retrieval r1 = new Retrieval()
             {
                 RetrievalID = 1,
-                Status = "Packed",
+                Status = Status.EOrderStatus.Packed,
                 IssueDate = DateTime.Now,
                 ModifiedBy = 1
             };
@@ -24,7 +24,7 @@ namespace LUSS_API.DB
             Retrieval r2 = new Retrieval()
             {
                 RetrievalID = 2,
-                Status = "PendingDelivery",
+                Status = Status.EOrderStatus.PendingDelivery,
                 IssueDate = DateTime.Now,
                 ModifiedBy = 1
             };

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Castle.Core.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,6 @@ namespace Team5_LUSS.Controllers
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         allRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                     }
-
                 }
             }
             else
@@ -42,20 +42,72 @@ namespace Team5_LUSS.Controllers
 
                 }
             }
+            
 
-
-            //List<Request> pendingRequests = allRequests.Where(x => x.RequestStatus == st).ToList();
-            //List<Request> receivedRequests = allRequests.Where(x => x.RequestStatus == Status.EOrderStatus.Received).ToList();
-            //List<Request> completedRequests = allRequests.Where(x => x.RequestStatus == Status.EOrderStatus.Completed).ToList();
-
+            allRequests = filterForStoreClerkView(allRequests);
             ViewData["allRqt"] = allRequests;
-
-            /*ViewData["pendingRqt"] = pendingRequests;
-            ViewData["receivedRqt"] = receivedRequests;
-            ViewData["completedRqt"] = completedRequests;*/
-
             return View();
         }
 
+
+        public async Task<IActionResult> DeptConfirmDelivery(string status)
+        {
+            List<Request> dept_Request = new List<Request>();
+            //create DeptCode - DeptName dictionary
+            Dictionary<string, string> status_byDept = new Dictionary<string, string>();
+
+
+            if (status != null)
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync(api_url_rqst + "/GetRequestByStatus/" + status))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        dept_Request = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    }
+                }              
+            }
+            else{
+                //if status = null, get all the requests
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync(api_url_rqst + "/getAllRequest"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        dept_Request = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    }
+                }
+
+            }
+            dept_Request = filterForStoreClerkView(dept_Request);
+
+            foreach (Request r in dept_Request)
+            {
+                string key = r.RequestByUser.Department.DepartmentName;
+                string value = r.RequestByUser.Department.DepartmentCode;
+
+                if (!status_byDept.ContainsKey(key))
+                    status_byDept.Add(key, value);
+            }
+
+            if (status_byDept.IsNullOrEmpty())
+            {
+                ViewData["status_byDept"] = null;
+            }
+
+
+            ViewData["status_byDept"] = status_byDept;
+            return View();
+        }
+
+        private List<Request> filterForStoreClerkView(List<Request> allRequests)
+        {
+            List<Request> new_allRequests = allRequests.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery
+            || x.RequestStatus == EOrderStatus.Completed
+            || x.RequestStatus == EOrderStatus.Received).ToList();
+
+            return new_allRequests;
+        }
     }
 }

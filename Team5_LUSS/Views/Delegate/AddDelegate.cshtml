@@ -2,6 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var deptUsers = (List<User>)ViewData["users"];
     string DeleteMsg = null;
+   
 
     if (ViewData["DeleteMsg"] != null)
     {
@@ -17,7 +18,7 @@
     </script>
 }
 @model DelegatedManager
-<link href="~/vendors/toastr/toastr.min.css" rel="stylesheet" />
+
 <div class="row ">
     <div class="col-12  align-self-center">
         <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
@@ -49,7 +50,7 @@
                             {
                                 if (user.DelegatedManager != null)
                                 {
-                                    @*@count= count - 1;*@
+                                   
                                     <tr>
                                         <td>@user.FirstName  @user.LastName</td>
                                         <td> @Html.DisplayFor(modelItem => user.DelegatedManager.FromDate)</td>
@@ -63,10 +64,7 @@
                                 }
 
                             }
-                            @*@if (deptUsers.Count == count)
-                                {
-                                    <tr><td colspan="4"><span class="text-danger">No Assigned Delegate</span>  </td></tr>
-                                }*@
+                        
 
                         </tbody>
                     </table>
@@ -122,11 +120,11 @@
                                     <h4 class="card-title">Set Time Range<small><span id="sp_selectUser"></span></small></h4>
                                 </div>
                                 <div class="card-body">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label for="inputDate">Start Date</label>
                                         <input type="datetime-local" class="form-control" asp-for="FromDate" name="FromDate" id="startDate" onchange="BindStartDate();">
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label for="inputDate">End Date</label>
                                         <input type="datetime-local" class="form-control" asp-for="ToDate" name="ToDate" id="endDate" onchange="BindEndDate();">
                                     </div>
@@ -172,19 +170,18 @@
     </div>
 
 </div>
-<script src="~/vendors/toastr/toastr.min.js"></script>
+
 <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
-<script src="~/vendors/moment/moment.js"></script>
+
 <script>
 
-
     function BindStartDate() {
-        $("#lblStartDate").html($("#startDate").val());
-        //alert($("#startDate").val());
+       $("#lblStartDate").html($("#startDate").val());
+       alert($("#startDate").val());
     };
     function BindEndDate() {
         $("#lblEndDate").html($("#endDate").val());
-        //alert($("#endDate").val());
+        alert($("#endDate").val());
     };
 
     $('input[type=radio][name=rdo_depUsers]').change(function () {
@@ -193,6 +190,7 @@
         $("#userID").val(userId);
         $("#lblDelegate").html($("#lbl_" + userId).text());
         $("#sp_selectUser").html($("#lbl_" + userId).text());
+    });
         
 
 </script>

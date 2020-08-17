@@ -184,19 +184,19 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
-        public ActionResult UpdateCart(List<AddToCartItem> itemlist)
-        {
-            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
-            List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+        //public ActionResult UpdateCart(List<AddToCartItem> itemlist)
+        //{
+        //    string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+        //    List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
 
-            for(int i = 0; i < addedItems.Count; i++)
-            {
-                if(addedItems[i].ItemID == itemId)
-                {
-                    if()
-                    addedItems[i].SelectedQty = Int32.Parse(qty);
-                }
-            } 
-        }
+        //    for(int i = 0; i < addedItems.Count; i++)
+        //    {
+        //        if(addedItems[i].ItemID == itemId)
+        //        {
+        //            if()
+        //            addedItems[i].SelectedQty = Int32.Parse(qty);
+        //        }
+        //    } 
+        //}
     }
 }

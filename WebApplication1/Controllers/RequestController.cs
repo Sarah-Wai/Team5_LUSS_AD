@@ -70,6 +70,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("{status}")]
+        [Route("GetItemByStatus/{status}")]
         public IEnumerable<dynamic> GetItemsByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);

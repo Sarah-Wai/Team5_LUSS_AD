@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Controllers
 {
@@ -44,6 +45,5 @@ namespace LUSS_API.Controllers
             string dept_cpID = dp.CollectionPointID.ToString();
             return dept_cpID;
         }
-
     }
 }

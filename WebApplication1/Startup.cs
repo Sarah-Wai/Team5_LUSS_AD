@@ -107,7 +107,10 @@ namespace LUSS_API
             //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO();
             //dbcontext.AddRange(purchaseOrders);
 
-            dbcontext.SaveChanges();
+            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
+            //dbcontext.AddRange(retrievals);
+
+            //dbcontext.SaveChanges();
 
         }
     }

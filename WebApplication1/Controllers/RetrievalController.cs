@@ -33,7 +33,7 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
-        [HttpGet("status/{status}")]
+        [HttpGet("{status}")]
         public IEnumerable<dynamic> GetRequestByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
@@ -56,52 +56,145 @@ namespace LUSS_API.Controllers
                             ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
                             Location = i.StoreItemLocation,
                             InStock = i.InStockQty,
+                            //RequestDetails = requestDetailsList.Where(x => x.Request.RequestStatus == st && x.ItemID == i.ItemID).ToList(), 
                             Category = i.ItemCategory.CategoryName,
-                            TotalQty = n.Sum(x => x.RequestQty)
+                            TotalQty = n.Sum(x => x.RequestQty),
+                            //RetrievedQty = n.Sum(x => x.FullfillQty)
                         }).ToList();
             return iter;
-        }*/
+        }
 
-        // GET api/<controller>/5
-        [HttpGet("retrievalID/{id}")]
-        public IEnumerable<dynamic> GetRetrivalDetailsById(int id)
+        [HttpGet("itemID/{id}")]
+        public IEnumerable<dynamic> GetRequestDetailsById(int id)
         {
             List<Request> requests = context123.Request.ToList();
             List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
             List<Item> items = context123.Item.ToList();
-            List<ItemPrice> prices = context123.ItemPrice.ToList();
 
             var iter = (from r in requests
                         join rd in requestDetailsList on r.RequestID equals rd.RequestID
-                        where r.RetrievalID == id
-                        group rd by rd.ItemID into n
-                        join i in items on n.FirstOrDefault().ItemID equals i.ItemID
+                        where rd.ItemID == id
+                        orderby r.RequestDate ascending
                         select new
                         {
-                            ItemID = i.ItemID,
-                            ItemCode = i.ItemCode,
-                            ItemName = i.ItemName,
-                            UOM = i.UOM,
-                            ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
-                            Location = i.StoreItemLocation,
-                            InStock = i.InStockQty,
-                            RequestDetails = requestDetailsList.Where(x => x.Request.RetrievalID == id && x.ItemID == i.ItemID).ToList(),
-                            Category = i.ItemCategory.CategoryName,
-                            TotalQty = n.Sum(x => x.RequestQty),
-                            RetrievedQty = n.Sum(x => x.FullfillQty)
-                        }).ToList();
+                            RequestID = r.RequestID,
+                            DepartmentCode = r.RequestByUser.Department.DepartmentCode,
+                            DepartmentName = r.RequestByUser.Department.DepartmentName,
+                            RequestedQty = rd.RequestQty,
+                            UOM = rd.Item.UOM,
+                            RequestedDate = r.RequestDate
+                        }
+                        ).ToList();
+
             return iter;
 
         }
 
-        [HttpGet("retrieveID/{id}")]
-        public Retrieval GetRetrivalById(int id)
-        {
-            Retrieval retrieval = context123.Retrieval
-                .Where(x => x.RetrievalID == id).FirstOrDefault();
-            return retrieval;
 
-        }
+
+        //// GET api/<controller>/5
+        //[HttpGet("retrievalID/{id}")]
+        //public IEnumerable<dynamic> GetRetrivalDetailsById(int id)
+        //{
+        //    List<Request> requests = context123.Request.ToList();
+        //    List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+        //    List<Item> items = context123.Item.ToList();
+        //    List<ItemPrice> prices = context123.ItemPrice.ToList();
+
+        //    var iter = (from r in requests
+        //                join rd in requestDetailsList on r.RequestID equals rd.RequestID
+        //                where r.RetrievalID == id
+        //                group rd by rd.ItemID into n
+        //                join i in items on n.FirstOrDefault().ItemID equals i.ItemID
+        //                select new
+        //                {
+        //                    ItemID = i.ItemID,
+        //                    ItemCode = i.ItemCode,
+        //                    ItemName = i.ItemName,
+        //                    UOM = i.UOM,
+        //                    ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
+        //                    Location = i.StoreItemLocation,
+        //                    InStock = i.InStockQty,
+        //                    RequestDetails = requestDetailsList.Where(x => x.Request.RetrievalID == id && x.ItemID == i.ItemID).ToList(),
+        //                    Category = i.ItemCategory.CategoryName,
+        //                    TotalQty = n.Sum(x => x.RequestQty),
+        //                    RetrievedQty = n.Sum(x => x.FullfillQty)
+        //                }).ToList();
+        //    return iter;
+
+        //}
+
+        //[HttpPost("{acceptedQty}")]
+        //public string allocateStationary(List<int> retrievedQty)
+        //{
+
+        //    //get the chunk of info passed to the View
+        //    IEnumerable<dynamic> list = GetRequestByStatus("Packed");
+        //    //create a dic: item code -- retrievedQth
+        //    Dictionary<int, int> allocationList = new Dictionary<int, int>();
+        //    foreach (var item in list)
+        //    {
+        //        allocationList.Add(item.ItemIds, 0);
+        //    }
+
+        //    for (int i = 1; i <= retrievedQty.Count(); i++)
+        //    {
+        //        allocationList[i] = retrievedQty[i - 1];
+        //    }
+
+
+        //    List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+        //    //allocation starts
+        //    for (int i = 0; i < allocationList.Count(); i++)
+        //    {
+        //        int reqQTY;
+        //        int balance = allocationList.ElementAt(i).Value;
+
+        //        List<int> requestIdList = list.Where(x => x.ItemIds == allocationList.ElementAt(i).Key)
+        //                                    .Select(x => x.RequestIDs).FirstOrDefault();
+
+
+        //        for (int j = 0; j < requestIdList.Count(); j++)
+        //        {
+
+        //            //get the reqQTY of each request + item code
+        //            RequestDetails rr = requestDetailsList
+        //                            .Where(x => x.RequestID == requestIdList[j] && x.ItemID == allocationList.ElementAt(i).Key)
+        //                            .FirstOrDefault();
+        //            reqQTY = rr.RequestQty;
+
+        //            //check discrepancy
+        //            if (balance - reqQTY >= reqQTY)
+        //            {
+        //                balance -= reqQTY;
+        //                rr.ReceivedQty = reqQTY;
+        //            }
+        //            else if (balance - reqQTY < reqQTY && balance >= 0)
+        //            {
+        //                rr.ReceivedQty = balance;
+        //                balance = 0;
+        //            }
+        //        }
+
+        //        //after allocation done, change the status of the request
+        //        foreach (int rqID in requestIdList)
+        //        {
+        //            Request r = context123.Request.Where(x => x.RequestID == rqID).FirstOrDefault();
+        //            r.RequestStatus = EOrderStatus.Received;
+        //        }
+        //    }
+        //    context123.SaveChanges(); //save all or nothing
+        //    return "ok";
+        //}
+
+        //[HttpGet("retrieveID/{id}")]
+        //public Retrieval GetRetrivalById(int id)
+        //{
+        //    Retrieval retrieval = context123.Retrieval
+        //        .Where(x => x.RetrievalID == id).FirstOrDefault();
+        //    return retrieval;
+
+        //}
 
         // POST api/<controller>
         [HttpPost]

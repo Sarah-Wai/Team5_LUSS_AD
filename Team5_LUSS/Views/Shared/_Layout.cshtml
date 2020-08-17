@@ -177,24 +177,22 @@
                         <li class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
                         <li><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Item Category</a></li>
                         <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Items</a></li>
-                        <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-earphones"></i> COVID</a></li>
                         <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Crypto</a></li>
                         <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-briefcase"></i> Ecommerce</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#"><i class="icon-organization mr-1"></i> Layout</a>
+                    <a href="#"><i class="icon-organization mr-1"></i>Disbursement</a>
                     <ul>
                         <li class="dropdown">
-                            <a href="#"><i class="icon-options"></i>Horizontal</a>
+                            <a href="#"><i class="icon-options"></i>Stationary Delivery</a>
                             <ul class="sub-menu">
-                                <li><a href="layout-horizontal.html"><i class="icon-energy"></i> Light</a></li>
-                                <li><a href="layout-horizontal-semidark.html"><i class="icon-disc"></i> Semi Dark</a></li>
-                                <li><a href="layout-horizontal-dark.html"><i class="icon-frame"></i> Dark</a></li>
+                                <li><a asp-controller="Delivery" asp-action="ByRequests">Request Delivery</a></li>
+                                <li><a asp-controller="Disbursement" asp-action="ByDepartment">Department Delivery</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#"><i class="icon-options-vertical"></i>Vertical</a>
+                            <a href="#"><i class="icon-options-vertical"></i>Retrieval Form</a>
                             <ul class="sub-menu">
                                 <li><a href="layout-vertical.html"><i class="icon-energy"></i> Light</a></li>
                                 <li><a href="layout-vertical-semidark.html"><i class="icon-disc"></i> Semi Dark</a></li>
@@ -209,14 +207,13 @@
                                 <li><a href="layout-compact-dark.html"><i class="icon-frame"></i> Dark</a></li>
                             </ul>
                         </li>
-
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#"><i class="icon-layers mr-1"></i> Web Apps</a>
+                    <a href="#"><i class="icon-layers mr-1"></i>Inventory List</a>
                     <ul>
-                        <li><a href="app-calendar.html"><i class="icon-calendar"></i> Calendar</a></li>
-                        <li><a href="app-chat.html"><i class="icon-speech"></i> Chats</a></li>
+                        <li><a href="app-calendar.html"><i class="icon-calendar"></i> Issue PO</a></li>
+                        <li><a href="app-chat.html"><i class="icon-speech"></i> Adjustment Voucher</a></li>
                         <li><a href="app-to-do.html"><i class="icon-support"></i> Todo</a></li>
                         <li><a href="app-mail.html"><i class="icon-envelope"></i>Mailapp</a></li>
                         <li><a href="app-filemanager.html"><i class="icon-folder"></i> File Manager</a></li>

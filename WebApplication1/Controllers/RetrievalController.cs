@@ -60,7 +60,7 @@ namespace LUSS_API.Controllers
                             TotalQty = n.Sum(x => x.RequestQty)
                         }).ToList();
             return iter;
-        }
+        }*/
 
         // GET api/<controller>/5
         [HttpGet("retrievalID/{id}")]

@@ -2,14 +2,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var deptUsers = (List<User>)ViewData["users"];
     string DeleteMsg = null;
-  
+
     if (ViewData["DeleteMsg"] != null)
     {
         DeleteMsg = ViewData["DeleteMsg"].ToString();
     }
 }
 
-@{  int count = deptUsers.Count;}
 
 @if (!string.IsNullOrEmpty(@DeleteMsg))
 {
@@ -50,24 +49,24 @@
                             {
                                 if (user.DelegatedManager != null)
                                 {
-                                    @count= count - 1;
-    <tr>
-        <td>@user.FirstName  @user.LastName</td>
-        <td> @Html.DisplayFor(modelItem => user.DelegatedManager.FromDate)</td>
-        <td> @Html.DisplayFor(modelItem => user.DelegatedManager.ToDate)</td>
-        <td>
-            <button type="button" class="btn btn-danger" title="Remove" onclick="location.href='@Url.Action("DeleteDelegate", "Delegate", new { id = user.DelegatedManager.DelegatedManagerID })'"> Remove</button>
-        </td>
+                                    @*@count= count - 1;*@
+                                    <tr>
+                                        <td>@user.FirstName  @user.LastName</td>
+                                        <td> @Html.DisplayFor(modelItem => user.DelegatedManager.FromDate)</td>
+                                        <td> @Html.DisplayFor(modelItem => user.DelegatedManager.ToDate)</td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" title="Remove" onclick="location.href='@Url.Action("DeleteDelegate", "Delegate", new { id = user.DelegatedManager.DelegatedManagerID })'"> Remove</button>
+                                        </td>
 
-    </tr>
+                                    </tr>
 
-}
+                                }
 
-}
-                            @if (deptUsers.Count == count)
-                            {
-                                <tr><td colspan="4"><span class="text-danger">No Assigned Delegate</span>  </td></tr>
                             }
+                            @*@if (deptUsers.Count == count)
+                                {
+                                    <tr><td colspan="4"><span class="text-danger">No Assigned Delegate</span>  </td></tr>
+                                }*@
 
                         </tbody>
                     </table>
@@ -194,6 +193,6 @@
         $("#userID").val(userId);
         $("#lblDelegate").html($("#lbl_" + userId).text());
         $("#sp_selectUser").html($("#lbl_" + userId).text());
-        //alert($("#lbl_" + userId).text());
+        
 
 </script>

@@ -32,7 +32,7 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
-        [HttpGet("{status}")]
+/*        [HttpGet("{status}")]
         public IEnumerable<dynamic> GetRequestByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
@@ -59,7 +59,7 @@ namespace LUSS_API.Controllers
                             TotalQty = n.Sum(x => x.RequestQty)
                         }).ToList();
             return iter;
-        }
+        }*/
 
         // GET api/<controller>/5
         //[HttpGet("{status}")]

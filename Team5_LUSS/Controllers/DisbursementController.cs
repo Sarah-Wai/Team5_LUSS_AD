@@ -18,8 +18,9 @@ namespace Team5_LUSS.Controllers
         string api_url_retrieval = "https://localhost:44312/Retrieval";
         public IActionResult Index()
         {
-            return View();
+            //return View();
             //return View("Disbursement_Form_View");
+            return View("ConfirmDelivery");
             //return View("Retrieval_Form");
             //return View("Disbursement_Form_Create");
         }

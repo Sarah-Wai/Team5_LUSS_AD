@@ -13,7 +13,7 @@ namespace LUSS_API.DB
             List<RequestDetails> requestDetails = new List<RequestDetails>();
             RequestDetails del1 = new RequestDetails()
             {
-                RequestDetailID = 1,
+               // RequestDetailID = 1,
                 RequestQty = 10,
                 ItemID = 1,
                 RequestID = 1,
@@ -22,7 +22,7 @@ namespace LUSS_API.DB
             };
             RequestDetails del2 = new RequestDetails()
             {
-                RequestDetailID = 2,
+               // RequestDetailID = 2,
                 RequestQty = 20,
                 ItemID = 2,
                 RequestID = 1,
@@ -31,7 +31,7 @@ namespace LUSS_API.DB
             };
             RequestDetails del3 = new RequestDetails()
             {
-                RequestDetailID = 3,
+               // RequestDetailID = 3,
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 1,
@@ -40,7 +40,7 @@ namespace LUSS_API.DB
             };
             RequestDetails del4 = new RequestDetails()
             {
-                RequestDetailID = 4,
+               // RequestDetailID = 4,
                 RequestQty = 40,
                 ItemID = 1,
                 RequestID = 2,
@@ -49,7 +49,7 @@ namespace LUSS_API.DB
             };
             RequestDetails del5 = new RequestDetails()
             {
-                RequestDetailID = 5,
+               // RequestDetailID = 5,
                 RequestQty = 50,
                 ItemID = 2,
                 RequestID = 2,
@@ -58,7 +58,7 @@ namespace LUSS_API.DB
             };
             RequestDetails del6 = new RequestDetails()
             {
-                RequestDetailID = 6,
+               // RequestDetailID = 6,
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 3,

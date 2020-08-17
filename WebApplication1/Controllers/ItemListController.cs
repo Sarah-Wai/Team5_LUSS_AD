@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Controllers
 {
@@ -92,6 +95,69 @@ namespace LUSS_API.Controllers
             return items;
         }
 
+        //create new request
+        [HttpPost]
+        [Route("CreateRequest")]
+        public Request CreateRequest([FromBody] string jsonData)
+        {
+
+            Request req = new Request();
+            if (jsonData != null)
+            {
+                try
+                {
+                    req.RequestStatus = EOrderStatus.Pending;
+                    req.RequestDate = DateTime.Now;
+                    req.RequestBy = 1;
+                    req.ModifiedBy = 1;
+                    req.Comment = null;
+                    req.RequestType = 0;
+                    req.ParentRequestID = null;
+                    req.CollectionTime = DateTime.Now;
+                    req.RetrievalID = null;
+
+                    context123.Request.Add(req);
+                    context123.SaveChanges();
+                    Console.WriteLine(req.RequestID);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    try
+                    {
+
+                        List<AddToCartItem> items = JsonConvert.DeserializeObject<List<AddToCartItem>>(jsonData);
+                        List<RequestDetails> reqDetails = new List<RequestDetails>();
+
+                        foreach (var item in items)
+                        {
+                            RequestDetails reqDetail = new RequestDetails();
+                            reqDetail.ItemID = item.ItemID;
+                            reqDetail.RequestID = req.RequestID;
+                            reqDetail.RequestQty = item.SelectedQty;
+                            reqDetail.FullfillQty = null;
+                            reqDetail.ReceivedQty = null;
+
+                            reqDetails.Add(reqDetail);
+                        }
+
+                        context123.RequestDetails.AddRange(reqDetails);
+                        context123.SaveChanges();
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            }
         
+           
+            return req;
+        }
+
     }
 }

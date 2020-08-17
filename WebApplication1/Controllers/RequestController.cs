@@ -34,7 +34,16 @@ namespace LUSS_API.Controllers
         {
             List<Request> requests = context123.Request.ToList();
             return requests;
+        }
 
+        [HttpGet("{status}")]
+        [Route("GetRequestByStatus/{status}")]
+        public IEnumerable<Request> GetRequestByStatus(string status)
+        {
+            EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+            List<Request> requestList = requestList = context123.Request.Where(x => x.RequestStatus == st).ToList();
+            
+            return requestList;
         }
 
         [HttpGet("{id}/{comment}")]
@@ -60,10 +69,8 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
-
         [HttpGet("{status}")]
-
-        public IEnumerable<dynamic> GetRequestByStatus(string status)
+        public IEnumerable<dynamic> GetItemsByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
             List<Request> requests = context123.Request.ToList();
@@ -93,7 +100,7 @@ namespace LUSS_API.Controllers
         {
 
             //get the chunk of info passed to the View
-            IEnumerable<dynamic> list = GetRequestByStatus("PendingDelivery");
+            IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery");
             //create a dic: item code -- accptQty
             Dictionary<int, int> allocationList = new Dictionary<int, int>();
             foreach (var item in list)

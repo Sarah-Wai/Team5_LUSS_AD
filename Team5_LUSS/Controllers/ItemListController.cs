@@ -164,9 +164,39 @@ namespace Team5_LUSS.Controllers
             
             return RedirectToAction("Index");
         }
+        
+        //Basket Partial View
         public ActionResult PartialViewCart()
         {
             return PartialView("_CartPartial");
+        }
+
+        //View Cart Page 
+        public ActionResult ViewCart()
+        {
+            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            List<AddToCartItem> addedItems = new List<AddToCartItem>();
+            if (!String.IsNullOrEmpty(cartItemJson))
+            {
+                addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+            }
+            ViewData["addedItems"] = addedItems;
+            return View();
+        }
+
+        public ActionResult UpdateCart(List<AddToCartItem> itemlist)
+        {
+            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+
+            for(int i = 0; i < addedItems.Count; i++)
+            {
+                if(addedItems[i].ItemID == itemId)
+                {
+                    if()
+                    addedItems[i].SelectedQty = Int32.Parse(qty);
+                }
+            } 
         }
     }
 }

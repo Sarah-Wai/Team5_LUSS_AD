@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
-/*        [HttpGet("{status}")]
+        [HttpGet("status/{status}")]
         public IEnumerable<dynamic> GetRequestByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
@@ -62,11 +63,45 @@ namespace LUSS_API.Controllers
         }*/
 
         // GET api/<controller>/5
-        //[HttpGet("{status}")]
-        //public string[] GetRetrivalForm(Status.EOrderStatus status)
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        [HttpGet("retrievalID/{id}")]
+        public IEnumerable<dynamic> GetRetrivalDetailsById(int id)
+        {
+            List<Request> requests = context123.Request.ToList();
+            List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+            List<Item> items = context123.Item.ToList();
+            List<ItemPrice> prices = context123.ItemPrice.ToList();
+
+            var iter = (from r in requests
+                        join rd in requestDetailsList on r.RequestID equals rd.RequestID
+                        where r.RetrievalID == id
+                        group rd by rd.ItemID into n
+                        join i in items on n.FirstOrDefault().ItemID equals i.ItemID
+                        select new
+                        {
+                            ItemID = i.ItemID,
+                            ItemCode = i.ItemCode,
+                            ItemName = i.ItemName,
+                            UOM = i.UOM,
+                            ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
+                            Location = i.StoreItemLocation,
+                            InStock = i.InStockQty,
+                            RequestDetails = requestDetailsList.Where(x => x.Request.RetrievalID == id && x.ItemID == i.ItemID).ToList(),
+                            Category = i.ItemCategory.CategoryName,
+                            TotalQty = n.Sum(x => x.RequestQty),
+                            RetrievedQty = n.Sum(x => x.FullfillQty)
+                        }).ToList();
+            return iter;
+
+        }
+
+        [HttpGet("retrieveID/{id}")]
+        public Retrieval GetRetrivalById(int id)
+        {
+            Retrieval retrieval = context123.Retrieval
+                .Where(x => x.RetrievalID == id).FirstOrDefault();
+            return retrieval;
+
+        }
 
         // POST api/<controller>
         [HttpPost]

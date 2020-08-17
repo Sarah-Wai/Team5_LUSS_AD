@@ -16,42 +16,46 @@ namespace LUSS_API.DB
             Request r1 = new Request()
             {
                 RequestID = 1,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Approved,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now
+                CollectionTime = DateTime.Now,
+                RetrievalID = 1
 
             };
             Request r2 = new Request()
             {
                 RequestID = 2,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Approved,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now
+                CollectionTime = DateTime.Now,
+                RetrievalID = 1
+                
 
             };
             Request r3 = new Request()
             {
                 RequestID = 3,
-                RequestStatus = EOrderStatus.Pending,
+                RequestStatus = EOrderStatus.Approved,
                 RequestDate = DateTime.Now,
                 RequestBy = 2,
                 ModifiedBy = 2,
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now
+                CollectionTime = DateTime.Now,
+                RetrievalID = 1
 
-            };
+        };
 
 
             Request r4 = new Request()

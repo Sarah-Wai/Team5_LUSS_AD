@@ -13,7 +13,7 @@ namespace LUSS_API.Models
     public class Request
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RequestID   { get; set; }
         [Required]
         public EOrderStatus RequestStatus { get; set; }

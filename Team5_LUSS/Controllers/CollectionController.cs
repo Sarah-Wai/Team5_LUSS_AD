@@ -1,5 +1,6 @@
 ﻿
 using Castle.Core.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualBasic;
@@ -24,8 +25,11 @@ namespace Team5_LUSS.Controllers
 
         string api_url = "https://localhost:44312/CollectionPoint";
         string api_url_rqst = "https://localhost:44312/Request";
-        public async Task<IActionResult> collectionPoints()
+
+        public async Task<IActionResult> collectionPoints(CollectionPoint newCP)
         {
+
+            int user_CPId = (int)HttpContext.Session.GetInt32("CPId");
             //Get All the Collection Points
             List<CollectionPoint> collectionPointInfo = new List<CollectionPoint>();
             CollectionPoint dept_CP = new CollectionPoint();
@@ -39,39 +43,35 @@ namespace Team5_LUSS.Controllers
                 }
 
             }
-            //last object is the Department Collection Point
             ViewData["collectionPoints"] = collectionPointInfo;
-
-            //dummy code for testing, replace with the session data
-            Department d = new Department
+            if (newCP.CollectionPointID == 0)
             {
-                DepartmentID = 99,
-                DepartmentName = "DummyDept",
-                PhoneNo = "123",
-                Fax = "456",
-                DepartmentCode = "DD",
-                CollectionPointID = 1
-            };
-
-            dept_CP = collectionPointInfo.Where(x => x.CollectionPointID == d.CollectionPointID).FirstOrDefault();
+                dept_CP = collectionPointInfo.Where(x => x.CollectionPointID == user_CPId).FirstOrDefault();
+            }
+            else
+            {
+                dept_CP = newCP;
+            }
             ViewData["dept_CollectionPoint"] = dept_CP;
             return View();
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> collectionPoints(int deptID, int cpID)
+        public async Task<IActionResult> collectionPoints(int cpID)
         {
-
+            CollectionPoint dept_CP = new CollectionPoint();
+            int deptID = (int)HttpContext.Session.GetInt32("DeptId");
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url + "/" + deptID + "/" + cpID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
+                    dept_CP = JsonConvert.DeserializeObject<CollectionPoint>(apiResponse);
                 }
 
             }
-            return RedirectToAction("collectionPoints");
+            return RedirectToAction("collectionPoints", dept_CP);
         }
 
 

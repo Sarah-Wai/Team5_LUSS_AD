@@ -79,90 +79,138 @@ namespace Team5_LUSS.Controllers
         {
             Item item = new Item();
             List<Supplier> suppliers = new List<Supplier>();
+            int poId;
+            
             using (var httpClient = new HttpClient())
             {
+                //get item by id
                 using (var response = await httpClient.GetAsync(api_url_Item + "/GetItemById/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     item = JsonConvert.DeserializeObject<Item>(apiResponse);
                 }
+                //get supplier drop down list
                 using (var response = await httpClient.GetAsync(api_url_ItemPrice + "/get-supplier-by-item/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     suppliers = JsonConvert.DeserializeObject<List<Supplier>>(apiResponse);
                 }
+                //get new POID
+                using (var response = await httpClient.GetAsync(api_url + "/get/new-po-id"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    poId = JsonConvert.DeserializeObject<int>(apiResponse);
+                }
             }
 
+            string poNo = "PO" + poId;
+            ViewData["purchasedBy"] = 1; // inject user session
             ViewData["item"] = item;
+            //ViewData["poId"] = poId;
+            //ViewData["poNo"] = poNo;
+
+            //ViewData["createdOn"] = DateTime.Now;
+            //ViewData["status"] = POStatus.Pending;
             ViewData["suppliers"] = suppliers;
             return View("PO_Create_Low");
         }
 
         [HttpPost]
-        public async Task<IActionResult> POCreateLow(PurchaseOrder po, int itemID, int orderQty)
+        public async Task<IActionResult> POCreateLow(PurchaseOrder po, int itemID, int orderQty, int supplierId)
         {
+            //string result;
+            //using (var httpClient = new HttpClient())
+            //{
+            //    using (var response = await httpClient.GetAsync(api_url_Item + "/" + po + "/" + itemID + "/" + orderQty + "/" + supplierId))
+            //    {
+            //    string apiResponse = await response.Content.ReadAsStringAsync();
+            //    result = JsonConvert.DeserializeObject<String>(apiResponse);
+            //    }
+            //}
+            #region
+            //, int itemID, int orderQty, int supplierId
             //int itemID, int orderQty, DateTime expectedDate, int supplierID
-            int poId;
+
+            //PurchaseOrder receivedPO = new PurchaseOrder();
+
+            //PurchaseOrder newPO = new PurchaseOrder();
+
+
+            //using (var httpClient = new HttpClient())
+            //{
+            //    using (var response = await httpClient.GetAsync(api_url + "/get/new-po-id"))
+            //    {
+            //        string apiResponse = await response.Content.ReadAsStringAsync();
+            //        poId = JsonConvert.DeserializeObject<int>(apiResponse);
+            //    }
+            //}
+
+
+            //create new PO
+            //PurchaseOrder newPO = new PurchaseOrder() {
+            //    POID = poId,
+            //    CreatedOn = DateTime.Now,
+            //    ExpectedDate = expectedDate,
+            //    PurchasedBy = 1, // insert session
+            //    SupplierID = supplierID,
+            //    Status = POStatus.Pending,
+            //    PONo = poNo,
+            //};
+
+            //create new POItems
+            //PurchaseOrderItems poItems = new PurchaseOrderItems()
+            //{
+            //    POItemID = 4, //insert POItemID
+            //    POID = newPO.POID,
+            //    ItemID = itemID,
+            //    OrderQty = orderQty,                
+            //};
+
+
+            //PurchaseOrderItems poItems = new PurchaseOrderItems();
+
+            //create new PO
+            //PurchaseOrder newPO = new PurchaseOrder() {
+            //    POID = poId,
+            //    CreatedOn = DateTime.Now,
+            //    ExpectedDate = expectedDate,
+            //    PurchasedBy = 1, // insert session
+            //    SupplierID = supplierID,
+            //    Status = POStatus.Pending,
+            //    PONo = poNo,
+            //};
+
+            //create new POItems
+            //PurchaseOrderItems poItems = new PurchaseOrderItems()
+            //{
+            //    POItemID = 4, //insert POItemID
+            //    POID = newPO.POID,
+            //    ItemID = itemID,
+            //    OrderQty = orderQty,                
+            //};
+
+            //PurchaseOrderItems receivedPOItems = new PurchaseOrderItems();
+            //using (var httpClient = new HttpClient())
+            //{
+            //    StringContent content = new StringContent(JsonConvert.SerializeObject(po), Encoding.UTF8, "application/json");
+
+            //    using (var response = await httpClient.PostAsync(api_url, content))
+            //    {
+            //        string apiResponse = await response.Content.ReadAsStringAsync();
+            //        //receivedPO = JsonConvert.DeserializeObject<PurchaseOrder>(apiResponse);
+            //    }
+
+            //StringContent content2 = new StringContent(JsonConvert.SerializeObject(poItems), Encoding.UTF8, "application/json");
+            //using (var response = await httpClient.PostAsync(api_url_POdetails, content2))
+            //{
+            //    string apiResponse = await response.Content.ReadAsStringAsync();
+            //    receivedPOItems = JsonConvert.DeserializeObject<PurchaseOrderItems>(apiResponse);
+            //}
+            #endregion
             PurchaseOrder receivedPO = new PurchaseOrder();
-            PurchaseOrderItems receivedPOItems = new PurchaseOrderItems();
-
-            //get new POID
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/get/new-po-id"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    poId = JsonConvert.DeserializeObject<int>(apiResponse);
-                }          
-            }
-            string poNo = "PO" + poId;
-
-            //create new PO
-            //PurchaseOrder newPO = new PurchaseOrder() {
-            //    POID = poId,
-            //    CreatedOn = DateTime.Now,
-            //    ExpectedDate = expectedDate,
-            //    PurchasedBy = 1, // insert session
-            //    SupplierID = supplierID,
-            //    Status = POStatus.Pending,
-            //    PONo = poNo,
-            //};
-
-            //create new POItems
-            //PurchaseOrderItems poItems = new PurchaseOrderItems()
-            //{
-            //    POItemID = 4, //insert POItemID
-            //    POID = newPO.POID,
-            //    ItemID = itemID,
-            //    OrderQty = orderQty,                
-            //};
-
-            PurchaseOrder newPO = new PurchaseOrder();
-            PurchaseOrderItems poItems = new PurchaseOrderItems();
-
-            //create new PO
-            //PurchaseOrder newPO = new PurchaseOrder() {
-            //    POID = poId,
-            //    CreatedOn = DateTime.Now,
-            //    ExpectedDate = expectedDate,
-            //    PurchasedBy = 1, // insert session
-            //    SupplierID = supplierID,
-            //    Status = POStatus.Pending,
-            //    PONo = poNo,
-            //};
-
-            //create new POItems
-            //PurchaseOrderItems poItems = new PurchaseOrderItems()
-            //{
-            //    POItemID = 4, //insert POItemID
-            //    POID = newPO.POID,
-            //    ItemID = itemID,
-            //    OrderQty = orderQty,                
-            //};
-
-            using (var httpClient = new HttpClient())
-            {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(newPO), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(po), Encoding.UTF8, "application/json");
 
                 using (var response = await httpClient.PostAsync(api_url, content))
                 {
@@ -170,15 +218,8 @@ namespace Team5_LUSS.Controllers
                     receivedPO = JsonConvert.DeserializeObject<PurchaseOrder>(apiResponse);
                 }
 
-                StringContent content2 = new StringContent(JsonConvert.SerializeObject(poItems), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(api_url_POdetails, content2))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    receivedPOItems = JsonConvert.DeserializeObject<PurchaseOrderItems>(apiResponse);
-                }
+                return RedirectToAction("ViewLowStockItems");
             }
-
-            return RedirectToAction("ViewLowStockItems");
         }
 
         public IActionResult Index()

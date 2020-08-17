@@ -1,0 +1,135 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var deptUsers = (List<User>)ViewData["users"];
+    CollectionPoint dept_cp = (CollectionPoint)ViewData["dept_CollectionPoint"];
+    //pass the actual Department ID
+}
+
+<div class="row ">
+    <div class="col-12  align-self-center">
+        <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+            <div class="w-sm-100 mr-auto"><h4 class="mb-0">Cards</h4></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-lg-6  col-xl-4 mt-3">
+        <div class="card" style="margin-top: -5%; min-height: 100%;">
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Name</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <!--remember to replace the value with deptID-->
+                            @*<input type="text" style="display:none" value="2" name="deptID" />*@
+                            <div class="skin skin-flat">
+                                <ul class="list list-unstyled  mr-3">
+                                    @{
+                                        foreach (User u in deptUsers)
+                                        {
+                                            <li>
+                                                <input tabindex="7" type="radio" id="rdo_@u.UserID" value="@u.UserID" name="rdo_depUsers">
+                                                <label id="lbl_@u.UserID">@u.FirstName   @u.LastName </label>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6  col-xl-8 mt-9">
+        <div class="card" style="min-height:100%">
+            <div class="card-body">
+                <form>
+                    <div class="row">
+                        <div class="col-12 col-lg-6  col-xl-6 mt-6">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Set Time Range (<small><span id="sp_selectUser"></span></small>)</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputDate">Start Date</label>
+                                        <input type="text" class="form-control datepicker" id="startDate">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputDate">End Date</label>
+                                        <input type="text" class="form-control datepicker" id="endDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6  col-xl-6 mt-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Confirm</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <label for="requestID" class="col-sm-4 col-form-label">Delegate :</label>
+                                        <label for="requestID" class="col-sm-4 col-form-label"><span id="lblDelegate">Wai Phu</span></label>
+
+                                    </div>
+                                    <div class="row">
+                                        <label for="requestID" class="col-sm-4 col-form-label">Start Date :</label>
+                                        <label for="requestID" class="col-sm-4 col-form-label"><span id="lblStartDate">2020-08-08</span></label>
+
+                                    </div>
+                                    <div class="row">
+                                        <label for="requestID" class="col-sm-4 col-form-label">End Date :</label>
+                                        <label for="requestID" class="col-sm-4 col-form-label"><span id="lblEndDate">2020-09-08</span></label>
+
+                                    </div>
+                                    <div class="row">
+                                        <button type="submit" class="btn btn-success">Assign</button> <span>&nbsp;&nbsp;&nbsp;</span>
+                                        <button type="reset" class="btn btn-primary">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/js/System/StationeryRequests/jquery.min.js"></script>
+<script src="~/vendors/moment/moment.js"></script>
+<script>
+    $('input[type=radio][name=rdo_depUsers]').change(function () {
+        var userId = this.value;
+        $("#lblDelegate").html($("#lbl_" + userId).text());
+        $("#sp_selectUser").html($("#lbl_" + userId).text());
+        alert($("#lbl_" + userId).text());
+        @*$.ajax({
+             type: "GET",
+             url: '@Url.Action("CheckDelegate")',
+             data: '{userID: ' + userId + '}',
+             dataType: "json",
+             contentType: "application/json; charset=utf-8",
+            success: function (responce) {
+                if (responce != null) {
+
+                }
+
+             },
+            error: function () {
+                    alert("Error while inserting data");
+                }
+            });*@
+            return true;
+    });
+</script>

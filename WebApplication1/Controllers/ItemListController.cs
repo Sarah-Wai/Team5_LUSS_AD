@@ -45,10 +45,44 @@ namespace LUSS_API.Controllers
         [Route("GetItemListByCategoryID/{id}")]
         public IEnumerable<Item> GetItemListByCategoryID(int id)
         {
-            IEnumerable<Item> itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();                        
+            List<Item> itemList = new List<Item>();
+            if (id == 0)
+            {
+                itemList = context123.Item.ToList();
+            }
+            else
+            {
+                itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();
+            }
+            
             return itemList;
         }
 
+        //for search function
+        [HttpGet("{id}/{name}")]
+        [Route("FindByCatTDAndCatName/{id}/{name}")]
+        public IEnumerable<Item> FindByCatTDAndCatName(int id, string name)
+        {
+            List<Item> itemList = new List<Item>();
+            if (id == 0)
+            {
+                if (!String.IsNullOrEmpty(name))
+                {
+                    itemList = context123.Item.Where(x => x.ItemName.Contains(name)).ToList();
+                }
+                else
+                {
+                    itemList = context123.Item.ToList();
+                }
+                
+            }
+            else
+            {
+                itemList = context123.Item.Where(x => x.CategoryID.Equals(id) && x.ItemName.Contains(name)).ToList();
+            }
+           
+            return itemList;
+        }
 
         //get low stock item list
         [HttpGet("get-low-stock-items")]
@@ -58,40 +92,6 @@ namespace LUSS_API.Controllers
             return items;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Item>> SaveItem(Item item)
-        {
-            context123.Item.Add(item);
-            await context123.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetAllItems), item);
-        }
-
-        [HttpPut]
-        public Item Put([FromForm] Item item)
-        {
-            Item i = context123.Item
-                  .Where(x => x.ItemID == item.ItemID).SingleOrDefault();
-            i.ItemName = item.ItemName;
-            i.UOM = item.UOM;
-            i.ReStockQty = item.ReStockQty;
-            i.InStockQty = item.InStockQty;
-            i.CategoryID = item.CategoryID;
-            i.ItemCode = item.ItemCode;
-            i.ReStockLevel = item.ReStockLevel;
-            i.StoreItemLocation = item.StoreItemLocation;
-            context123.SaveChanges();
-            return i;
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            Item item = (from i in context123.Item
-                         where i.ItemID == id
-                         select i).FirstOrDefault();
-            context123.Item.Remove(item);
-            context123.SaveChanges();
-        }
+        
     }
 }

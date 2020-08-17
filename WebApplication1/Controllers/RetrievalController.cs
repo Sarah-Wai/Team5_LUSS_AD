@@ -39,6 +39,7 @@ namespace LUSS_API.Controllers
             List<Request> requests = context123.Request.ToList();
             List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
             List<Item> items = context123.Item.ToList();
+            List<ItemPrice> prices = context123.ItemPrice.ToList();
 
             var iter = (from r in requests
                         join rd in requestDetailsList on r.RequestID equals rd.RequestID
@@ -48,10 +49,13 @@ namespace LUSS_API.Controllers
                         select new
                         {
                             ItemID = i.ItemID,
+                            ItemCode = i.ItemCode,
                             ItemName = i.ItemName,
                             UOM = i.UOM,
+                            ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
                             Location = i.StoreItemLocation,
                             InStock = i.InStockQty,
+                            Category = i.ItemCategory.CategoryName,
                             TotalQty = n.Sum(x => x.RequestQty)
                         }).ToList();
             return iter;

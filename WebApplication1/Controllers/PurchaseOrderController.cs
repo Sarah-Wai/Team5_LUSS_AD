@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,7 +31,7 @@ namespace LUSS_API.Controllers
             return purchaseList;
         }
 
-       
+
         [HttpGet("{id}")]
         public PurchaseOrder GetPurchaseOrderById(int id)
         {
@@ -38,8 +39,21 @@ namespace LUSS_API.Controllers
             return purchase;
         }
 
+        [HttpGet("get/new-po-id")]
+        public int GetNewPOId()
+        {
+            int maxId = 0; 
+            int? currentId = context123.PurchaseOrder.Max(x => x.POID);
+            if(currentId != null)
+            {
+                maxId = (int)currentId;
+            }
+            return maxId + 1;
+        }
+        
+
         [HttpPost]
-        public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po)
+        public async Task<ActionResult<PurchaseOrder>> Post(PurchaseOrder po, int itemID, int orderQty)
         {
             context123.PurchaseOrder.Add(po);
             await context123.SaveChangesAsync();

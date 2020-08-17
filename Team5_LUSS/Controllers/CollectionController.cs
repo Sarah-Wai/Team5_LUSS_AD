@@ -1,14 +1,18 @@
 ﻿
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using Team5_LUSS.Models;
 
@@ -84,19 +88,39 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-            //TODO:
-            DateTime date = pd_collectionList.Select(x => x.collectionTime).First();
-            string fm_date = date.ToString("MMMM dd, yyyy");
-            ViewData["collectionTime"] = fm_date;
-            
-            //TODO: filter pd_requestList by department 
-            //TODO: pass User-Dept-Collectionpoint 
-            //ViewData["sessionUser"] 
-            ViewData["collectionRequest"] = pd_collectionList;
+            if(pd_collectionList.IsNullOrEmpty())
+            {
+                ViewData["collectionRequest"] = null;
+            }
+            else
+            {
+                DateTime date = pd_collectionList.Select(x => x.collectionTime).First();
+                string fm_date = date.ToString("MMMM dd, yyyy");
+                ViewData["collectionTime"] = fm_date;
+
+                //TODO: filter pd_requestList by department 
+                //TODO: pass User-Dept-Collectionpoint 
+                //ViewData["sessionUser"] 
+                ViewData["collectionRequest"] = pd_collectionList;
+
+            }
+
             return View();
         }
 
-
+        [HttpPost]
+        public async Task<IActionResult> collectionList(List<int> acceptedQty)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(acceptedQty), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(api_url_rqst + "/" + acceptedQty, content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+            return RedirectToAction("collectionList");
+        }
     }
 }
 

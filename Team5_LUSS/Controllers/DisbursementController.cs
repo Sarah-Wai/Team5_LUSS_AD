@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection.Metadata.Ecma335;
@@ -152,7 +153,7 @@ namespace Team5_LUSS.Controllers
         }
 
 
-        public async Task<IActionResult> Create(int id)
+        public async Task<IActionResult> DisburseByRequest(int id)
         {
             Request request = new Request();
             User deptRep = new User();
@@ -177,6 +178,8 @@ namespace Team5_LUSS.Controllers
                     reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
                 }
             }
+            int userId = 1; //inject session
+            ViewData["userId"] = userId;
             ViewData["request"] = request;
             ViewData["deptRep"] = deptRep;
             ViewData["reqItems"] = reqItems;
@@ -184,9 +187,19 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(List<int> fulfillQty, List<String> itemID, DateTime collectionTime)
+        public async Task<IActionResult> DisburseByRequest(int id, int userId, List<int> fulfillQty, DateTime collectionTime)
         {
-            return RedirectToAction("View");
+            string result;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url + id + "/" + userId + "/" + fulfillQty + "/" + collectionTime))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<String>(apiResponse);
+                }
+            }
+
+            return RedirectToAction("GetAllRetrieval");// change to list of requests
         }
     }
 }

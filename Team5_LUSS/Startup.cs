@@ -65,7 +65,7 @@ namespace Team5_LUSS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Disbursement}/{action=RetrievalForm}/{id?}");
+                    pattern: "{controller=Delegate}/{action=AddDelegate}/{id?}");
             });
         }
     }

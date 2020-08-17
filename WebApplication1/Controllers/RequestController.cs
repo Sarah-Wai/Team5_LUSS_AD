@@ -10,6 +10,7 @@ using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using static LUSS_API.Models.Status;
 
 
@@ -34,8 +35,25 @@ namespace LUSS_API.Controllers
         {
             List<Request> requests = context123.Request.ToList();
             return requests;
-
         }
+
+        [HttpGet("{status}")]
+        [Route("GetRequestByStatus/{status}")]
+        public IEnumerable<Request> GetRequestByStatus(string status)
+        {
+            EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+            List<Request> requestList = requestList = context123.Request.Where(x => x.RequestStatus == st).ToList();
+            
+            return requestList;
+        }
+
+        [HttpGet("get-request/{id}")]
+        public Request GetById(int id)
+        {
+            Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
+            return request;
+        }
+        
 
         [HttpGet("{id}/{comment}")]
         [Route("ApproveRequestByDepHead/{id}/{comment}")]
@@ -60,10 +78,9 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
-
         [HttpGet("{status}")]
-
-        public IEnumerable<dynamic> GetRequestByStatus(string status)
+        [Route("GetItemByStatus/{status}")]
+        public IEnumerable<dynamic> GetItemsByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
             List<Request> requests = context123.Request.ToList();
@@ -93,7 +110,7 @@ namespace LUSS_API.Controllers
         {
 
             //get the chunk of info passed to the View
-            IEnumerable<dynamic> list = GetRequestByStatus("PendingDelivery");
+            IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery");
             //create a dic: item code -- accptQty
             Dictionary<int, int> allocationList = new Dictionary<int, int>();
             foreach (var item in list)
@@ -148,6 +165,33 @@ namespace LUSS_API.Controllers
                 }
             }
             context123.SaveChanges(); //save all or nothing
+            return "ok";
+        }
+
+        [HttpPost("{id}/{userId}/{fulfillQty}/{collectionTime}")]
+        public async Task<string> DisburseByRequest(int id, int userId,List<int> fulfillQty, DateTime collectionTime)
+        {
+            Request request = GetById(id);
+            request.RequestStatus = EOrderStatus.PendingDelivery;
+            request.CollectionTime = collectionTime;
+            request.ModifiedBy = userId;
+            //update the request items
+            string api_url_requestDetails = "https://localhost:44312/RequestDetails/";
+            List<RequestDetails> reqItems = new List<RequestDetails>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_requestDetails + "get-by-request/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
+                }
+            }
+
+            for(int i=0; i < reqItems.Count(); i++)
+            {
+                reqItems[i].FullfillQty = fulfillQty[i];
+            }
+            context123.SaveChanges();
             return "ok";
         }
 

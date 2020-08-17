@@ -81,7 +81,7 @@ namespace Team5_LUSS.Controllers
             string status = "PendingDelivery";
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + status))
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     pd_collectionList = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);

@@ -184,19 +184,67 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
-        //public ActionResult UpdateCart(List<AddToCartItem> itemlist)
-        //{
-        //    string cartItemJson = HttpContext.Session.GetString("addedItemSession");
-        //    List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+        public ActionResult UpdateCart()
+        {
+            // formData ---> getting string value from View(ViewCart) side
+            var FormData = HttpContext.Request.Form;
 
-        //    for(int i = 0; i < addedItems.Count; i++)
-        //    {
-        //        if(addedItems[i].ItemID == itemId)
-        //        {
-        //            if()
-        //            addedItems[i].SelectedQty = Int32.Parse(qty);
-        //        }
-        //    } 
-        //}
+            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+
+            //storing data in array type for two data entry
+            string[] itemIds = null;
+            string[] quantities = null;
+            foreach (var items in FormData)
+            {
+                //check each data using 'Contain" and assigning respestively
+                if (items.Key.Contains("itemId"))
+                {
+                    itemIds = items.Value;
+                }
+                else if (items.Key.Contains("quantity"))
+                {
+                    quantities = items.Value;
+                }
+            }
+
+
+            for (int i = 0; i < itemIds.Length; i++)
+            {
+                if (addedItems[i].ItemID == Int32.Parse(itemIds[i]))
+                {
+                    if (Int32.Parse(quantities[i]) == 0)
+                    {
+                        addedItems.Remove(addedItems[i]);
+                    }
+                    else
+                    {
+                        addedItems[i].SelectedQty = Int32.Parse(quantities[i]);
+                    }
+                        
+                }
+            }
+            string addedItemJson = Newtonsoft.Json.JsonConvert.SerializeObject(addedItems);
+            HttpContext.Session.SetString("addedItemSession", addedItemJson);
+            return RedirectToAction("ViewCart");
+        }
+
+        //remove item from cart 
+        public ActionResult RemoveItem(int id)
+        {
+            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+            for(int i=0; i < addedItems.Count; i++)
+            {
+                if(addedItems[i].ItemID == id)
+                {
+                    addedItems.Remove(addedItems[i]);
+                    break;
+                }
+            }
+            string addedItemJson = Newtonsoft.Json.JsonConvert.SerializeObject(addedItems);
+            HttpContext.Session.SetString("addedItemSession", addedItemJson);
+            return RedirectToAction("ViewCart");
+        }
     }
 }

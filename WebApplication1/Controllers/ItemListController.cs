@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Controllers
 {
@@ -92,6 +94,37 @@ namespace LUSS_API.Controllers
             return items;
         }
 
-        
+        //create new request
+        [HttpGet]
+        [Route("CreateRequest")]
+        public Request CreateRequest()
+        {
+            Request req = new Request();
+            try
+            {
+                req.RequestStatus = EOrderStatus.Pending;
+                req.RequestDate = DateTime.Now;
+                req.RequestBy = 1;
+                req.ModifiedBy = 1;
+                req.Comment = null;
+                req.RequestType = 0;
+                req.ParentRequestID = null;
+                req.CollectionTime = DateTime.Now;
+                req.RetrievalID = null;
+
+                context123.Request.Add(req);
+                context123.SaveChanges();
+                Console.WriteLine(req.RequestID);
+               
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            
+           
+            return req;
+        }
+
     }
 }

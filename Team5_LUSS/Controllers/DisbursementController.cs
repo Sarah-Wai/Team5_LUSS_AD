@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection.Metadata.Ecma335;
@@ -18,8 +19,9 @@ namespace Team5_LUSS.Controllers
         string api_url_retrieval = "https://localhost:44312/Retrieval";
         public IActionResult Index()
         {
-            return View();
+            //return View();
             //return View("Disbursement_Form_View");
+            return View("ConfirmDelivery");
             //return View("Retrieval_Form");
             //return View("Disbursement_Form_Create");
         }
@@ -44,7 +46,7 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> RetrievalForm()
         {
             List<dynamic> items = new List<dynamic>();
-            string status = "Pending";
+            string status = "Approved";
 
             using (var httpClient = new HttpClient())
             {
@@ -57,6 +59,31 @@ namespace Team5_LUSS.Controllers
 
             ViewData["items"] = items;
             return View("Retrieval_Form");
+        }
+
+        public async Task<IActionResult> RetrievalAllocation(int id)
+        {
+            List<dynamic> items = new List<dynamic>();
+            Retrieval retrieval = new Retrieval();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrievalID/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    items = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
+                }
+
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrieveID/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    retrieval = JsonConvert.DeserializeObject<Retrieval>(apiResponse);
+                }
+            }
+
+            ViewData["items"] = items;
+            ViewData["retrieval"] = retrieval;
+            return View("Disbursement_By_Retrieval");
         }
 
 
@@ -92,7 +119,7 @@ namespace Team5_LUSS.Controllers
         }
 
 
-        public async Task<IActionResult> Create(int id)
+        public async Task<IActionResult> DisburseByRequest(int id)
         {
             Request request = new Request();
             User deptRep = new User();
@@ -117,6 +144,8 @@ namespace Team5_LUSS.Controllers
                     reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
                 }
             }
+            int userId = 1; //inject session
+            ViewData["userId"] = userId;
             ViewData["request"] = request;
             ViewData["deptRep"] = deptRep;
             ViewData["reqItems"] = reqItems;
@@ -124,9 +153,19 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(List<int> fulfillQty, List<String> itemID, DateTime collectionTime)
+        public async Task<IActionResult> DisburseByRequest(int id, int userId, List<int> fulfillQty, DateTime collectionTime)
         {
-            return RedirectToAction("View");
+            string result;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url + id + "/" + userId + "/" + fulfillQty + "/" + collectionTime))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<String>(apiResponse);
+                }
+            }
+
+            return RedirectToAction("GetAllRetrieval");// change to list of requests
         }
     }
 }

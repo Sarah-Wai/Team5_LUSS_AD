@@ -1,4 +1,4 @@
-﻿
+﻿@model AdjustmentVoucher 
 @{
     ViewData["Title"] = "Retrieval Form";
     List<dynamic> items = (List<dynamic>)ViewData["items"];
@@ -32,7 +32,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="itemlist">
-                                    @foreach (var item in items)
+                                    @*@foreach (var item in items)
                                     {
                                         <tr>
                                             <td class="text-right">@item.itemCode</td>
@@ -55,7 +55,7 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    }
+                                    }*@
                                 </tbody>
                             </table>
                         </div>
@@ -90,78 +90,83 @@
                 <i class="icon-close"></i>
             </button>
         </div>
-        <form class="edit-invoice-form">
+        <form class="edit-invoice-form" asp-action="AddAdjustmentVoucher" asp-controller="AdjustVoucher" method="post">
             <div class="modal-body">
                 <div class="form-group">
-                        <table style="width:30%">
-                            <tr>
-                                <td>
-                                    <b>Item Code:</b>
-                                </td>
-                                <td id="itemCode">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Category:</b>
-                                </td>
-                                <td id="itemCategory">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Description:</b>
-                                </td>
-                                <td id="itemName">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Unit Cost:</b>
-                                </td>
-                                <td id="itemPrice"> $
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>UOM:</b>
-                                </td>
-                                <td id="UOM">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">
-                                    <b>Quantity</b>
-                                </td>
-                                <td>
-                                    <input tabindex="7" type="radio" id="minimal-radio-12" class="radioBtn" checked="checked"  name="minimal-radio" onchange="pick();calculate()">
-                                    <label for="minimal-radio-12" style="min-width:50px" id="deduct">Deduct</label>
-                                    <input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input tabindex="7" type="radio" id="minimal-radio-12" class="radioBtn" name="minimal-radio" onchange="pick();calculate()">
-                                    <label for="minimal-radio-12" style="min-width:50px" id="add">Add</label>
-                                    <input type="number" id="qty_add" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Total Value</b>
-                                </td>
-                                <td id="totalPrice">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Reason:</b>
-                                </td>
-                                <td>
-                                    <input type="text" id="reason" placeholder="" style="width:250px; height:80px">
-                                </td>
-                            </tr>
-                        </table>
+                    <table style="width:30%">
+                        <input type="hidden" id="itemId" asp-for="ItemID" name="itemID" />
+                        <input type="hidden" id="requestor" value="1" />
+                        <tr>
+                            <td>
+                                <b>Item Code:</b>
+                            </td>
+                            <td id="itemCode">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Category:</b>
+                            </td>
+                            <td id="itemCategory">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Description:</b>
+                            </td>
+                            <td id="itemName">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Unit Cost:</b>
+                            </td>
+                            <td id="itemPrice">
+                                $
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>UOM:</b>
+                            </td>
+                            <td id="UOM">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">
+                                <b>Quantity</b>
+                            </td>
+                            <td>
+                                <input tabindex="7" type="radio" id="minimal-radio-12" class="radioBtn" value="Deduct" checked="checked" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
+                                <label for="minimal-radio-12" style="min-width:50px" id="deduct">Deduct</label>
+                                <input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input tabindex="7" type="radio" id="minimal-radio-12" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
+                                <label for="minimal-radio-12" style="min-width:50px" id="add">Add</label>
+                                <input type="number" id="qty_add" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">
+                            </td>
+                        </tr>
+                        <input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />
+                        <tr>
+                            <td>
+                                <b>Total Value</b>
+                            </td>
+                            <td id="totalPrice">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Reason:</b>
+                            </td>
+                            <td>
+                                <input type="text" asp-for="Reason" name="Reason" id="reason" placeholder="" style="width:250px; height:80px">
+                            </td>
+                            <input type="hidden" asp-for="Status" name="Status" value="@AdjustmentVoucherStatus.AdjustmentStatus.Pending" />
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div class="text-right p-5">
@@ -185,6 +190,7 @@
         })
             .done(function (msg) {
                 console.log(msg);
+                $("#itemId").val(msg.item.itemID);
                 $("#itemCode").html(msg.item.itemCode);
                 $("#itemCategory").html(msg.item.itemCategory.categoryName);
                 $("#itemName").html(msg.item.itemName);
@@ -196,7 +202,7 @@
             });
     }
     function calculate() {
-        $checked = $("input[name='minimal-radio']:checked").next().next();
+        $checked = $("input[name='AdjustType']:checked").next().next();
         var a = parseFloat($checked.val());
         a = isNaN(a) ? 0 : a;
 
@@ -206,8 +212,8 @@
     }
 
     function pick() {
-        $checked = $("input[name='minimal-radio']:checked").next().next();
-        $unchecked = $("input[name='minimal-radio']:not(:checked)").next().next();
+        $checked = $("input[name='AdjustType']:checked").next().next();
+        $unchecked = $("input[name='AdjustType']:not(:checked)").next().next();
 
         $checked.removeAttr('disabled');
         $unchecked.attr('disabled', true);
@@ -215,10 +221,29 @@
     }
 
     function resetForm() {
-        $("input[name='minimal-radio']").removeProp('checked');
-        $("input[name='minimal-radio']").first().prop('checked', true);
+        $("input[name='AdjustType']").removeProp('checked');
+        $("input[name='AdjustType']").first().prop('checked', true);
         $('#qty_deduct').val("1");
         $('#qty_add').val("1");
+    }
+
+    function submitForm() {
+        $data = new Object();
+        $data.itemID = $("#itemId").val();
+        $data.adjType = "add";
+        $data.adjQty = 5;
+        $data.reason = $("#reason").val();
+        $data.requestor = 1
+        console.log($data);
+
+        $.ajax({
+            method: "PUT",
+            url: "https://localhost:44312/AdjustmentVoucher/SaveAdjustmentVoucher",
+            data: $data
+        })
+            .done(function (msg) {
+                console.log(msg);
+            });
     }
 
 

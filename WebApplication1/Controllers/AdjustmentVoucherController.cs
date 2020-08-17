@@ -6,6 +6,7 @@ using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -51,11 +52,31 @@ namespace LUSS_API.Controllers
         [HttpPost]
         public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
         {
+            int price = context123.ItemPrice
+                .Where(x => x.ItemID == adjustment.ItemID).First().Price;
+
+            adjustment.Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending;
+            adjustment.IssuedDate = DateTime.Now;
+            adjustment.VoucherNo = "VN" + adjustment.AdjustmentID;
+            adjustment.TotalCost = adjustment.AdjustQty * price;
+
             context123.AdjustmentVouncher.Add(adjustment);
             await context123.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
         }
+
+        //[HttpPost]
+        //public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(string adjustment)
+        //{
+        //    var tempt = JsonConvert.DeserializeObject<dynamic>(adjustment);
+
+        //    AdjustmentVoucher voucher = new AdjustmentVoucher();
+
+        //    Console.WriteLine(tempt);
+
+        //    return voucher;
+        //}
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]

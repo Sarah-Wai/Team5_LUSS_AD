@@ -56,6 +56,8 @@ namespace Team5_LUSS.Controllers
         //    return View("AdjustVoucherListingClerk");
         //}
 
+        //public ViewResult AddAdjustmentVoucher() => View();
+
         [HttpPost]
         public async Task<IActionResult> AddAdjustmentVoucher(AdjustmentVoucher adj)
         {
@@ -72,7 +74,8 @@ namespace Team5_LUSS.Controllers
             }
 
             ViewData["adjustment"] = adjustment;
-            return View(adjustment);
+            //return View(adjustment);
+            return RedirectToAction("RetrievalForm", "Disbursement");
         }
 
         public async Task<IActionResult> GetItemForAdjustment(int id)

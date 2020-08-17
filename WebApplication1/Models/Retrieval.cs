@@ -15,11 +15,11 @@ namespace LUSS_API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int RetrievalID { get; set; }
         [Required]
-        public string Status { get; set; }
+        public EOrderStatus Status { get; set; }
         [Required]
         public DateTime IssueDate { get; set; }
-        [Required]
-        public int RequestID { get; set; }
+        //[Required]
+        //public int RequestID { get; set; }
         [Required]
         public int ModifiedBy { get; set; }
 

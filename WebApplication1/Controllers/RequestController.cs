@@ -29,6 +29,31 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
+        [Route("getAllRequest")]
+        public IEnumerable<Request> GetAllRequest()
+        {
+            List<Request> requests = context123.Request.ToList();
+            return requests;
+
+        }
+
+        [HttpGet("{id}/{comment}")]
+        [Route("ApproveRequestByDepHead/{id}/{comment}")]
+        public Request ApproveRequestByDepHead(int id,string comment)
+        {
+
+            Request getRequest = context123.Request
+                  .Where(x => x.RequestID == id).SingleOrDefault();
+            if (getRequest != null)
+            {
+                getRequest.Comment = comment;
+                getRequest.RequestStatus = EOrderStatus.Approved;
+                context123.SaveChanges();
+            }
+            return getRequest;
+        }
+
+        [HttpGet]
         public IEnumerable<Request> Get()
         {
             List<Request> requestList = context123.Request.Where(x => x.RequestStatus != EOrderStatus.Rejected && x.RequestStatus != EOrderStatus.Pending).ToList();

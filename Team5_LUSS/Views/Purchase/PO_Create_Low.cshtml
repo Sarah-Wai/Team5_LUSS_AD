@@ -1,9 +1,17 @@
-﻿@{
+﻿@model PurchaseOrder
+
+@{
     ViewData["Title"] = "Create Purchase Order";
     Item item = (Item)ViewData["item"];
     List<Supplier> suppliers = (List<Supplier>)ViewData["suppliers"];
+    int purchasedBy = (int) ViewData["PurchasedBy"];
+    //int poId = (int)ViewData["poId"];
+    //String poNo = (String) ViewData["poNo"];
+    //DateTime createdOn = (DateTime)ViewData["createdOn"];
+    //PurchaseOrderStatus.POStatus status = (PurchaseOrderStatus.POStatus) ViewData["status"];
+    //var Model = (PurchaseOrder) ViewData["receivedPO"];
 }
-<form method="post">
+<form method="post" asp-action="POCreateLow">
     <div class="container-fluid site-width">
         <div>
             <div class="row">
@@ -17,13 +25,18 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <b>Expected Date:</b> <input type="date" name="expectedDate"/><br>
+                                            <b>Expected Date:</b> <input type="date" asp-for="ExpectedDate" name="expectedDate" /><br>
                                             <b>Supplier Name:</b> <select>
-                                                  @foreach(Supplier s in suppliers)
-                                                  {
-                                                      <option>@s.SupplierName <input type="hidden" value="@s.SupplierID"/></option>
-                                                  }
-                                                  </select> <br>
+                                                @foreach (Supplier s in suppliers)
+                                                {
+                                                                      <option value="@s.SupplierID" name="supplierId">@s.SupplierName</option>
+                                                }
+                                            </select> <br>
+                                            <input type="hidden" asp-for="PurchasedBy" value="@purchasedBy" />
+                                            @*<input type="hidden" asp-for="POID" value="@poId" />
+                                            <input type="hidden" asp-for="PONo" value="@poNo" />
+                                            <input type="hidden" asp-for="CreatedOn" value="@createdOn" />
+                                            <input type="hidden" asp-for="Status" value="@status" />*@
                                         </td>
                                     </tr>
                                 </tbody>

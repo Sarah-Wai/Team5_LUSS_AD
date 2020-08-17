@@ -44,7 +44,7 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> RetrievalForm()
         {
             List<dynamic> items = new List<dynamic>();
-            string status = "Pending";
+            string status = "Approved";
 
             using (var httpClient = new HttpClient())
             {
@@ -57,6 +57,31 @@ namespace Team5_LUSS.Controllers
 
             ViewData["items"] = items;
             return View("Retrieval_Form");
+        }
+
+        public async Task<IActionResult> RetrievalAllocation(int id)
+        {
+            List<dynamic> items = new List<dynamic>();
+            Retrieval retrieval = new Retrieval();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrievalID/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    items = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
+                }
+
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrieveID/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    retrieval = JsonConvert.DeserializeObject<Retrieval>(apiResponse);
+                }
+            }
+
+            ViewData["items"] = items;
+            ViewData["retrieval"] = retrieval;
+            return View("Disbursement_By_Retrieval");
         }
 
 

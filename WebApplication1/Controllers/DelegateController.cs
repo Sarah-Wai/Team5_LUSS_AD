@@ -21,13 +21,21 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        [HttpGet]
-        public IEnumerable<ItemCategory> GetItemCategory()
+       
+        [HttpGet("{id}")]
+        [Route("getDelegateByUserID/{id}")]
+        public DelegatedManager getDelegateByUserID(int id)
         {
-            List<ItemCategory> products = context123.ItemCategory.ToList();
-            return products;
+            try { 
+                DelegatedManager delegatedManager = context123.DelegatedManager.First(c => c.UserID == id);
+                return delegatedManager;
 
+            }
+            catch (Exception ex) { return null; }
+            
+           
         }
+        
         [HttpPost("{startDate}/{endDate}/{userId}")]
         [Route("AssignDelegate/{startDate}/{endDate}/{userId}")]
         public DelegatedManager AssignDelegate(DateTime startDate, DateTime endDate, int userId)

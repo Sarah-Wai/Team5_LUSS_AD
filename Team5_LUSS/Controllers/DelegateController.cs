@@ -47,7 +47,23 @@ namespace Team5_LUSS.Controllers
             ViewData["users"] = users;
             return View();
         }
-
+        
+       [HttpPost]
+        public async Task<DelegatedManager> getDelegateByUserID(int id)
+        {
+            DelegatedManager delegatedManager = new DelegatedManager();
+           
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_delegate_url + "/getDelegateByUserID/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    delegatedManager = JsonConvert.DeserializeObject<DelegatedManager>(apiResponse);
+                }
+            }
+           
+            return delegatedManager;
+        }
 
         [HttpPost]
         public async Task<string> DeleteDelegateTask(int id)

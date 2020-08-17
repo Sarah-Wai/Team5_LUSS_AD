@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace Team5_LUSS.Controllers
     {
         string api_url = "https://localhost:44312/";
 
+        //Product List Page
         public async Task<IActionResult> Index()
         {
             List<Item> itemList = new List<Item>();                       
@@ -244,6 +246,28 @@ namespace Team5_LUSS.Controllers
             }
             string addedItemJson = Newtonsoft.Json.JsonConvert.SerializeObject(addedItems);
             HttpContext.Session.SetString("addedItemSession", addedItemJson);
+            return RedirectToAction("ViewCart");
+        }
+
+        //Create Request
+        public async Task<IActionResult> CreateRequest()
+        {
+            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            Request req = new Request();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(cartItemJson), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(api_url + "ItemList/CreateRequest", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                     req = JsonConvert.DeserializeObject<Request>(apiResponse);
+                }
+
+            }
+            if(req != null)
+            {
+                HttpContext.Session.Remove("addedItemSession");
+            }
             return RedirectToAction("ViewCart");
         }
     }

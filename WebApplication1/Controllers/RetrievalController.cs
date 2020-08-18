@@ -26,6 +26,18 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
+        [HttpGet("get/newRetrievalId")]
+        public int GetNewRetrievalId()
+        {
+            int maxId = 0;
+            int? currentId = context123.Retrieval.Max(x => x.RetrievalID);
+            if (currentId != null)
+            {
+                maxId = (int)currentId;
+            }
+            return maxId + 1;
+        }
+
         [HttpGet]
         public IEnumerable<Retrieval> GetRetrievals()
         {

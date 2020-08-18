@@ -24,7 +24,19 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        
+        [HttpGet("get/newAdjVoucherId")]
+        public int GetNewAdjVoucherId()
+        {
+            int maxId = 0;
+            int? currentId = context123.AdjustmentVouncher.Max(x => x.AdjustmentID);
+            if (currentId != null)
+            {
+                maxId = (int)currentId;
+            }
+            return maxId + 1;
+        }
+
+
         [HttpGet]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucher()
         {
@@ -55,6 +67,7 @@ namespace LUSS_API.Controllers
             int price = context123.ItemPrice
                 .Where(x => x.ItemID == adjustment.ItemID).First().Price;
 
+            adjustment.AdjustmentID = GetNewAdjVoucherId();
             adjustment.Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending;
             adjustment.IssuedDate = DateTime.Now;
             adjustment.VoucherNo = "VN" + adjustment.AdjustmentID;
@@ -66,17 +79,28 @@ namespace LUSS_API.Controllers
             return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(string adjustment)
-        //{
-        //    var tempt = JsonConvert.DeserializeObject<dynamic>(adjustment);
+        [HttpPost("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{reason}")]
+        public async Task<ActionResult<AdjustmentVoucher>> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason)
+        {
+            int price = context123.ItemPrice
+                .Where(x => x.ItemID == itemId).First().Price;
 
-        //    AdjustmentVoucher voucher = new AdjustmentVoucher();
+            AdjustmentVoucher adjustment = new AdjustmentVoucher();
+            adjustment.AdjustmentID = GetNewAdjVoucherId();
+            adjustment.Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending;
+            adjustment.IssuedDate = DateTime.Now;
+            adjustment.VoucherNo = "VN" + adjustment.AdjustmentID;
+            adjustment.ItemID = itemId;
+            adjustment.Reason = reason;
+            adjustment.AdjustQty = adjustQty;
+            adjustment.AdjustType = adjustType;
+            adjustment.TotalCost = adjustQty * price;
 
-        //    Console.WriteLine(tempt);
+            context123.AdjustmentVouncher.Add(adjustment);
+            context123.SaveChanges();
+            return adjustment;
 
-        //    return voucher;
-        //}
+        }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]

@@ -63,6 +63,9 @@
                                             </td>
                                         </tr>
                                     }
+                                    <tr>
+                                        <td colspan="10"><b>Collection Date: </b><input type="date" /></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -129,7 +132,6 @@
                                     <b>Unit Cost:</b>
                                 </td>
                                 <td id="itemPrice">
-                                    $
                                 </td>
                             </tr>
                             <tr>
@@ -144,19 +146,20 @@
                                     <b>Quantity</b>
                                 </td>
                                 <td>
-                                    <input tabindex="7" type="radio" id="minimal-radio-12" class="radioBtn" value="Deduct" checked="checked" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
-                                    <label for="minimal-radio-12" style="min-width:50px" id="deduct">Deduct</label>
-                                    <input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">
+                                    <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Deduct" checked="checked" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
+                                    <label for="minimal-radio-12" style="min-width:50px" id="deduct" asp-for="AdjustType">Deduct</label>
+                                    <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
+                                    <label for="minimal-radio-12" style="min-width:50px" id="add" asp-for="AdjustType">Add</label>
+                                    @*<input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">*@
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input tabindex="7" type="radio" id="minimal-radio-12" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
-                                    <label for="minimal-radio-12" style="min-width:50px" id="add">Add</label>
-                                    <input type="number" id="qty_add" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">
+                                    
+                                    <input type="number" id="adjustQty" asp-for="AdjustQty" name="AdjustQty" onchange="calculate()" min="1" style="width:40px; height:25px">
                                 </td>
                             </tr>
-                            <input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />
+                            @*<input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />*@
                             <tr>
                                 <td>
                                     <b>Total Value</b>
@@ -171,7 +174,7 @@
                                 <td>
                                     <input type="text" asp-for="Reason" name="Reason" id="reason" placeholder="" style="width:250px; height:80px">
                                 </td>
-                                <input type="hidden" asp-for="Status" name="Status" value="@AdjustmentVoucherStatus.AdjustmentStatus.Pending" />
+                                @*<input type="hidden" asp-for="Status" name="Status" value="@AdjustmentVoucherStatus.AdjustmentStatus.Pending" />*@
                             </tr>
                         </table>
                     </div>
@@ -263,71 +266,77 @@
             });
     }
 
-    function showModalDistribute(itemID) {
-        $("#distribute").modal('show');
-        $.ajax({
-            method: "GET",
-            url: "https://localhost:44312/Retrieval/itemID/" + itemID,
+    //function showModalDistribute(itemID) {
+    //    $("#distribute").modal('show');
+    //    $.ajax({
+    //        method: "GET",
+    //        url: "https://localhost:44312/Retrieval/itemID/" + itemID,
 
-        })
-            .done(function (msg) {
+    //    })
+    //        .done(function (msg) {
 
-                //$.each(msg, function (i){
-                //    $("#distributionList").append("<tr>" +
-                //        "<td>" + msg[i].requestID + "</td>" +
-                //        "<td>" + msg[i].departmentCode + "</td>" +
-                //        "<td>" + msg[i].departmentName + "</td>" +
-                //        "<td>" + msg[i].uom + "</td>" +
-                //        "<td>" + msg[i].requestedQty + "</td>" +
-                //        "<td class="text - right"><input type="number" value="10" min="0" /></td>" +
-                //        "</tr>");
-                //})
+    //            //$.each(msg, function (i){
+    //            //    $("#distributionList").append("<tr>" +
+    //            //        "<td>" + msg[i].requestID + "</td>" +
+    //            //        "<td>" + msg[i].departmentCode + "</td>" +
+    //            //        "<td>" + msg[i].departmentName + "</td>" +
+    //            //        "<td>" + msg[i].uom + "</td>" +
+    //            //        "<td>" + msg[i].requestedQty + "</td>" +
+    //            //        "<td class="+"text - right"+"><input type="+"number"+" value="+"10"+" min="+"0"+" /></td>" +
+    //            //        "</tr>");
+    //            //})
 
-                $.each(msg, function(i) {
-                    console.log(msg[i]);
-                    $("#requestID").html(msg[i].requestID);
-                    $("#departmentCode").html(msg[i].departmentCode);
-                    $("#departmentName").html(msg[i].departmentName);
-                    $("#uom").html(msg[i].uom);
-                    $("#requestedQty").html(msg[i].requestedQty);
-                })
+    //            //$.each(msg, function(i) {
+    //            //    console.log(msg[i]);
+    //            //    $("#requestID").html(msg[i].requestID);
+    //            //    $("#departmentCode").html(msg[i].departmentCode);
+    //            //    $("#departmentName").html(msg[i].departmentName);
+    //            //    $("#uom").html(msg[i].uom);
+    //            //    $("#requestedQty").html(msg[i].requestedQty);
+    //            //})
 
-                //for (var i = 0; i < msg.length; i++) {
-                //    console.log(msg[i]);
-                //    $("#requestID").html(msg[i].requestID);
-                //    $("#departmentCode").html(msg[i].departmentCode);
-                //    $("#departmentName").html(msg[i].departmentName);
-                //    $("#uom").html(msg[i].uom);
-                //    $("#requestedQty").html(msg[i].requestedQty);
-                //}
+    //            //for (var i = 0; i < msg.length; i++) {
+    //            //    console.log(msg[i]);
+    //            //    $("#requestID").html(msg[i].requestID);
+    //            //    $("#departmentCode").html(msg[i].departmentCode);
+    //            //    $("#departmentName").html(msg[i].departmentName);
+    //            //    $("#uom").html(msg[i].uom);
+    //            //    $("#requestedQty").html(msg[i].requestedQty);
+    //            //}
                 
-            });
-    }
+    //        });
+    //}
 
     function calculate() {
-        $checked = $("input[name='AdjustType']:checked").next().next();
-        var a = parseFloat($checked.val());
-        a = isNaN(a) ? 0 : a;
+        //$checked = $("input[name='AdjustType']:checked").next().next();
+        //var a = parseFloat($checked.val());
+        //a = isNaN(a) ? 0 : a;
 
+        //var b = parseFloat($("#itemPrice").html());
+        //b = isNaN(b) ? 0 : b;
+        //$("#totalPrice").html(a * b);
+
+        var a = $("#adjustQty").val();
         var b = parseFloat($("#itemPrice").html());
-        b = isNaN(b) ? 0 : b;
         $("#totalPrice").html(a * b);
     }
 
-    function pick() {
-        $checked = $("input[name='AdjustType']:checked").next().next();
-        $unchecked = $("input[name='AdjustType']:not(:checked)").next().next();
+    //function pick() {
+    //    $checked = $("input[name='AdjustType']:checked").next().next();
+    //    $unchecked = $("input[name='AdjustType']:not(:checked)").next().next();
 
-        $checked.removeAttr('disabled');
-        $unchecked.attr('disabled', true);
-        $unchecked.val("1");
-    }
+    //    $checked.removeAttr('disabled');
+    //    $unchecked.attr('disabled', true);
+    //    $unchecked.val("1");
+    //}
 
     function resetForm() {
         $("input[name='AdjustType']").removeProp('checked');
         $("input[name='AdjustType']").first().prop('checked', true);
-        $('#qty_deduct').val("1");
-        $('#qty_add').val("1");
+        //$('#qty_deduct').val("1");
+        //$('#qty_add').val("1");
+        $('#adjustQty').val("1");
+        $('#reason').val("");
     }
 
     function submitForm() {

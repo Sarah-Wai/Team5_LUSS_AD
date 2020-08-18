@@ -11,7 +11,7 @@ namespace Team5_LUSS.Models
     public class PurchaseOrderItems
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int POItemID  { get; set; }
         [Required]
         public int POID  { get; set; }

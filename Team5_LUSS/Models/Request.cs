@@ -32,8 +32,10 @@ namespace Team5_LUSS.Models
         public int? ParentRequestID { get; set; }
         [Required]
         public DateTime CollectionTime { get; set; }
+        public int? RetrievalID { get; set; }
         public virtual User ModifiedByUser { get; set; }
         public virtual User RequestByUser { get; set; }
         public virtual ICollection<RequestDetails> RequestDetails { get; set; }
+        public virtual Retrieval Retrieval { get; set; }
     }
 }

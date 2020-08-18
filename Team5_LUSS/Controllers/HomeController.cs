@@ -45,6 +45,8 @@ namespace Team5_LUSS.Controllers
                     ViewData["User"] = login_user;
                     HttpContext.Session.SetString("Email", Email);
                     HttpContext.Session.SetInt32("UserID", login_user.UserID);
+                    HttpContext.Session.SetInt32("CPId", login_user.Department.CollectionPointID);
+                    HttpContext.Session.SetInt32("DeptId", login_user.DepartmentID);
                     TempData["Alert"] = "Login Successful";
 
 

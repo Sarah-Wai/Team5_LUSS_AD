@@ -1,16 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Team5_LUSS.Models;
+using System.Text;
 
 namespace Team5_LUSS.Controllers
 {
     public class RepresentativeController : Controller
     {
-        public IActionResult Index()
+        string api_user_url = "https://localhost:44312/User"; // connect to API project Controller class
+        string api_representative_url = "https://localhost:44312/Representative";
+        //string msg = "";
+        [HttpGet]
+        public async Task<IActionResult> AssignRepresentative(int id,string msg)
         {
+            List<User> users = new List<User>();
+            id = 1;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_user_url + "/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    users = JsonConvert.DeserializeObject<List<User>>(apiResponse);
+                }
+            }
+            if (msg != "")
+            {
+                ViewData["DeleteMsg"] = msg;
+            }
+
+            ViewData["users"] = users;
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AddRepresentative(int id)
+        {
+            string apiResponse = "";
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_representative_url + "/" + id+ "/"+true))
+                {
+                    apiResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+            string msg = "Assign Successfully!";
+            return RedirectToAction("AssignRepresentative", new { id = 1, msg=msg }) ;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveRepresentative(int id)
+        {
+            string apiResponse = "";
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_representative_url + "/" + id + "/" + false))
+                {
+                    apiResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+            string msg = "Remove Successfully!";
+            return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
+        }
+
     }
+
 }

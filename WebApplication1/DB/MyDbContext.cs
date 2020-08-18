@@ -41,6 +41,9 @@ namespace LUSS_API.DB
             model.Entity<User>().HasKey(x => x.UserID);
             model.Entity<DelegatedManager>().HasKey(x => x.DelegatedManagerID);
 
+            //HasRequired(x => x.Person).WithMany().HasForeignKey(x => x.PersonId);
+            model.Entity<RequestDetails>().HasOne(r => r.Request).WithMany(u => u.RequestDetails).HasForeignKey(r => r.RequestID).OnDelete(DeleteBehavior.Restrict);
+
             model.Entity<Request>().HasOne(r => r.RequestByUser).WithMany(u => u.RequestMade).HasForeignKey(r => r.RequestBy).OnDelete(DeleteBehavior.Restrict);
 
             model.Entity<Request>().HasOne(r => r.ModifiedByUser).WithMany(u => u.RequestModified).HasForeignKey(r => r.ModifiedBy).OnDelete(DeleteBehavior.Restrict);

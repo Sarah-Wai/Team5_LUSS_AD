@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Controllers
 {
@@ -54,7 +57,7 @@ namespace LUSS_API.Controllers
             {
                 itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();
             }
-            
+
             return itemList;
         }
 
@@ -74,24 +77,98 @@ namespace LUSS_API.Controllers
                 {
                     itemList = context123.Item.ToList();
                 }
-                
+
             }
             else
             {
                 itemList = context123.Item.Where(x => x.CategoryID.Equals(id) && x.ItemName.Contains(name)).ToList();
             }
-           
+
             return itemList;
         }
 
         //get low stock item list
-        [HttpGet("get-low-stock-items")]
+        [HttpGet]
+        [Route("get-low-stock-items")]
         public IEnumerable<Item> GetLowStockItems()
         {
             List<Item> items = context123.Item.Where(x => x.InStockQty < x.ReStockLevel).ToList();
             return items;
         }
 
-        
+        //get selected Items
+        [HttpPost("{itemId}")]
+        [Route("get-items-by-id/{itemId}")]
+        public IEnumerable<Item> GetItemListById(List<int> itemId)
+        {
+            List<Item> items = new List<Item>();
+            for (int i = 0; i < itemId.Count(); i++)
+            {
+                items.Add(context123.Item.Where(x => x.ItemID == itemId[i]).FirstOrDefault());
+            }
+            return items;
+        }
+       
+        //create new request
+        [HttpPost]
+        [Route("CreateRequest")]
+        public Request CreateRequest([FromBody] string jsonData)
+        {
+            Request req = new Request();
+            if (jsonData != null)
+            {
+                //try create new order first
+                try
+                {
+                    req.RequestStatus = EOrderStatus.Pending;
+                    req.RequestDate = DateTime.Now;
+                    req.RequestBy = 1;
+                    req.ModifiedBy = 1;
+                    req.Comment = null;
+                    req.RequestType = 0;
+                    req.ParentRequestID = null;
+                    req.CollectionTime = DateTime.Now;
+                    req.RetrievalID = null;
+
+                    context123.Request.Add(req);
+                    context123.SaveChanges();
+                    //Console.WriteLine(req.RequestID);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    try
+                    {
+                        List<AddToCartItem> items = JsonConvert.DeserializeObject<List<AddToCartItem>>(jsonData);
+                        List<RequestDetails> reqDetails = new List<RequestDetails>();
+
+                        foreach (var item in items)
+                        {
+                            RequestDetails reqDetail = new RequestDetails();
+                            reqDetail.ItemID = item.ItemID;
+                            reqDetail.RequestID = req.RequestID;
+                            reqDetail.RequestQty = item.SelectedQty;
+                            reqDetail.FullfillQty = null;
+                            reqDetail.ReceivedQty = null;
+
+                            reqDetails.Add(reqDetail);
+                        }
+
+                        context123.RequestDetails.AddRange(reqDetails);
+                        context123.SaveChanges();
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            } 
+            return req;
+        }
+
     }
 }

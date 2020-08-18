@@ -1,6 +1,8 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Request> allRequests = (List<Request>)ViewData["allRqt"];
+
 }
 
 <!-- START: Main Content-->
@@ -21,22 +23,22 @@
                     <div class="card border h-100 invoice-menu-section">
                         <ul class="nav flex-column invoice-menu">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link" asp-action="ConfirmDelivery">
                                     All Requests
                                 </a>
                             </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="ConfirmDelivery" asp-route-status="PendingDelivery">
+                                        Pending Delivery
+                                    </a>
+                                </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Pending Delivery
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" asp-action="ConfirmDelivery" asp-route-status="Received">
                                     Received
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
+                            <li class="nav-item" >
+                                <a class="nav-link" asp-action="ConfirmDelivery" asp-route-status="Completed">
                                     Completed
                                 </a>
                             </li>
@@ -47,35 +49,37 @@
                     <div class="card border h-100 invoice-list-section">
                         <div class="card-body p-0">
                             <div class="invoices list">
-
-                                <div class="invoice">
-                                    <div class="invoice-content" data-status="generated-invoice">
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Request ID</p>
-                                            <p class="cliname">0002</p>
+                                @foreach (Request r in allRequests)
+                                {
+                                    <div class="invoice">
+                                        <div class="invoice-content">
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">RequestID</p>
+                                                <p class="cliname">@r.RequestID</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Request Date</p>
+                                                <p class="invoice-no">@r.RequestDate.Date.ToString("MMMM dd, yyyy")</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Department</p>
+                                                <p class="invocie-date">@r.RequestByUser.Department.DepartmentCode</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Order Type</p>
+                                                <p class="invoice-due-date">@r.RequestType</p>
+                                            </div>
+                                            <div class="invoice-status-info">
+                                                <p class="mb-0 small">Status</p>
+                                                <p>@r.RequestStatus</p>
+                                            </div>
+                                            <div class="line-h-1 h5">
+                                                <a class="text-success edit-invoice" href="#">View</a>
+                                            </div>
                                         </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Date</p>
-                                            <p class="invoice-no">20 June 2020</p>
-                                        </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Department</p>
-                                            <p class="invocie-date">ENG</p>
-                                        </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Order Type</p>
-                                            <p class="invoice-due-date">NEW</p>
-                                        </div>
-                                        <div class="invoice-status-info">
-                                            <p class="mb-0 small">Status </p>
-                                            <p class="invocie-date">Received</p>
-                                        </div>
-                                        <div class="line-h-1 h5">
-                                            <a class="text-success edit-invoice" href="#">View</a>
-                                        </div>
-                                    </div>
+                                    </div>                            
+                                    }
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>

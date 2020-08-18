@@ -20,6 +20,9 @@ namespace Team5_LUSS.Models
         [MaxLength(50)]
         public string LastName { get; set; }
         [MaxLength(50)]
+        public string Designation { get; set; }
+        
+        [MaxLength(50)]
         public string  ContactNumber { get; set; }
         [Required]
         [MaxLength(50)]
@@ -43,5 +46,6 @@ namespace Team5_LUSS.Models
         public virtual ICollection<Request> RequestModified { get; set; }
         public virtual ICollection<AdjustmentVoucher> RequestedBy { get; set; }
         public virtual ICollection<AdjustmentVoucher> ApprovedBy { get; set; }
+        public virtual DelegatedManager DelegatedManager { get; set; }
     }
 }

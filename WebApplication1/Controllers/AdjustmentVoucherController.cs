@@ -6,6 +6,7 @@ using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,7 +24,19 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        
+        [HttpGet("newAdjVoucherId")]
+        public int GetNewAdjVoucherId()
+        {
+            int maxId = 0;
+            int? currentId = context123.AdjustmentVouncher.Max(x => x.AdjustmentID);
+            if (currentId != null)
+            {
+                maxId = (int)currentId;
+            }
+            return maxId + 1;
+        }
+
+
         [HttpGet]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucher()
         {
@@ -48,13 +61,50 @@ namespace LUSS_API.Controllers
         }
 
         
-        [HttpPost]
-        public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
-        {
-            context123.AdjustmentVouncher.Add(adjustment);
-            await context123.SaveChangesAsync();
+        //[HttpPost]
+        //public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
+        //{
+        //    int price = context123.ItemPrice
+        //        .Where(x => x.ItemID == adjustment.ItemID).First().Price;
 
-            return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
+        //    adjustment.AdjustmentID = 1;
+        //    adjustment.Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending;
+        //    adjustment.IssuedDate = DateTime.Now;
+        //    adjustment.VoucherNo = "VN" + adjustment.AdjustmentID;
+        //    adjustment.TotalCost = adjustment.AdjustQty * price;
+
+        //    context123.AdjustmentVouncher.Add(adjustment);
+        //    await context123.SaveChangesAsync();
+
+        //    return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
+        //}
+
+        [HttpGet("{adjustType}/{itemId}/{adjustQty}/{reason}")]
+        [Route("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{reason}")]
+        public string AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason)
+        {
+            int price = context123.ItemPrice
+                .Where(x => x.ItemID == itemId).FirstOrDefault().Price;
+            //int id = GetNewAdjVoucherId();
+
+            AdjustmentVoucher adjustment = new AdjustmentVoucher()
+            {   AdjustmentID = 3,// to be removed, id is auto generated
+                Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending,
+                IssuedDate = DateTime.Now,
+                ItemID = itemId,
+                Reason = reason,
+                AdjustQty = adjustQty,
+                AdjustType = adjustType,
+                TotalCost = adjustQty * price
+            };
+
+            adjustment.VoucherNo = "VN" + DateTime.Now.Year + adjustment.AdjustmentID;
+
+
+            context123.AdjustmentVouncher.Add(adjustment);
+            context123.SaveChanges();
+            return "success";
+
         }
 
         // PUT api/<controller>/5

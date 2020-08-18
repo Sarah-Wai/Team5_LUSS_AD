@@ -14,8 +14,10 @@ namespace Team5_LUSS.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int DelegatedManagerID   { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0: dd-MM-yyyy}")]
         public DateTime FromDate   { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0: dd-MM-yyyy}")]
         public DateTime ToDate   { get; set; }
         [Required]
         public int UserID    { get; set; } 

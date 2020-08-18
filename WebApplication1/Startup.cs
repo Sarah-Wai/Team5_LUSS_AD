@@ -62,6 +62,7 @@ namespace LUSS_API
             {
                 endpoints.MapControllers();
             });
+           
 
             //dbcontext.Database.EnsureDeleted();
             //dbcontext.Database.EnsureCreated();
@@ -101,13 +102,17 @@ namespace LUSS_API
 
             //List<Request> requests = AddRequests.getAllRequest();
             //dbcontext.AddRange(requests);
+
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
             //dbcontext.AddRange(requestDetails);
 
             //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO();
             //dbcontext.AddRange(purchaseOrders);
 
-            dbcontext.SaveChanges();
+            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
+            //dbcontext.AddRange(retrievals);
+
+            //dbcontext.SaveChanges();
 
         }
     }

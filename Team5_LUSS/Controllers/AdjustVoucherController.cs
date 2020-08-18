@@ -56,23 +56,42 @@ namespace Team5_LUSS.Controllers
         //    return View("AdjustVoucherListingClerk");
         //}
 
+        //public ViewResult AddAdjustmentVoucher() => View();
+
+        //[HttpPost]
+        //public async Task<IActionResult> AddAdjustmentVoucher(AdjustmentVoucher adj)
+        //{
+        //    AdjustmentVoucher adjustment = new AdjustmentVoucher();
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        StringContent content = new StringContent(JsonConvert.SerializeObject(adj), Encoding.UTF8, "application/json");
+
+        //        using (var response = await httpClient.PostAsync(api_url, content))
+        //        {
+        //            string apiResponse = await response.Content.ReadAsStringAsync();
+        //            adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
+        //        }
+        //    }
+
+        //    ViewData["adjustment"] = adjustment;
+        //    //return View(adjustment);
+        //    return RedirectToAction("RetrievalForm", "Disbursement");
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> AddAdjustmentVoucher(AdjustmentVoucher adj)
+        public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason)
         {
-            AdjustmentVoucher adjustment = new AdjustmentVoucher();
+            //AdjustmentVoucher adjustment = new AdjustmentVoucher();
             using (var httpClient = new HttpClient())
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(adj), Encoding.UTF8, "application/json");
-
-                using (var response = await httpClient.PostAsync(api_url, content))
+                using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + reason))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
+                    //adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
                 }
             }
-
-            ViewData["adjustment"] = adjustment;
-            return View(adjustment);
+            //return View(adjustment);
+            return RedirectToAction("RetrievalForm", "Disbursement");
         }
 
         public async Task<IActionResult> GetItemForAdjustment(int id)

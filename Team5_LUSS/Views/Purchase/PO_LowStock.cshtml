@@ -3,82 +3,81 @@
     ViewData["Title"] = "Purchase Orders";
     List<Item> lowStockItems = (List < Item > )ViewData["lowStockItems"];
 }
-
-<div class="container-fluid site-width">
-    <!-- START: Card Data-->
-    <div class="row ">
-        <div class="col-12  align-self-center">
-            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
-            </div>
-            <div class="btn-group mb-2">
-                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                    Low Stock
-                </a>
-                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                    PO History
-                </a>
-                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                    New PO
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="row row-eq-height">
-        <div class="col-12 col-lg-10 mt-3 pl-lg-0">
-            <div class="card border h-100 invoice-list-section">
-                <div class="card-header border-bottom p-1 d-flex">
-                    <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
-                    <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
+    <form asp-controller="Purchase"  asp-action="POCreateBulk" method="post" >
+        <div class="container-fluid site-width">
+            <!-- START: Card Data-->
+            <div class="row ">
+                <div class="col-12  align-self-center">
+                    <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                        <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+                    </div>
+                    <div class="btn-group mb-2">
+                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                            Low Stock
+                        </a>
+                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                            PO History
+                        </a>
+                        <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                            New PO
+                        </a>
+                    </div>
                 </div>
-                <div class="col-12 col-md-12">
-                    <div class="card border-0">
-                        <div class="card-body table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <td><label><input type="checkbox" data-tablesaw-checkall><span class="sr-only"> Check All</span></label></td>
-                                        <td><b>Item Code</b></td>
-                                        <td><b>Description</b></td>
-                                        <td class="text-right"><b>UOM</b></td>
-                                        <td class="text-right"><b>InStock Qty</b></td>
-                                        <td class="text-right"><b>Reorder Level</b></td>
-                                        <td class="text-right"><b>Reorder Quantity</b></td>
-                                        <td class="text-right"><b></b></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (lowStockItems != null)
-                                    {
-                                        foreach (Item i in lowStockItems)
-                                        {
-                                    <tr>
-                                        <td><label><input type="checkbox"><span class="sr-only"> Select Row</span></label></td>
-                                        <td>@i.ItemCode</td>
-                                        <td class="text-right">@i.ItemName</td>
-                                        <td class="text-right">@i.UOM</td>
-                                        <td class="text-right">@i.InStockQty</td>
-                                        <td class="text-right">@i.ReStockLevel</td>
-                                        <td class="text-right">@i.ReStockQty</td>
-                                        <td>
-                                            <a asp-action="POCreateLow" asp-route-id="@i.ItemID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                                                Create
-                                            </a>
-                                        </td>
-                                    </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
+            </div>
+            <div class="row row-eq-height">
+                <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+                    <div class="card border h-100 invoice-list-section">
+                        <div class="card-header border-bottom p-1 d-flex">
+                            <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
+                            <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
                         </div>
-                        <div class="text-right p-5">
-                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                Create Selected
-                            </a>
+                        <div class="col-12 col-md-12">
+                            <div class="card-body">
+                                <div class="tablesaw-overflow">
+                                    <table class="tablesaw table-bordered" data-tablesaw>
+                                        <thead>
+                                            <tr>
+                                                <td><label><input type="checkbox" data-tablesaw-checkall><span class="sr-only"> Check All</span></label></td>
+                                                <td scope="col" class="text-right"><b>Item Code</b></td>
+                                                <td scope="col" class="text-right"><b>Description</b></td>
+                                                <td scope="col" class="text-right"><b>UOM</b></td>
+                                                <td scope="col" class="text-right"><b>InStock Qty</b></td>
+                                                <td scope="col" class="text-right"><b>Reorder Level</b></td>
+                                                <td scope="col" class="text-right"><b>Reorder Quantity</b></td>
+                                                <td scope="col" class="text-right"><b></b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (lowStockItems != null)
+                                            {
+                                                foreach (Item i in lowStockItems)
+                                                {
+                                                    <tr>
+                                                        <td><label><input type="checkbox"><span class="sr-only"> Select Row</span></label></td>
+                                                        <td>@i.ItemCode <input type="hidden" value="@i.ItemID" name="itemId"></td>
+                                                        <td class="text-right">@i.ItemName</td>
+                                                        <td class="text-right">@i.UOM</td>
+                                                        <td class="text-right">@i.InStockQty</td>
+                                                        <td class="text-right">@i.ReStockLevel</td>
+                                                        <td class="text-right">@i.ReStockQty</td>
+                                                        <td>
+                                                            <a asp-action="POCreateLow" asp-route-id="@i.ItemID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                                                Create
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-right p-5">
+                                    <button type="submit" class="btn btn-success">Create Selected</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </form>

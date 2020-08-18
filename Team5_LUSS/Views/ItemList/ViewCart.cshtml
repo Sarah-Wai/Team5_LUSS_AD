@@ -1,0 +1,121 @@
+﻿@using Team5_LUSS.Models.ViewModels;
+@{
+    ViewData["Title"] = "ViewCart";
+    var Items = (List<AddToCartItem>)ViewData["addedItems"];
+}
+
+<h3>ViewCart</h3>
+<div class="row">
+    <div class="col-12 mt-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <form method="post" enctype="multipart/form-data" asp-controller="ItemList" asp-action="UpdateCart" style="width:100%">
+                        <div class="col-lg-6  col-xl-6 col-md-6 mb-4 mb-xl-0">
+                            <table class="table table-bordered mb-0 table-responsive d-block border-bottom-0 border-top-0 border-left-0 border-right-0">
+                                <thead>
+                                    <tr class="bg-transparent">
+                                        <th class="border-bottom-0">Image</th>
+                                        <th class="border-bottom-0">Product</th>
+                                        <th class="border-bottom-0">Unit</th>
+                                        <th class="border-bottom-0">Quantity</th>
+                                        <th class="border-bottom-0">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Items != null)
+                                    {
+                                        @foreach (var item in Items)
+                                        {
+                                            string img = "/images/itemImgs/" + item.ItemCode + ".jpg";
+                                            string itemclassname = "item" + item.ItemID;
+                                            <tr>
+
+                                                <td><img src=@img alt="" class="img-fluid" width="60"></td>
+                                                <td class="align-middle">
+                                                    <input type="hidden" name="itemId" value="@item.ItemID" />
+                                                    <span class=@itemclassname>@item.ItemName</span>
+                                                </td>
+                                                <td class="align-middle">@item.UOM</td>
+                                                <td class="w-25 align-middle"><input type="number" name="quantity" min="1" max="@item.InStockQty" class="form-control" value="@item.SelectedQty"></td>
+                                                <td class="align-middle">
+                                                    <button type="button" onclick="removeItem(@item.ItemID)"
+                                                            style="color:red;border:none;background:none;">
+                                                        <i class="icon-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <h4>No item in the list.</h4>
+                                    }
+
+                                </tbody>
+                            </table>
+
+                            <div class="clearfix mt-4">
+                                <div class="float-right">
+                                    <input type="submit" class="btn btn-primary" value="Update Cart" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-6 col-md-6">
+                        <button type="button" onclick="createRequest()" class="btn btn-success float-right">Submit Request</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+@section Scripts{
+
+    <script>
+
+        var removeItem = function (id) {
+
+            var name = $('.item' + id).html();
+            $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("RemoveItem", "ItemList")',
+                    data: { id },
+                        success: function (result) {
+                            toastr["success"](name + " has been removed from cart.");
+                            location.reload();
+                        }
+                })
+        }
+
+        //calling action for create request 
+        var createRequest = function () {
+            $.ajax({
+                    type: "Post",
+                    url: '@Url.Action("CreateRequest", "ItemList")',
+                    success: function (result) {
+                        //sweet alert for create request success
+                        swal({
+                            title: "Success", 
+                            text: "Your request has been created.",
+                            type: "success"
+                            }, function () {
+                                window.location.href = '@Url.Action("Index","ItemList")';    //when user click "OK", will redirect back to Index page
+                            }
+
+                        )
+                    }
+                })
+        }
+
+    </script>
+}

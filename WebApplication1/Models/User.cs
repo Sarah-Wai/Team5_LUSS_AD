@@ -11,14 +11,15 @@ namespace LUSS_API.Models
     public class User
     {
         [Required]
-        [MaxLength(20)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public  int UserID { get; set; }
         [Required]
         [MaxLength(50)]
         public string FirstName  { get; set; }
         [MaxLength(50)]
         public string LastName { get; set; }
+        [MaxLength(50)]
+        public string Designation { get; set; }
         [MaxLength(50)]
         public string  ContactNumber { get; set; }
         [Required]
@@ -46,7 +47,7 @@ namespace LUSS_API.Models
 
         public virtual ICollection<AdjustmentVoucher> RequestedBy { get; set; }
         public virtual ICollection<AdjustmentVoucher> ApprovedBy { get; set; }
-        public virtual ICollection<DelegatedManager> DelegatedManagers { get; set; }
+        public virtual DelegatedManager DelegatedManager { get; set; }
 
 
     }

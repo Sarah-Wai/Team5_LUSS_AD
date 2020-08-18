@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
 using Team5_LUSS.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using X.PagedList;
 
 namespace Team5_LUSS.Controllers
 {
@@ -17,11 +19,13 @@ namespace Team5_LUSS.Controllers
         string api_url = "https://localhost:44312/";
 
         //Product List Page
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             List<Item> itemList = new List<Item>();                       
             List<ItemCategory> itemCatList = new List<ItemCategory>();
             ItemCategory defaultItem = new ItemCategory();
+
+           
 
             //we set the new default value "ALL" for dropdownlist
             defaultItem.CategoryID = 0;
@@ -56,13 +60,14 @@ namespace Team5_LUSS.Controllers
             //if not null, we will only show those items list which is inside Session
             else
             {
-
                 itemList = JsonConvert.DeserializeObject<List<Item>>(HttpContext.Session.GetString("itemListSession"));
             }
             ViewData["items"] = itemList;
             ViewData["itemCatList"] = itemCatList;
- 
-            return View();
+            var pageNumber = page ?? 1;
+            int pageSize = 10;
+            var onePageOfItems = itemList.ToPagedList(pageNumber, pageSize);
+            return View(onePageOfItems);
         }
 
         //FindItemByCategory action for dropdownList using Session to store data
@@ -210,7 +215,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-
+            //to update the data inside Session
             for (int i = 0; i < itemIds.Length; i++)
             {
                 if (addedItems[i].ItemID == Int32.Parse(itemIds[i]))
@@ -249,11 +254,12 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("ViewCart");
         }
 
-        //Create Request
+        //Create New Order Request
         public async Task<IActionResult> CreateRequest()
         {
             string cartItemJson = HttpContext.Session.GetString("addedItemSession");
             Request req = new Request();
+
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(cartItemJson), Encoding.UTF8, "application/json");

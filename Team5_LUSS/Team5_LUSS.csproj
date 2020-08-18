@@ -9,14 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\NewFolder1\**" />
     <Compile Remove="Views\NewFolder2\**" />
-    <Content Remove="Views\NewFolder1\**" />
+    <Compile Remove="Views\NewFolder\**" />
     <Content Remove="Views\NewFolder2\**" />
-    <EmbeddedResource Remove="Views\NewFolder1\**" />
+    <Content Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="Views\NewFolder2\**" />
-    <None Remove="Views\NewFolder1\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
     <None Remove="Views\NewFolder2\**" />
+    <None Remove="Views\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,11 +32,11 @@
     <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Connected Services\" />
-    <Folder Include="Views\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

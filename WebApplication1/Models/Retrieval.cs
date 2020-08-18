@@ -20,10 +20,10 @@ namespace LUSS_API.Models
         public DateTime IssueDate { get; set; }
         //[Required]
         //public int RequestID { get; set; }
-        [Required]
-        public int ModifiedBy { get; set; }
+        //[Required]
+        //public int ModifiedBy { get; set; }
 
-        public virtual ICollection<Request> Request { get; set; }
-        public virtual User User { get; set; }
+        //public virtual ICollection<RequestDetails> RequestDetails { get; set; }
+        //public virtual User User { get; set; }
     }
 }

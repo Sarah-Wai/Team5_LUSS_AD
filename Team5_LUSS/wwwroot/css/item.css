@@ -99,3 +99,7 @@
     color: #495057;
 }
 /**Number Input - End **/
+
+.PagedList-pageCountAndLocation{
+    display:none;
+}

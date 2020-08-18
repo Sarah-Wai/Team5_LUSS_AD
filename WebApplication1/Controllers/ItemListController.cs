@@ -95,7 +95,7 @@ namespace LUSS_API.Controllers
             return items;
         }
 
-        //create new request
+        //create new order request
         [HttpPost]
         [Route("CreateRequest")]
         public Request CreateRequest([FromBody] string jsonData)
@@ -104,6 +104,7 @@ namespace LUSS_API.Controllers
             Request req = new Request();
             if (jsonData != null)
             {
+                //try create new order first
                 try
                 {
                     req.RequestStatus = EOrderStatus.Pending;
@@ -118,7 +119,7 @@ namespace LUSS_API.Controllers
 
                     context123.Request.Add(req);
                     context123.SaveChanges();
-                    Console.WriteLine(req.RequestID);
+                    //Console.WriteLine(req.RequestID);
 
                 }
                 catch (Exception ex)
@@ -129,7 +130,6 @@ namespace LUSS_API.Controllers
                 {
                     try
                     {
-
                         List<AddToCartItem> items = JsonConvert.DeserializeObject<List<AddToCartItem>>(jsonData);
                         List<RequestDetails> reqDetails = new List<RequestDetails>();
 
@@ -153,9 +153,7 @@ namespace LUSS_API.Controllers
 
                     }
                 }
-            }
-        
-           
+            } 
             return req;
         }
 

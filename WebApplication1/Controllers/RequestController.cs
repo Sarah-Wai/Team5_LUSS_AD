@@ -85,9 +85,10 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
+        [Route("get-approved-request")]
         public IEnumerable<Request> Get()
         {
-            List<Request> requestList = context123.Request.Where(x => x.RequestStatus != EOrderStatus.Rejected && x.RequestStatus != EOrderStatus.Pending).ToList();
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == EOrderStatus.Approved).ToList();
             return requestList;
         }
 

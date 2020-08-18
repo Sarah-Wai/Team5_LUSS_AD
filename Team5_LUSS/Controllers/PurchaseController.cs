@@ -82,7 +82,6 @@ namespace Team5_LUSS.Controllers
         {
             Item item = new Item();
             List<Supplier> suppliers = new List<Supplier>();
-            int poId;
             
             using (var httpClient = new HttpClient())
             {
@@ -174,6 +173,24 @@ namespace Team5_LUSS.Controllers
             ViewData["purchase"] = purchase;
             ViewData["orderItems"] = orderItems;
             return View("PO_Receive");
+        }
+        [HttpPost]
+
+        public async Task<IActionResult> ReceivePO(List<int> receivedQty, int poid)
+        {
+            
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(receivedQty), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(api_url + "/received-purchase/" + receivedQty +"/" +poid, content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    
+                }
+            }
+
+            
+            return View("PO_History");
         }
         #endregion
 

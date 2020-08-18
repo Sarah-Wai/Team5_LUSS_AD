@@ -40,8 +40,8 @@ namespace LUSS_API.Controllers
             return purchase;
         }
 
-        [HttpGet]
-        [Route("get-new-po-id")]
+        //[HttpGet]
+        //[Route("get-new-po-id")]
         public int GetNewPOId()
         {
             int maxId = 0;
@@ -87,7 +87,6 @@ namespace LUSS_API.Controllers
                 ExpectedDate = Convert.ToDateTime(expectedDate),
                 PurchasedBy = 1
             };
-            //po.Supplier = null;
             PurchaseOrderItems poItem = new PurchaseOrderItems()
             {
                 //POItemID = poItemId,
@@ -99,6 +98,26 @@ namespace LUSS_API.Controllers
             context123.PurchaseOrderItems.Add(poItem);
             context123.SaveChanges();
             return "Ok";
+        }
+
+        [HttpPost("{receivedQty}/{poid}")]
+        [Route("received-purchase/{receivedQty}/{poid}")]
+        public string receivedPurchase(List<int> receivedQty, int poid)
+        {
+            PurchaseOrder po = GetPurchaseOrderById(poid);
+            List<PurchaseOrderItems> poItems = context123.PurchaseOrderItems.Where(x => x.POID == poid).ToList();
+            //update recdQty for each poItems 
+            for(int i = 0; i < poItems.Count() ; i++)
+            {
+                if (poItems[i].OrderQty >= receivedQty[i]) {
+                    poItems[i].ReceivedQty = receivedQty[i];
+                }
+            }
+            //update PO
+            po.Status = POStatus.Completed;
+            po.ReceivedDate = DateTime.Now;
+            context123.SaveChanges();
+            return "ok";
         }
 
         //To delete 

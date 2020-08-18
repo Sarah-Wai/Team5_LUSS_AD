@@ -46,5 +46,13 @@ namespace LUSS_API.Controllers
             CollectionPoint cp = context123.CollectionPoint.Where(x => x.CollectionPointID == cpID).FirstOrDefault();
             return cp;
         }
+
+        [HttpGet("{cpID}")]
+        public CollectionPoint getCollectionPointByID(int cpID)
+        {
+            CollectionPoint cp = context123.CollectionPoint.Where(x => x.CollectionPointID == cpID).FirstOrDefault();
+            return cp;
+        }
+
     }
 }

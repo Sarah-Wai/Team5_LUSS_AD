@@ -1,0 +1,157 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var deptUsers = (List<User>)ViewData["users"];
+    string DeleteMsg = null;
+
+
+    if (ViewData["DeleteMsg"] != null)
+    {
+        DeleteMsg = ViewData["DeleteMsg"].ToString();
+    }
+}
+
+
+
+@model User
+    <!-- START: Page CSS-->
+<link rel="stylesheet" href="~/vendors/datatable/css/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" href="~/vendors/datatable/buttons/css/buttons.bootstrap4.min.css" />
+<!-- START: Custom CSS-->
+<link rel="stylesheet" href="~/css/main.css">
+<!-- END: Custom CSS-->
+<!-- END: Page CSS-->
+<div class="row ">
+    <div class="col-12  align-self-center">
+        <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+            <div class="w-sm-100 mr-auto"><h4 class="mb-0">Representative</h4></div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-12 col-lg-12  col-xl-12 mt-12">
+        <div class="card bg-light">
+            <div class="card-header">Current Representative</div>
+            <div class="card-body">
+
+
+                <div class="table-responsive">
+                    <table class="table layout-primary bordered">
+                        <thead>
+                            <tr>
+
+                                <th scope="col">Name</th>
+                                <th>Designation</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (User user in deptUsers)
+                            {
+                                if (user.IsRepresentative == true)
+                                {
+
+                                    <tr>
+                                        <td>@user.FirstName  @user.LastName</td>
+                                        <td>@user.Designation</td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" title="Remove" onclick="location.href='@Url.Action("RemoveRepresentative", "Representative", new { id = user.UserID })'"> Remove</button>
+                                        </td>
+
+                                    </tr>
+
+                                }
+
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-lg-12  col-xl-12 mt-12">
+        <!-- START: Card Data-->
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-header  justify-content-between align-items-center">
+                        <h4 class="card-title">Department Staff List</h4>
+                    </div>
+                    <form>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="example" class="display table dataTable table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Designation</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (User user in deptUsers)
+                                        {
+                                            <tr>
+                                                <td>@user.FirstName  @user.LastName</td>
+                                                <td>@user.Designation</td>
+                                                <td>
+                                                    @if (!@user.IsRepresentative)
+                                                    {
+                                                        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("AddRepresentative", "Representative", new { id = user.UserID })'">Assign</button>
+                                                    }
+                                                </td>
+
+
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <!-- END: Card DATA-->
+    </div>
+
+
+</div>
+
+@*<script src="~/js/UI/datatable.script.js"></script>*@
+<script src="~/js/System/StationeryRequests/jquery.min.js"></script>
+<script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
+<!-- START: Page Script JS-->
+
+<script>
+    $(document).ready(function () {
+
+        $('#example').DataTable({
+            responsive: true
+        });
+
+     toastr.options = {
+         tapToDismiss: true,
+            toastClass: 'toast',
+            containerId: 'toast-container',
+            iconClass: 'toast-info',
+            positionClass: 'toast-top-right',
+            timeOut: 500, // Set timeOut to 0 to make it sticky
+            titleClass: 'toast-title',
+            messageClass: 'toast-message'
+        };
+        if ('@DeleteMsg' != '') {
+            toastr["success"]('@DeleteMsg');
+        }
+
+});
+
+</script>

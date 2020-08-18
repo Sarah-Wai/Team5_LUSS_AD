@@ -20,6 +20,9 @@ namespace Team5_LUSS.Models
         [MaxLength(50)]
         public string LastName { get; set; }
         [MaxLength(50)]
+        public string Designation { get; set; }
+        
+        [MaxLength(50)]
         public string  ContactNumber { get; set; }
         [Required]
         [MaxLength(50)]

@@ -60,6 +60,7 @@ namespace Team5_LUSS.Controllers
 
             ViewData["items"] = items;
             return View("Retrieval_Form");
+            
         }
 
         public async Task<IActionResult> GetDistributionDetailsById(int id)

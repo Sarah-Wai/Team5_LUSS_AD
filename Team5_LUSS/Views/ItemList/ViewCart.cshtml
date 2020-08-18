@@ -93,23 +93,24 @@
                         success: function (result) {
                             toastr["success"](name + " has been removed from cart.");
                             location.reload();
-
                         }
                 })
         }
 
+        //calling action for create request 
         var createRequest = function () {
             $.ajax({
                     type: "Post",
                     url: '@Url.Action("CreateRequest", "ItemList")',
                     success: function (result) {
+                        //sweet alert for create request success
                         swal({
-                            title: "Success",
+                            title: "Success", 
                             text: "Your request has been created.",
                             type: "success"
-                        }, function () {
-                                window.location.href = '@Url.Action("Index","ItemList")';
-                        }
+                            }, function () {
+                                window.location.href = '@Url.Action("Index","ItemList")';    //when user click "OK", will redirect back to Index page
+                            }
 
                         )
                     }

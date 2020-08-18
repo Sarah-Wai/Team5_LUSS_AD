@@ -52,9 +52,7 @@ namespace LUSS_API.Controllers
             return maxId + 1;
         }
 
-
-
-        [HttpGet("{id}/{expectedDate}/{itemID}/{supllierId}/{orderQty}")]
+        [HttpGet("{id}/{expectedDate}/{itemID}/{supplierId}/{orderQty}")]
         public string savePO(int id, string expectedDate, int itemID, int supplierId, int orderQty)
         {
             int poId = GetNewPOId();
@@ -76,8 +74,6 @@ namespace LUSS_API.Controllers
                 ItemID = itemID,
                 OrderQty = orderQty,
             };
-
-
             context123.PurchaseOrder.Add(po);
             context123.PurchaseOrderItems.Add(poItem);
             context123.SaveChanges();
@@ -85,29 +81,27 @@ namespace LUSS_API.Controllers
         }
 
         //To delete 
-        [HttpPost]
-        public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po, int itemID, int orderQty, int supplierId)
-        {
-            //, int itemID, int orderQty, int supplierId
-            po.POID = GetNewPOId();
-            po.PONo = "PO " + po.POID;
-            po.SupplierID = supplierId;
-            po.Status = POStatus.Pending;
-            po.Supplier = null;
-            po.CreatedOn = DateTime.Now;
-            context123.PurchaseOrder.Add(po);
-            try
-            {
-                context123.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-
-            return CreatedAtAction(nameof(GetPurchaseOrderById), po);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po, int itemID, int orderQty, int supplierId)
+        //{
+        //    //, int itemID, int orderQty, int supplierId
+        //    po.POID = GetNewPOId();
+        //    po.PONo = "PO " + po.POID;
+        //    po.SupplierID = supplierId;
+        //    po.Status = POStatus.Pending;
+        //    po.Supplier = null;
+        //    po.CreatedOn = DateTime.Now;
+        //    context123.PurchaseOrder.Add(po);
+        //    try
+        //    {
+        //        context123.SaveChanges();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //    return CreatedAtAction(nameof(GetPurchaseOrderById), po);
+        //}
 
     }
 

@@ -109,15 +109,10 @@ namespace Team5_LUSS.Controllers
             string poNo = "PO" + poId;
             ViewData["purchasedBy"] = 1; // inject user session
             ViewData["item"] = item;
-            //ViewData["poId"] = poId;
-            //ViewData["poNo"] = poNo;
-            //ViewData["createdOn"] = DateTime.Now;
-            //ViewData["status"] = POStatus.Pending;
             ViewData["suppliers"] = suppliers;
             return View("PO_Create_Low");
         }
 
-        //Todo: check why supplierId value change to '0' after calling api 
         [HttpPost]
         public async Task<IActionResult> POCreateLow( int id, string expectedDate, int itemID,  int supplierId, int orderQty)
         {
@@ -135,15 +130,40 @@ namespace Team5_LUSS.Controllers
         }
         #endregion
 
+        #region CreatePOBulk
+        [HttpPost]
+        public async Task<IActionResult> POCreateBulk(List<int> itemId)
+        {
+            List<Item> items = new List<Item>();
+
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(itemId), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(api_url_Item + "/get-items-by-id/" + itemId, content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    items = JsonConvert.DeserializeObject<List<Item>>(apiResponse);
+                }
+            }
+            ViewData["poitems"] = items;
+            return View("PO_Create_Bulk");
+        }
+            #endregion
+
         public IActionResult Index()
         {
             //return View();
-            //return View("PO_LowStock");
+            return View("PO_LowStock");
             //return View("PO_History");
             //return View("PO_Receive");
             //return View("PO_Create");
-            return View("PO_Create_Bulk");
+            //return View("PO_Create_Bulk");
             //return View("PO_Create_Low");
         }
     }
+
+    //public class Dummy
+    //{
+    //    List<int> ItemId;
+    //}
 }

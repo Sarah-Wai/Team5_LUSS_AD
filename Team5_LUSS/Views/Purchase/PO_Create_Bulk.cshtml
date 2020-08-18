@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Create Bulk Purchase Order";
+    List<Item> poitems = (List<Item>)ViewData["poitems"];
 }
 
 <form>
@@ -16,7 +17,7 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <b>Expected Date:</b> <input type="date" /><br>
+                                            <b>Expected Date:</b> <input type="date" name="expectedDate" /><br>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -37,46 +38,31 @@
                                         <td class="text-right"><b>Reorder Qty</b></td>
                                         <td class="text-right"><b>Ordered Qty</b></td>
                                         <td class="text-right"><b>Supplier</b></td>
+                                        <td class="text-right"><b>Price</b></td>
                                         <td class="text-right"></td>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in poitems)
+                                    {
                                     <tr>
-                                        <td>P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right"><select></select></td>
+                                        <td class="text-right">@item.ItemCode</td>
+                                        <td class="text-right">@item.ItemName</td>
+                                        <td class="text-right">@item.UOM</td>
+                                        <td class="text-right">@item.ReStockQty</td>
+                                        <td class="text-right"><input type="number" value="@item.ReStockQty" min="0" max="@item.ReStockQty" /></td>
+                                        <td class="text-right">
+                                            <select id="supplier">
+                                                <option value=""></option>
+                                            </select>
+                                        </td>
+                                        <td class="text-right"></td>
                                         <td class="text-right">
                                             <a href="#"><i class="icon-plus icons"></i></a>
                                             <a href="#"><i class="icon-minus icons"></i></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right"><select></select></td>
-                                        <td class="text-right">
-                                            <a href="#"><i class="icon-plus icons"></i></a>
-                                            <a href="#"><i class="icon-minus icons"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right"><select></select></td>
-                                        <td class="text-right">
-                                            <a href="#"><i class="icon-plus icons"></i></a>
-                                            <a href="#"><i class="icon-minus icons"></i></a>
-                                        </td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -92,3 +78,39 @@
     </div>
 </form>
 
+<script>
+    function getSupplier(itemID) {
+        $("#supplier").on("change", function () {
+            var sId = $(this).val();
+            $("#supplier").empty();
+            $("#supplier").append("<option value=''>Select SubCategory</option>");
+            $.ajax({
+                method: "GET",
+                url: "https://localhost:44312/ItemPrice/getItem/" + itemID,
+
+            })
+                .done(function (msg) {
+                    console.log(msg);
+                    
+
+                });
+        });
+    }
+
+</script>
+
+<script>
+    $(function () {
+        $("#supplier").on("change", function () {
+            var categoryId = $(this).val();
+            $("#SubCategoryId").empty();
+            $("#SubCategoryId").append("<option value=''>Select SubCategory</option>");
+            $.getJSON(`?handler=SubCategories&categoryId=${categoryId}`, (data) => {
+                $.each(data, function (i, item) {
+                    $("#SubCategoryId").append(`<option value="${item.subCategoryId}">${item.subCategoryName}</option>`);
+                });
+            });
+        });
+    });
+</script>
+}

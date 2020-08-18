@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewData["Title"] = "Department Head Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string name = (String)ViewData["name"];
+
+}
+<!-- START: Breadcrumbs-->
+    <div class="container-fluid site-width">
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Welcome @name</h4></div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-body border-bottom border-warning border-w-5">
+                        <h5 class="card-title">Next Delivery</h5>
+                        <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> CollectionDate</p>
+                        <p class="font-w-500 tx-s-12">CollectionPoint</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3 mt-3">
+                <div class="card">
+                    <div class="card-body text-info border-bottom border-info border-w-5">
+                        <h2 class="text-center">2</h2>
+                        <h6 class="text-center">New<br>Requests</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3 mt-3">
+                <div class="card">
+                    <div class="card-body text-success border-bottom border-success border-w-5">
+                        <h2 class="text-center">12</h2>
+                        <h6 class="text-center">Pending<br>Deliveries</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3 mt-3">
+                <div class="card">
+                    <div class="card-body text-danger border-bottom border-danger border-w-5">
+                        <h2 class="text-center">4</h2>
+                        <h6 class="text-center">Low<br>Stock Items</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3 mt-3">
+                <div class="card">
+                    <div class="card-body text-info border-bottom border-info border-w-5">
+                        <h2 class="text-center">1</h2>
+                        <h6 class="text-center">Pending<br>Adjustments</h6>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fast Moving Stock-->
+
+            <div class="col-12  mt-3">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title">Fast Moving Items</h4>
+                    </div>
+                    <!-- Start of cards, loop 6-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-lg-4 mt-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">ItemName (Code)</h5>
+                                        <p class="card-text">Peak Demand</p>
+                                        <p class="card-text">Average Purchase Cycle</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-lg-4 mt-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">ItemName (Code)</h5>
+                                        <p class="card-text">Peak Demand</p>
+                                        <p class="card-text">Average Purchase Cycle</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-lg-4 mt-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">ItemName (Code)</h5>
+                                        <p class="card-text">Peak Demand</p>
+                                        <p class="card-text">Average Purchase Cycle</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-lg-4 mt-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">ItemName (Code)</h5>
+                                        <p class="card-text">Peak Demand</p>
+                                        <p class="card-text">Average Purchase Cycle</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-lg-4 mt-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">ItemName (Code)</h5>
+                                        <p class="card-text">Peak Demand</p>
+                                        <p class="card-text">Average Purchase Cycle</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-lg-4 mt-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">ItemName (Code)</h5>
+                                        <p class="card-text">Peak Demand</p>
+                                        <p class="card-text">Average Purchase Cycle</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: Card DATA-->
+    </div>
+<!-- END: Card DATA-->     

@@ -22,8 +22,8 @@ namespace Team5_LUSS.Controllers
         public IActionResult Index()
         {
             //return View();
-            return View("Disbursement_Form_View");
-            //return View("ConfirmDelivery");
+            //return View("Disbursement_Form_View");
+            return View("Disbursement_Manage");
             //return View("Retrieval_Form");
             //return View("Disbursement_Form_Create");
         }
@@ -143,6 +143,26 @@ namespace Team5_LUSS.Controllers
             }
             return RedirectToAction("");
         }
+
+        #region Manage Disbursement
+        public async Task<IActionResult> ManageDisbursement()
+        {
+
+            List<Request> requests = new List<Request>();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url+ "get-approved-request/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                }
+            }
+            ViewData["requests"] = requests;
+            return View("Disbursement_Manage");
+        }
+
+        #endregion
 
         #region DisbursementFormView
         public async Task<IActionResult> View(int id)

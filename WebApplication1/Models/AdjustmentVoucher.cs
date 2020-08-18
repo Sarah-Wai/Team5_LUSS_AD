@@ -12,7 +12,7 @@ namespace LUSS_API.Models
     public class AdjustmentVoucher
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AdjustmentID   { get; set; }
         [Required]
         public int AdjustQty { get; set; }
@@ -36,9 +36,9 @@ namespace LUSS_API.Models
         [Required]
         public int ItemID { get; set; }
 
-        public int ApprovedByID { get; set; }
+        public int? ApprovedByID { get; set; }
 
-        public int RequestByID { get; set; }
+        public int? RequestByID { get; set; }
 
         //[ForeignKey("RequestByID")]
         public virtual User RequestedByUser { get; set; }

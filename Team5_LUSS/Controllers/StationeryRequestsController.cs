@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
 using System.Text;
+using Microsoft.AspNetCore.Http;
+using static Team5_LUSS.Models.Status;
 
 namespace Team5_LUSS.Controllers
 {
@@ -49,19 +51,38 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RequestHistory()
+        public async Task<IActionResult> RequestHistory(string status)
         {
-
+            if(status == null)
+            {
+                string selectedStatusSession = HttpContext.Session.GetString("selectedStatus");
+                if(selectedStatusSession == null)
+                {
+                    status = "All";
+                }
+                else
+                {
+                    status = selectedStatusSession;
+                }
+              
+            }
+            int empId = 2;
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "Request/GetAllRequest"))
+                using (var response = await httpClient.GetAsync(api_url + "Request/GetRequestByEmpId/" + empId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    if (status != "All")
+                    {
+                        EOrderStatus e = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+                        requests.RemoveAll(x => x.RequestStatus != e);
+                    }
+
                 }
             }
-
+            HttpContext.Session.SetString("selectedStatus", status.ToString());
             ViewData["requests"] = requests;
             return View();
         }

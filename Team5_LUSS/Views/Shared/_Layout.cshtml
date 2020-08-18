@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="~/vendors/jquery-jvectormap/jquery-jvectormap-2.0.3.css">
     <link rel="stylesheet" href="~/vendors/toastr/toastr.css">
     <link rel="stylesheet" href="~/vendors/sweetalert/sweetalert.css">
+    <link rel="stylesheet" href="~/vendors/datatable/css/jquery.dataTables.min.css">
     <!-- END: Page CSS-->
     <!-- START: Custom CSS-->
     <link rel="stylesheet" href="~/css/main.css">
@@ -180,6 +181,7 @@
                         <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Items</a></li>
                         <li><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-support"></i> Assign Delegate</a></li>
                         <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-briefcase"></i> Ecommerce</a></li>
+                        <li><a href="/StationeryRequests/RequestHistory?status=All"><i class="icon-briefcase"></i> Request History</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -451,6 +453,7 @@
     <script src="~/vendors/toastr/toastr.min.js"></script>
     <script src="~/vendors/sweetalert/sweetalert.min.js"></script>
     <script src="~/vendors/sweetalert/sweetalert.js"></script>
+    <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
     <!-- END: Page Vendor JS-->
     <!-- START: Page JS-->
     <script src="~/js/UI/home.script.js"></script>

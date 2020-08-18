@@ -48,6 +48,18 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
+
+        [HttpGet("{status}/{deptId}")]
+        [Route("GetRequestByStatusByDept/{status}/{deptId}")]
+        public IEnumerable<Request> GetRequestByStatusByDept(string status, int deptId)
+        {
+            EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+            List<Request> requestList = requestList = context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptId).ToList();
+            return requestList;
+        }
+
+
+
         [HttpGet("get-request/{id}")]
         public Request GetById(int id)
         {
@@ -95,14 +107,14 @@ namespace LUSS_API.Controllers
                         join i in items on n.FirstOrDefault().ItemID equals i.ItemID
                         select new
                         {
-                            ItemIds = i.ItemID,
-                            ItemCode = i.ItemCode,
-                            TotalQty = n.Sum(x => x.RequestQty),
-                            ItemName = i.ItemName,
+                            itemIds = i.ItemID,
+                            itemCode = i.ItemCode,
+                            totalQty = n.Sum(x => x.RequestQty),
+                            itemName = i.ItemName,
                             ItemUOM = i.UOM,
-                            CollectionTime = n.Select(x => x.Request.CollectionTime).First(),
-                            RequestIDs = n.Select(x => x.RequestID).ToList(),
-                            RetrievalIDs = n.Select(x => x.Request.Retrieval).ToList(),
+                            collectionTime = n.Select(x => x.Request.CollectionTime).First(),
+                            requestIDs = n.Select(x => x.RequestID).ToList(),
+                            deptId = n.Select(x=>x.Request.RequestByUser.DepartmentID).First()
                         }).ToList();
             return iter;
         }

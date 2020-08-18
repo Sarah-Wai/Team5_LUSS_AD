@@ -81,14 +81,24 @@ namespace Team5_LUSS.Controllers
             string status = "PendingDelivery";
             List<Request> pendingDeliveryRequests = new List<Request>();
             Dictionary<int, DateTime> retrievalID_CollectionTime = new Dictionary<int, DateTime>();
+            CollectionPoint cp = new CollectionPoint();
+            int user_CPId = (int)HttpContext.Session.GetInt32("CPId");
+            int deptID = (int)HttpContext.Session.GetInt32("DeptId");
+
 
             //get list of retrieval id - collection time
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url_rqst + "/GetRequestByStatus/" + status))
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/GetRequestByStatusByDept/" + status + "/" + deptID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     pendingDeliveryRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                }
+                //get collection point
+                using (var response = await httpClient.GetAsync(api_url + "/" + user_CPId))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    cp = JsonConvert.DeserializeObject<CollectionPoint>(apiResponse);
                 }
             }
 
@@ -101,9 +111,6 @@ namespace Team5_LUSS.Controllers
                     retrievalID_CollectionTime.Add((int)key, value);
                 }
             }
-
-            ViewData["retrieval_time"] = retrievalID_CollectionTime;
-
 
             if (retrievalID != 0)
             {
@@ -118,19 +125,21 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-            if (pd_collectionList.IsNullOrEmpty())
+            if (pd_collectionList.IsNullOrEmpty() || retrievalID_CollectionTime.IsNullOrEmpty())
             {
                 ViewData["collectionRequest"] = null;
             }
-            else
+
+            //department_filter for item list
+            List<dynamic> dept_pd_collectionList = new List<dynamic>();
+            foreach (var item in pd_collectionList)
             {
-                //TODO: filter pd_requestList by department 
-                //TODO: pass User-Dept-Collectionpoint 
-                //ViewData["sessionUser"] 
-                ViewData["collectionRequest"] = pd_collectionList;
-
+                dept_pd_collectionList = pd_collectionList.Where(x => x.deptId == deptID).ToList();
             }
-
+ 
+            ViewData["collectionRequest"] = dept_pd_collectionList;
+            ViewData["retrieval_time"] = retrievalID_CollectionTime;
+            ViewData["collectionPoint"] = cp;
             return View();
         }
 
@@ -147,6 +156,9 @@ namespace Team5_LUSS.Controllers
             }
             return RedirectToAction("collectionList");
         }
+
+
+        
     }
 }
 

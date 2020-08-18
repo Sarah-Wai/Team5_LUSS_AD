@@ -135,35 +135,44 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> POCreateBulk(List<int> itemId)
         {
             List<Item> items = new List<Item>();
+            List<ItemPrice> itemsPrice = new List<ItemPrice>();
 
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(itemId), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(api_url_ItemPrice + "/GetItemPriceByItemID/" + itemId, content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    itemsPrice = JsonConvert.DeserializeObject<List<ItemPrice>>(apiResponse);
+                }
                 using (var response = await httpClient.PostAsync(api_url_Item + "/get-items-by-id/" + itemId, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     items = JsonConvert.DeserializeObject<List<Item>>(apiResponse);
                 }
             }
+
+            //List<Supplier> suppliers = itemsPrice.Select(x => x.Supplier).ToList();
+
             ViewData["poitems"] = items;
+            ViewData["poItemPrice"] = itemsPrice;
             return View("PO_Create_Bulk");
         }
+
+
+
+
             #endregion
 
-        public IActionResult Index()
+/*        public IActionResult Index()
         {
             //return View();
-            return View("PO_LowStock");
+            //return View("PO_LowStock");
             //return View("PO_History");
             //return View("PO_Receive");
             //return View("PO_Create");
             //return View("PO_Create_Bulk");
             //return View("PO_Create_Low");
-        }
+        }*/
     }
-
-    //public class Dummy
-    //{
-    //    List<int> ItemId;
-    //}
 }

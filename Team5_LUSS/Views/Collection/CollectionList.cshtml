@@ -1,8 +1,8 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<dynamic> collectionList = (List<dynamic>)ViewData["collectionRequest"];
-    var collectionTime = ViewData["collectionTime"];
     Dictionary<int, DateTime> retrieval_CollectionTime = (Dictionary<int, DateTime>)ViewData["retrieval_time"];
+    CollectionPoint cp = (CollectionPoint)ViewData["collectionPoint"];
 }
 
 
@@ -28,10 +28,10 @@
                         </button>
                     </div>
                     <form class="edit-invoice-form" method="post" id="form">
-                        <input style="display:none" value="" name="retrievalID" id="idValue"/>
+                        <input style="display:none" value="" name="retrievalID" id="idValue" />
                         <div class="card-body">
                             <div class="table-responsive">
-                                @if(collectionList != null)
+                                @if (collectionList != null)
                                 {
                                     <table class="table">
                                         <thead>
@@ -61,92 +61,107 @@
                         </div>
                         <div class="modal-footer">
                             <input type="hidden" id="edit-date">
-                            <button type="submit" class="btn btn-primary add-todo" id="submitBtn" onclick="getValue()" >Confirm</button>
+                            <button type="submit" class="btn btn-primary add-todo" id="submitBtn" onclick="getValue()">Confirm</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
         <!-- START: Info Card Data-->
-        <div class="col-12" style="margin-top:1rem">
-            <div class="card text-white bg-info">
-                <div class="card-body">
-                    <h5 class="card-title">Upcoming Collection</h5>
-                    <p class="card-text">Time:@collectionTime</p>
-                    <p class="card-text">Location: Behind the Tree</p>
-                </div>
-            </div>
-        </div>
-        <!-- END: Info Card Data-->
-        <!-- START: Card Data-->
-        <div class="row row-eq-height">
-            <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
-                <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
-                <div class="card border h-100 invoice-menu-section">
-                    <ul class="nav flex-column invoice-menu">
-                        @for (int i = 0; i < retrieval_CollectionTime.Count(); i++)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Collection" asp-action="collectionList" asp-route-retrievalID="@retrieval_CollectionTime.ElementAt(i).Key">
-                                    @retrieval_CollectionTime.ElementAt(i).Value.Date.ToString("MMMM dd, yyyy")
-                                </a>
-                            </li>
-                            <input style="display:none" value="@retrieval_CollectionTime.ElementAt(i).Key" id="retrievalID" />
-                        }
+        @if(retrieval_CollectionTime.Count() != 0)
+        {
+            <div class="col-12" style="margin-top:1rem">
+                <div class="card text-white bg-info">
+                    <div class="card-body">
+                        <h5 class="card-title">Upcoming Collection</h5>
 
-                    </ul>
+                        <p class="card-text">Time: @cp.Description, @retrieval_CollectionTime.ElementAt(0).Value.Date.ToString("MMMM dd, yyyy")</p>
+                        <p class="card-text">Location:@cp.Location</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-10 mt-3 pl-lg-0">
-                <div class="card border h-100 invoice-list-section">
-                    <div class="card-body p-0">
-                        <div style="margin: 1rem">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editinvoice">Collect</button>
-                        </div>
-                        <div class="invoices list">
-                            @if (collectionList != null)
+
+            <!-- END: Info Card Data-->
+            <!-- START: Card Data-->
+            <div class="row row-eq-height">
+                <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
+                    <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
+                    <div class="card border h-100 invoice-menu-section">
+                        <ul class="nav flex-column invoice-menu">
+                            @for (int i = 0; i < retrieval_CollectionTime.Count(); i++)
                             {
-                                foreach (var r in collectionList)
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Collection" asp-action="collectionList" asp-route-retrievalID="@retrieval_CollectionTime.ElementAt(i).Key">
+                                        @retrieval_CollectionTime.ElementAt(i).Value.Date.ToString("MMMM dd, yyyy")
+                                    </a>
+                                </li>
+                                <input style="display:none" value="@retrieval_CollectionTime.ElementAt(i).Key" id="retrievalID" />
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+                    <div class="card border h-100 invoice-list-section">
+                        <div class="card-body p-0">
+                            <div style="margin: 1rem">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editinvoice">Collect</button>
+                            </div>
+                            <div class="invoices list">
+                                @if (collectionList != null)
                                 {
-                                    <div class="invoice">
-                                        <div class="invoice-content">
-                                            <div class="invoice-info">
-                                                <p class="mb-0 small">Item Code</p>
-                                                <p class="invoice-no">@r.itemCode</p>
-                                            </div>
-                                            <div class="invoice-info">
-                                                <p class="mb-0 small">Item Name</p>
-                                                <p class="cliname">@r.itemName</p>
-                                            </div>
-                                            <div class="invoice-info">
-                                                <p class="mb-0 small">Unit</p>
-                                                <p class="invocie-date">@r.itemUOM</p>
-                                            </div>
-                                            <div class="invoice-info">
-                                                <p class="mb-0 small">Requested Quantity</p>
-                                                <p class="invoice-due-date">@r.totalQty</p>
-                                            </div>
-                                            <div class="invoice-info">
+                                    foreach (var r in collectionList)
+                                    {
+                                        <div class="invoice">
+                                            <div class="invoice-content">
+                                                <div class="invoice-info">
+                                                    <p class="mb-0 small">Item Code</p>
+                                                    <p class="invoice-no">@r.itemCode</p>
+                                                </div>
+                                                <div class="invoice-info">
+                                                    <p class="mb-0 small">Item Name</p>
+                                                    <p class="cliname">@r.itemName</p>
+                                                </div>
+                                                <div class="invoice-info">
+                                                    <p class="mb-0 small">Unit</p>
+                                                    <p class="invocie-date">@r.itemUOM</p>
+                                                </div>
+                                                <div class="invoice-info">
+                                                    <p class="mb-0 small">Requested Quantity</p>
+                                                    <p class="invoice-due-date">@r.totalQty</p>
+                                                </div>
+                                                <div class="invoice-info">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                <div class="invoice">Pick a collection date date first.</div>
-                            }
+                                else
+                                {
+                                    <div class="invoice">Pick a collection date date first.</div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="col-12" style="margin-top:1rem">
+                <div class="card text-white bg-info">
+                    <div class="card-body">
+                        <h5 class="card-title">There is nothing to collect.</h5>
+                    </div>
+                </div>
+            </div>
+        }
         <!-- END: Card DATA-->
     </div>
-
+        
 <script>
+    
     $("form").submit(function () {
-        alert($("#idValue").val());
         $("#idValue").val($("#retrievalID").val());
     })
 </script>

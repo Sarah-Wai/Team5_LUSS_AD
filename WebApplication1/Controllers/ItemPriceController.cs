@@ -51,6 +51,21 @@ namespace LUSS_API.Controllers
             return item;
         }
 
+        [HttpGet("getItem/{id}")]
+        [Route("GetItemPriceByItemID/{id}")]
+        public List<ItemPrice> GetItemById(List<int> id)
+        {
+            List<ItemPrice> itemPrice = new List<ItemPrice>();
+
+            foreach (int i in id)
+            {
+                itemPrice.AddRange(context123.ItemPrice.Where(x => x.ItemID == i).ToList());
+;           }
+            return itemPrice;
+        }
+
+
+
         //get supplier list by item
         [HttpGet("get-supplier-by-item/{id}")]
         public List<Supplier> GetSupplierByItem(int id) 

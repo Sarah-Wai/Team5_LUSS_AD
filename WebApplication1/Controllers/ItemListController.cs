@@ -57,7 +57,7 @@ namespace LUSS_API.Controllers
             {
                 itemList = context123.Item.Where(x => x.CategoryID.Equals(id)).ToList();
             }
-            
+
             return itemList;
         }
 
@@ -77,30 +77,43 @@ namespace LUSS_API.Controllers
                 {
                     itemList = context123.Item.ToList();
                 }
-                
+
             }
             else
             {
                 itemList = context123.Item.Where(x => x.CategoryID.Equals(id) && x.ItemName.Contains(name)).ToList();
             }
-           
+
             return itemList;
         }
 
         //get low stock item list
-        [HttpGet("get-low-stock-items")]
+        [HttpGet]
+        [Route("get-low-stock-items")]
         public IEnumerable<Item> GetLowStockItems()
         {
             List<Item> items = context123.Item.Where(x => x.InStockQty < x.ReStockLevel).ToList();
             return items;
         }
 
-        //create new order request
+        //get selected Items
+        [HttpPost("{itemId}")]
+        [Route("get-items-by-id/{itemId}")]
+        public IEnumerable<Item> GetItemListById(List<int> itemId)
+        {
+            List<Item> items = new List<Item>();
+            for (int i = 0; i < itemId.Count(); i++)
+            {
+                items.Add(context123.Item.Where(x => x.ItemID == itemId[i]).FirstOrDefault());
+            }
+            return items;
+        }
+       
+        //create new request
         [HttpPost]
         [Route("CreateRequest")]
         public Request CreateRequest([FromBody] string jsonData)
         {
-
             Request req = new Request();
             if (jsonData != null)
             {

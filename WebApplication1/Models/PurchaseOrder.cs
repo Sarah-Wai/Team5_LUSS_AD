@@ -12,7 +12,7 @@ namespace LUSS_API.Models
     public class PurchaseOrder
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int POID  { get; set; }
         [Required]
         public DateTime CreatedOn  { get; set; }

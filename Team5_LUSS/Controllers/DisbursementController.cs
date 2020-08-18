@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,8 @@ namespace Team5_LUSS.Controllers
         public IActionResult Index()
         {
             //return View();
-            return View("Disbursement_Form_View");
-            //return View("ConfirmDelivery");
+            //return View("Disbursement_Form_View");
+            return View("Disbursement_Manage");
             //return View("Retrieval_Form");
             //return View("Disbursement_Form_Create");
         }
@@ -61,6 +62,28 @@ namespace Team5_LUSS.Controllers
             ViewData["items"] = items;
             return View("Retrieval_Form");
             
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelRetrieval(int id)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrievalId/" + id))
+                {
+                    var apiResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+
+            return RedirectToAction("Disbursement_By_Retrieval");// to be change to by request listing 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CompleteRetrieval(List<int> retrievedQty, int retrievalId, string collectionDate)
+        {
+
+            return View();
+
         }
 
         public async Task<IActionResult> GetDistributionDetailsById(int id)
@@ -120,6 +143,26 @@ namespace Team5_LUSS.Controllers
             }
             return RedirectToAction("");
         }
+
+        #region Manage Disbursement
+        public async Task<IActionResult> ManageDisbursement()
+        {
+
+            List<Request> requests = new List<Request>();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url+ "get-approved-request/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                }
+            }
+            ViewData["requests"] = requests;
+            return View("Disbursement_Manage");
+        }
+
+        #endregion
 
         #region DisbursementFormView
         public async Task<IActionResult> View(int id)

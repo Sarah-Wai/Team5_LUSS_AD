@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="~/vendors/ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="~/vendors/jquery-jvectormap/jquery-jvectormap-2.0.3.css">
     <link rel="stylesheet" href="~/vendors/toastr/toastr.css">
+    <link rel="stylesheet" href="~/vendors/sweetalert/sweetalert.css">
     <!-- END: Page CSS-->
     <!-- START: Custom CSS-->
     <link rel="stylesheet" href="~/css/main.css">
@@ -77,9 +78,9 @@
                             </a>
                         </li>
                         <li id="cartpartial" class="dropdown align-self-center">
-                            @*@{
-                                Html.RenderPartial("_CartPartial");
-                            }*@
+                            @{
+                                Html.RenderPartial("~/Views/ItemList/_CartPartial.cshtml");
+                            }
                         </li>
                         <li class="dropdown align-self-center d-inline-block">
                             <a href="#" class="nav-link" data-toggle="dropdown" aria-expanded="false">
@@ -177,7 +178,7 @@
                         <li class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
                         <li><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Item Category</a></li>
                         <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Items</a></li>
-                        <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Crypto</a></li>
+                        <li><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-support"></i> Assign Delegate</a></li>
                         <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-briefcase"></i> Ecommerce</a></li>
                     </ul>
                 </li>
@@ -448,6 +449,8 @@
     <script src="~/vendors/jquery-jvectormap/jquery-jvectormap-us-aea.js"></script>
     <script src="~/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="~/vendors/toastr/toastr.min.js"></script>
+    <script src="~/vendors/sweetalert/sweetalert.min.js"></script>
+    <script src="~/vendors/sweetalert/sweetalert.js"></script>
     <!-- END: Page Vendor JS-->
     <!-- START: Page JS-->
     <script src="~/js/UI/home.script.js"></script>

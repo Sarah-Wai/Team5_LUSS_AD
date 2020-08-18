@@ -14,6 +14,7 @@ namespace Team5_LUSS.Controllers
     {
         string api_user_url = "https://localhost:44312/User"; // connect to API project Controller class
         string api_delegate_url = "https://localhost:44312/Delegate";
+        string msg = "";
         public IActionResult Delegate()
         {
             ViewData["DeleteMsg"] = TempData["Msg"];
@@ -39,11 +40,30 @@ namespace Team5_LUSS.Controllers
                     users = JsonConvert.DeserializeObject<List<User>>(apiResponse);
                 }
             }
-            ViewData["DeleteMsg"] = "Removed Successfully!";
+            if (msg != "") { 
+                ViewData["DeleteMsg"] = msg; 
+            }
+        
             ViewData["users"] = users;
             return View();
         }
-
+        
+       [HttpPost]
+        public async Task<DelegatedManager> getDelegateByUserID(int id)
+        {
+            DelegatedManager delegatedManager = new DelegatedManager();
+           
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_delegate_url + "/getDelegateByUserID/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    delegatedManager = JsonConvert.DeserializeObject<DelegatedManager>(apiResponse);
+                }
+            }
+           
+            return delegatedManager;
+        }
 
         [HttpPost]
         public async Task<string> DeleteDelegateTask(int id)
@@ -56,7 +76,7 @@ namespace Team5_LUSS.Controllers
                      apiResponse = await response.Content.ReadAsStringAsync();
                 }
             }
-            TempData["Msg"] = "Removed Successfully!";
+            msg = "Removed Successfully!";
             return apiResponse;
         }
      
@@ -76,7 +96,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
             ViewData["products"] = receivedDelegatedManager;
-            TempData["Msg"] = "Assigned Successfully!";
+            msg = "Assigned Successfully!";
             return RedirectToAction("AddDelegate");
         }
 

@@ -21,8 +21,8 @@ namespace Team5_LUSS.Controllers
         public IActionResult Index()
         {
             //return View();
-            //return View("Disbursement_Form_View");
-            return View("ConfirmDelivery");
+            return View("Disbursement_Form_View");
+            //return View("ConfirmDelivery");
             //return View("Retrieval_Form");
             //return View("Disbursement_Form_Create");
         }
@@ -121,7 +121,7 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("");
         }
 
-
+        #region DisbursementFormView
         public async Task<IActionResult> View(int id)
         {
             Request request = new Request();
@@ -152,8 +152,9 @@ namespace Team5_LUSS.Controllers
             ViewData["reqItems"] = reqItems;
             return View("Disbursement_Form_View");
         }
+        #endregion
 
-
+        #region DisburseByRequest
         public async Task<IActionResult> DisburseByRequest(int id)
         {
             Request request = new Request();
@@ -188,19 +189,20 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DisburseByRequest(int id, int userId, List<int> fulfillQty, DateTime collectionTime)
+        public async Task<IActionResult> DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
         {
-            string result;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + id + "/" + userId + "/" + fulfillQty + "/" + collectionTime))
+                for (int i = 0; i < fulfillQty.Count(); i++)
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<String>(apiResponse);
+                    using (var response = await httpClient.GetAsync(api_url + "dummy/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
                 }
             }
-
-            return RedirectToAction("GetAllRetrieval");// change to list of requests
+            return RedirectToAction("Index");// change to list of requests
         }
+        #endregion
     }
 }

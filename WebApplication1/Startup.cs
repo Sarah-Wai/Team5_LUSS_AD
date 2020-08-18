@@ -101,6 +101,7 @@ namespace LUSS_API
 
             //List<Request> requests = AddRequests.getAllRequest();
             //dbcontext.AddRange(requests);
+
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
             //dbcontext.AddRange(requestDetails);
 

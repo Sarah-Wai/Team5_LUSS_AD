@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace Team5_LUSS.Controllers
     {
         string api_url = "https://localhost:44312/";
 
+        //Product List Page
         public async Task<IActionResult> Index()
         {
             List<Item> itemList = new List<Item>();                       
@@ -184,19 +186,89 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
-        //public ActionResult UpdateCart(List<AddToCartItem> itemlist)
-        //{
-        //    string cartItemJson = HttpContext.Session.GetString("addedItemSession");
-        //    List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+        public ActionResult UpdateCart()
+        {
+            // formData ---> getting string value from View(ViewCart) side
+            var FormData = HttpContext.Request.Form;
 
-        //    for(int i = 0; i < addedItems.Count; i++)
-        //    {
-        //        if(addedItems[i].ItemID == itemId)
-        //        {
-        //            if()
-        //            addedItems[i].SelectedQty = Int32.Parse(qty);
-        //        }
-        //    } 
-        //}
+            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+
+            //storing data in array type for two data entry
+            string[] itemIds = null;
+            string[] quantities = null;
+            foreach (var items in FormData)
+            {
+                //check each data using 'Contain" and assigning respestively
+                if (items.Key.Contains("itemId"))
+                {
+                    itemIds = items.Value;
+                }
+                else if (items.Key.Contains("quantity"))
+                {
+                    quantities = items.Value;
+                }
+            }
+
+
+            for (int i = 0; i < itemIds.Length; i++)
+            {
+                if (addedItems[i].ItemID == Int32.Parse(itemIds[i]))
+                {
+                    if (Int32.Parse(quantities[i]) == 0)
+                    {
+                        addedItems.Remove(addedItems[i]);
+                    }
+                    else
+                    {
+                        addedItems[i].SelectedQty = Int32.Parse(quantities[i]);
+                    }
+                        
+                }
+            }
+            string addedItemJson = Newtonsoft.Json.JsonConvert.SerializeObject(addedItems);
+            HttpContext.Session.SetString("addedItemSession", addedItemJson);
+            return RedirectToAction("ViewCart");
+        }
+
+        //remove item from cart 
+        public ActionResult RemoveItem(int id)
+        {
+            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+            for(int i=0; i < addedItems.Count; i++)
+            {
+                if(addedItems[i].ItemID == id)
+                {
+                    addedItems.Remove(addedItems[i]);
+                    break;
+                }
+            }
+            string addedItemJson = Newtonsoft.Json.JsonConvert.SerializeObject(addedItems);
+            HttpContext.Session.SetString("addedItemSession", addedItemJson);
+            return RedirectToAction("ViewCart");
+        }
+
+        //Create Request
+        public async Task<IActionResult> CreateRequest()
+        {
+            string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            Request req = new Request();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(cartItemJson), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(api_url + "ItemList/CreateRequest", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                     req = JsonConvert.DeserializeObject<Request>(apiResponse);
+                }
+
+            }
+            if(req != null)
+            {
+                HttpContext.Session.Remove("addedItemSession");
+            }
+            return RedirectToAction("ViewCart");
+        }
     }
 }

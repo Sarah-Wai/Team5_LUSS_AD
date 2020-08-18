@@ -24,7 +24,7 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        [HttpGet("get/newAdjVoucherId")]
+        [HttpGet("newAdjVoucherId")]
         public int GetNewAdjVoucherId()
         {
             int maxId = 0;
@@ -61,44 +61,49 @@ namespace LUSS_API.Controllers
         }
 
         
-        [HttpPost]
-        public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
+        //[HttpPost]
+        //public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
+        //{
+        //    int price = context123.ItemPrice
+        //        .Where(x => x.ItemID == adjustment.ItemID).First().Price;
+
+        //    adjustment.AdjustmentID = 1;
+        //    adjustment.Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending;
+        //    adjustment.IssuedDate = DateTime.Now;
+        //    adjustment.VoucherNo = "VN" + adjustment.AdjustmentID;
+        //    adjustment.TotalCost = adjustment.AdjustQty * price;
+
+        //    context123.AdjustmentVouncher.Add(adjustment);
+        //    await context123.SaveChangesAsync();
+
+        //    return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
+        //}
+
+        [HttpGet("{adjustType}/{itemId}/{adjustQty}/{reason}")]
+        [Route("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{reason}")]
+        public string AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason)
         {
             int price = context123.ItemPrice
-                .Where(x => x.ItemID == adjustment.ItemID).First().Price;
+                .Where(x => x.ItemID == itemId).FirstOrDefault().Price;
+            //int id = GetNewAdjVoucherId();
 
-            adjustment.AdjustmentID = GetNewAdjVoucherId();
-            adjustment.Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending;
-            adjustment.IssuedDate = DateTime.Now;
-            adjustment.VoucherNo = "VN" + adjustment.AdjustmentID;
-            adjustment.TotalCost = adjustment.AdjustQty * price;
+            AdjustmentVoucher adjustment = new AdjustmentVoucher()
+            {   AdjustmentID = 3,// to be removed, id is auto generated
+                Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending,
+                IssuedDate = DateTime.Now,
+                ItemID = itemId,
+                Reason = reason,
+                AdjustQty = adjustQty,
+                AdjustType = adjustType,
+                TotalCost = adjustQty * price
+            };
 
-            context123.AdjustmentVouncher.Add(adjustment);
-            await context123.SaveChangesAsync();
+            adjustment.VoucherNo = "VN" + DateTime.Now.Year + adjustment.AdjustmentID;
 
-            return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
-        }
-
-        [HttpPost("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{reason}")]
-        public async Task<ActionResult<AdjustmentVoucher>> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason)
-        {
-            int price = context123.ItemPrice
-                .Where(x => x.ItemID == itemId).First().Price;
-
-            AdjustmentVoucher adjustment = new AdjustmentVoucher();
-            adjustment.AdjustmentID = GetNewAdjVoucherId();
-            adjustment.Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending;
-            adjustment.IssuedDate = DateTime.Now;
-            adjustment.VoucherNo = "VN" + adjustment.AdjustmentID;
-            adjustment.ItemID = itemId;
-            adjustment.Reason = reason;
-            adjustment.AdjustQty = adjustQty;
-            adjustment.AdjustType = adjustType;
-            adjustment.TotalCost = adjustQty * price;
 
             context123.AdjustmentVouncher.Add(adjustment);
             context123.SaveChanges();
-            return adjustment;
+            return "success";
 
         }
 

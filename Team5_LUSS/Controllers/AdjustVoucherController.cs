@@ -81,13 +81,13 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason)
         {
-            AdjustmentVoucher adjustment = new AdjustmentVoucher();
+            //AdjustmentVoucher adjustment = new AdjustmentVoucher();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + reason))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
+                    //adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
                 }
             }
             //return View(adjustment);

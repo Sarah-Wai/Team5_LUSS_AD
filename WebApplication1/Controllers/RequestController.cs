@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using static LUSS_API.Models.Status;
@@ -31,7 +31,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllRequest")]
+        [Route("getAllRequest")]
         public IEnumerable<Request> GetAllRequest()
         {
             List<Request> requests = context123.Request.ToList();
@@ -44,7 +44,7 @@ namespace LUSS_API.Controllers
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
             List<Request> requestList = requestList = context123.Request.Where(x => x.RequestStatus == st).ToList();
-            
+
             return requestList;
         }
 
@@ -55,26 +55,10 @@ namespace LUSS_API.Controllers
             return request;
         }
 
-        [HttpGet("{id}")]
-        [Route("GetRequestByEmpId/{id}")]
-        public IEnumerable<Request> GetRequestByEmpId(int id)
-        {
-            List<Request> request = context123.Request.Where(x => x.RequestBy == id).ToList();
-            return request;
-        }
-
-        [HttpGet("{status}")]
-        [Route("GetRequestByStatusId/{statusId}")]
-        public IEnumerable<Request> GetRequestByStatusId(int statusId)
-        {
-            List<Request> requests = new List<Request>();
-            requests = context123.Request.Where(x => x.RequestStatus.Equals(statusId)).ToList();
-            return requests;
-        }
 
         [HttpGet("{id}/{comment}")]
         [Route("ApproveRequestByDepHead/{id}/{comment}")]
-        public Request ApproveRequestByDepHead(int id,string comment)
+        public Request ApproveRequestByDepHead(int id, string comment)
         {
 
             Request getRequest = context123.Request
@@ -95,19 +79,18 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
-
-        [HttpGet("{status}")]
-        [Route("GetItemByStatus/{status}")]
-        public IEnumerable<dynamic> GetItemsByStatus(string status)
+        [HttpGet("{status}/{retrievalID}")]
+        [Route("GetItemByStatus/{status}/{retrievalID}")]
+        public IEnumerable<dynamic> GetItemsByStatus(string status, int retrievalId)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requests = context123.Request.ToList();
+            List<Request> requests = context123.Request.Where(x => x.RequestStatus == st).ToList(); //all request with status = st
             List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
             List<Item> items = context123.Item.ToList();
 
             var iter = (from r in requests
+                        where r.RetrievalID == retrievalId
                         join rd in requestDetailsList on r.RequestID equals rd.RequestID
-                        where r.RequestStatus.Equals(st)
                         group rd by rd.ItemID into n
                         join i in items on n.FirstOrDefault().ItemID equals i.ItemID
                         select new
@@ -118,17 +101,18 @@ namespace LUSS_API.Controllers
                             ItemName = i.ItemName,
                             ItemUOM = i.UOM,
                             CollectionTime = n.Select(x => x.Request.CollectionTime).First(),
-                            RequestIDs = n.Select(x => x.RequestID).ToList()
+                            RequestIDs = n.Select(x => x.RequestID).ToList(),
+                            RetrievalIDs = n.Select(x => x.Request.Retrieval).ToList(),
                         }).ToList();
             return iter;
         }
 
-        [HttpPost("{acceptedQty}")]
-        public string allocateStationary(List<int> acceptedQty)
+        [HttpPost("{acceptedQty}/{retrievalID}")]
+        public string allocateStationary(List<int> acceptedQty, int retrievalID)
         {
 
             //get the chunk of info passed to the View
-            IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery");
+            IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID);
             //create a dic: item code -- accptQty
             Dictionary<int, int> allocationList = new Dictionary<int, int>();
             foreach (var item in list)
@@ -142,7 +126,10 @@ namespace LUSS_API.Controllers
             }
 
 
-            List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+            //List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+            List<RequestDetails> requestDetailsList = context123.RequestDetails.Where(x => x.Request.RetrievalID == retrievalID).ToList();
+
+
             //allocation starts
             for (int i = 0; i < allocationList.Count(); i++)
             {
@@ -188,7 +175,7 @@ namespace LUSS_API.Controllers
 
         [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("dummy/{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        public string DisburseByRequest(int id, int userId , string collectionTime, int fulfillQty)
+        public string DisburseByRequest(int id, int userId, string collectionTime, int fulfillQty)
         {
             //update request
             Request request = GetById(id);
@@ -206,7 +193,7 @@ namespace LUSS_API.Controllers
                     break;
                 }
             }
-     
+
             context123.SaveChanges();
             return "ok";
         }

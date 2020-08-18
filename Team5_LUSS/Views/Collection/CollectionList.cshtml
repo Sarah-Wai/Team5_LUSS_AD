@@ -2,6 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<dynamic> collectionList = (List<dynamic>)ViewData["collectionRequest"];
     var collectionTime = ViewData["collectionTime"];
+    Dictionary<int, DateTime> retrieval_CollectionTime = (Dictionary<int, DateTime>)ViewData["retrieval_time"];
 }
 
 
@@ -20,16 +21,17 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
-                            <i class="icon-pencil"></i> Stationary Collection Form
+                            <i class="icon-pencil"></i> Stationary Collection List
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="icon-close"></i>
                         </button>
                     </div>
                     <form class="edit-invoice-form" method="post" id="form">
+                        <input style="display:none" value="" name="retrievalID" id="idValue"/>
                         <div class="card-body">
                             <div class="table-responsive">
-                                @if (collectionList != null)
+                                @if(collectionList != null)
                                 {
                                     <table class="table">
                                         <thead>
@@ -59,7 +61,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="hidden" id="edit-date">
-                            <button type="submit" class="btn btn-primary add-todo" id="submitBtn">Confirm</button>
+                            <button type="submit" class="btn btn-primary add-todo" id="submitBtn" onclick="getValue()" >Confirm</button>
                         </div>
                     </form>
                 </div>
@@ -82,16 +84,16 @@
                 <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
                 <div class="card border h-100 invoice-menu-section">
                     <ul class="nav flex-column invoice-menu">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                ReadyToCollect
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-invoicetype="pending-invoice">
-                                Pending
-                            </a>
-                        </li>
+                        @for (int i = 0; i < retrieval_CollectionTime.Count(); i++)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Collection" asp-action="collectionList" asp-route-retrievalID="@retrieval_CollectionTime.ElementAt(i).Key">
+                                    @retrieval_CollectionTime.ElementAt(i).Value.Date.ToString("MMMM dd, yyyy")
+                                </a>
+                            </li>
+                            <input style="display:none" value="@retrieval_CollectionTime.ElementAt(i).Key" id="retrievalID" />
+                        }
+
                     </ul>
                 </div>
             </div>
@@ -132,7 +134,7 @@
                             }
                             else
                             {
-                                <div class="invoice">There is nothing there.</div>
+                                <div class="invoice">Pick a collection date date first.</div>
                             }
                         </div>
                     </div>
@@ -141,3 +143,10 @@
         </div>
         <!-- END: Card DATA-->
     </div>
+
+<script>
+    $("form").submit(function () {
+        alert($("#idValue").val());
+        $("#idValue").val($("#retrievalID").val());
+    })
+</script>

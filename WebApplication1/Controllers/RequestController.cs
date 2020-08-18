@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -30,7 +31,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
-        [Route("getAllRequest")]
+        [Route("GetAllRequest")]
         public IEnumerable<Request> GetAllRequest()
         {
             List<Request> requests = context123.Request.ToList();
@@ -53,7 +54,23 @@ namespace LUSS_API.Controllers
             Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
             return request;
         }
-        
+
+        [HttpGet("{id}")]
+        [Route("GetRequestByEmpId/{id}")]
+        public IEnumerable<Request> GetRequestByEmpId(int id)
+        {
+            List<Request> request = context123.Request.Where(x => x.RequestBy == id).ToList();
+            return request;
+        }
+
+        [HttpGet("{status}")]
+        [Route("GetRequestByStatusId/{statusId}")]
+        public IEnumerable<Request> GetRequestByStatusId(int statusId)
+        {
+            List<Request> requests = new List<Request>();
+            requests = context123.Request.Where(x => x.RequestStatus.Equals(statusId)).ToList();
+            return requests;
+        }
 
         [HttpGet("{id}/{comment}")]
         [Route("ApproveRequestByDepHead/{id}/{comment}")]
@@ -77,6 +94,7 @@ namespace LUSS_API.Controllers
             List<Request> requestList = context123.Request.Where(x => x.RequestStatus != EOrderStatus.Rejected && x.RequestStatus != EOrderStatus.Pending).ToList();
             return requestList;
         }
+
 
         [HttpGet("{status}")]
         [Route("GetItemByStatus/{status}")]

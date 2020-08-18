@@ -12,23 +12,16 @@ namespace Team5_LUSS.Controllers
 {
     public class StationeryRequestsController : Controller
     {
-        string api_url = "https://localhost:44312/Request";
-      
-        public IActionResult StationeryRequests8()
-        {
-          
-            return View();
+        string api_url = "https://localhost:44312/";
 
-        }
-
-       [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> StationeryRequests()
         {
             
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+ "/getAllRequest"))
+                using (var response = await httpClient.GetAsync(api_url+ "Request/GetAllRequest"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
@@ -45,7 +38,7 @@ namespace Team5_LUSS.Controllers
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/ApproveRequestByDepHead/"+hidRequestID+"/"+comment))
+                using (var response = await httpClient.GetAsync(api_url + "Request/ApproveRequestByDepHead/" + hidRequestID+"/"+comment))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     ViewBag.Result = "Success";
@@ -54,6 +47,26 @@ namespace Team5_LUSS.Controllers
             }
             return RedirectToAction("StationeryRequests", "StationeryRequests");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RequestHistory()
+        {
+
+            List<Request> requests = new List<Request>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url + "Request/GetAllRequest"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                }
+            }
+
+            ViewData["requests"] = requests;
+            return View();
+        }
+
+
 
     }
 }

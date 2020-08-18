@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "RequestHistory";
+    var requests = (List<Request>)ViewData["requests"];
+}
+
+<h1>Request History</h1>
+<!-- START: Card Data-->
+    <div class="row">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-header  justify-content-between align-items-center">
+                    <h4 class="card-title">Requests</h4>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-bordered  table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>RequestID</th>
+                                <th>Submitted Date</th>
+                                <th>Status</th>
+                                <th>View Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var request in requests)
+                            {
+                                <tr>
+                                    <td>@request.RequestID</td>
+                                    <td>@request.RequestDate</td>
+                                    <td><span class="badge badge-primary text-white">@request.RequestStatus</span></td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-info rounded-btn" onclick="">Detail</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+

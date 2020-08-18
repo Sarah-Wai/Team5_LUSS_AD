@@ -75,29 +75,55 @@ namespace Team5_LUSS.Controllers
         }
 
 
-        public async Task<IActionResult> collectionList()
+        public async Task<IActionResult> collectionList(int retrievalID)
         {
             List<dynamic> pd_collectionList = new List<dynamic>();
             string status = "PendingDelivery";
+            List<Request> pendingDeliveryRequests = new List<Request>();
+            Dictionary<int, DateTime> retrievalID_CollectionTime = new Dictionary<int, DateTime>();
+
+            //get list of retrieval id - collection time
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status))
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/GetRequestByStatus/" + status))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    pd_collectionList = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
+                    pendingDeliveryRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                 }
             }
 
-            if(pd_collectionList.IsNullOrEmpty())
+            foreach (var r in pendingDeliveryRequests)
+            {
+                int? key = r.RetrievalID;
+                DateTime value = r.CollectionTime;
+                if (!retrievalID_CollectionTime.ContainsKey((int)key))
+                {
+                    retrievalID_CollectionTime.Add((int)key, value);
+                }
+            }
+
+            ViewData["retrieval_time"] = retrievalID_CollectionTime;
+
+
+            if (retrievalID != 0)
+            {
+                //get the list of items based on retrieval ID
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        pd_collectionList = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
+                    }
+                }
+            }
+
+            if (pd_collectionList.IsNullOrEmpty())
             {
                 ViewData["collectionRequest"] = null;
             }
             else
             {
-                DateTime date = pd_collectionList.Select(x => x.collectionTime).First();
-                string fm_date = date.ToString("MMMM dd, yyyy");
-                ViewData["collectionTime"] = fm_date;
-
                 //TODO: filter pd_requestList by department 
                 //TODO: pass User-Dept-Collectionpoint 
                 //ViewData["sessionUser"] 
@@ -109,12 +135,12 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> collectionList(List<int> acceptedQty)
+        public async Task<IActionResult> collectionList(List<int> acceptedQty, int retrievalID)
         {
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(acceptedQty), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(api_url_rqst + "/" + acceptedQty, content))
+                using (var response = await httpClient.PostAsync(api_url_rqst + "/" + acceptedQty +"/" + retrievalID, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                 }

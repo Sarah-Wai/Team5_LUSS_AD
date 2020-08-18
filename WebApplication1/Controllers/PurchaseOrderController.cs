@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using static LUSS_API.Models.PurchaseOrderStatus;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,7 +32,7 @@ namespace LUSS_API.Controllers
             return purchaseList;
         }
 
-       
+
         [HttpGet("{id}")]
         public PurchaseOrder GetPurchaseOrderById(int id)
         {
@@ -38,13 +40,76 @@ namespace LUSS_API.Controllers
             return purchase;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po)
+        [HttpGet("get/new-po-id")]
+        public int GetNewPOId()
         {
+            int maxId = 0;
+            int? currentId = context123.PurchaseOrder.Max(x => x.POID);
+            if (currentId != null)
+            {
+                maxId = (int)currentId;
+            }
+            return maxId + 1;
+        }
+
+
+
+        [HttpGet("{id}/{expectedDate}/{itemID}/{supllierId}/{orderQty}")]
+        public string savePO(int id, string expectedDate, int itemID, int supplierId, int orderQty)
+        {
+            int poId = GetNewPOId();
+            PurchaseOrder po = new PurchaseOrder()
+            {
+                POID = poId,
+                PONo = "PO " + poId,
+                CreatedOn = DateTime.Now,
+                SupplierID = supplierId,
+                Status = POStatus.Pending,
+                ExpectedDate = Convert.ToDateTime(expectedDate),
+                PurchasedBy = 1
+            };
+            //po.Supplier = null;
+            PurchaseOrderItems poItem = new PurchaseOrderItems()
+            {
+                POItemID = 1, // create a method
+                POID = poId,
+                ItemID = itemID,
+                OrderQty = orderQty,
+            };
+
+
             context123.PurchaseOrder.Add(po);
-            await context123.SaveChangesAsync();
+            context123.PurchaseOrderItems.Add(poItem);
+            context123.SaveChanges();
+            return "Ok";
+        }
+
+        //To delete 
+        [HttpPost]
+        public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po, int itemID, int orderQty, int supplierId)
+        {
+            //, int itemID, int orderQty, int supplierId
+            po.POID = GetNewPOId();
+            po.PONo = "PO " + po.POID;
+            po.SupplierID = supplierId;
+            po.Status = POStatus.Pending;
+            po.Supplier = null;
+            po.CreatedOn = DateTime.Now;
+            context123.PurchaseOrder.Add(po);
+            try
+            {
+                context123.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
 
             return CreatedAtAction(nameof(GetPurchaseOrderById), po);
         }
+
     }
+
+
 }

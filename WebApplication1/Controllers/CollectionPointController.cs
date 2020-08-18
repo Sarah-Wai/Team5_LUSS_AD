@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Controllers
 {
@@ -35,15 +37,14 @@ namespace LUSS_API.Controllers
 
         
         [HttpGet("{deptID}/{cpID}")]
-        public string UpdateCollectionPoint(int deptID, int cpID)
+        public CollectionPoint UpdateCollectionPoint(int deptID, int cpID)
         {
-            int dummyID = 1;//TO replace by real ID
-            Department dp = context123.Department.Where(x => x.DepartmentID == dummyID).FirstOrDefault();
+            
+            Department dp = context123.Department.Where(x => x.DepartmentID == deptID).FirstOrDefault();
             dp.CollectionPointID = cpID;
             context123.SaveChanges();
-            string dept_cpID = dp.CollectionPointID.ToString();
-            return dept_cpID;
+            CollectionPoint cp = context123.CollectionPoint.Where(x => x.CollectionPointID == cpID).FirstOrDefault();
+            return cp;
         }
-
     }
 }

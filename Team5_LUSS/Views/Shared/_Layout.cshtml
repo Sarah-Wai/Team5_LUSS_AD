@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <!-- START: Head-->
 <head>
@@ -25,11 +26,14 @@
     <link rel="stylesheet" href="~/vendors/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="~/vendors/ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="~/vendors/jquery-jvectormap/jquery-jvectormap-2.0.3.css">
+    <link rel="stylesheet" href="~/vendors/toastr/toastr.css">
+    <link rel="stylesheet" href="~/vendors/sweetalert/sweetalert.css">
     <!-- END: Page CSS-->
     <!-- START: Custom CSS-->
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/item.css">
     <!-- END: Custom CSS-->
+    <script src="~/vendors/jquery/jquery-3.3.1.min.js"></script>
 </head>
 <!-- END Head-->
 <!-- START: Body-->
@@ -73,54 +77,10 @@
                                 <i class="icon-magnifier h4"></i>
                             </a>
                         </li>
-
-                        <li class="dropdown align-self-center">
-                            <a href="#" class="nav-link" data-toggle="dropdown" aria-expanded="false">
-                                <i class="icon-reload h4"></i>
-                                <span class="badge badge-default">
-                                    <span class="ring">
-                                    </span><span class="ring-point">
-                                    </span>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right border  py-0">
-                                <li>
-                                    <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
-                                        <div class="media">
-                                            <img src="~/images/author.jpg" alt="" class="d-flex mr-3 img-fluid rounded-circle">
-                                            <div class="media-body">
-                                                <p class="mb-0">john</p>
-                                                <span class="text-success">New user registered.</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
-                                        <div class="media">
-                                            <img src="~/images/author2.jpg" alt="" class="d-flex mr-3 img-fluid rounded-circle">
-                                            <div class="media-body">
-                                                <p class="mb-0">Peter</p>
-                                                <span class="text-success">Server #12 overloaded.</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
-                                        <div class="media">
-                                            <img src="~/images/author3.jpg" alt="" class="d-flex mr-3 img-fluid rounded-circle">
-                                            <div class="media-body">
-                                                <p class="mb-0">Bill</p>
-                                                <span class="text-danger">Application error.</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-
-                                <li><a class="dropdown-item text-center py-2" href="#"> See All Tasks <i class="icon-arrow-right pl-2 small"></i></a></li>
-                            </ul>
-
+                        <li id="cartpartial" class="dropdown align-self-center">
+                            @{
+                                Html.RenderPartial("~/Views/ItemList/_CartPartial.cshtml");
+                            }
                         </li>
                         <li class="dropdown align-self-center d-inline-block">
                             <a href="#" class="nav-link" data-toggle="dropdown" aria-expanded="false">
@@ -218,24 +178,22 @@
                         <li class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
                         <li><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Item Category</a></li>
                         <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Items</a></li>
-                        <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-earphones"></i> COVID</a></li>
-                        <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Crypto</a></li>
+                        <li><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-support"></i> Assign Delegate</a></li>
                         <li><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-briefcase"></i> Ecommerce</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#"><i class="icon-organization mr-1"></i> Layout</a>
+                    <a href="#"><i class="icon-organization mr-1"></i>Disbursement</a>
                     <ul>
                         <li class="dropdown">
-                            <a href="#"><i class="icon-options"></i>Horizontal</a>
+                            <a href="#"><i class="icon-options"></i>Stationary Delivery</a>
                             <ul class="sub-menu">
-                                <li><a href="layout-horizontal.html"><i class="icon-energy"></i> Light</a></li>
-                                <li><a href="layout-horizontal-semidark.html"><i class="icon-disc"></i> Semi Dark</a></li>
-                                <li><a href="layout-horizontal-dark.html"><i class="icon-frame"></i> Dark</a></li>
+                                <li><a asp-controller="Delivery" asp-action="ConfirmDelivery">Request Delivery</a></li>
+                                <li><a asp-controller="Delivery" asp-action="DeptConfirmDelivery">Department Delivery</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#"><i class="icon-options-vertical"></i>Vertical</a>
+                            <a href="#"><i class="icon-options-vertical"></i>Retrieval Form</a>
                             <ul class="sub-menu">
                                 <li><a href="layout-vertical.html"><i class="icon-energy"></i> Light</a></li>
                                 <li><a href="layout-vertical-semidark.html"><i class="icon-disc"></i> Semi Dark</a></li>
@@ -250,14 +208,13 @@
                                 <li><a href="layout-compact-dark.html"><i class="icon-frame"></i> Dark</a></li>
                             </ul>
                         </li>
-
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#"><i class="icon-layers mr-1"></i> Web Apps</a>
+                    <a href="#"><i class="icon-layers mr-1"></i>Inventory List</a>
                     <ul>
-                        <li><a href="app-calendar.html"><i class="icon-calendar"></i> Calendar</a></li>
-                        <li><a href="app-chat.html"><i class="icon-speech"></i> Chats</a></li>
+                        <li><a href="app-calendar.html"><i class="icon-calendar"></i> Issue PO</a></li>
+                        <li><a href="app-chat.html"><i class="icon-speech"></i> Adjustment Voucher</a></li>
                         <li><a href="app-to-do.html"><i class="icon-support"></i> Todo</a></li>
                         <li><a href="app-mail.html"><i class="icon-envelope"></i>Mailapp</a></li>
                         <li><a href="app-filemanager.html"><i class="icon-folder"></i> File Manager</a></li>
@@ -452,7 +409,7 @@
     <footer class="site-footer">
         2020 &copy; Team5 NUS ISS
     </footer>
-    
+
     <script src="~/js/UI/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
     <!-- END: Footer-->
@@ -462,7 +419,7 @@
     </a>
     <!-- END: Back to top-->
     <!-- START: Template JS-->
-    <script src="~/vendors/jquery/jquery-3.3.1.min.js"></script>
+
     <script src="~/vendors/jquery-ui/jquery-ui.min.js"></script>
     <script src="~/vendors/moment/moment.js"></script>
     <script src="~/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -491,6 +448,9 @@
     <script src="~/vendors/jquery-jvectormap/jquery-jvectormap-de-merc.js"></script>
     <script src="~/vendors/jquery-jvectormap/jquery-jvectormap-us-aea.js"></script>
     <script src="~/vendors/apexcharts/apexcharts.min.js"></script>
+    <script src="~/vendors/toastr/toastr.min.js"></script>
+    <script src="~/vendors/sweetalert/sweetalert.min.js"></script>
+    <script src="~/vendors/sweetalert/sweetalert.js"></script>
     <!-- END: Page Vendor JS-->
     <!-- START: Page JS-->
     <script src="~/js/UI/home.script.js"></script>

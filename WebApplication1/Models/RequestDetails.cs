@@ -13,7 +13,7 @@ namespace LUSS_API.Models
     {
 
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RequestDetailID { get; set; }
         [Required]
         public int RequestQty { get; set; }

@@ -12,7 +12,7 @@ namespace Team5_LUSS.Models
     public class AdjustmentVoucher
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AdjustmentID   { get; set; }
         [Required]
         public int AdjustQty { get; set; }
@@ -24,10 +24,10 @@ namespace Team5_LUSS.Models
         public AdjustmentStatus Status   { get; set; }
         [Required]
         public int TotalCost   { get; set; }
-        [Required]
-        public int RequestByID   { get; set; }
-        [Required]
-        public int ApprovedByID   { get; set; }
+        //[Required]
+        public int? RequestByID   { get; set; }
+        //[Required]
+        public int? ApprovedByID   { get; set; }
         [Required]
         public DateTime IssuedDate   { get; set; }
         [Required]

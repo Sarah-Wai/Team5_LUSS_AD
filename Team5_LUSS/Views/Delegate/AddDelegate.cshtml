@@ -2,7 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var deptUsers = (List<User>)ViewData["users"];
     string DeleteMsg = null;
-   
+
 
     if (ViewData["DeleteMsg"] != null)
     {
@@ -50,7 +50,7 @@
                             {
                                 if (user.DelegatedManager != null)
                                 {
-                                   
+
                                     <tr>
                                         <td>@user.FirstName  @user.LastName</td>
                                         <td> @Html.DisplayFor(modelItem => user.DelegatedManager.FromDate)</td>
@@ -64,7 +64,7 @@
                                 }
 
                             }
-                        
+
 
                         </tbody>
                     </table>
@@ -95,6 +95,7 @@
                                         <li>
                                             <input tabindex="7" type="radio" id="rdo_@u.UserID" value="@u.UserID" name="rdo_depUsers">
                                             <label id="lbl_@u.UserID">@u.FirstName   @u.LastName </label>
+
                                         </li>
                                     }
                                 }
@@ -136,6 +137,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">Confirm</h4>
+                                    <h6><small><span class="text-danger p-sm-0" id="showMsg"></span></small></h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -145,17 +147,17 @@
                                     </div>
                                     <div class="row">
                                         <label for="requestID" class="col-sm-4 col-form-label">Start Date:</label>
-                                        <label for="requestID" class="col-sm-8 col-form-label"><span id="lblStartDate">2020-08-08</span></label>
+                                        <label for="requestID" class="col-sm-8 col-form-label"><span id="lblStartDate"></span></label>
 
                                     </div>
                                     <div class="row">
                                         <label for="requestID" class="col-sm-4 col-form-label">End Date:</label>
-                                        <label for="requestID" class="col-sm-8 col-form-label"><span id="lblEndDate">2020-09-08</span></label>
+                                        <label for="requestID" class="col-sm-8 col-form-label"><span id="lblEndDate"></span></label>
 
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-2"></div>
-                                        <button type="submit" class="btn btn-success">Assign</button> <span>&nbsp;&nbsp;&nbsp;</span>
+                                        <button type="submit" class="btn btn-success"  id="btnAssign">Assign</button> <span>&nbsp;&nbsp;&nbsp;</span>
                                         <button type="reset" class="btn btn-primary">Cancel</button>
                                     </div>
                                 </div>
@@ -170,6 +172,7 @@
     </div>
 
 </div>
+
 
 <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
 
@@ -190,7 +193,39 @@
         $("#userID").val(userId);
         $("#lblDelegate").html($("#lbl_" + userId).text());
         $("#sp_selectUser").html($("#lbl_" + userId).text());
+        alert(userId)
+          $.ajax({
+             type: "Post",
+             url: '@Url.Action("getDelegateByUserID")',
+             data: { 'id': userId},
+             cache: false,
+             //contentType: "application/json; charset=utf-8",
+            success: function (responce) {
+                if (responce != null) {
+                    console.log(responce);
+                    $("#lblDelegate").html(responce.user.firstName + " " + responce.user.lastName);
+                    $("#lblStartDate").html(responce.fromDate);
+                    $("#lblEndDate").html(responce.toDate);
+                    $("#btnAssign").prop('disabled', !0);
+                    $("#showMsg").html(" (This person is already delegated.If you want to change any,please remove first!)");
+
+                }
+                else {
+                    $("#userID").val(userId);
+                    $("#lblDelegate").html($("#lbl_" + userId).text());
+                    $("#sp_selectUser").html($("#lbl_" + userId).text());
+                   
+                    $("#btnAssign").prop('disabled', !1);
+                    ("#showMsg").html("");
+                }
+
+             },
+            error: function () {
+                    alert("Error while inserting data");
+                }
+            });
+            return true;
     });
-        
+
 
 </script>

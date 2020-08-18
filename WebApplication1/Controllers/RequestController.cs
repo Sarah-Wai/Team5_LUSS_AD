@@ -168,29 +168,27 @@ namespace LUSS_API.Controllers
             return "ok";
         }
 
-        [HttpPost("{id}/{userId}/{fulfillQty}/{collectionTime}")]
-        public async Task<string> DisburseByRequest(int id, int userId,List<int> fulfillQty, DateTime collectionTime)
+        [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        [Route("dummy/{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        public string DisburseByRequest(int id, int userId , string collectionTime, int fulfillQty)
         {
+            //update request
             Request request = GetById(id);
             request.RequestStatus = EOrderStatus.PendingDelivery;
-            request.CollectionTime = collectionTime;
+            request.CollectionTime = Convert.ToDateTime(collectionTime);
             request.ModifiedBy = userId;
-            //update the request items
-            string api_url_requestDetails = "https://localhost:44312/RequestDetails/";
-            List<RequestDetails> reqItems = new List<RequestDetails>();
-            using (var httpClient = new HttpClient())
+            List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
+
+            //update fulfill qty of each request items
+            for (int i = 0; i < reqItems.Count(); i++)
             {
-                using (var response = await httpClient.GetAsync(api_url_requestDetails + "get-by-request/" + id))
+                if (reqItems[i].FullfillQty == null && reqItems[i].RequestID == id)
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
+                    reqItems[i].FullfillQty = fulfillQty;
+                    break;
                 }
             }
-
-            for(int i=0; i < reqItems.Count(); i++)
-            {
-                reqItems[i].FullfillQty = fulfillQty[i];
-            }
+     
             context123.SaveChanges();
             return "ok";
         }

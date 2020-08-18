@@ -40,14 +40,34 @@ namespace LUSS_API.Controllers
             return purchase;
         }
 
-        [HttpGet("get/new-po-id")]
+        [HttpGet]
+        [Route("get-new-po-id")]
         public int GetNewPOId()
         {
             int maxId = 0;
-            int? currentId = context123.PurchaseOrder.Max(x => x.POID);
-            if (currentId != null)
+            List<PurchaseOrder> po = context123.PurchaseOrder.ToList();
+            if (po.Count() > 0)
             {
-                maxId = (int)currentId;
+                int? currentId = context123.PurchaseOrder.Max(x => x.POID);
+                if (currentId != null)
+                {
+                    maxId = (int)currentId;
+                }
+            }
+            return maxId + 1;
+        }
+
+        public int GetNewPOItemId()
+        {
+            int maxId = 0;
+            List<PurchaseOrderItems> poItems = context123.PurchaseOrderItems.ToList();
+            if (poItems.Count() > 0)
+            {
+                int? currentId = context123.PurchaseOrderItems.Max(x => x.POItemID);
+                if (currentId != null)
+                {
+                    maxId = (int)currentId;
+                }
             }
             return maxId + 1;
         }
@@ -56,9 +76,10 @@ namespace LUSS_API.Controllers
         public string savePO(int id, string expectedDate, int itemID, int supplierId, int orderQty)
         {
             int poId = GetNewPOId();
+            int poItemId = GetNewPOItemId();
             PurchaseOrder po = new PurchaseOrder()
             {
-                POID = poId,
+                //POID = poId,
                 PONo = "PO " + poId,
                 CreatedOn = DateTime.Now,
                 SupplierID = supplierId,
@@ -69,7 +90,7 @@ namespace LUSS_API.Controllers
             //po.Supplier = null;
             PurchaseOrderItems poItem = new PurchaseOrderItems()
             {
-                POItemID = 1, // create a method
+                //POItemID = poItemId,
                 POID = poId,
                 ItemID = itemID,
                 OrderQty = orderQty,

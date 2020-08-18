@@ -1,10 +1,9 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<dynamic> collectionList = (List<dynamic>)ViewData["collectionRequest"];
-    var collectionTime = ViewData["collectionTime"];
+  
 
-    ViewData["Title"] = "AdjustVoucherListingClerk";
-    var adjustmentByRequestor = (List<AdjustmentVoucher>)ViewData["adjustmentByRequestor"];
+   // ViewData["Title"] = "AdjustVoucherListingClerk";
+    var adjustmentVoucherList = (List<AdjustmentVoucher>)ViewData["allAdjustments"];
 }
 
 
@@ -21,7 +20,7 @@
                         <i class="icon-close"></i>
                     </button>
                 </div>
-                <form class="edit-invoice-form">
+                <form action="VoucherForm">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table">
@@ -33,24 +32,30 @@
                                         <th scope="col">Accpt Qty</th>
                                     </tr>
                                 </thead>
-                                @foreach (var r in collectionList)
+                                @foreach (var r in adjustmentVoucherList)
                                 {
                                     <tbody>
                                         <tr>
-                                            <th scope="row">@r.itemCode</th>
-                                            <td>@r.itemName</td>
-                                            <td>@r.totalQty</td>
-                                            <td><input type="number" class="form-control" value="@r.totalQty" max="@r.totalQty" min="0" name="ReceivedQty"></td>
+                                            <th scope="row">@r.AdjustmentID</th>
+                                            <td>@r.Status</td>
+                                            <td>@r.TotalCost</td>
+                                            <td>@r.AdjustQty</td>
+                                            <td>@r.AdjustType</td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger"  @* DETAIL VIEW*@
+                                                        onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID})'"> Details</button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 }
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    @*<div class="modal-footer">
                         <input type="hidden" id="edit-date">
-                        <button type="submit" class="btn btn-primary add-todo">Confirm</button>
-                    </div>
+                        <button type="submit" class="btn btn-primary add-todo">Approve</button>
+                        <button type="submit" class="btn btn-primary add-todo">Reject</button>
+                    </div>*@
                 </form>
             </div>
         </div>

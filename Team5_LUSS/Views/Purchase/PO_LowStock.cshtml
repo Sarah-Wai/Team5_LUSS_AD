@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Purchase Orders";
-    List<Item> lowStockItems = (List < Item > )ViewData["lowStockItems"];
+    List<Item> lowStockItems = (List<Item>)ViewData["lowStockItems"];
 }
     <form asp-controller="Purchase"  asp-action="POCreateBulk" method="post" >
         <div class="container-fluid site-width">
@@ -53,13 +53,13 @@
                                                 foreach (Item i in lowStockItems)
                                                 {
                                                     <tr>
-                                                        <td><label><input type="checkbox"><span class="sr-only"> Select Row</span></label></td>
-                                                        <td>@i.ItemCode <input type="hidden" value="@i.ItemID" name="itemId"></td>
+                                                        <td><input type="checkbox" name="itemId" value="@i.ItemID"></td>
+                                                        <td class="text-right">@i.ItemCode</td>
                                                         <td class="text-right">@i.ItemName</td>
                                                         <td class="text-right">@i.UOM</td>
                                                         <td class="text-right">@i.InStockQty</td>
                                                         <td class="text-right">@i.ReStockLevel</td>
-                                                        <td class="text-right">@i.ReStockQty</td>
+                                                        <td class="text-right"><input type="number" value="@i.ReStockQty" min="0" max="@i.ReStockLevel" /></td>
                                                         <td>
                                                             <a asp-action="POCreateLow" asp-route-id="@i.ItemID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
                                                                 Create

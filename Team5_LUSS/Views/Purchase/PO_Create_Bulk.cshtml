@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Create Bulk Purchase Order";
     List<Item> poitems = (List<Item>)ViewData["poitems"];
+    List<ItemPrice> poitemPrice = (List<ItemPrice>) ViewData["poItemPrice"];
 }
 
 <form>
@@ -25,7 +26,6 @@
                         </div>
                     </div>
                 </div>
-                @*table content*@
                 <div class="col-12 col-md-12">
                     <div class="card border-0">
                         <div class="card-body table-responsive">
@@ -37,14 +37,13 @@
                                         <td class="text-right"><b>UOM</b></td>
                                         <td class="text-right"><b>Reorder Qty</b></td>
                                         <td class="text-right"><b>Ordered Qty</b></td>
-                                        <td class="text-right"><b>Supplier</b></td>
-                                        <td class="text-right"><b>Price</b></td>
-                                        <td class="text-right"></td>
+                                        <td class="text-right"><b>Supplier(unit price)</b></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in poitems)
                                     {
+                                        int price;
                                     <tr>
                                         <td class="text-right">@item.ItemCode</td>
                                         <td class="text-right">@item.ItemName</td>
@@ -53,13 +52,15 @@
                                         <td class="text-right"><input type="number" value="@item.ReStockQty" min="0" max="@item.ReStockQty" /></td>
                                         <td class="text-right">
                                             <select id="supplier">
-                                                <option value=""></option>
+                                                @foreach (var it in poitemPrice)
+                                                {
+                                                    if (it.ItemID == item.ItemID)
+                                                    {
+                                                        <option value="@it.Supplier.SupplierID">@it.Supplier.SupplierName ($S @it.Price )</option>
+                                                         price = it.Price;
+                                                    }
+                                                }
                                             </select>
-                                        </td>
-                                        <td class="text-right"></td>
-                                        <td class="text-right">
-                                            <a href="#"><i class="icon-plus icons"></i></a>
-                                            <a href="#"><i class="icon-minus icons"></i></a>
                                         </td>
                                     </tr>
                                     }

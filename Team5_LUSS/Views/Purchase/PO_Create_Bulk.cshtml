@@ -1,8 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Create Bulk Purchase Order";
+    List<Item> poitems = (List<Item>)ViewData["poitems"];
+    List<ItemPrice> poitemPrice = (List<ItemPrice>) ViewData["poItemPrice"];
 }
+@model IEnumerable<PurchaseOrder>
 
-<form>
+<form method="post" asp-action="POCreation">
     <div class="container-fluid site-width">
         <div>
             <div class="row">
@@ -11,20 +14,8 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
                         </div>
-                        <div class="card-body table-responsive">
-                            <table class="table table-borderless">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <b>Expected Date:</b> <input type="date" /><br>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
-                @*table content*@
                 <div class="col-12 col-md-12">
                     <div class="card border-0">
                         <div class="card-body table-responsive">
@@ -36,47 +27,33 @@
                                         <td class="text-right"><b>UOM</b></td>
                                         <td class="text-right"><b>Reorder Qty</b></td>
                                         <td class="text-right"><b>Ordered Qty</b></td>
-                                        <td class="text-right"><b>Supplier</b></td>
-                                        <td class="text-right"></td>
+                                        <td class="text-right"><b>Supplier(unit price)</b></td>
+                                        <td class="text-right"><b>Expeced Date</b></td>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in poitems)
+                                    {
                                     <tr>
-                                        <td>P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right"><select></select></td>
+                                        <td class="text-right" name="ItemCode">@item.ItemCode <input type="hidden" name="itemId" value="@item.ItemID" /></td>
+                                        <td class="text-right">@item.ItemName</td>
+                                        <td class="text-right">@item.UOM</td>
+                                        <td class="text-right">@item.ReStockQty</td>
+                                        <td class="text-right"><input type="number" value="@item.ReStockQty" min="0" max="@item.ReStockQty" name="orderQty"/></td>
                                         <td class="text-right">
-                                            <a href="#"><i class="icon-plus icons"></i></a>
-                                            <a href="#"><i class="icon-minus icons"></i></a>
+                                            <select id="supplier" name="supplierId">
+                                                @foreach (var it in poitemPrice)
+                                                {
+                                                    if (it.ItemID == item.ItemID)
+                                                    {
+                                                        <option value="@it.Supplier.SupplierID">@it.Supplier.SupplierName ($S @it.Price )</option>
+                                                    }
+                                                }
+                                            </select>
                                         </td>
+                                        <td><input type="date" name="expectedDate" min="@DateTime.Today"/></td>
                                     </tr>
-                                    <tr>
-                                        <td>P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right"><select></select></td>
-                                        <td class="text-right">
-                                            <a href="#"><i class="icon-plus icons"></i></a>
-                                            <a href="#"><i class="icon-minus icons"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>P021</td>
-                                        <td class="text-right">Paper Clip</td>
-                                        <td class="text-right">Dozen</td>
-                                        <td class="text-right">10</td>
-                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                        <td class="text-right"><select></select></td>
-                                        <td class="text-right">
-                                            <a href="#"><i class="icon-plus icons"></i></a>
-                                            <a href="#"><i class="icon-minus icons"></i></a>
-                                        </td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -91,4 +68,3 @@
         </div>
     </div>
 </form>
-

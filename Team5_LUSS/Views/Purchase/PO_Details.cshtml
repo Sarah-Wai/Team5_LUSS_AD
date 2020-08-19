@@ -53,7 +53,7 @@
                             @foreach (PurchaseOrderItems item in orderItems)
                             {
                                 <tr>
-                                    <td class="text-right">@item.ItemID</td>
+                                    <td class="text-right">@item.Item.ItemCode</td>
                                     <td class="text-right">@item.Item.ItemName</td>
                                     <td class="text-right">@item.Item.UOM</td>
                                     <td class="text-right">@item.Item.ReStockLevel</td>
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
-                <a asp-action="PurchaseOrders" class="btn btn-primary">Back </a>
+                <a asp-action="PurchaseOrders"  onclick="window.history.back()" class="btn btn-primary">Back </a>
             </div>
         </div>
         </div>

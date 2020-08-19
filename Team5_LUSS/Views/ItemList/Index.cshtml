@@ -27,37 +27,19 @@
             <div class="col-md-5 col-lg-5">
                 <input type="text" class="form-control" id="searchName" name="search">
             </div>
-            <div class="col-md-2 col-lg-2">
-                <button type="button" onclick="searchNameFn()" class="btn btn-outline-info rounded-btn">Search</button>
+            <div class="col-md-2 col-lg-2"> 
+                <button type="button" id="btnSearch" onclick="searchNameFn()" class="btn btn-outline-info rounded-btn">Search</button>
             </div>
+
         </div>
 
     </div>
 </div>
-<div clss="row">
-    <div class="col-md-12 col-lg-12">
-        <div class="col-md-6 col-lg-6">
 
-        </div>
-        <!--Pagination - Start-->
-        <div class="col-md-6 col-lg-6">
-            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
-            new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
-            {
-                DisplayItemSliceAndTotal = true,
-                ContainerDivClasses = new[] { "navigation" },
-                LiElementClasses = new[] { "page-item" },
-                PageClasses = new[] { "page-link" },
-            })
-        </div>
-        <!--Pagination - End-->
-    </div>
-    
-</div>
 @{
 
     <div class="row">
-       
+
         <div class="col-12 mt-3">
 
             <div class="card">
@@ -111,7 +93,26 @@
 
         </div>
     </div>
+    <div clss="row">
+        <div class="col-12 mt-3 col-md-12 col-lg-12">
+            <div class="col-md-6 col-lg-6">
 
+            </div>
+            <!--Pagination - Start-->
+            <div class="col-md-6 col-lg-6" style="margin:auto;">
+                @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+                new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
+                {
+                    DisplayItemSliceAndTotal = true,
+                    ContainerDivClasses = new[] { "navigation" },
+                    LiElementClasses = new[] { "page-item" },
+                    PageClasses = new[] { "page-link" },
+                })
+            </div>
+            <!--Pagination - End-->
+        </div>
+
+    </div>
 }
 
 <!--use ajax for dropdownList to get the item data then talk to controller-->
@@ -140,7 +141,14 @@
             $('ul.pagination > li.disabled > a').addClass('page-link');
 
         });
-
+        $('#searchName').keypress(keypressHandler);
+        function keypressHandler(e) {
+            if (e.which == 13) {
+                e.preventDefault();
+                $(this).blur();
+                $('#btnSearch').focus().click();
+            }
+        }
         var addToCart = function (id) {
 
             var itemId = id;

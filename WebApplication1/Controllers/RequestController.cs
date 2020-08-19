@@ -85,9 +85,10 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
+        [Route("get-approved-request")]
         public IEnumerable<Request> Get()
         {
-            List<Request> requestList = context123.Request.Where(x => x.RequestStatus != EOrderStatus.Rejected && x.RequestStatus != EOrderStatus.Pending).ToList();
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == EOrderStatus.Approved).ToList();
             return requestList;
         }
 
@@ -208,6 +209,26 @@ namespace LUSS_API.Controllers
 
             context123.SaveChanges();
             return "ok";
+        }
+
+        [HttpGet("{id}")]
+        [Route("GetRequestByEmpId/{id}")]
+        public IEnumerable<Request> GetRequestByEmpId(int id)
+        {
+            EOrderStatus packed = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "Packed");
+            EOrderStatus completed = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "Completed");
+            EOrderStatus pendingDelivery = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "PendingDelivery");
+            List<Request> request = context123.Request.Where(x => x.RequestBy == id && x.RequestStatus != packed && x.RequestStatus != completed && x.RequestStatus != pendingDelivery).ToList();
+            return request;
+        }
+
+        [HttpGet]
+        [Route("GetAllStatus")]
+        public List<EOrderStatus> GetAllStatus()
+        {
+
+            List<EOrderStatus> st = Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>().ToList();// Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>();
+            return st;
         }
 
     }

@@ -15,7 +15,7 @@ namespace LUSS_API.DB
 
             PurchaseOrder p1 = new PurchaseOrder()
             {
-                POID = 1,
+                //POID = 1,
                 CreatedOn = DateTime.Now,
                 ExpectedDate = DateTime.Now,
                 PurchasedBy = 1,
@@ -27,7 +27,7 @@ namespace LUSS_API.DB
 
             PurchaseOrder p2 = new PurchaseOrder()
             {
-                POID = 2,
+                //POID = 2,
                 CreatedOn = DateTime.Now,
                 ExpectedDate = DateTime.Now,
                 PurchasedBy = 1,
@@ -38,7 +38,7 @@ namespace LUSS_API.DB
 
             PurchaseOrder p3 = new PurchaseOrder()
             {
-                POID = 3,
+                //POID = 3,
                 CreatedOn = DateTime.Now,
                 ExpectedDate = DateTime.Now,
                 PurchasedBy = 1,

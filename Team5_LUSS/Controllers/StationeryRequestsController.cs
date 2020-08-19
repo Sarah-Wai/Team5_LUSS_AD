@@ -24,11 +24,11 @@ namespace Team5_LUSS.Controllers
        [HttpGet]
         public async Task<IActionResult> StationeryRequests()
         {
-            
+            int id = 1; //depID
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+ "/getAllRequest"))
+                using (var response = await httpClient.GetAsync(api_url+ "/getAllRequestByDepID/"+id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
@@ -39,20 +39,20 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ApproveRequestByDepHead(int hidRequestID, string comment)
+        [HttpGet]
+        public async Task<IActionResult> ApproveRequestByDepHead(int id,int status, string comment)
         {
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/ApproveRequestByDepHead/"+hidRequestID+"/"+comment))
+                using (var response = await httpClient.GetAsync(api_url + "/ApproveRequestByDepHead/"+id+"/"+status + "/" + comment))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    ViewBag.Result = "Success";
-                    request = JsonConvert.DeserializeObject<Request>(apiResponse);
+                   
                 }
             }
-            return RedirectToAction("StationeryRequests", "StationeryRequests");
+
+            return RedirectToAction("StationeryRequests");
         }
 
     }

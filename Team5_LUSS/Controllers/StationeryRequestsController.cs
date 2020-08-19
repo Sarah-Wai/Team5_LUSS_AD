@@ -19,11 +19,11 @@ namespace Team5_LUSS.Controllers
         [HttpGet]
         public async Task<IActionResult> StationeryRequests()
         {
-            
+            int id = 1; //depID
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+ "Request/GetAllRequest"))
+                using (var response = await httpClient.GetAsync(api_url+ "/getAllRequest/"+id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
@@ -34,60 +34,21 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ApproveRequestByDepHead(int hidRequestID, string comment)
+        [HttpGet]
+        public async Task<IActionResult> ApproveRequestByDepHead(int id,int status, string comment)
         {
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "Request/ApproveRequestByDepHead/" + hidRequestID+"/"+comment))
+                using (var response = await httpClient.GetAsync(api_url + "/ApproveRequestByDepHead/"+id+"/"+status+ "/"+comment))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    ViewBag.Result = "Success";
-                    request = JsonConvert.DeserializeObject<Request>(apiResponse);
+                   
                 }
             }
-            return RedirectToAction("StationeryRequests", "StationeryRequests");
+
+            return RedirectToAction("StationeryRequests");
         }
-
-        [HttpGet]
-        public async Task<IActionResult> RequestHistory(string status)
-        {
-            if(status == null)
-            {
-                string selectedStatusSession = HttpContext.Session.GetString("selectedStatus");
-                if(selectedStatusSession == null)
-                {
-                    status = "All";
-                }
-                else
-                {
-                    status = selectedStatusSession;
-                }
-              
-            }
-            int empId = 2;
-            List<Request> requests = new List<Request>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(api_url + "Request/GetRequestByEmpId/" + empId))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
-                    if (status != "All")
-                    {
-                        EOrderStatus e = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-                        requests.RemoveAll(x => x.RequestStatus != e);
-                    }
-
-                }
-            }
-            HttpContext.Session.SetString("selectedStatus", status.ToString());
-            ViewData["requests"] = requests;
-            return View();
-        }
-
-
 
     }
 }

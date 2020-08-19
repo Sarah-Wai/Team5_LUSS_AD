@@ -79,27 +79,26 @@ namespace LUSS_API.Controllers
         //    return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
         //}
 
-        [HttpGet("{adjustType}/{itemId}/{adjustQty}/{reason}")]
-        [Route("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{reason}")]
-        public string AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason)
+        [HttpGet("{adjustType}/{itemId}/{adjustQty}/{reason}/{userId}")]
+        [Route("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{reason}/{userId}")]
+        public string AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId)
         {
             int price = context123.ItemPrice
                 .Where(x => x.ItemID == itemId).FirstOrDefault().Price;
             //int id = GetNewAdjVoucherId();
 
             AdjustmentVoucher adjustment = new AdjustmentVoucher()
-            {   AdjustmentID = 3,// to be removed, id is auto generated
+            {
                 Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending,
                 IssuedDate = DateTime.Now,
+                RequestByID = userId,
+                VoucherNo = "VN" + DateTime.Now.ToString("yyMMddHHmmss"),
                 ItemID = itemId,
                 Reason = reason,
                 AdjustQty = adjustQty,
                 AdjustType = adjustType,
                 TotalCost = adjustQty * price
             };
-
-            adjustment.VoucherNo = "VN" + DateTime.Now.Year + adjustment.AdjustmentID;
-
 
             context123.AdjustmentVouncher.Add(adjustment);
             context123.SaveChanges();

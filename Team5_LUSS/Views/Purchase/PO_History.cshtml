@@ -13,15 +13,15 @@
                 <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
             </div>
             <div class="btn-group mb-2">
-                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                <a asp-controller="Purchase" asp-action="ViewLowStockItems" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
                     Low Stock
                 </a>
-                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                <a asp-controller="Purchase" asp-action="PurchaseOrders" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
                     PO History
                 </a>
-                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                    New PO
-                </a>
+                @*<a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+            New PO
+        </a>*@
             </div>
         </div>
     </div>
@@ -30,10 +30,10 @@
     <div class="row row-eq-height">
         <div class="col-12 col-lg-10 mt-3 pl-lg-0">
             <div class="card border h-100 invoice-list-section">
-                <div class="card-header border-bottom p-1 d-flex">
+                @*<div class="card-header border-bottom p-1 d-flex">
                     <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
                     <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
-                </div>
+                </div>*@
                 <div class="col-12 col-md-12">
                     <div class="card-body p-0">
                         <div class="invoices list">
@@ -61,14 +61,17 @@
                                         @if (p.Status == PurchaseOrderStatus.POStatus.Pending)
                                         {
                                             <div class="mr-3">
-                                                <a asp-action="" asp-route-id="@p.POID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                                <a asp-action="ReceivePO" asp-route-id="@p.POID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
                                                     Receiving
                                                 </a>
                                             </div>
                                         }
-
-                                    </div>
-                                </div>
+                                        else
+                                        {
+                                            <div class="mr-3"></div>
+                                                }
+                                            </div>
+                                        </div>
                             }
                         </div>
                     </div>
@@ -76,3 +79,4 @@
             </div>
         </div>
     </div>
+

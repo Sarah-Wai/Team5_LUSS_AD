@@ -58,7 +58,7 @@
                                     <td class="text-right">@item.Item.UOM</td>
                                     <td class="text-right">@item.Item.ReStockLevel</td>
                                     <td class="text-right">@item.OrderQty</td>
-                                    @if (item.ReceivedQty != null)
+                                    @if (item.ReceivedQty != 0)
                                     {
                                         <td class="text-right">@item.ReceivedQty</td>
                                     }

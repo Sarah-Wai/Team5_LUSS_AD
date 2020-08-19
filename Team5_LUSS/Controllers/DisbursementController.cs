@@ -238,13 +238,13 @@ namespace Team5_LUSS.Controllers
             {
                 for (int i = 0; i < fulfillQty.Count(); i++)
                 {
-                    using (var response = await httpClient.GetAsync(api_url + "dummy/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
+                    using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }
                 }
             }
-            return RedirectToAction("Index");// change to list of requests
+            return View("Disbursement_Manage");
         }
         #endregion
     }

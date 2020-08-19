@@ -187,7 +187,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        [Route("dummy/{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        [Route("disburse-by-request/{id}/{userId}/{collectionTime}/{fulfillQty}")]
         public string DisburseByRequest(int id, int userId, string collectionTime, int fulfillQty)
         {
             //update request
@@ -196,6 +196,9 @@ namespace LUSS_API.Controllers
             request.CollectionTime = Convert.ToDateTime(collectionTime);
             request.ModifiedBy = userId;
             List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
+
+            //To do: generate retrieval id
+            
 
             //update fulfill qty of each request items
             for (int i = 0; i < reqItems.Count(); i++)
@@ -206,6 +209,8 @@ namespace LUSS_API.Controllers
                     break;
                 }
             }
+
+            
 
             context123.SaveChanges();
             return "ok";

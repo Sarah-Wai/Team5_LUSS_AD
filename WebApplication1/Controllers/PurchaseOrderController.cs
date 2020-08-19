@@ -108,7 +108,13 @@ namespace LUSS_API.Controllers
             for(int i = 0; i < poItems.Count() ; i++)
             {
                 if (poItems[i].OrderQty >= receivedQty[i]) {
+                    //update received qty
                     poItems[i].ReceivedQty = receivedQty[i];
+
+                    //update instock qty
+                    int itemId = poItems[i].ItemID;
+                    Item item = context123.Item.Where(x => x.ItemID == itemId).FirstOrDefault();
+                    item.InStockQty += receivedQty[i];
                 }
             }
             //update PO

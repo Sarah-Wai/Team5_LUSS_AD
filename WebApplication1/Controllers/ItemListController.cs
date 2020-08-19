@@ -89,7 +89,7 @@ namespace LUSS_API.Controllers
             return itemList;
         }
 
-        //get low stock item list
+        //get low stock item list exclude those item with pending po
         [HttpGet]
         [Route("get-low-stock-items")]
         public IEnumerable<Item> GetLowStockItems()

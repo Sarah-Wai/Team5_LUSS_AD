@@ -38,6 +38,14 @@ namespace LUSS_API.Controllers
             return requests;
         }
 
+        [HttpGet("{id}")]
+        [Route("getAllRequestByDepID/{id}")]
+        public IEnumerable<Request> GetAllRequest(int id)
+        {
+            List<Request> requests = context123.Request.Where(x => x.RequestByUser.DepartmentID == id).ToList();
+            return requests;
+        }
+
         [HttpGet("{status}")]
         [Route("GetRequestByStatus/{status}")]
         public IEnumerable<Request> GetRequestByStatus(string status)
@@ -68,9 +76,9 @@ namespace LUSS_API.Controllers
         }
 
 
-        [HttpGet("{id}/{comment}")]
-        [Route("ApproveRequestByDepHead/{id}/{comment}")]
-        public Request ApproveRequestByDepHead(int id, string comment)
+        [HttpGet("{id}/{status}/{comment}")]
+        [Route("ApproveRequestByDepHead/{id}/{status}/{comment}")]
+        public Request ApproveRequestByDepHead(int id, int status,string comment)
         {
 
             Request getRequest = context123.Request
@@ -78,7 +86,10 @@ namespace LUSS_API.Controllers
             if (getRequest != null)
             {
                 getRequest.Comment = comment;
+                if (status == 1) 
                 getRequest.RequestStatus = EOrderStatus.Approved;
+                else
+                getRequest.RequestStatus = EOrderStatus.Rejected;
                 context123.SaveChanges();
             }
             return getRequest;

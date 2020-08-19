@@ -99,6 +99,7 @@ namespace LUSS_API.Controllers
                         select new
                         {
                             RetrievalID = retrieval.RetrievalID,
+                            ReorderLevel = i.ReStockLevel,
                             ItemID = i.ItemID,
                             ItemCode = i.ItemCode,
                             ItemName = i.ItemName,

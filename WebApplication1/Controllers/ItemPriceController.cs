@@ -42,7 +42,8 @@ namespace LUSS_API.Controllers
             return price; 
         }
 
-        [HttpGet("getItem/{id}")]
+        //[EnableCors("EnableCors")]
+        [HttpGet("getItemDetails/{id}")]
         public ItemPrice GetItemById(int id)
         {
             ItemPrice item = context123.ItemPrice

@@ -3,8 +3,9 @@
     List<Item> poitems = (List<Item>)ViewData["poitems"];
     List<ItemPrice> poitemPrice = (List<ItemPrice>) ViewData["poItemPrice"];
 }
+@model IEnumerable<PurchaseOrder>
 
-<form>
+<form method="post" asp-action="POCreation">
     <div class="container-fluid site-width">
         <div>
             <div class="row">
@@ -12,17 +13,6 @@
                     <div class="card border-0">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
-                        </div>
-                        <div class="card-body table-responsive">
-                            <table class="table table-borderless">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <b>Expected Date:</b> <input type="date" name="expectedDate" /><br>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -38,30 +28,30 @@
                                         <td class="text-right"><b>Reorder Qty</b></td>
                                         <td class="text-right"><b>Ordered Qty</b></td>
                                         <td class="text-right"><b>Supplier(unit price)</b></td>
+                                        <td class="text-right"><b>Expeced Date</b></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in poitems)
                                     {
-                                        int price;
                                     <tr>
-                                        <td class="text-right">@item.ItemCode</td>
+                                        <td class="text-right" name="ItemCode">@item.ItemCode <input type="hidden" name="itemId" value="@item.ItemID" /></td>
                                         <td class="text-right">@item.ItemName</td>
                                         <td class="text-right">@item.UOM</td>
                                         <td class="text-right">@item.ReStockQty</td>
-                                        <td class="text-right"><input type="number" value="@item.ReStockQty" min="0" max="@item.ReStockQty" /></td>
+                                        <td class="text-right"><input type="number" value="@item.ReStockQty" min="0" max="@item.ReStockQty" name="orderQty"/></td>
                                         <td class="text-right">
-                                            <select id="supplier">
+                                            <select id="supplier" name="supplierId">
                                                 @foreach (var it in poitemPrice)
                                                 {
                                                     if (it.ItemID == item.ItemID)
                                                     {
                                                         <option value="@it.Supplier.SupplierID">@it.Supplier.SupplierName ($S @it.Price )</option>
-                                                         price = it.Price;
                                                     }
                                                 }
                                             </select>
                                         </td>
+                                        <td><input type="date" name="expectedDate" min="@DateTime.Today"/></td>
                                     </tr>
                                     }
                                 </tbody>
@@ -78,40 +68,3 @@
         </div>
     </div>
 </form>
-
-<script>
-    function getSupplier(itemID) {
-        $("#supplier").on("change", function () {
-            var sId = $(this).val();
-            $("#supplier").empty();
-            $("#supplier").append("<option value=''>Select SubCategory</option>");
-            $.ajax({
-                method: "GET",
-                url: "https://localhost:44312/ItemPrice/getItem/" + itemID,
-
-            })
-                .done(function (msg) {
-                    console.log(msg);
-                    
-
-                });
-        });
-    }
-
-</script>
-
-<script>
-    $(function () {
-        $("#supplier").on("change", function () {
-            var categoryId = $(this).val();
-            $("#SubCategoryId").empty();
-            $("#SubCategoryId").append("<option value=''>Select SubCategory</option>");
-            $.getJSON(`?handler=SubCategories&categoryId=${categoryId}`, (data) => {
-                $.each(data, function (i, item) {
-                    $("#SubCategoryId").append(`<option value="${item.subCategoryId}">${item.subCategoryName}</option>`);
-                });
-            });
-        });
-    });
-</script>
-}

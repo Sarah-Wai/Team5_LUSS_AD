@@ -151,12 +151,29 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-            //List<Supplier> suppliers = itemsPrice.Select(x => x.Supplier).ToList();
-
             ViewData["poitems"] = items;
             ViewData["poItemPrice"] = itemsPrice;
             return View("PO_Create_Bulk");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> POCreation(List<int> id, List<string> expectedDate, List<int> itemID, List<int> supplierId, List<int> orderQty)
+        {
+
+            for (int i = 0; i < 2; i++)
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync(api_url + "/" + 1 + "/" + expectedDate[i] + "/" + itemID[i] + "/" + supplierId[i] + "/" + orderQty[i]))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
+            }
+
+            return RedirectToAction("PurchaseOrders");
+        }
+
         #endregion
 
         #region ReceivePO

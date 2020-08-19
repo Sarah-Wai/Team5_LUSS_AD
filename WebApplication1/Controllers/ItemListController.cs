@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
@@ -93,7 +95,30 @@ namespace LUSS_API.Controllers
         public IEnumerable<Item> GetLowStockItems()
         {
             List<Item> items = context123.Item.Where(x => x.InStockQty < x.ReStockLevel).ToList();
-            return items;
+
+            List<int> poItemIds = context123.PurchaseOrderItems.Where(x => x.PurchaseOrder.Status == PurchaseOrderStatus.POStatus.Pending).Select(x => x.ItemID).Distinct().ToList();
+
+            List<Item> lowStockList = new List<Item>();
+            for(int i = 0; i < items.Count(); i++)
+            {
+                bool flag = false;
+                //loop each item through list of pending poItemIds
+                for (int j = 0; j < poItemIds.Count(); j++)
+                {
+                    //if item id in the list, break the inner loop 
+                    if(items[i].ItemID == poItemIds[j])
+                    {
+                        flag = true;
+                        break;
+                    }
+                    //if no flag and at final inner loop, add items into list
+                    if (!flag && (j==poItemIds.Count-1))
+                    {
+                        lowStockList.Add(items[i]);
+                    }
+                }
+            }
+            return lowStockList;
         }
 
         //get selected Items

@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,14 @@ namespace LUSS_API.Controllers
             return requests;
         }
 
+        [HttpGet("{id}")]
+        [Route("getAllRequestByDepID/{id}")]
+        public IEnumerable<Request> GetAllRequest(int id)
+        {
+            List<Request> requests = context123.Request.Where(x => x.RequestByUser.DepartmentID == id).ToList();
+            return requests;
+        }
+
         [HttpGet("{status}")]
         [Route("GetRequestByStatus/{status}")]
         public IEnumerable<Request> GetRequestByStatus(string status)
@@ -68,9 +77,9 @@ namespace LUSS_API.Controllers
         }
 
 
-        [HttpGet("{id}/{comment}")]
-        [Route("ApproveRequestByDepHead/{id}/{comment}")]
-        public Request ApproveRequestByDepHead(int id, string comment)
+        [HttpGet("{id}/{status}/{comment}")]
+        [Route("ApproveRequestByDepHead/{id}/{status}/{comment}")]
+        public Request ApproveRequestByDepHead(int id, int status,string comment)
         {
 
             Request getRequest = context123.Request
@@ -78,7 +87,10 @@ namespace LUSS_API.Controllers
             if (getRequest != null)
             {
                 getRequest.Comment = comment;
+                if (status == 1) 
                 getRequest.RequestStatus = EOrderStatus.Approved;
+                else
+                getRequest.RequestStatus = EOrderStatus.Rejected;
                 context123.SaveChanges();
             }
             return getRequest;
@@ -115,7 +127,7 @@ namespace LUSS_API.Controllers
                             ItemUOM = i.UOM,
                             collectionTime = n.Select(x => x.Request.CollectionTime).First(),
                             requestIDs = n.Select(x => x.RequestID).ToList(),
-                            deptId = n.Select(x=>x.Request.RequestByUser.DepartmentID).First()
+                            deptId = n.Select(x => x.Request.RequestByUser.DepartmentID).First()
                         }).ToList();
             return iter;
         }
@@ -187,7 +199,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        [Route("dummy/{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        [Route("disburse-by-request/{id}/{userId}/{collectionTime}/{fulfillQty}")]
         public string DisburseByRequest(int id, int userId, string collectionTime, int fulfillQty)
         {
             //update request
@@ -196,6 +208,9 @@ namespace LUSS_API.Controllers
             request.CollectionTime = Convert.ToDateTime(collectionTime);
             request.ModifiedBy = userId;
             List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
+
+            //To do: generate retrieval id
+            
 
             //update fulfill qty of each request items
             for (int i = 0; i < reqItems.Count(); i++)
@@ -206,6 +221,8 @@ namespace LUSS_API.Controllers
                     break;
                 }
             }
+
+            
 
             context123.SaveChanges();
             return "ok";
@@ -226,11 +243,75 @@ namespace LUSS_API.Controllers
         [Route("GetAllStatus")]
         public List<EOrderStatus> GetAllStatus()
         {
-
             List<EOrderStatus> st = Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>().ToList();// Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>();
             return st;
         }
 
-    }
+        [HttpGet("deny/{reqID}")]
+        public void RevertToPendingDelivery(int reqID)
+        {
+            Request r = context123.Request.Where(x => x.RequestID == reqID).FirstOrDefault();
+            r.RequestStatus = EOrderStatus.PendingDelivery;
+            context123.SaveChangesAsync(); 
+        }
 
+        [HttpGet("complete/{reqID}")]
+        public void CompleteOrder(int reqID)
+        {
+            Request r = context123.Request.Where(x => x.RequestID == reqID).FirstOrDefault();
+            r.RequestStatus = EOrderStatus.Completed;
+            checkDiscrepancy(reqID);
+            context123.SaveChangesAsync();
+        }
+
+        private void checkDiscrepancy(int reqID)
+        {
+            List<RequestDetails> requestDetails = context123.RequestDetails.Where(x => x.RequestID == reqID).ToList();
+            Request currentRqt = context123.Request.First(x => x.RequestID == reqID);
+            List<RequestDetails> dcp_RequestDetails = new List<RequestDetails>();
+
+
+            //if there is discrepancy, create new Request, create RequestDetails
+
+            foreach (var rq in requestDetails)
+            {
+                if(rq.FullfillQty < rq.RequestQty)
+                {
+                    dcp_RequestDetails.Add(rq);
+                }
+            }
+
+            if (!dcp_RequestDetails.IsNullOrEmpty())
+            {
+                Request dcp_Request = new Request
+                {
+                    RequestStatus = EOrderStatus.Approved,
+                    RequestDate = DateTime.Now,
+                    RequestBy = currentRqt.RequestByUser.UserID,
+                    RequestByUser = currentRqt.RequestByUser,
+                    RequestType = RequestType.ERequestType.Discrepancy,
+                    ModifiedBy = currentRqt.RequestByUser.UserID
+                };
+                context123.Request.Add(dcp_Request);
+                context123.SaveChanges();
+                AddRequestDetails(dcp_Request, dcp_RequestDetails);
+            }
+        }
+
+        private void AddRequestDetails(Request dcp_Request, List<RequestDetails> dcp_RequestDetails)
+        {
+            int requestID = dcp_Request.RequestID;
+            foreach (var rd in dcp_RequestDetails)
+            {
+                RequestDetails rqt_Details = new RequestDetails
+                {
+                    RequestQty = (int)(rd.RequestQty - rd.FullfillQty),
+                    ItemID = rd.Item.ItemID,
+                    RequestID = requestID
+                };
+                context123.RequestDetails.Add(rqt_Details);
+            }
+            context123.SaveChanges();
+        }
+    }
 }

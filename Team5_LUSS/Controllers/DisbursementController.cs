@@ -7,6 +7,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
@@ -47,6 +48,7 @@ namespace Team5_LUSS.Controllers
 
         public async Task<IActionResult> RetrievalForm()
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             List<dynamic> items = new List<dynamic>();
             string status = "Approved";
 
@@ -60,6 +62,7 @@ namespace Team5_LUSS.Controllers
             }
 
             ViewData["items"] = items;
+            ViewData["userId"] = userId;
             return View("Retrieval_Form");
             
         }
@@ -81,8 +84,15 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> CompleteRetrieval(List<int> retrievedQty, int retrievalId, string collectionDate)
         {
-
-            return View();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
+                using (var reponse = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty + "/" + retrievalId + "/" + collectionDate, content))
+                {
+                    string apiResponse = await reponse.Content.ReadAsStringAsync();
+                }
+            }
+                return View("");
 
         }
 
@@ -223,7 +233,7 @@ namespace Team5_LUSS.Controllers
                     reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
                 }
             }
-            int userId = 1; //inject session
+            int userId = (int)HttpContext.Session.GetInt32("UserID"); 
             ViewData["userId"] = userId;
             ViewData["request"] = request;
             ViewData["deptRep"] = deptRep;
@@ -238,13 +248,13 @@ namespace Team5_LUSS.Controllers
             {
                 for (int i = 0; i < fulfillQty.Count(); i++)
                 {
-                    using (var response = await httpClient.GetAsync(api_url + "dummy/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
+                    using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }
                 }
             }
-            return RedirectToAction("Index");// change to list of requests
+            return RedirectToAction("ManageDisbursement");
         }
         #endregion
     }

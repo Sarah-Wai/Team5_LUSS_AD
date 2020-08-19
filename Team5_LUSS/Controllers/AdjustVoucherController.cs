@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
@@ -35,7 +36,7 @@ namespace Team5_LUSS.Controllers
         //[HttpPost]
         public async Task<IActionResult> GetAdjustmentVoucherByRequestor(int id)
         {
-            id = 1;
+            id = (int)HttpContext.Session.GetInt32("UserID");
             List<AdjustmentVoucher> adjustments = new List<AdjustmentVoucher>();
             using(var httpClient = new HttpClient())
             {
@@ -79,12 +80,12 @@ namespace Team5_LUSS.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason)
+        public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId)
         {
             //AdjustmentVoucher adjustment = new AdjustmentVoucher();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + reason))
+                using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + reason + "/" + userId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     //adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);

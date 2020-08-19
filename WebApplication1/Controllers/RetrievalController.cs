@@ -7,6 +7,7 @@ using Castle.Core.Internal;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using static LUSS_API.Models.Status;
 
@@ -74,16 +75,21 @@ namespace LUSS_API.Controllers
 
             Retrieval retrieval = new Retrieval()
             {
-                RetrievalID = 1,
+                RetrievalID = GetNewRetrievalId(),// for testing, to be removed
                 Status = EOrderStatus.Approved,
                 IssueDate = DateTime.Now
 
             };
 
+            context123.Retrieval.Add(retrieval);
+
+
             foreach (Request appReq in approvedRequest)
             {
                 appReq.RetrievalID = retrieval.RetrievalID;
             }
+
+            context123.SaveChanges();
 
             var iter = (from r in requests
                         join rd in requestDetailsList on r.RequestID equals rd.RequestID
@@ -93,6 +99,7 @@ namespace LUSS_API.Controllers
                         select new
                         {
                             RetrievalID = retrieval.RetrievalID,
+                            ReorderLevel = i.ReStockLevel,
                             ItemID = i.ItemID,
                             ItemCode = i.ItemCode,
                             ItemName = i.ItemName,
@@ -100,10 +107,8 @@ namespace LUSS_API.Controllers
                             ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
                             Location = i.StoreItemLocation,
                             InStock = i.InStockQty,
-                            //RequestDetails = requestDetailsList.Where(x => x.Request.RequestStatus == st && x.ItemID == i.ItemID).ToList(), 
                             Category = i.ItemCategory.CategoryName,
                             TotalQty = n.Sum(x => x.RequestQty),
-                            //RetrievedQty = n.Sum(x => x.FullfillQty)
                         }).ToList();
 
             
@@ -136,102 +141,112 @@ namespace LUSS_API.Controllers
 
         }
 
+        [HttpGet("byRetrieval/{id}")]
+        public IEnumerable<dynamic> GetUniqueItemByRetrievalId(int id)
+        {
+            List<Request> requests = context123.Request.ToList();
+            List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+            List<Item> items = context123.Item.ToList();
+
+            var iter = (from r in requests
+                        join rd in requestDetailsList on r.RequestID equals rd.RequestID
+                        where r.RetrievalID == id
+                        group rd by rd.ItemID into n
+                        join i in items on n.FirstOrDefault().ItemID equals i.ItemID
+                        select new
+                        {
+                            ItemID = i.ItemID,
+                            ItemCode = i.ItemCode,
+                            ItemName = i.ItemName,
+                            UOM = i.UOM,
+                            Location = i.StoreItemLocation,
+                            InStock = i.InStockQty, 
+                            Category = i.ItemCategory.CategoryName,
+                            TotalQty = n.Sum(x => x.RequestQty),
+                        }).ToList();
 
 
-        //// GET api/<controller>/5
-        //[HttpGet("retrievalID/{id}")]
-        //public IEnumerable<dynamic> GetRetrivalDetailsById(int id)
-        //{
-        //    List<Request> requests = context123.Request.ToList();
-        //    List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
-        //    List<Item> items = context123.Item.ToList();
-        //    List<ItemPrice> prices = context123.ItemPrice.ToList();
+            return iter;
 
-        //    var iter = (from r in requests
-        //                join rd in requestDetailsList on r.RequestID equals rd.RequestID
-        //                where r.RetrievalID == id
-        //                group rd by rd.ItemID into n
-        //                join i in items on n.FirstOrDefault().ItemID equals i.ItemID
-        //                select new
-        //                {
-        //                    ItemID = i.ItemID,
-        //                    ItemCode = i.ItemCode,
-        //                    ItemName = i.ItemName,
-        //                    UOM = i.UOM,
-        //                    ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
-        //                    Location = i.StoreItemLocation,
-        //                    InStock = i.InStockQty,
-        //                    RequestDetails = requestDetailsList.Where(x => x.Request.RetrievalID == id && x.ItemID == i.ItemID).ToList(),
-        //                    Category = i.ItemCategory.CategoryName,
-        //                    TotalQty = n.Sum(x => x.RequestQty),
-        //                    RetrievedQty = n.Sum(x => x.FullfillQty)
-        //                }).ToList();
-        //    return iter;
-
-        //}
-
-        //[HttpPost("{acceptedQty}")]
-        //public string allocateStationary(List<int> retrievedQty)
-        //{
-
-        //    //get the chunk of info passed to the View
-        //    IEnumerable<dynamic> list = GetRequestByStatus("Packed");
-        //    //create a dic: item code -- retrievedQth
-        //    Dictionary<int, int> allocationList = new Dictionary<int, int>();
-        //    foreach (var item in list)
-        //    {
-        //        allocationList.Add(item.ItemIds, 0);
-        //    }
-
-        //    for (int i = 1; i <= retrievedQty.Count(); i++)
-        //    {
-        //        allocationList[i] = retrievedQty[i - 1];
-        //    }
+        }
 
 
-        //    List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
-        //    //allocation starts
-        //    for (int i = 0; i < allocationList.Count(); i++)
-        //    {
-        //        int reqQTY;
-        //        int balance = allocationList.ElementAt(i).Value;
+        [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}")]
+        public string allocateFulfilledQty(List<int> retrievedQty, int retrievalId, string collectionDate)
+        {
 
-        //        List<int> requestIdList = list.Where(x => x.ItemIds == allocationList.ElementAt(i).Key)
-        //                                    .Select(x => x.RequestIDs).FirstOrDefault();
+            List<RequestDetails> requests = context123.RequestDetails
+                .Where(x => x.Request.RetrievalID == retrievalId).ToList();
 
+            List<int> items = requests.Select(x => x.ItemID).Distinct().ToList();
 
-        //        for (int j = 0; j < requestIdList.Count(); j++)
-        //        {
+            IEnumerable<dynamic> uniqueItems = GetUniqueItemByRetrievalId(retrievalId);
 
-        //            //get the reqQTY of each request + item code
-        //            RequestDetails rr = requestDetailsList
-        //                            .Where(x => x.RequestID == requestIdList[j] && x.ItemID == allocationList.ElementAt(i).Key)
-        //                            .FirstOrDefault();
-        //            reqQTY = rr.RequestQty;
+            Dictionary<int, int> retrievedQtyList = new Dictionary<int, int>();
+            foreach(var u in uniqueItems)
+            {
+                retrievedQtyList.Add(u.ItemID, 0);
+            }
 
-        //            //check discrepancy
-        //            if (balance - reqQTY >= reqQTY)
-        //            {
-        //                balance -= reqQTY;
-        //                rr.ReceivedQty = reqQTY;
-        //            }
-        //            else if (balance - reqQTY < reqQTY && balance >= 0)
-        //            {
-        //                rr.ReceivedQty = balance;
-        //                balance = 0;
-        //            }
-        //        }
+            for(int i = 1; i <= retrievedQty.Count(); i++)
+            {
+                retrievedQtyList[i] = retrievedQty[i - 1];
+            }
 
-        //        //after allocation done, change the status of the request
-        //        foreach (int rqID in requestIdList)
-        //        {
-        //            Request r = context123.Request.Where(x => x.RequestID == rqID).FirstOrDefault();
-        //            r.RequestStatus = EOrderStatus.Received;
-        //        }
-        //    }
-        //    context123.SaveChanges(); //save all or nothing
-        //    return "ok";
-        //}
+            //List<int> items = requests.Select(x => x.ItemID).ToList();
+
+            foreach(int u in items)
+            {
+                List<RequestDetails> reqByItem = requests.Where(x => x.ItemID == u).OrderBy(x => x.Request.RequestDate).ToList();
+
+                int retQty = retrievedQtyList[u];
+
+                for(int k = 0; k < reqByItem.Count(); k++)
+                {
+                    int reqQty = reqByItem[k].RequestQty;
+
+                    if(retQty >= reqQty && !(retQty<= 0))
+                    {
+                        reqByItem[k].FullfillQty = reqQty;
+                        //context123.SaveChanges();
+
+                    }
+                    if(retQty < reqQty && !(retQty <= 0))
+                    {
+                        reqByItem[k].FullfillQty = retQty;
+                        //context123.SaveChanges();
+                       
+                    }
+
+                     retQty = retQty - reqQty;
+                    
+                }
+                //context123.SaveChanges();
+                
+            }
+
+            context123.SaveChanges();
+
+            foreach ( RequestDetails r in requests)
+            {
+                if(r.FullfillQty != 0 && r.FullfillQty != null)
+                {
+                    r.Request.CollectionTime = Convert.ToDateTime(collectionDate);
+                    r.Request.RequestStatus = EOrderStatus.PendingDelivery;
+                }
+                else if(r.FullfillQty == null)
+                {
+                    r.Request.RetrievalID = null;
+                    r.FullfillQty = null;
+                }
+            }
+
+            Retrieval retrieval = context123.Retrieval.Where(x => x.RetrievalID == retrievalId).FirstOrDefault();
+            retrieval.Status = EOrderStatus.PendingDelivery;
+
+            context123.SaveChanges(); //save all or nothing
+            return "ok";
+        }
 
         // POST api/<controller>
         [HttpPost]

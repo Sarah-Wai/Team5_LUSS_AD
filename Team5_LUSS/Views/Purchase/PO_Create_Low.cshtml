@@ -1,10 +1,8 @@
-﻿@model PurchaseOrder
-
-@{
+﻿@{
     ViewData["Title"] = "Create Purchase Order";
     Item item = (Item)ViewData["item"];
     List<Supplier> suppliers = (List<Supplier>)ViewData["suppliers"];
-    int purchasedBy = (int) ViewData["PurchasedBy"];
+    int purchasedBy = (int)ViewData["PurchasedBy"];
     //int poId = (int)ViewData["poId"];
     //String poNo = (String) ViewData["poNo"];
     //DateTime createdOn = (DateTime)ViewData["createdOn"];
@@ -18,27 +16,27 @@
                 <div class="col-12 col-md-12">
                     <div class="card border-0">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                           <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                            <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
                         </div>
                         <div class="card-body table-responsive">
                             <table class="table table-borderless">
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <b>Expected Date:</b> <input type="date" asp-for="ExpectedDate" name="expectedDate" /><br>
-                                            <b>Supplier Name:</b> 
-                                            <select name="supplierId">
-                                            <option></option>
+                                            <b>Expected Date:</b> <input type="date" name="expectedDate" id="expectedDate" min="" onclick="GetMinDate()" required /><br>
+                                            <b>Supplier Name:</b>
+                                            <select name="supplierId" required>
+                                                <option></option>
                                                 @foreach (Supplier s in suppliers)
                                                 {
-                                                                      <option value="@s.SupplierID"  >@s.SupplierName</option>
+                                                    <option value="@s.SupplierID">@s.SupplierName</option>
                                                 }
                                             </select> <br>
-                                            <input type="hidden" asp-for="PurchasedBy" value="@purchasedBy" name="id" />
+                                            <input type="hidden"value="@purchasedBy" name="id" />
                                             @*<input type="hidden" asp-for="POID" value="@poId" />
-                                            <input type="hidden" asp-for="PONo" value="@poNo" />
-                                            <input type="hidden" asp-for="CreatedOn" value="@createdOn" />
-                                            <input type="hidden" asp-for="Status" value="@status" />*@
+                                                <input type="hidden" asp-for="PONo" value="@poNo" />
+                                                <input type="hidden" asp-for="CreatedOn" value="@createdOn" />
+                                                <input type="hidden" asp-for="Status" value="@status" />*@
                                         </td>
                                     </tr>
                                 </tbody>
@@ -66,7 +64,7 @@
                                         <td class="text-right">@item.ItemName</td>
                                         <td class="text-right">@item.UOM</td>
                                         <td class="text-right">@item.ReStockQty</td>
-                                        <td class="text-right"><input type="number" name="orderQty" min="0" max="@item.ReStockQty" value="@item.ReStockQty"/></td>
+                                        <td class="text-right"><input type="number" id="orderQty" name="orderQty" min="1" max="@item.ReStockQty" value="@item.ReStockQty" required /></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -74,7 +72,7 @@
                         <div class="text-right p-5">
                             <button type="button" onclick="window.history.back()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <input type="hidden" id="edit-date">
-                            <button type="submit" class="btn btn-success add-todo">Confirm</button>
+                            <button type="submit" id="confirmBtn" class="btn btn-success add-todo">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -83,4 +81,67 @@
     </div>
 </form>
 
+
+<script>
+    //get todaydate and set min value for expecteddate 
+    function GetMinDate() {
+        var date = new Date();
+        var dd = ("0" + date.getDate()).slice(-2);
+        var MM = ("0" + (date.getMonth() + 1)).slice(-2);
+        var yyyy = date.getFullYear();
+        var currentDate = yyyy + "-" + MM + "-" + dd;
+        var currentDate = yyyy + "-" + MM + "-" + dd;
+        document.getElementById("expectedDate").setAttribute("min", currentDate);
+    };
+</script>
+
+
+@*<script>
+
+            $("#confirmBtn").on("click", function (e) {
+            var date = new Date();
+            var dd = ("0" + date.getDate()).slice(-2);
+            var MM = ("0" + (date.getMonth() + 1)).slice(-2);
+            var yyyy = date.getFullYear();
+            var currentDate = yyyy + "-" + MM + "-" + dd;
+            //if (dd < 10) {
+            //    dd = '0' + dd;
+            //}
+            //if (MM < 10) {
+            //    MM = '0' + MM;
+            //}
+            alert(currentDate);
+            e.preventDefault();
+        });
+
+        //checked if items checked before submission
+        $("#confirmBtn").on("click", function (e) {
+            var expectedDate = $("#expectedDate").val();
+            if (expectedDate === null) {
+                e.preventDefault();
+                alert("Please fill out all the required field(s)");
+            };
+
+            var orderQty = $("#orderQty").val();
+            if (orderQty == null) {
+                e.preventDefault();
+                alert("Please fill out all the required field(s)");
+            }
+
+            var empty = true;
+            $('input').each(function(){
+                if ($(this).val() !== "") {
+                    empty = false;
+                    return false;
+                }
+            });
+            if (empty === false) {
+                alert("Please fill up all the required field(s)");
+                e.preventDefault();
+            } else {
+                alert("Thanks");
+                e.preventDefault();
+            }
+        });
+    </script>*@
 

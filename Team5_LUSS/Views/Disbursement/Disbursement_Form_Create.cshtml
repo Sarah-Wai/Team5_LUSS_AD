@@ -26,7 +26,7 @@
 
                                             <b>Dept Rep:</b> @deptRep.FirstName @deptRep.LastName<br>
                                             <b>Collection Point:</b> @deptRep.Department.CollectionPoint.Location @deptRep.Department.CollectionPoint.Description<br><br>
-                                            <b>Collection Date: </b> <input type="date" name="collectionTime" id="collectionTime" value="@request.CollectionTime"><br>
+                                            <b>Collection Date: </b> <input type="date" name="collectionTime" id="collectionTime" value="@request.CollectionTime" min="" onclick="GetMinDate()" required><br>
                                             <input type="hidden" name="id" id="id" value="@request.RequestID" />
                                             <input type="hidden" name="userId" id="userId" value="@userId" />
                                         </td>
@@ -49,7 +49,7 @@
                                 <thead>
                                     <tr>
                                         @*<td>#</td>
-                                        <td>#</td>*@
+                                            <td>#</td>*@
                                         <td class="text-right"><b>Item Code</b></td>
                                         <td class="text-right"><b>Description</b></td>
                                         <td class="text-right"><b>UOM</b></td>
@@ -61,23 +61,23 @@
                                 <tbody>
                                     @foreach (RequestDetails r in reqItems)
                                     {
-                                    <tr>
-                                        @*<td>@r.RequestDetailID</td>
-        <td>@r.RequestID</td>*@
-                                        <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
-                                        <td class="text-right">@r.Item.ItemName</td>
-                                        <td class="text-right">@r.Item.UOM</td>
-                                        <td class="text-right">@r.RequestQty</td>
-                                        <td class="text-right" ><input type="number" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.RequestQty" min="0" max="@r.RequestQty"/></td>
-                                        <td class="text-right">
-                                            <a href="#" onclick="changeValue(0, @r.ItemID)" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
-                                                Reset
-                                            </a>
-                                            <a href="#" onclick="changeValue(@r.RequestQty, @r.ItemID)" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                                Full Amount
-                                            </a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            @*<td>@r.RequestDetailID</td>
+                                                <td>@r.RequestID</td>*@
+                                            <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
+                                            <td class="text-right">@r.Item.ItemName</td>
+                                            <td class="text-right">@r.Item.UOM</td>
+                                            <td class="text-right">@r.RequestQty</td>
+                                            <td class="text-right"><input type="number" class="fulfillQty" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.RequestQty" min="0" max="@r.RequestQty" required /></td>
+                                            <td class="text-right">
+                                                <a href="#" onclick="changeValue(0, @r.ItemID)" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
+                                                    Reset
+                                                </a>
+                                                <a href="#" onclick="changeValue(@r.RequestQty, @r.ItemID)" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
+                                                    Full Amount
+                                                </a>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
@@ -86,7 +86,7 @@
                         <div class="text-right p-5">
                             <button type="button" onclick="window.history.back()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <input type="hidden" id="edit-date">
-                            <button type="submit" id="btnConfirm"  class="btn btn-success add-todo">Confirm</button>
+                            <button type="submit" id="btnConfirm" class="btn btn-success add-todo">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -96,53 +96,80 @@
 </form>
 
 <script>
+    //for reset and fullAmt button
     function changeValue(value, itemId) {
-        document.getElementById("fulfillQty-"+itemId).value = value;
+        document.getElementById("fulfillQty-" + itemId).value = value;
         //$("fulfillQty-"+itemId).val(value);
     }
-</script>
-@*<script>
-    $('#btnConfirm').click(function (e) {
-        e.preventDefault;
 
-        var fulfillQtyList = [];
-        $('#fulfillQty').find('input:number').each(function () {
-            fulfillQtyList.push($(this).val());
-        });
-        //var model = {
-        //    id: $("#id").val(),
-        //    userId: $("#userId").val(),
-        //    fulfillQty: fulfillQtyList,
-        //    collectionTime: $("#collectionTime").val(),
-        //};
+    //get todaydate and set min value for collectionDate
+    function GetMinDate() {
+        var date = new Date();
+        var dd = ("0" + date.getDate()).slice(-2);
+        var MM = ("0" + (date.getMonth() + 1)).slice(-2);
+        var yyyy = date.getFullYear();
+        var currentDate = yyyy + "-" + MM + "-" + dd;
+        var currentDate = yyyy + "-" + MM + "-" + dd;
+        document.getElementById("collectionTime").setAttribute("min", currentDate);
+    };
 
- 
-        var id = $("#id").val();
-        var userId= $("#userId").val();
-        var fulfillQty= fulfillQtyList;
-        var collectionTime= $("#collectionTime").val();
-
-
-
-
-        $.ajax({
-            type: "POST",
-            url: "https://localhost:44312/Request/"+ id + "/" + userId + "/" + fulfillQty + "/" + collectionTime,
-            //data: JSON.stringify(model),
-            //contentType: "application/json; charset = utf-8",
-            //datatype: "json",
-            //async: true,
-            //cache: false,
-            //success: function (response) {
-            //    console.log(response);
-            //},
-            //error: function (x, e) {
-            //    console.log('err');
-            }
-        });
-
+    //check if fulfill quantity is specified at least for one item
+    $("#btnConfirm").on("click", function (e) {
+        var sum = 0;
+        $("input[class=fulfillQty]").each(function () {
+            sum += parseInt($(this).val());
+        })
+        if (sum === 0) {
+            alert("No disbursement issued");
+            e.preventDefault;
+        }
     });
-</script>*@
+</script>
+
+
+
+@*<script>
+        $('#btnConfirm').click(function (e) {
+            e.preventDefault;
+
+            var fulfillQtyList = [];
+            $('#fulfillQty').find('input:number').each(function () {
+                fulfillQtyList.push($(this).val());
+            });
+            //var model = {
+            //    id: $("#id").val(),
+            //    userId: $("#userId").val(),
+            //    fulfillQty: fulfillQtyList,
+            //    collectionTime: $("#collectionTime").val(),
+            //};
+
+
+            var id = $("#id").val();
+            var userId= $("#userId").val();
+            var fulfillQty= fulfillQtyList;
+            var collectionTime= $("#collectionTime").val();
+
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44312/Request/"+ id + "/" + userId + "/" + fulfillQty + "/" + collectionTime,
+                //data: JSON.stringify(model),
+                //contentType: "application/json; charset = utf-8",
+                //datatype: "json",
+                //async: true,
+                //cache: false,
+                //success: function (response) {
+                //    console.log(response);
+                //},
+                //error: function (x, e) {
+                //    console.log('err');
+                }
+            });
+
+        });
+    </script>*@
 
 
 @*<script>

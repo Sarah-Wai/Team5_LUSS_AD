@@ -7,6 +7,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
@@ -230,7 +231,7 @@ namespace Team5_LUSS.Controllers
                     reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
                 }
             }
-            int userId = 1; //inject session
+            int userId = (int)HttpContext.Session.GetInt32("UserID"); 
             ViewData["userId"] = userId;
             ViewData["request"] = request;
             ViewData["deptRep"] = deptRep;
@@ -251,7 +252,7 @@ namespace Team5_LUSS.Controllers
                     }
                 }
             }
-            return View("Disbursement_Manage");
+            return RedirectToAction("ManageDisbursement");
         }
         #endregion
     }

@@ -40,7 +40,7 @@ namespace Team5_LUSS.Controllers
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/ApproveRequestByDepHead/"+hidRequestID+"/"+comment))
+                using (var response = await httpClient.GetAsync(api_url + "/ApproveRequestByDepHead/"+id+"/"+status+ "/"+comment))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                    

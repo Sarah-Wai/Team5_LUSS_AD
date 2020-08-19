@@ -45,6 +45,21 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
+        [HttpGet("retrievalId/{id}")]
+        public string RemoveRetrievalId(int id)
+        {
+            List<Request> requests = context123.Request
+                .Where(x => x.RetrievalID == id).ToList();
+
+            foreach(Request r in requests)
+            {
+                r.RetrievalID = null;
+            }
+
+            Delete(id);
+            return "success";   
+        }
+
         [HttpGet("{status}")]
         public IEnumerable<dynamic> GetRequestByStatus(string status)
         {
@@ -54,6 +69,22 @@ namespace LUSS_API.Controllers
             List<Item> items = context123.Item.ToList();
             List<ItemPrice> prices = context123.ItemPrice.ToList();
 
+            List<Request> approvedRequest = context123.Request
+                .Where(x => x.RequestStatus.Equals(st)).ToList();
+
+            Retrieval retrieval = new Retrieval()
+            {
+                RetrievalID = 1,
+                Status = EOrderStatus.Approved,
+                IssueDate = DateTime.Now
+
+            };
+
+            foreach (Request appReq in approvedRequest)
+            {
+                appReq.RetrievalID = retrieval.RetrievalID;
+            }
+
             var iter = (from r in requests
                         join rd in requestDetailsList on r.RequestID equals rd.RequestID
                         where r.RequestStatus.Equals(st)
@@ -61,6 +92,7 @@ namespace LUSS_API.Controllers
                         join i in items on n.FirstOrDefault().ItemID equals i.ItemID
                         select new
                         {
+                            RetrievalID = retrieval.RetrievalID,
                             ItemID = i.ItemID,
                             ItemCode = i.ItemCode,
                             ItemName = i.ItemName,
@@ -73,6 +105,8 @@ namespace LUSS_API.Controllers
                             TotalQty = n.Sum(x => x.RequestQty),
                             //RetrievedQty = n.Sum(x => x.FullfillQty)
                         }).ToList();
+
+            
             return iter;
         }
 
@@ -199,15 +233,6 @@ namespace LUSS_API.Controllers
         //    return "ok";
         //}
 
-        //[HttpGet("retrieveID/{id}")]
-        //public Retrieval GetRetrivalById(int id)
-        //{
-        //    Retrieval retrieval = context123.Retrieval
-        //        .Where(x => x.RetrievalID == id).FirstOrDefault();
-        //    return retrieval;
-
-        //}
-
         // POST api/<controller>
         [HttpPost]
         public void Post([FromBody]string value)
@@ -224,6 +249,9 @@ namespace LUSS_API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            Retrieval retrieval = context123.Retrieval.FirstOrDefault(r => r.RetrievalID == id);
+            context123.Retrieval.Remove(retrieval);
+            context123.SaveChanges();
         }
     }
 }

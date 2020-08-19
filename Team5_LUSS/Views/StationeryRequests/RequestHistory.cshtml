@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "RequestHistory";
+    var requests = (List<Request>)ViewData["requests"];
+}
+
+<h1>Request History</h1>
+<!-- START: Card Data-->
+<div>
+    <select class="btn btn-outline-info ddlStatus" id="SelectedStatus" name="SelectedStatus" onchange="searchStatus()">
+        <option value="All">All</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Rejected">Rejected</option>
+        <option value="Received">Received</option>
+    </select>
+</div>
+<div class="row">
+    <div class="col-12 mt-3">
+        <div class="card">
+            <div class="card-header  justify-content-between align-items-center">
+                <h4 class="card-title">Requests</h4>
+            </div>
+            <div class="card-body table-responsive">
+                <table id="tblStatus" class="table table-bordered  table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Submitted Date</th>
+                            <th>Status</th>
+                            <th>View Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var request in requests)
+                        {
+
+                            var statuscolor = "";
+                            string status = request.RequestStatus.ToString();
+                            switch (status)
+                            {
+                                case "Approved":
+                                    statuscolor = "badge-success";
+                                    break;
+                                case "Pending":
+                                    statuscolor = "badge-warning";
+                                    break;
+                                case "Rejected":
+                                    statuscolor = "badge-danger";
+                                    break;
+                                case "Received":
+                                    statuscolor = "badge-primary";
+                                    break;
+                                default:
+                                    statuscolor = "badge-primary";
+                                    break;
+                            }
+
+
+
+
+                            <tr>
+                                <td>@request.RequestDate</td>
+                                <td><span class="badge @statuscolor text-white">@request.RequestStatus</span></td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-info rounded-btn" onclick="detailView(@request.RequestID)">Detail</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+       //setting auto default '0' inside Session
+        $(document).ready(function () {
+                                    //get selected category value from session to show seleced category when page reload after search
+                                    var selectedStatus = '@Context.Session.GetString("selectedStatus")';
+            $(".ddlStatus").val(selectedStatus);
+            $('#tblStatus').DataTable();
+                                })
+        var searchStatus = function() {
+            var status = $("#SelectedStatus").val();
+            console.log(status)
+            $.ajax({
+            type: "GET",
+            url: '@Url.Action("RequestHistory", "StationeryRequests")',
+            contentType: 'application/json',
+            data: { "status": status },
+            success: function (result) {
+                 location.reload();
+                }
+            })
+        }
+        var detailView = function(id) {
+           
+            $.ajax({
+            type: "GET",
+            url: '@Url.Action("ViewRequestDetail", "StationeryRequests")',
+            contentType: 'application/json',
+            data: {id },
+            success: function (result) {
+              
+            }
+            })
+        }
+    </script>
+
+}

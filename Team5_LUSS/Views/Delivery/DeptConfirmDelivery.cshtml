@@ -48,24 +48,37 @@
             <div class="col-12 col-lg-10 mt-3 pl-lg-0">
                 <div class="card border h-100 invoice-list-section">
                     <div class="card-body p-0">
-                        <div class="invoices liststatus_byDept">
+                        <div class="invoices liststatus_byDept">  
                             @for (int i = 0; i < status_byDept.Count(); i++)
-                            {
+                            {  
+                                <form method="post" asp-action="DisbursementDetails">
                                 <div class="invoice">
                                     <div class="invoice-content">
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Department Name</p>
-                                            <p class="cliname">@status_byDept.ElementAt(i).Key</p>
+                                            <p class="cliname" name="status">@status_byDept.ElementAt(i).Key</p>
                                         </div>
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Department Code</p>
                                             <p class="invoice-no">@status_byDept.ElementAt(i).Value</p>
                                         </div>
                                         <div class="line-h-1 h5">
-                                            <a class="text-success edit-invoice" href="#">View</a>
+                                            @*@if (@r.RequestStatus != Status.EOrderStatus.Received)
+                                            {
+                                                <button type="submit" class="btn btn-info btn-sm">
+                                                    Details
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    Comfirm
+                                                </button>
+                                            }*@
                                         </div>
                                     </div>
                                 </div>
+                            </form>
                             }
                         </div>
                     </div>

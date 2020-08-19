@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -60,7 +60,7 @@ namespace LUSS_API.Controllers
             return "success";   
         }
 
-        [HttpGet("{status}")]
+ *//*       [HttpGet("{status}")]
         public IEnumerable<dynamic> GetRequestByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
@@ -85,7 +85,7 @@ namespace LUSS_API.Controllers
                 appReq.RetrievalID = retrieval.RetrievalID;
             }
 
-            var iter = (from r in requests
+ *//*           var iter = (from r in requests
                         join rd in requestDetailsList on r.RequestID equals rd.RequestID
                         where r.RequestStatus.Equals(st)
                         group rd by rd.ItemID into n
@@ -105,10 +105,10 @@ namespace LUSS_API.Controllers
                             TotalQty = n.Sum(x => x.RequestQty),
                             //RetrievedQty = n.Sum(x => x.FullfillQty)
                         }).ToList();
-
+*//*
             
-            return iter;
-        }
+        //    return iter;
+        }*//*
 
         [HttpGet("itemID/{id}")]
         public IEnumerable<dynamic> GetRequestDetailsById(int id)
@@ -231,7 +231,7 @@ namespace LUSS_API.Controllers
         //    }
         //    context123.SaveChanges(); //save all or nothing
         //    return "ok";
-        //}
+        }
 
         // POST api/<controller>
         [HttpPost]
@@ -254,4 +254,5 @@ namespace LUSS_API.Controllers
             context123.SaveChanges();
         }
     }
-}
+
+*/

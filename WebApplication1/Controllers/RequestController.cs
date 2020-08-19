@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -115,7 +116,7 @@ namespace LUSS_API.Controllers
                             ItemUOM = i.UOM,
                             collectionTime = n.Select(x => x.Request.CollectionTime).First(),
                             requestIDs = n.Select(x => x.RequestID).ToList(),
-                            deptId = n.Select(x=>x.Request.RequestByUser.DepartmentID).First()
+                            deptId = n.Select(x => x.Request.RequestByUser.DepartmentID).First()
                         }).ToList();
             return iter;
         }
@@ -226,11 +227,75 @@ namespace LUSS_API.Controllers
         [Route("GetAllStatus")]
         public List<EOrderStatus> GetAllStatus()
         {
-
             List<EOrderStatus> st = Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>().ToList();// Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>();
             return st;
         }
 
-    }
+        [HttpGet("deny/{reqID}")]
+        public void RevertToPendingDelivery(int reqID)
+        {
+            Request r = context123.Request.Where(x => x.RequestID == reqID).FirstOrDefault();
+            r.RequestStatus = EOrderStatus.PendingDelivery;
+            context123.SaveChangesAsync(); 
+        }
 
+        [HttpGet("complete/{reqID}")]
+        public void CompleteOrder(int reqID)
+        {
+            Request r = context123.Request.Where(x => x.RequestID == reqID).FirstOrDefault();
+            r.RequestStatus = EOrderStatus.Completed;
+            checkDiscrepancy(reqID);
+            context123.SaveChangesAsync();
+        }
+
+        private void checkDiscrepancy(int reqID)
+        {
+            List<RequestDetails> requestDetails = context123.RequestDetails.Where(x => x.RequestID == reqID).ToList();
+            Request currentRqt = context123.Request.First(x => x.RequestID == reqID);
+            List<RequestDetails> dcp_RequestDetails = new List<RequestDetails>();
+
+
+            //if there is discrepancy, create new Request, create RequestDetails
+
+            foreach (var rq in requestDetails)
+            {
+                if(rq.FullfillQty < rq.RequestQty)
+                {
+                    dcp_RequestDetails.Add(rq);
+                }
+            }
+
+            if (!dcp_RequestDetails.IsNullOrEmpty())
+            {
+                Request dcp_Request = new Request
+                {
+                    RequestStatus = EOrderStatus.Approved,
+                    RequestDate = DateTime.Now,
+                    RequestBy = currentRqt.RequestBy,
+                    RequestByUser = currentRqt.RequestByUser,
+                    RequestType = RequestType.ERequestType.Discrepancy,
+                    ModifiedBy = 1 // hit the null bug
+                };
+                context123.Request.Add(dcp_Request);
+                context123.SaveChanges();
+                AddRequestDetails(dcp_Request, dcp_RequestDetails);
+            }
+        }
+
+        private void AddRequestDetails(Request dcp_Request, List<RequestDetails> dcp_RequestDetails)
+        {
+            int requestID = dcp_Request.RequestID;
+            foreach (var rd in dcp_RequestDetails)
+            {
+                RequestDetails rqt_Details = new RequestDetails
+                {
+                    ReceivedQty = rd.RequestQty - rd.FullfillQty,
+                    ItemID = rd.Item.ItemID,
+                    RequestID = requestID
+                };
+                context123.RequestDetails.Add(rqt_Details);
+            }
+            context123.SaveChanges();
+        }
+    }
 }

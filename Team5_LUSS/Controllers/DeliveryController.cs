@@ -27,7 +27,7 @@ namespace Team5_LUSS.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.GetAsync(api_url_rqst + "/getAllRequest"))
+                    using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "getAllRequest"))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         allRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);

@@ -287,10 +287,10 @@ namespace LUSS_API.Controllers
                 {
                     RequestStatus = EOrderStatus.Approved,
                     RequestDate = DateTime.Now,
-                    RequestBy = currentRqt.RequestBy,
+                    RequestBy = currentRqt.RequestByUser.UserID,
                     RequestByUser = currentRqt.RequestByUser,
                     RequestType = RequestType.ERequestType.Discrepancy,
-                    ModifiedBy = 1 // hit the null bug
+                    ModifiedBy = currentRqt.RequestByUser.UserID
                 };
                 context123.Request.Add(dcp_Request);
                 context123.SaveChanges();
@@ -305,7 +305,7 @@ namespace LUSS_API.Controllers
             {
                 RequestDetails rqt_Details = new RequestDetails
                 {
-                    ReceivedQty = rd.RequestQty - rd.FullfillQty,
+                    RequestQty = (int)(rd.RequestQty - rd.FullfillQty),
                     ItemID = rd.Item.ItemID,
                     RequestID = requestID
                 };

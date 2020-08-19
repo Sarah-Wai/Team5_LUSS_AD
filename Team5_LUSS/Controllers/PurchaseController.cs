@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
@@ -113,12 +114,16 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> POCreateLow( int id, string expectedDate, int itemID,  int supplierId, int orderQty)
+        public async Task<IActionResult> POCreateLow(string expectedDate, int itemID,  int supplierId, int orderQty)
         {
+
+            //userId from session
+            int userID = (int)HttpContext.Session.GetInt32("UserID");
+
             //string result;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + id + "/" + expectedDate + "/" + itemID + "/"+ supplierId + "/" + orderQty))
+                using (var response = await httpClient.GetAsync(api_url + "/" + userID + "/" + expectedDate + "/" + itemID + "/"+ supplierId + "/" + orderQty))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     //result = JsonConvert.DeserializeObject<String>(apiResponse);
@@ -157,14 +162,16 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> POCreation(List<int> id, List<string> expectedDate, List<int> itemID, List<int> supplierId, List<int> orderQty)
+        public async Task<IActionResult> POCreation(List<string> expectedDate, List<int> itemID, List<int> supplierId, List<int> orderQty)
         {
+            //userId from session
+            int userID = (int)HttpContext.Session.GetInt32("UserID");
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < itemID.Count(); i++)
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.GetAsync(api_url + "/" + 1 + "/" + expectedDate[i] + "/" + itemID[i] + "/" + supplierId[i] + "/" + orderQty[i]))
+                    using (var response = await httpClient.GetAsync(api_url + "/" + userID + "/" + expectedDate[i] + "/" + itemID[i] + "/" + supplierId[i] + "/" + orderQty[i]))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }

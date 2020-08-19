@@ -81,8 +81,15 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> CompleteRetrieval(List<int> retrievedQty, int retrievalId, string collectionDate)
         {
-
-            return View();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
+                using (var reponse = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty + "/" + retrievalId + "/" + collectionDate, content))
+                {
+                    string apiResponse = await reponse.Content.ReadAsStringAsync();
+                }
+            }
+                return View("");
 
         }
 
@@ -238,13 +245,13 @@ namespace Team5_LUSS.Controllers
             {
                 for (int i = 0; i < fulfillQty.Count(); i++)
                 {
-                    using (var response = await httpClient.GetAsync(api_url + "dummy/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
+                    using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }
                 }
             }
-            return RedirectToAction("Index");// change to list of requests
+            return View("Disbursement_Manage");
         }
         #endregion
     }

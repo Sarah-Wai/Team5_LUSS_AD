@@ -48,6 +48,7 @@ namespace Team5_LUSS.Controllers
 
         public async Task<IActionResult> RetrievalForm()
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             List<dynamic> items = new List<dynamic>();
             string status = "Approved";
 
@@ -61,6 +62,7 @@ namespace Team5_LUSS.Controllers
             }
 
             ViewData["items"] = items;
+            ViewData["userId"] = userId;
             return View("Retrieval_Form");
             
         }

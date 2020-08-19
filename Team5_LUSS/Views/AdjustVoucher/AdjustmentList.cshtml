@@ -60,5 +60,75 @@
             </div>
         </div>
     </div>
+    <!-- START: Info Card Data-->
+    @*<div class="col-12" style="margin-top:3rem">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Upcoming Collection</h5>
+                <p class="card-text">Time:@collectionTime</p>
+                <p class="card-text">Location: Behind the Tree</p>
+            </div>
+        </div>
+    </div>*@
+    <!-- END: Info Card Data-->
+    <!-- START: Card Data-->
+    <div class="row row-eq-height">
+        <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
+            <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
+            <div class="card border h-100 invoice-menu-section">
+                <ul class="nav flex-column invoice-menu">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            ReadyToCollect
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-invoicetype="pending-invoice">
+                            Pending
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+            <div class="card border h-100 invoice-list-section">
+                <div class="card-body p-0">
+                    <div style="margin: 1rem">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editinvoice">Collect</button>
+                    </div>
+                    <div class="invoices list">
 
+
+                        @*@foreach (var r in collectionList)
+                        {
+                            <div class="invoice">
+                                <div class="invoice-content">
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Item Code</p>
+                                        <p class="invoice-no">@r.itemCode</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Item Name</p>
+                                        <p class="cliname">@r.itemName</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Unit</p>
+                                        <p class="invocie-date">@r.itemUOM</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Requested Quantity</p>
+                                        <p class="invoice-due-date">@r.totalQty</p>
+                                    </div>
+                                    <div class="invoice-info">
+
+                                    </div>
+                                </div>
+                            </div>
+                        }*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: Card DATA-->
 </div>

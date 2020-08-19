@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Controllers
 {
@@ -27,15 +30,61 @@ namespace LUSS_API.Controllers
         
 
         [HttpGet]
+        [Route("get-user-name")]
         public string GetName()
         {            
             int dummyID = 1;//TO replace by real ID
             User currentUser = context123.User.Where(x => x.UserID == dummyID).FirstOrDefault();
             
             return currentUser.FirstName.ToString();
+
+        }
+        [HttpGet]
+        [Route("get-top-summed")]
+        public List<TopSixRequested> GetTopSummed()
+        {
+            
+            var highestRequest = (from requests in context123.Request
+                                  join requestDetails in context123.RequestDetails on requests.RequestID equals requestDetails.RequestID
+                                  join item in context123.Item on requestDetails.ItemID equals item.ItemID
+                                  join itemPrice in context123.ItemPrice on item.ItemID equals itemPrice.ItemID
+                                  where requests.RequestDate.Year == DateTime.Now.Year && requests.RequestStatus == EOrderStatus.Approved
+                                  select new TopSixRequested
+                                  {
+                                      ItemID = requestDetails.ItemID,
+                                      ItemName = item.ItemName,
+                                      Qty = requestDetails.ReceivedQty,
+                                      ItemPrice = itemPrice.Price,
+                                      TotalPrice = requestDetails.ReceivedQty * itemPrice.Price
+                                  }).OrderBy(x=>x.TotalPrice).ToList();
+
+            List<TopSixRequested> itemSum = (highestRequest.GroupBy(x => x.ItemID).Select(y => new TopSixRequested {
+
+                ItemID = y.First().ItemID,
+                ItemName = y.First().ItemName,
+                Qty = y.Sum(s => s.Qty),
+                ItemPrice = y.First().ItemPrice,
+                TotalPrice = y.Sum(s=> s.TotalPrice)
+              
+            })).ToList();
+                                         
+            return itemSum;            
+
         }
 
-        
+        [HttpGet]
+        [Route("get-clerk-pending")]
+        public int GetClerkPendingAdjustment()
+        {
+            int pendingAdjustments = 0;
+            pendingAdjustments = context123.AdjustmentVouncher.Where(x => x.Status == AdjustmentVoucherStatus.AdjustmentStatus.Pending).Count();
+            
+            return pendingAdjustments;
+
+        }
+
+
+
 
     }
 }

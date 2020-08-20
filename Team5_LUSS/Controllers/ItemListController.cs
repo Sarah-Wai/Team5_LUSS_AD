@@ -76,7 +76,7 @@ namespace Team5_LUSS.Controllers
             List<Item> itemList = new List<Item>();
             using (var httpClient = new HttpClient())
             {
-                string str = api_url + "ItemList/" + "GetItemListByCategoryID" + '/' + id;
+                string str = api_url + "ItemList/GetItemListByCategoryID/" + id;
                 using (var response = await httpClient.GetAsync(str))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -275,6 +275,37 @@ namespace Team5_LUSS.Controllers
                 HttpContext.Session.Remove("addedItemSession");
             }
             return RedirectToAction("ViewCart");
+        }
+
+        public async Task<IActionResult> InventoryList(int id)
+        {
+            List<Item> itemList = new List<Item>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url + "ItemList"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    itemList = JsonConvert.DeserializeObject<List<Item>>(apiResponse);
+                }
+            }
+            ViewData["items"] = itemList;
+            return View();
+        }
+
+        public async Task<IActionResult> ViewItemDetail(int id)
+        {
+            Item item = new Item();
+            using (var httpClient = new HttpClient())
+            {
+                string str = api_url + "ItemList/GetItemByID/" + id;
+                using (var response = await httpClient.GetAsync(str))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    item = JsonConvert.DeserializeObject<Item>(apiResponse);
+                }
+            }
+            ViewData["item"] = item;
+            return View();
         }
     }
 }

@@ -19,22 +19,39 @@ namespace Team5_LUSS.Controllers
         string api_url_Item = "https://localhost:44312/ItemList";
         string api_url_ItemPrice = "https://localhost:44312/ItemPrice";
 
-        public async Task<IActionResult> PurchaseOrders()
+        #region POHistory
+        public async Task<IActionResult> PurchaseOrders(string status)
         {
             List<PurchaseOrder> purchases = new List<PurchaseOrder>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(api_url))
+            if (status == null)
+            {             
+                using (var httpClient = new HttpClient())
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    purchases = JsonConvert.DeserializeObject<List<PurchaseOrder>>(apiResponse);
+                    using (var response = await httpClient.GetAsync(api_url))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        purchases = JsonConvert.DeserializeObject<List<PurchaseOrder>>(apiResponse);
+                    }
                 }
             }
+            else
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync(api_url + "/get-po-by-status/" + status))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        purchases = JsonConvert.DeserializeObject<List<PurchaseOrder>>(apiResponse);
+                    }
+                }
 
+            }
             ViewData["purchases"] = purchases;
             return View("PO_History");
         }
+        #endregion
 
+        #region PODetails
         public async Task<IActionResult> PurchaseOrderDetails(int id)
         {
             PurchaseOrder purchase = new PurchaseOrder();
@@ -59,6 +76,7 @@ namespace Team5_LUSS.Controllers
             ViewData["orderItems"] = orderItems;
             return View("PO_Details");
         }
+        #endregion
 
         #region LowStockItemList
         public async Task<IActionResult> ViewLowStockItems()

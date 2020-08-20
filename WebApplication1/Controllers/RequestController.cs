@@ -198,54 +198,57 @@ namespace LUSS_API.Controllers
             return "ok";
         }
 
-        [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        [HttpPost("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request/{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        public string DisburseByRequest(int id, int userId, string collectionTime, int fulfillQty)
+        public string DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
         {
 
-            ////To do: generate retrieval id
-            //Retrieval retrieval = new Retrieval()
-            //{
-            //    RetrievalID = GetNewRetrievalId(),
-            //    IssueDate = DateTime.Now,
-            //    Status = EOrderStatus.PendingDelivery
-            //};
-
-            //context123.Add(retrieval);
+            //To do: generate retrieval id , find out why is 0 when generated
+            Retrieval retrieval = new Retrieval()
+            {
+                //RetrievalID = GetNewRetrievalId(), 
+                IssueDate = DateTime.Now,
+                Status = EOrderStatus.PendingDelivery
+            };
+            context123.Add(retrieval);
+            context123.SaveChanges();
 
             //update request
             Request request = GetById(id);
             request.RequestStatus = EOrderStatus.PendingDelivery;
             request.CollectionTime = Convert.ToDateTime(collectionTime);
             request.ModifiedBy = userId;
-            //request.RetrievalID = GetNewRetrievalId();
+            request.RetrievalID = retrieval.RetrievalID;
 
             List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
 
             //update fulfill qty of each request items
             for (int i = 0; i < reqItems.Count(); i++)
             {
-                if (reqItems[i].FullfillQty == null && reqItems[i].RequestID == id)
-                {
-                    reqItems[i].FullfillQty = fulfillQty;
-                    break;
-                }
+                reqItems[i].FullfillQty = fulfillQty[i]; 
+                //if (reqItems[i].FullfillQty == null && reqItems[i].RequestID == id)
+                //{
+                //    reqItems[i].FullfillQty = fulfillQty[i];
+                //    break;
+                //}
             }
 
+            
             context123.SaveChanges();
             return "ok";
         }
         // get new retrieval Id
-        public int GetNewRetrievalId()
-        {
-            int maxId = 0;
-            int? currentId = context123.Retrieval.Max(x => x.RetrievalID);
-            if (currentId != null)
-            {
-                maxId = (int)currentId;
-            }
-            return maxId + 1;
-        }
+        //public int GetNewRetrievalId()
+        //{
+        //    int maxId = 0;
+        //    int? currentId = context123.Retrieval.Max(x => x.RetrievalID);
+        //    if (currentId != null)
+        //    {
+        //        maxId = (int)currentId;
+        //    }
+        //    return maxId + 1;
+        //}
+
         [HttpGet("{id}")]
         [Route("GetRequestByEmpId/{id}")]
         public IEnumerable<Request> GetRequestByEmpId(int id)
@@ -253,7 +256,7 @@ namespace LUSS_API.Controllers
             EOrderStatus packed = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "Packed");
             EOrderStatus completed = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "Completed");
             EOrderStatus pendingDelivery = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "PendingDelivery");
-            List<Request> request = context123.Request.Where(x => x.RequestBy == id && x.RequestStatus != packed && x.RequestStatus != completed && x.RequestStatus != pendingDelivery).ToList();
+            List<Request> request = context123.Request.Where(x => x.RequestBy == id && x.RequestStatus != packed && x.RequestStatus != completed && x.RequestStatus != pendingDelivery).OrderByDescending(x=> x.RequestDate).ToList();
             return request;
         }
 
@@ -330,6 +333,76 @@ namespace LUSS_API.Controllers
                 context123.RequestDetails.Add(rqt_Details);
             }
             context123.SaveChanges();
+        }
+
+        [HttpGet("{id}")]
+        [Route("CancelRequest/{id}")]
+        public Request CancelRequest(int id)
+        {
+            Request getRequest = context123.Request
+                  .Where(x => x.RequestID == id).SingleOrDefault();
+            if (getRequest != null)
+            {
+                getRequest.RequestStatus = EOrderStatus.Cancelled;
+                //List<RequestDetails> reqDetails = new  List<RequestDetails>();
+                foreach (var reqDetail in getRequest.RequestDetails)
+                {
+                    if (reqDetail.RequestID == getRequest.RequestID)
+                    {
+                        reqDetail.isActive = false;
+                    }
+                }
+                context123.SaveChanges();
+            }
+            return getRequest;
+        }
+
+        //create new request
+        [HttpPost]
+        [Route("UpdateRequestDetail")]
+        public bool UpdateRequestDetail([FromBody] string jsonData)
+        {
+            bool isUpdated = false;
+            Request req = new Request();
+            if (jsonData != null)
+            {
+                //try create new order first
+
+                try
+                {
+                    Request request = JsonConvert.DeserializeObject<Request>(jsonData);
+                    List<RequestDetails> reqDetailList = new List<RequestDetails>();
+
+                    reqDetailList = context123.RequestDetails.Where(r => r.RequestID == request.RequestID).ToList();
+
+                    foreach (var reqDetail in reqDetailList)
+                    {
+                        foreach (var r in request.RequestDetails)
+                        {
+                            if (r.ItemID == reqDetail.ItemID)
+                            {
+                                reqDetail.RequestQty = r.RequestQty;
+                            }
+                        }
+                    }
+                    context123.SaveChanges();
+                    isUpdated = true;
+                }
+                catch
+                {
+                    isUpdated = false;
+                }
+            }
+
+            return isUpdated;
+        }
+
+        [HttpGet("{id}")]
+        [Route("GetReqById/{id}")]
+        public Request GetReqById(int id)
+        {
+            Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
+            return request;
         }
     }
 }

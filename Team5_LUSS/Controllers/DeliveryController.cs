@@ -215,7 +215,7 @@ namespace Team5_LUSS.Controllers
         #region Disbursement_FinalConfirm_Deny/Complete
         public async Task<IActionResult> FinalActionByStore(string actionTaken, int requestID)
         {
-            //int userId = (int)HttpContext.Session.GetInt32("UserID");
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
 
             //change status to pending delivery
             using (var httpClient = new HttpClient())

@@ -16,7 +16,7 @@ namespace LUSS_API.DB
                 // RequestDetailID = 1,
                 RequestQty = 10,
                 ItemID = 1,
-                RequestID = 1,
+                RequestID = 12,
                 FullfillQty = null,
                 ReceivedQty = null,
                 isActive = true
@@ -26,7 +26,7 @@ namespace LUSS_API.DB
                // RequestDetailID = 2,
                 RequestQty = 20,
                 ItemID = 2,
-                RequestID = 1,
+                RequestID = 12,
                 FullfillQty = null,
                 ReceivedQty = null,
                 isActive = true
@@ -36,7 +36,7 @@ namespace LUSS_API.DB
                // RequestDetailID = 3,
                 RequestQty = 30,
                 ItemID = 3,
-                RequestID = 1,
+                RequestID = 12,
                 FullfillQty = null,
                 ReceivedQty = null,
                 isActive = true
@@ -46,7 +46,7 @@ namespace LUSS_API.DB
                // RequestDetailID = 4,
                 RequestQty = 40,
                 ItemID = 1,
-                RequestID = 2,
+                RequestID = 13,
                 FullfillQty = null,
                 ReceivedQty = null,
                 isActive = true
@@ -56,7 +56,7 @@ namespace LUSS_API.DB
                // RequestDetailID = 5,
                 RequestQty = 50,
                 ItemID = 2,
-                RequestID = 2,
+                RequestID = 13,
                 FullfillQty = null,
                 ReceivedQty = null,
                 isActive = true
@@ -66,7 +66,7 @@ namespace LUSS_API.DB
                // RequestDetailID = 6,
                 RequestQty = 30,
                 ItemID = 3,
-                RequestID = 3,
+                RequestID = 13,
                 FullfillQty = null,
                 ReceivedQty = null,
                 isActive = true

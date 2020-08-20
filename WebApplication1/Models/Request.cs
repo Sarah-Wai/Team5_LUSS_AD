@@ -21,9 +21,9 @@ namespace LUSS_API.Models
         public DateTime RequestDate { get; set; }
        
         [Required]
-        public int RequestBy { get; set; }
-        //[Required]
-        public int ModifiedBy   { get; set; }
+        public int? RequestBy { get; set; }
+      
+        public int? ModifiedBy   { get; set; }
         [MaxLength(50)]
         public string Comment   { get; set; }
         [MaxLength(50)]

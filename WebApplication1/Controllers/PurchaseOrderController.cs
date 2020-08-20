@@ -40,8 +40,8 @@ namespace LUSS_API.Controllers
             return purchase;
         }
 
-        [HttpGet]
-        [Route("get-new-po-id")]
+        //[HttpGet]
+        //[Route("get-new-po-id")]
         public int GetNewPOId()
         {
             int maxId = 0;
@@ -72,25 +72,22 @@ namespace LUSS_API.Controllers
             return maxId + 1;
         }
 
-        [HttpGet("{id}/{expectedDate}/{itemID}/{supplierId}/{orderQty}")]
-        public string savePO(int id, string expectedDate, int itemID, int supplierId, int orderQty)
+        [HttpGet("{userid}/{expectedDate}/{itemID}/{supplierId}/{orderQty}")]
+        public string savePO(int userid, string expectedDate, int itemID, int supplierId, int orderQty)
         {
             int poId = GetNewPOId();
             int poItemId = GetNewPOItemId();
             PurchaseOrder po = new PurchaseOrder()
             {
-                //POID = poId,
                 PONo = "PO " + poId,
                 CreatedOn = DateTime.Now,
                 SupplierID = supplierId,
                 Status = POStatus.Pending,
                 ExpectedDate = Convert.ToDateTime(expectedDate),
-                PurchasedBy = 1
+                PurchasedBy = userid
             };
-            //po.Supplier = null;
             PurchaseOrderItems poItem = new PurchaseOrderItems()
             {
-                //POItemID = poItemId,
                 POID = poId,
                 ItemID = itemID,
                 OrderQty = orderQty,
@@ -99,6 +96,32 @@ namespace LUSS_API.Controllers
             context123.PurchaseOrderItems.Add(poItem);
             context123.SaveChanges();
             return "Ok";
+        }
+
+        [HttpPost("{receivedQty}/{poid}")]
+        [Route("received-purchase/{receivedQty}/{poid}")]
+        public string receivedPurchase(List<int> receivedQty, int poid)
+        {
+            PurchaseOrder po = GetPurchaseOrderById(poid);
+            List<PurchaseOrderItems> poItems = context123.PurchaseOrderItems.Where(x => x.POID == poid).ToList();
+            //update recdQty for each poItems 
+            for(int i = 0; i < poItems.Count() ; i++)
+            {
+                if (poItems[i].OrderQty >= receivedQty[i]) {
+                    //update received qty
+                    poItems[i].ReceivedQty = receivedQty[i];
+
+                    //update instock qty
+                    int itemId = poItems[i].ItemID;
+                    Item item = context123.Item.Where(x => x.ItemID == itemId).FirstOrDefault();
+                    item.InStockQty += receivedQty[i];
+                }
+            }
+            //update PO
+            po.Status = POStatus.Completed;
+            po.ReceivedDate = DateTime.Now;
+            context123.SaveChanges();
+            return "ok";
         }
 
         //To delete 

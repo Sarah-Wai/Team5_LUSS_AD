@@ -5,7 +5,7 @@
     var orderItems = (List<PurchaseOrderItems>)ViewData["orderItems"];
 }
 
-<form>
+<form method="post">
     <div class="container-fluid site-width">
         <div>
             <div class="row">
@@ -19,10 +19,12 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <b>PO No:</b> @purchase.PONo<br>
+                                            <b>PO No:</b> @purchase.PONo<br> 
                                             <b>Expected Date:</b> @purchase.ExpectedDate<br>
                                             <b>Supplier ID:</b> @purchase.SupplierID<br>
-                                            <b>Supplier Name: </b>@purchase.Supplier.SupplierName<br><br
+                                            <b>Supplier Name: </b>@purchase.Supplier.SupplierName<br><br>
+                                            <input type="hidden" value="@purchase.POID" name="poid"/>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -51,8 +53,8 @@
                                         <td class="text-right">@item.Item.ItemCode</td>
                                         <td class="text-right">@item.Item.ItemName</td>
                                         <td class="text-right">@item.Item.UOM</td>
-                                        <td class="text-right">@item.ReceivedQty</td>
-                                        <td class="text-right"><input type="number" value="@item.ReceivedQty" min="0" max="@item.ReceivedQty" /></td>
+                                        <td class="text-right">@item.OrderQty</td>
+                                        <td class="text-right"><input type="number" value="@item.OrderQty" min="1" max="@item.OrderQty" name="receivedQty" required/></td>
                                     </tr>
                                     }
                                     </tbody>

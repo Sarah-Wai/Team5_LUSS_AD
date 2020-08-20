@@ -83,7 +83,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
             HttpContext.Session.SetString("selectedStatus", status.ToString());
-            ViewData["requests"] = requests.OrderBy(r => r.RequestID).ToList();
+            ViewData["requests"] = requests;
             return View();
         }
 

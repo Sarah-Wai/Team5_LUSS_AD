@@ -15,14 +15,14 @@ namespace LUSS_API.DB
 
             Retrieval r1 = new Retrieval()
             {
-                RetrievalID = 1,
+                //RetrievalID = 1,
                 Status = Status.EOrderStatus.Packed,
                 IssueDate = DateTime.Now,
             };
 
             Retrieval r2 = new Retrieval()
             {
-                RetrievalID = 2,
+                //RetrievalID = 2,
                 Status = Status.EOrderStatus.PendingDelivery,
                 IssueDate = DateTime.Now,
             };

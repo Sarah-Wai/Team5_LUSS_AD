@@ -47,6 +47,12 @@ namespace Team5_LUSS.Controllers
                     HttpContext.Session.SetInt32("UserID", login_user.UserID);
                     HttpContext.Session.SetInt32("CPId", login_user.Department.CollectionPointID);
                     HttpContext.Session.SetInt32("DeptId", login_user.DepartmentID);
+                    HttpContext.Session.SetString("UserRole", login_user.Role);
+
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "UserObj", login_user);
+
+
+                   // List<WtrStudent> _sessionList = SessionHelper.GetObjectFromJson<List<WtrStudent>>(HttpContext.Session, "userObject");
                     TempData["Alert"] = "Login Successful";
 
 
@@ -90,7 +96,11 @@ namespace Team5_LUSS.Controllers
             return View();
            
         }
-
+        public ActionResult LogOut()
+        {
+            return RedirectToAction("index");
+        }
+        
         public IActionResult Privacy()
         {
             return View();

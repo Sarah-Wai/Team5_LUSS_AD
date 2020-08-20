@@ -59,7 +59,7 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + id))
+                using (var response = await httpClient.GetAsync(api_url + "/get-po-by-id/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     purchase = JsonConvert.DeserializeObject<PurchaseOrder>(apiResponse);
@@ -208,7 +208,7 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + id))
+                using (var response = await httpClient.GetAsync(api_url + "/get-po-by-id/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     purchase = JsonConvert.DeserializeObject<PurchaseOrder>(apiResponse);

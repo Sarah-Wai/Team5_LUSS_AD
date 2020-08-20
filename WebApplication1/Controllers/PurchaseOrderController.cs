@@ -42,6 +42,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Route("get-po-by-id/{id}")]
         public PurchaseOrder GetPurchaseOrderById(int id)
         {
             PurchaseOrder purchase = context123.PurchaseOrder.First(x => x.POID == id);

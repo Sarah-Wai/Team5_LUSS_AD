@@ -96,7 +96,7 @@ namespace Team5_LUSS.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId)
+        public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId, string entryPoint)
         {
             //AdjustmentVoucher adjustment = new AdjustmentVoucher();
             using (var httpClient = new HttpClient())
@@ -108,7 +108,13 @@ namespace Team5_LUSS.Controllers
                 }
             }
             //return View(adjustment);
+            if (entryPoint.Equals("inventory"))
+            {
+                return RedirectToAction("InventoryList", "ItemList");
+            }
+
             return RedirectToAction("RetrievalForm", "Disbursement");
+
         }
 
         public async Task<IActionResult> GetItemForAdjustment(int id)

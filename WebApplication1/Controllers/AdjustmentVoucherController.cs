@@ -56,8 +56,7 @@ namespace LUSS_API.Controllers
             
             return adjustment;
         }
-
-        
+     
         //[HttpPost]
         //public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
         //{

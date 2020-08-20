@@ -54,10 +54,7 @@ namespace Team5_LUSS
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-            
-
             app.UseAuthorization();
             app.UseSession();
 
@@ -65,8 +62,9 @@ namespace Team5_LUSS
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Login}/{id?}");
-            });
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    //pattern: "{controller=DashBoard}/{action=DashBoard}/{id?}");
+        });
         }
     }
 }

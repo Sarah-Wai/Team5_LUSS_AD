@@ -125,6 +125,7 @@
                         <table style="width:30%">
                             <input type="hidden" id="itemId" asp-for="ItemID" name="itemID" />
                             <input type="hidden" id="userId" value="@userId" asp-for="RequestByID" name="userId" />
+                            <input type="hidden" id="entryPoint" value="retrieval" name="entryPoint" />
                             <tr>
                                 <td>
                                     <b>Item Code:</b>
@@ -314,14 +315,6 @@
     }
 
     function calculate() {
-        //$checked = $("input[name='AdjustType']:checked").next().next();
-        //var a = parseFloat($checked.val());
-        //a = isNaN(a) ? 0 : a;
-
-        //var b = parseFloat($("#itemPrice").html());
-        //b = isNaN(b) ? 0 : b;
-        //$("#totalPrice").html(a * b);
-
         var a = $("#adjustQty").val();
         var b = parseFloat($("#itemPrice").html());
         $("#totalPrice").html(a * b);

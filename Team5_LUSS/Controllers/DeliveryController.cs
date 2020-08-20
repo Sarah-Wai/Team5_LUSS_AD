@@ -131,7 +131,7 @@ namespace Team5_LUSS.Controllers
 
         #region DeliveryView_DisbursementDetails
         [HttpPost]
-        public async Task<IActionResult> DisbursementDetails(int reqID, string status)
+        public async Task<IActionResult> DisbursementDetails(int reqID)
         {
             List<RequestDetails> requestDetails = new List<RequestDetails>();
             Request request = new Request();
@@ -167,6 +167,9 @@ namespace Team5_LUSS.Controllers
         }
 
         #endregion
+
+
+
 
         #region Disbursement_FinalConfirm_Deny/Complete
         public async Task<IActionResult> FinalActionByStore(string actionTaken, int requestID)

@@ -13,12 +13,13 @@ namespace LUSS_API.DB
             List<RequestDetails> requestDetails = new List<RequestDetails>();
             RequestDetails del1 = new RequestDetails()
             {
-               // RequestDetailID = 1,
+                // RequestDetailID = 1,
                 RequestQty = 10,
                 ItemID = 1,
                 RequestID = 1,
                 FullfillQty = null,
-                ReceivedQty = null
+                ReceivedQty = null,
+                isActive = true
             };
             RequestDetails del2 = new RequestDetails()
             {
@@ -27,7 +28,8 @@ namespace LUSS_API.DB
                 ItemID = 2,
                 RequestID = 1,
                 FullfillQty = null,
-                ReceivedQty = null
+                ReceivedQty = null,
+                isActive = true
             };
             RequestDetails del3 = new RequestDetails()
             {
@@ -36,7 +38,8 @@ namespace LUSS_API.DB
                 ItemID = 3,
                 RequestID = 1,
                 FullfillQty = null,
-                ReceivedQty = null
+                ReceivedQty = null,
+                isActive = true
             };
             RequestDetails del4 = new RequestDetails()
             {
@@ -45,7 +48,8 @@ namespace LUSS_API.DB
                 ItemID = 1,
                 RequestID = 2,
                 FullfillQty = null,
-                ReceivedQty = null
+                ReceivedQty = null,
+                isActive = true
             };
             RequestDetails del5 = new RequestDetails()
             {
@@ -54,7 +58,8 @@ namespace LUSS_API.DB
                 ItemID = 2,
                 RequestID = 2,
                 FullfillQty = null,
-                ReceivedQty = null
+                ReceivedQty = null,
+                isActive = true
             };
             RequestDetails del6 = new RequestDetails()
             {
@@ -63,7 +68,8 @@ namespace LUSS_API.DB
                 ItemID = 3,
                 RequestID = 3,
                 FullfillQty = null,
-                ReceivedQty = null
+                ReceivedQty = null,
+                isActive = true
             };
             requestDetails.Add(del1);
             requestDetails.Add(del2);

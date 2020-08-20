@@ -19,17 +19,17 @@ namespace Team5_LUSS.Controllers
         [HttpGet]
         public async Task<IActionResult> StationeryRequests()
         {
-            
+
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+ "Request/GetAllRequest"))
+                using (var response = await httpClient.GetAsync(api_url + "Request/GetAllRequest"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                 }
             }
-          
+
             ViewData["requests"] = requests;
             return View();
         }
@@ -40,7 +40,7 @@ namespace Team5_LUSS.Controllers
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "Request/ApproveRequestByDepHead/" + hidRequestID+"/"+comment))
+                using (var response = await httpClient.GetAsync(api_url + "Request/ApproveRequestByDepHead/" + hidRequestID + "/" + comment))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     ViewBag.Result = "Success";
@@ -53,10 +53,10 @@ namespace Team5_LUSS.Controllers
         [HttpGet]
         public async Task<IActionResult> RequestHistory(string status)
         {
-            if(status == null)
+            if (status == null)
             {
                 string selectedStatusSession = HttpContext.Session.GetString("selectedStatus");
-                if(selectedStatusSession == null)
+                if (selectedStatusSession == null)
                 {
                     status = "All";
                 }
@@ -64,7 +64,7 @@ namespace Team5_LUSS.Controllers
                 {
                     status = selectedStatusSession;
                 }
-              
+
             }
             int empId = 2;
             List<Request> requests = new List<Request>();
@@ -83,11 +83,118 @@ namespace Team5_LUSS.Controllers
                 }
             }
             HttpContext.Session.SetString("selectedStatus", status.ToString());
-            ViewData["requests"] = requests;
+            ViewData["requests"] = requests.OrderBy(r=> r.RequestID).ToList();
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ViewRequestDetail(int id)
+        {
+            Request request = new Request();
+            using (var httpClient = new HttpClient())
+            {
+                string str = api_url + "Request/GetById/" + id;
+                using (var response = await httpClient.GetAsync(str))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    request = JsonConvert.DeserializeObject<Request>(apiResponse);
+                }
+            }
+            
+            ViewData["request"] = request;
+            
+            return View();
+        }
+        public async Task<IActionResult> CancelRequest(int id)
+        {
+            Request request = new Request();
+            using (var httpClient = new HttpClient())
+            {
+                string str = api_url + "Request/CancelRequest/" + id;
+                using (var response = await httpClient.GetAsync(str))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    request = JsonConvert.DeserializeObject<Request>(apiResponse);
+                }
+            }
+            ViewData["request"] = request;
+            if(request  != null)
+            {
+                TempData["AlertMessage"] = "Cancelled";
+            }
+            return RedirectToAction("ViewRequestDetail", new { id = id });
+        }
+        public async Task<IActionResult> UpdateRequestDetail()
+        {
+            // formData ---> getting string value from View
+            var FormData = HttpContext.Request.Form;
+            //storing data in array type for two data entry
+            string[] itemIds = null;
+            string[] quantities = null;
+            string reqID = "";
+            foreach (var items in FormData)
+            {
+                //check each data using 'Contain" and assigning respestively
+                if (items.Key.Contains("itemId"))
+                {
+                    itemIds = items.Value;
+                }
+                else if (items.Key.Contains("quantity"))
+                {
+                    quantities = items.Value;
+                }else if (items.Key.Contains("reqID"))
+                {
+                    reqID = items.Value;
+                }
+            }
+            Request request = new Request();
+            using (var httpClient = new HttpClient())
+            {
+                string str = api_url + "Request/GetById/" + Int32.Parse(reqID);
+                using (var response = await httpClient.GetAsync(str))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    request = JsonConvert.DeserializeObject<Request>(apiResponse);
+                }
+            }
+           
+            for (int i = 0; i < itemIds.Length; i++)
+            {
+                var itemid = Int32.Parse(itemIds[i]);
+                foreach (var requestDetail in request.RequestDetails)
+                {
+                    if (requestDetail.ItemID == Int32.Parse(itemIds[i]))
+                    {
+                        requestDetail.RequestQty = Int32.Parse(quantities[i]);
+                        
+                    }
+                }
+                
+            }
+            string requestJson = Newtonsoft.Json.JsonConvert.SerializeObject(request);
 
+            bool returnData = false;
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(requestJson), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(api_url + "Request/UpdateRequestDetail", content))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    returnData = JsonConvert.DeserializeObject<Boolean>(apiResponse);
+                }
 
+            }
+            if(returnData)
+            {
+
+                TempData["AlertMessage"] = "Success";
+            }
+            else
+            {
+                return RedirectToAction("ViewRequestDetail", new { id = reqID });
+            }
+           
+            return RedirectToAction("ViewRequestDetail", new { id = reqID });
+        }
     }
 }

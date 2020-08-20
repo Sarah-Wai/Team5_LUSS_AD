@@ -13,6 +13,7 @@
         <option value="Approved">Approved</option>
         <option value="Rejected">Rejected</option>
         <option value="Received">Received</option>
+        <option value="Cancelled">Cancelled</option>
     </select>
 </div>
 <div class="row">
@@ -51,6 +52,9 @@
                                 case "Received":
                                     statuscolor = "badge-primary";
                                     break;
+                                case "Cancelled":
+                                    statuscolor = "badge-danger";
+                                    break;
                                 default:
                                     statuscolor = "badge-primary";
                                     break;
@@ -63,7 +67,7 @@
                                 <td>@request.RequestDate</td>
                                 <td><span class="badge @statuscolor text-white">@request.RequestStatus</span></td>
                                 <td>
-                                    <button type="button" class="btn btn-outline-info rounded-btn" onclick="detailView(@request.RequestID)">Detail</button>
+                                    <a class="btn btn-outline-info rounded-btn" asp-controller="StationeryRequests" asp-action="ViewRequestDetail" asp-route-id="@request.RequestID">Detail</a>
                                 </td>
                             </tr>
                         }
@@ -97,18 +101,7 @@
                 }
             })
         }
-        var detailView = function(id) {
-           
-            $.ajax({
-            type: "GET",
-            url: '@Url.Action("ViewRequestDetail", "StationeryRequests")',
-            contentType: 'application/json',
-            data: {id },
-            success: function (result) {
-              
-            }
-            })
-        }
+       
     </script>
 
 }

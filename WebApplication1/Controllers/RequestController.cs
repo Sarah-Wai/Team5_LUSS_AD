@@ -226,7 +226,8 @@ namespace LUSS_API.Controllers
             //update fulfill qty of each request items
             for (int i = 0; i < reqItems.Count(); i++)
             {
-                reqItems[i].FullfillQty = fulfillQty[i]; 
+                reqItems[i].FullfillQty = fulfillQty[i];
+                reqItems[i].Item.InStockQty -= fulfillQty[i]; // less out stock
                 //if (reqItems[i].FullfillQty == null && reqItems[i].RequestID == id)
                 //{
                 //    reqItems[i].FullfillQty = fulfillQty[i];

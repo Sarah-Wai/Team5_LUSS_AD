@@ -86,7 +86,9 @@
                                     //get selected category value from session to show seleced category when page reload after search
                                     var selectedStatus = '@Context.Session.GetString("selectedStatus")';
             $(".ddlStatus").val(selectedStatus);
-            $('#tblStatus').DataTable();
+            $('#tblStatus').DataTable({
+                "aaSorting": []
+            });
                                 })
         var searchStatus = function() {
             var status = $("#SelectedStatus").val();

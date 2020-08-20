@@ -75,14 +75,14 @@ namespace LUSS_API.Controllers
 
             Retrieval retrieval = new Retrieval()
             {
-                RetrievalID = GetNewRetrievalId(),// for testing, to be removed
+                //RetrievalID = GetNewRetrievalId(),// for testing, to be removed
                 Status = EOrderStatus.Approved,
                 IssueDate = DateTime.Now
 
             };
 
             context123.Retrieval.Add(retrieval);
-
+            context123.SaveChanges();
 
             foreach (Request appReq in approvedRequest)
             {
@@ -99,6 +99,7 @@ namespace LUSS_API.Controllers
                         select new
                         {
                             RetrievalID = retrieval.RetrievalID,
+                            ReorderLevel = i.ReStockLevel,
                             ItemID = i.ItemID,
                             ItemCode = i.ItemCode,
                             ItemName = i.ItemName,
@@ -207,20 +208,17 @@ namespace LUSS_API.Controllers
                     if(retQty >= reqQty && !(retQty<= 0))
                     {
                         reqByItem[k].FullfillQty = reqQty;
-                        //context123.SaveChanges();
 
                     }
                     if(retQty < reqQty && !(retQty <= 0))
                     {
                         reqByItem[k].FullfillQty = retQty;
-                        //context123.SaveChanges();
                        
                     }
 
                      retQty = retQty - reqQty;
                     
                 }
-                //context123.SaveChanges();
                 
             }
 

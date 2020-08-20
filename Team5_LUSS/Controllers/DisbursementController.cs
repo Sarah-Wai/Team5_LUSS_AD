@@ -7,6 +7,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
@@ -47,6 +48,7 @@ namespace Team5_LUSS.Controllers
 
         public async Task<IActionResult> RetrievalForm()
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             List<dynamic> items = new List<dynamic>();
             string status = "Approved";
 
@@ -60,6 +62,7 @@ namespace Team5_LUSS.Controllers
             }
 
             ViewData["items"] = items;
+            ViewData["userId"] = userId;
             return View("Retrieval_Form");
             
         }
@@ -230,7 +233,7 @@ namespace Team5_LUSS.Controllers
                     reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
                 }
             }
-            int userId = 1; //inject session
+            int userId = (int)HttpContext.Session.GetInt32("UserID"); 
             ViewData["userId"] = userId;
             ViewData["request"] = request;
             ViewData["deptRep"] = deptRep;
@@ -243,15 +246,28 @@ namespace Team5_LUSS.Controllers
         {
             using (var httpClient = new HttpClient())
             {
-                for (int i = 0; i < fulfillQty.Count(); i++)
+                //for (int i = 0; i < fulfillQty.Count(); i++)
+                //{
+                //    using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
+                //    {
+                //        string apiResponse = await response.Content.ReadAsStringAsync();
+                //    }
+                //}
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(fulfillQty), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty, content))
                 {
-                    using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                    }
+                    string apiResponse = await response.Content.ReadAsStringAsync();
                 }
+
+                using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                }
+
             }
-            return View("Disbursement_Manage");
+            return RedirectToAction("ManageDisbursement");
         }
         #endregion
     }

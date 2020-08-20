@@ -7,128 +7,74 @@
 }
 
 
-<div class="container-fluid site-width">
+    <div class="container-fluid site-width">
 
-    <div class="modal fade" id="editinvoice">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="icon-pencil"></i> Stationary Collection Form
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="icon-close"></i>
-                    </button>
-                </div>
-                <form action="VoucherForm">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Item Code</th>
-                                        <th scope="col">Item Name</th>
-                                        <th scope="col">Rqt Qty</th>
-                                        <th scope="col">Accpt Qty</th>
-                                    </tr>
-                                </thead>
-                                @foreach (var r in adjustmentVoucherList)
-                                {
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">@r.AdjustmentID</th>
-                                            <td>@r.Status</td>
-                                            <td>@r.TotalCost</td>
-                                            <td>@r.AdjustQty</td>
-                                            <td>@r.AdjustType</td>
-                                            <td>
-                                                <button type="button" class="btn btn-danger"  @* DETAIL VIEW*@
-                                                        onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID})'"> Details</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                }
-                            </table>
-                        </div>
+        <div class="modal fade" id="editinvoice">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="icon-pencil"></i> Stationary Collection Form
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="icon-close"></i>
+                        </button>
                     </div>
-                    @*<div class="modal-footer">
-                        <input type="hidden" id="edit-date">
-                        <button type="submit" class="btn btn-primary add-todo">Approve</button>
-                        <button type="submit" class="btn btn-primary add-todo">Reject</button>
-                    </div>*@
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- START: Info Card Data-->
-    <div class="col-12" style="margin-top:3rem">
-        <div class="card text-white bg-info">
-            <div class="card-body">
-                <h5 class="card-title">Upcoming Collection</h5>
-              @*  <p class="card-text">Time:@collectionTime</p>*@
-                <p class="card-text">Location: Behind the Tree</p>
-            </div>
-        </div>
-    </div>
-    <!-- END: Info Card Data-->
-    <!-- START: Card Data-->
-    <div class="row row-eq-height">
-        <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
-            <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
-            <div class="card border h-100 invoice-menu-section">
-                <ul class="nav flex-column invoice-menu">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            ReadyToCollect
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-invoicetype="pending-invoice">
-                            Pending
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-12 col-lg-10 mt-3 pl-lg-0">
-            <div class="card border h-100 invoice-list-section">
-                <div class="card-body p-0">
-                    <div style="margin: 1rem">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editinvoice">Collect</button>
-                    </div>
-                    <div class="invoices list">
+                    <form action="VoucherForm">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="example" class="display table dataTable table-striped table-bordered">
 
+                                    <thead>
 
-                        @*@foreach (var r in collectionList)
-                        {
-                            <div class="invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Item Code</p>
-                                        <p class="invoice-no">@r.itemCode</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Item Name</p>
-                                        <p class="cliname">@r.itemName</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Unit</p>
-                                        <p class="invocie-date">@r.itemUOM</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Requested Quantity</p>
-                                        <p class="invoice-due-date">@r.totalQty</p>
-                                    </div>
-                                    <div class="invoice-info">
-
-                                    </div>
-                                </div>
+                                    </thead>
+                                    @foreach (var r in adjustmentVoucherList)
+                                    {
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">@r.AdjustmentID</th>
+                                                <td>@r.Status</td>
+                                                <td>@r.TotalCost</td>
+                                                <td>@r.AdjustQty</td>
+                                                <td>@r.AdjustType</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger" @* DETAIL VIEW*@
+                                                            onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID})'">
+                                                        Details
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    }
+                                </table>
                             </div>
-                        }*@
-                    </div>
+                        </div>
+                        @*<div class="modal-footer">
+                            <input type="hidden" id="edit-date">
+                            <button type="submit" class="btn btn-primary add-todo">Approve</button>
+                            <button type="submit" class="btn btn-primary add-todo">Reject</button>
+                        </div>*@
+                    </form>
                 </div>
             </div>
         </div>
+        @* data table content end*@
+        @*<script src="~/js/UI/datatable.script.js"></script>*@
+        <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
+        <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
+        <!-- START: Page Script JS-->
+        @* data table ^^*@
+        <script>
+            $(document).ready(function ()
+            {
+
+                $('#example').DataTable
+                ({
+                 responsive: true
+                });
+            })
+        @* data table ^^*@
+
+
+        </script>
     </div>
-    <!-- END: Card DATA-->
-</div>

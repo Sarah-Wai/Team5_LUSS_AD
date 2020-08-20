@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LUSS_API.Models;
+using System.Configuration;
+using System.ServiceModel;
 
 namespace LUSS_API.DB
 {
@@ -14,12 +16,12 @@ namespace LUSS_API.DB
         public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
         {
-           
+         
         }
 
-
-
-        public MyDbContext() { }
+        public MyDbContext() {
+           
+        }
 
         protected
         override void OnModelCreating(ModelBuilder model)
@@ -58,7 +60,7 @@ namespace LUSS_API.DB
 
         }
 
-        public DbSet<AdjustmentVoucher> AdjustmentVouncher { get; set; }
+        public DbSet<AdjustmentVoucher> AdjustmentVoucher { get; set; }
         public DbSet<Cart> Cart { get; set; }
         public DbSet<CollectionPoint> CollectionPoint { get; set; }
         public DbSet<DelegatedManager> DelegatedManager { get; set; }

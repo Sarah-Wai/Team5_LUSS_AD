@@ -54,7 +54,7 @@
                                         <td class="text-right">@item.Item.ItemName</td>
                                         <td class="text-right">@item.Item.UOM</td>
                                         <td class="text-right">@item.OrderQty</td>
-                                        <td class="text-right"><input type="number" value="@item.OrderQty" min="0" max="@item.OrderQty" name="receivedQty"/></td>
+                                        <td class="text-right"><input type="number" value="@item.OrderQty" min="1" max="@item.OrderQty" name="receivedQty" required/></td>
                                     </tr>
                                     }
                                     </tbody>

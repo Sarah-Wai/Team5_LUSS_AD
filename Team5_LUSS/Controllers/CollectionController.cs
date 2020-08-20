@@ -156,9 +156,6 @@ namespace Team5_LUSS.Controllers
             }
             return RedirectToAction("collectionList");
         }
-
-
-        
     }
 }
 

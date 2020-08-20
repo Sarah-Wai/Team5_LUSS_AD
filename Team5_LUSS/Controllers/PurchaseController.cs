@@ -19,22 +19,39 @@ namespace Team5_LUSS.Controllers
         string api_url_Item = "https://localhost:44312/ItemList";
         string api_url_ItemPrice = "https://localhost:44312/ItemPrice";
 
-        public async Task<IActionResult> PurchaseOrders()
+        #region POHistory
+        public async Task<IActionResult> PurchaseOrders(string status)
         {
             List<PurchaseOrder> purchases = new List<PurchaseOrder>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(api_url))
+            if (status == null)
+            {             
+                using (var httpClient = new HttpClient())
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    purchases = JsonConvert.DeserializeObject<List<PurchaseOrder>>(apiResponse);
+                    using (var response = await httpClient.GetAsync(api_url))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        purchases = JsonConvert.DeserializeObject<List<PurchaseOrder>>(apiResponse);
+                    }
                 }
             }
+            else
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync(api_url + "/get-po-by-status/" + status))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        purchases = JsonConvert.DeserializeObject<List<PurchaseOrder>>(apiResponse);
+                    }
+                }
 
+            }
             ViewData["purchases"] = purchases;
             return View("PO_History");
         }
+        #endregion
 
+        #region PODetails
         public async Task<IActionResult> PurchaseOrderDetails(int id)
         {
             PurchaseOrder purchase = new PurchaseOrder();
@@ -42,7 +59,7 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + id))
+                using (var response = await httpClient.GetAsync(api_url + "/get-po-by-id/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     purchase = JsonConvert.DeserializeObject<PurchaseOrder>(apiResponse);
@@ -59,6 +76,7 @@ namespace Team5_LUSS.Controllers
             ViewData["orderItems"] = orderItems;
             return View("PO_Details");
         }
+        #endregion
 
         #region LowStockItemList
         public async Task<IActionResult> ViewLowStockItems()
@@ -107,7 +125,7 @@ namespace Team5_LUSS.Controllers
             }
 
             //string poNo = "PO" + poId;
-            ViewData["purchasedBy"] = 1; // inject user session
+            ViewData["purchasedBy"] = (int)HttpContext.Session.GetInt32("UserID");
             ViewData["item"] = item;
             ViewData["suppliers"] = suppliers;
             return View("PO_Create_Low");
@@ -128,8 +146,7 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     //result = JsonConvert.DeserializeObject<String>(apiResponse);
                 }
-            }
-       
+            }       
             return RedirectToAction("ViewLowStockItems");
         }
         #endregion
@@ -191,7 +208,7 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + id))
+                using (var response = await httpClient.GetAsync(api_url + "/get-po-by-id/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     purchase = JsonConvert.DeserializeObject<PurchaseOrder>(apiResponse);
@@ -218,13 +235,10 @@ namespace Team5_LUSS.Controllers
                 StringContent content = new StringContent(JsonConvert.SerializeObject(receivedQty), Encoding.UTF8, "application/json");
                 using (var response = await httpClient.PostAsync(api_url + "/received-purchase/" + receivedQty +"/" +poid, content))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    
+                    string apiResponse = await response.Content.ReadAsStringAsync();                  
                 }
             }
-
-            
-            return View("PO_History");
+            return RedirectToAction("PurchaseOrders");
         }
         #endregion
 

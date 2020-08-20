@@ -3,18 +3,7 @@
 
 @HttpContextAccessor.HttpContext.Session.GetString("user")
 
-@HttpContext.Session["Username"].ToString();
-@if (Session["username"] != null)
-{
-    <li>
-        <a>@Html.Label("Hello " + Session["username"].ToString() + " !")</a>
-    </li>
-    <li><a href="javascript:document.getElementById('logoutForm').submit()">Disconnect</a></li>
-}
-else
-{
-    <li>@Html.ActionLink("Connect", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-}
+
 <!DOCTYPE html>
 <html lang="en">
 <!-- START: Head-->

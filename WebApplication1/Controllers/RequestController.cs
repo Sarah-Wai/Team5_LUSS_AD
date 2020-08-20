@@ -44,6 +44,7 @@ namespace LUSS_API.Controllers
         {
             List<Request> requests = context123.Request.Where(x => x.RequestByUser.DepartmentID == id).ToList();
             return requests;
+
         }
 
         [HttpGet("{status}")]

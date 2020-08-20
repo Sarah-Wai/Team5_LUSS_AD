@@ -78,6 +78,9 @@ namespace LUSS_API
             //    }
             //}
 
+            //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher();
+            //dbcontext.AddRange(adjustmentVouchers);
+
             //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
             //dbcontext.AddRange(itemCategories);
 

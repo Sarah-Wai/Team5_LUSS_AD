@@ -75,14 +75,14 @@ namespace LUSS_API.Controllers
 
             Retrieval retrieval = new Retrieval()
             {
-                RetrievalID = GetNewRetrievalId(),// for testing, to be removed
+                //RetrievalID = GetNewRetrievalId(),// for testing, to be removed
                 Status = EOrderStatus.Approved,
                 IssueDate = DateTime.Now
 
             };
 
             context123.Retrieval.Add(retrieval);
-
+            context123.SaveChanges();
 
             foreach (Request appReq in approvedRequest)
             {

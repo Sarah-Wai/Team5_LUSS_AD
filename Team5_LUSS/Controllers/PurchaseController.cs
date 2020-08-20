@@ -19,6 +19,7 @@ namespace Team5_LUSS.Controllers
         string api_url_Item = "https://localhost:44312/ItemList";
         string api_url_ItemPrice = "https://localhost:44312/ItemPrice";
 
+        #region POHistory
         public async Task<IActionResult> PurchaseOrders(string status)
         {
             List<PurchaseOrder> purchases = new List<PurchaseOrder>();
@@ -48,7 +49,9 @@ namespace Team5_LUSS.Controllers
             ViewData["purchases"] = purchases;
             return View("PO_History");
         }
+        #endregion
 
+        #region PODetails
         public async Task<IActionResult> PurchaseOrderDetails(int id)
         {
             PurchaseOrder purchase = new PurchaseOrder();
@@ -73,6 +76,7 @@ namespace Team5_LUSS.Controllers
             ViewData["orderItems"] = orderItems;
             return View("PO_Details");
         }
+        #endregion
 
         #region LowStockItemList
         public async Task<IActionResult> ViewLowStockItems()

@@ -198,54 +198,57 @@ namespace LUSS_API.Controllers
             return "ok";
         }
 
-        [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        [HttpPost("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request/{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        public string DisburseByRequest(int id, int userId, string collectionTime, int fulfillQty)
+        public string DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
         {
 
-            ////To do: generate retrieval id
-            //Retrieval retrieval = new Retrieval()
-            //{
-            //    RetrievalID = GetNewRetrievalId(),
-            //    IssueDate = DateTime.Now,
-            //    Status = EOrderStatus.PendingDelivery
-            //};
-
-            //context123.Add(retrieval);
+            //To do: generate retrieval id , find out why is 0 when generated
+            Retrieval retrieval = new Retrieval()
+            {
+                //RetrievalID = GetNewRetrievalId(), 
+                IssueDate = DateTime.Now,
+                Status = EOrderStatus.PendingDelivery
+            };
+            context123.Add(retrieval);
+            context123.SaveChanges();
 
             //update request
             Request request = GetById(id);
             request.RequestStatus = EOrderStatus.PendingDelivery;
             request.CollectionTime = Convert.ToDateTime(collectionTime);
             request.ModifiedBy = userId;
-            //request.RetrievalID = GetNewRetrievalId();
+            request.RetrievalID = retrieval.RetrievalID;
 
             List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
 
             //update fulfill qty of each request items
             for (int i = 0; i < reqItems.Count(); i++)
             {
-                if (reqItems[i].FullfillQty == null && reqItems[i].RequestID == id)
-                {
-                    reqItems[i].FullfillQty = fulfillQty;
-                    break;
-                }
+                reqItems[i].FullfillQty = fulfillQty[i]; 
+                //if (reqItems[i].FullfillQty == null && reqItems[i].RequestID == id)
+                //{
+                //    reqItems[i].FullfillQty = fulfillQty[i];
+                //    break;
+                //}
             }
 
+            
             context123.SaveChanges();
             return "ok";
         }
         // get new retrieval Id
-        public int GetNewRetrievalId()
-        {
-            int maxId = 0;
-            int? currentId = context123.Retrieval.Max(x => x.RetrievalID);
-            if (currentId != null)
-            {
-                maxId = (int)currentId;
-            }
-            return maxId + 1;
-        }
+        //public int GetNewRetrievalId()
+        //{
+        //    int maxId = 0;
+        //    int? currentId = context123.Retrieval.Max(x => x.RetrievalID);
+        //    if (currentId != null)
+        //    {
+        //        maxId = (int)currentId;
+        //    }
+        //    return maxId + 1;
+        //}
+
         [HttpGet("{id}")]
         [Route("GetRequestByEmpId/{id}")]
         public IEnumerable<Request> GetRequestByEmpId(int id)

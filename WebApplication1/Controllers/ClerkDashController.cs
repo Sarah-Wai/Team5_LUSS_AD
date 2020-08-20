@@ -77,7 +77,7 @@ namespace LUSS_API.Controllers
         public int GetClerkPendingAdjustment()
         {
             int pendingAdjustments = 0;
-            pendingAdjustments = context123.AdjustmentVouncher.Where(x => x.Status == AdjustmentVoucherStatus.AdjustmentStatus.Pending).Count();
+            pendingAdjustments = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentVoucherStatus.AdjustmentStatus.Pending).Count();
             
             return pendingAdjustments;
 

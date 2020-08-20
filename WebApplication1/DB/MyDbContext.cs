@@ -58,7 +58,7 @@ namespace LUSS_API.DB
 
         }
 
-        public DbSet<AdjustmentVoucher> AdjustmentVouncher { get; set; }
+        public DbSet<AdjustmentVoucher> AdjustmentVoucher { get; set; }
         public DbSet<Cart> Cart { get; set; }
         public DbSet<CollectionPoint> CollectionPoint { get; set; }
         public DbSet<DelegatedManager> DelegatedManager { get; set; }

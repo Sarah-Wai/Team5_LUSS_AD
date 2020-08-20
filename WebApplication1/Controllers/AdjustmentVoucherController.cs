@@ -27,14 +27,14 @@ namespace LUSS_API.Controllers
         [HttpGet]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucher()
         {
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher.ToList();
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher.ToList();
             return adjustments;
         }
 
         [HttpGet("requestorId/{id}")]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucherByRequestor(int id)
         {
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher
                 .Where(x => x.RequestByID == id).ToList();
             return adjustments;
         }
@@ -44,7 +44,7 @@ namespace LUSS_API.Controllers
         public IEnumerable<AdjustmentVoucher> GetRequestByStatus(int id,string status)
         {
             AdjustmentVoucherStatus.AdjustmentStatus st = (AdjustmentVoucherStatus.AdjustmentStatus)Enum.Parse(typeof(AdjustmentVoucherStatus.AdjustmentStatus), status);
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher.Where(x => x.Status == st).ToList();
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher.Where(x => x.Status == st).ToList();
 
             return adjustments;
         }
@@ -52,7 +52,7 @@ namespace LUSS_API.Controllers
         [HttpGet("adjustmentId/{id}")]
         public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
         {
-            AdjustmentVoucher adjustment = context123.AdjustmentVouncher.First(a => a.AdjustmentID == id);
+            AdjustmentVoucher adjustment = context123.AdjustmentVoucher.First(a => a.AdjustmentID == id);
             
             return adjustment;
         }
@@ -97,7 +97,7 @@ namespace LUSS_API.Controllers
                 TotalCost = adjustQty * price
             };
 
-            context123.AdjustmentVouncher.Add(adjustment);
+            context123.AdjustmentVoucher.Add(adjustment);
             context123.SaveChanges();
             return "success";
 

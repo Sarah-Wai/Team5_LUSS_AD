@@ -19,6 +19,8 @@
 </div>
 <!-- END: Breadcrumbs-->
 <!-- Edit request -->
+@if (requests != null)
+{
 @foreach (Request c in requests)
 {
     <div class="modal fade" id="editrequest_@c.RequestID">
@@ -111,7 +113,7 @@
     </div>
 }
 
-
+}
 <!-- START: Card Data-->
 <div class="row row-eq-height">
     <div class="col-12 col-lg-3 mt-3 todo-menu-bar flip-menu pr-lg-0">
@@ -172,46 +174,48 @@
             </div>
             <div class="card-body p-0">
                 <div class="requests list">
-
-                    @foreach (Request c in requests)
+                    @if (requests != null)
                     {
-                        @switch (c.RequestStatus)
+                        @foreach (Request c in requests)
                         {
-                            case Status.EOrderStatus.Pending: status = "pending-request"; break;
-                            case Status.EOrderStatus.Approved: status = "approved-request"; break;
-                            case Status.EOrderStatus.Rejected: status = "rejected-request"; break;
-                            case Status.EOrderStatus.Packed: status = "packed-request"; break;
-                            case Status.EOrderStatus.PendingDelivery: status = "pendingDelivery-request"; break;
-                            case Status.EOrderStatus.Received: status = "received-request"; break;
-                            case Status.EOrderStatus.Completed: status = "completed-request"; break;
-                        }
-                        <div class="request @status">
-                            <div class="request-content  @status" data-status=@status>
-                                <div class="request-info">
-                                    <p class="mb-0 small">ID: </p>
-                                    <p class="request-no">@c.RequestID</p>
-                                </div>
-                                <div class="request-info">
-                                    <p class="mb-0 small">Request By: </p>
-                                    <p class="cliname">@c.RequestByUser.FirstName   @c.RequestByUser.LastName  </p>
-                                </div>
+                            @switch (c.RequestStatus)
+                            {
+                                case Status.EOrderStatus.Pending: status = "pending-request"; break;
+                                case Status.EOrderStatus.Approved: status = "approved-request"; break;
+                                case Status.EOrderStatus.Rejected: status = "rejected-request"; break;
+                                case Status.EOrderStatus.Packed: status = "packed-request"; break;
+                                case Status.EOrderStatus.PendingDelivery: status = "pendingDelivery-request"; break;
+                                case Status.EOrderStatus.Received: status = "received-request"; break;
+                                case Status.EOrderStatus.Completed: status = "completed-request"; break;
+                            }
+                            <div class="request @status">
+                                <div class="request-content  @status" data-status=@status>
+                                    <div class="request-info">
+                                        <p class="mb-0 small">ID: </p>
+                                        <p class="request-no">@c.RequestID</p>
+                                    </div>
+                                    <div class="request-info">
+                                        <p class="mb-0 small">Request By: </p>
+                                        <p class="cliname">@c.RequestByUser.FirstName   @c.RequestByUser.LastName  </p>
+                                    </div>
 
-                                <div class="request-status-info">
-                                    <p class="mb-0 small">Status </p>
-                                    <p class="request-status"></p>
-                                </div>
-                                <div class="request-info">
-                                    <p class="mb-0 small">Request Date: </p>
-                                    <p class="request-due-date">@Html.DisplayFor(modelItem => c.RequestDate)</p>
-                                </div>
+                                    <div class="request-status-info">
+                                        <p class="mb-0 small">Status </p>
+                                        <p class="request-status"></p>
+                                    </div>
+                                    <div class="request-info">
+                                        <p class="mb-0 small">Request Date: </p>
+                                        <p class="request-due-date">@Html.DisplayFor(modelItem => c.RequestDate)</p>
+                                    </div>
 
-                                <div class="line-h-1 h3">
-                                    <a class="text-success" href="#" data-toggle="modal" data-target="#editrequest_@c.RequestID"><i class="icon-note"></i></a>
+                                    <div class="line-h-1 h3">
+                                        <a class="text-success" href="#" data-toggle="modal" data-target="#editrequest_@c.RequestID"><i class="icon-note"></i></a>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        }
                     }
 
                 </div>

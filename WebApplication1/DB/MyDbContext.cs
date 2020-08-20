@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LUSS_API.Models;
+using System.Configuration;
+using System.ServiceModel;
 
 namespace LUSS_API.DB
 {
@@ -14,12 +16,12 @@ namespace LUSS_API.DB
         public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
         {
-           
+         
         }
 
-
-
-        public MyDbContext() { }
+        public MyDbContext() {
+           
+        }
 
         protected
         override void OnModelCreating(ModelBuilder model)

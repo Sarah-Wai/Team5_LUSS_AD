@@ -24,19 +24,6 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        [HttpGet("newAdjVoucherId")]
-        public int GetNewAdjVoucherId()
-        {
-            int maxId = 0;
-            int? currentId = context123.AdjustmentVoucher.Max(x => x.AdjustmentID);
-            if (currentId != null)
-            {
-                maxId = (int)currentId;
-            }
-            return maxId + 1;
-        }
-
-
         [HttpGet]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucher()
         {
@@ -49,6 +36,16 @@ namespace LUSS_API.Controllers
         {
             List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher
                 .Where(x => x.RequestByID == id).ToList();
+            return adjustments;
+        }
+
+        [HttpGet("{id}/{status}")]
+        [Route("GetRequestByIdByStatus/{id}/{status}")]
+        public IEnumerable<AdjustmentVoucher> GetRequestByStatus(int id,string status)
+        {
+            AdjustmentVoucherStatus.AdjustmentStatus st = (AdjustmentVoucherStatus.AdjustmentStatus)Enum.Parse(typeof(AdjustmentVoucherStatus.AdjustmentStatus), status);
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher.Where(x => x.Status == st).ToList();
+
             return adjustments;
         }
 

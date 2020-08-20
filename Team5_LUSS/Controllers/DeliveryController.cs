@@ -55,13 +55,15 @@ namespace Team5_LUSS.Controllers
         #endregion
 
         #region DeliveryView_ByDepartment
-        public async Task<IActionResult> DeptConfirmDelivery(string status)
+        public async Task<IActionResult> DeptConfirmDelivery(string status, string deptName)
         {
             List<Request> dept_Request = new List<Request>();
             //create DeptCode - DeptName dictionary
             Dictionary<string, string> status_byDept = new Dictionary<string, string>();
 
+            //1st get, show all retrieval items
 
+            //filter by status
             if (status != null)
             {
                 using (var httpClient = new HttpClient())
@@ -88,6 +90,7 @@ namespace Team5_LUSS.Controllers
             }
             dept_Request = filterForStoreClerkView(dept_Request);
 
+            //prepare Department Info
             foreach (Request r in dept_Request)
             {
                 string key = r.RequestByUser.Department.DepartmentName;
@@ -103,6 +106,15 @@ namespace Team5_LUSS.Controllers
             }
 
 
+            //filter by departmentName
+            if (deptName != null)
+            {
+                dept_Request = dept_Request.Where(x => x.RequestByUser.Department.DepartmentName == deptName).ToList();
+            }
+
+
+            ViewData["deptName"] = deptName;
+            ViewData["dept_Requests"] = dept_Request;
             ViewData["status_byDept"] = status_byDept;
             return View();
         }
@@ -119,7 +131,7 @@ namespace Team5_LUSS.Controllers
 
         #region DeliveryView_DisbursementDetails
         [HttpPost]
-        public async Task<IActionResult> DisbursementDetails(int reqID, string status)
+        public async Task<IActionResult> DisbursementDetails(int reqID)
         {
             List<RequestDetails> requestDetails = new List<RequestDetails>();
             Request request = new Request();
@@ -156,7 +168,10 @@ namespace Team5_LUSS.Controllers
 
         #endregion
 
-        #region Disbursement_FinalConfirm_Deny
+
+
+
+        #region Disbursement_FinalConfirm_Deny/Complete
         public async Task<IActionResult> FinalActionByStore(string actionTaken, int requestID)
         {
             //change status to pending delivery

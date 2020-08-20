@@ -30,13 +30,12 @@ namespace LUSS_API.Controllers
 
         }
 
-        //[HttpGet("{id}")]
-        //public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
-        //{
-        //    AdjustmentVoucher iDVoucher = context123.AdjustmentVouncher.First(c => c.AdjustmentID == id);
-
-        //    return iDVoucher;
-        //}
+/*        [HttpGet("{id}")]
+        public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
+        {
+            AdjustmentVoucher iDVoucher = context123.AdjustmentVouncher.First(c => c.AdjustmentID == id);
+            return iDVoucher;
+        }*/
 
         [HttpGet("{AdjustmentID}/{ItemID}/{AdjustQty}/{AdjustType}")]
         [Route("ApprovedAdjustmentVoucher/{AdjustmentID}/{status}")]

@@ -208,20 +208,17 @@ namespace LUSS_API.Controllers
                     if(retQty >= reqQty && !(retQty<= 0))
                     {
                         reqByItem[k].FullfillQty = reqQty;
-                        //context123.SaveChanges();
 
                     }
                     if(retQty < reqQty && !(retQty <= 0))
                     {
                         reqByItem[k].FullfillQty = retQty;
-                        //context123.SaveChanges();
                        
                     }
 
                      retQty = retQty - reqQty;
                     
                 }
-                //context123.SaveChanges();
                 
             }
 

@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Manage Disbursement";
+    string? message = (string)TempData["noItem"];
     List<Request> requests = (List<Request>)ViewData["requests"];
 }
 
@@ -18,8 +19,8 @@
                 Retrieval Form
             </a>
         </div>
-            <!-- START: Card Data-->
-            @*<div class="row row-eq-height">
+        <!-- START: Card Data-->
+        @*<div class="row row-eq-height">
             <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
                 <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
                 <div class="card border h-100 invoice-menu-section">
@@ -32,52 +33,61 @@
                     </ul>
                 </div>
             </div>*@
-            <div class="col-12 col-lg-12 mt-3 pl-lg-0">
-                <div class="card border h-100 invoice-list-section">
-                    <div class="card-body p-0">
-                        <div class="invoices list">
-                            @foreach (Request r in requests)
-                            {
-                                <div class="invoice">
-                                    <div class="invoice-content">
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">RequestID</p>
-                                            <p class="cliname">@r.RequestID</p>
-                                        </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Request Date</p>
-                                            <p class="invoice-no">@r.RequestDate.Date.ToString("MMMM dd, yyyy")</p>
-                                        </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Department</p>
-                                            <p class="invocie-date">@r.RequestByUser.Department.DepartmentCode</p>
-                                        </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Order Type</p>
-                                            <p class="invoice-due-date">@r.RequestType</p>
-                                        </div>
-                                        <div class="invoice-status-info">
-                                            <p class="mb-0 small">Status</p>
-                                            <p>@r.RequestStatus</p>
-                                        </div>
-                                        <div class="mr-3">
-                                            <a asp-action="DisburseByRequest" asp-route-id="@r.RequestID" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white ">
-                                                Disburse
-                                            </a>
-                                        </div>
+        <div class="col-12 col-lg-12 mt-3 pl-lg-0">
+            <div class="card border h-100 invoice-list-section">
+                <div class="card-body p-0">
+                    <div class="invoices list">
+
+                        @if(message != null)
+                        {
+                            <div>
+                                <p class="font-weight-bold text-center">@message</p>
+                            </div>
+                        }
+                        @foreach (Request r in requests)
+                        {
+                            <div class="invoice">
+                                <div class="invoice-content">
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">RequestID</p>
+                                        <p class="cliname">@r.RequestID</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Request Date</p>
+                                        <p class="invoice-no">@r.RequestDate.Date.ToString("MMMM dd, yyyy")</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Department</p>
+                                        <p class="invocie-date">@r.RequestByUser.Department.DepartmentCode</p>
+                                    </div>
+                                    <div class="invoice-info">
+                                        <p class="mb-0 small">Order Type</p>
+                                        <p class="invoice-due-date">@r.RequestType</p>
+                                    </div>
+                                    <div class="invoice-status-info">
+                                        <p class="mb-0 small">Status</p>
+                                        <p>@r.RequestStatus</p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <a asp-action="DisburseByRequest" asp-route-id="@r.RequestID" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white ">
+                                            Disburse
+                                        </a>
                                     </div>
                                 </div>
-                            }
-                        </div>
-                        <div class="text-right p-5 ">
-                            
-                        </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="text-right p-5 ">
 
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <!-- END: Card DATA-->
+</div>
+<!-- END: Card DATA-->
 </div>
 <!-- END: Content-->
+
+

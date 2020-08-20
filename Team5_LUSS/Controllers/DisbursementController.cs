@@ -54,11 +54,17 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url_retrieval + "/" + status))
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/byStatus/" + status))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     items = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
                 }
+            }
+
+            if(items == null)
+            {
+                TempData["noItem"] = "There are no pending request to disburse.";
+                return RedirectToAction("ManageDisbursement");
             }
 
             ViewData["items"] = items;

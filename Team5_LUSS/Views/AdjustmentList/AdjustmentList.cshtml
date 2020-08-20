@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+  
+
+   // ViewData["Title"] = "AdjustVoucherListingClerk";
+    var adjustmentVoucherList = (List<AdjustmentVoucher>)ViewData["allAdjustments"];
+}
+
+
+    <div class="container-fluid site-width">
+       
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example" class="display table dataTable table-striped table-bordered">
+                        @foreach (var r in adjustmentVoucherList)
+                        {
+                            <tbody>
+                                <tr>
+                                    <th scope="row">@r.AdjustmentID</th>
+                                    <td>@r.Status</td>
+                                    <td>@r.TotalCost</td>
+                                    <td>@r.AdjustQty</td>
+                                    <td>@r.AdjustType</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" @* DETAIL VIEW*@
+                                                onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new {AdjustmentID = @r.AdjustmentID})'">
+                                            Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                <input type="hidden" id="edit-date">
+                <button type="submit" class="btn btn-primary add-todo">Approve</button>
+                <button type="submit" class="btn btn-primary add-todo">Reject</button>
+            </div>*@
+        
+    </div>
+ 
+
+
+
+        @* data table content end*@
+        @*<script src="~/js/UI/datatable.script.js"></script>*@
+        <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
+        <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
+        <!-- START: Page Script JS-->
+        @* data table ^^*@
+        <script>
+            $(document).ready(function ()
+            {
+
+                $('#example').DataTable
+                ({
+                 responsive: true
+                });
+            })
+        @* data table ^^*@
+
+
+        </script>
+  

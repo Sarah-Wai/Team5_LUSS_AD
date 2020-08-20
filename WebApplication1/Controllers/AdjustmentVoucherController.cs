@@ -28,7 +28,7 @@ namespace LUSS_API.Controllers
         public int GetNewAdjVoucherId()
         {
             int maxId = 0;
-            int? currentId = context123.AdjustmentVouncher.Max(x => x.AdjustmentID);
+            int? currentId = context123.AdjustmentVoucher.Max(x => x.AdjustmentID);
             if (currentId != null)
             {
                 maxId = (int)currentId;
@@ -40,14 +40,14 @@ namespace LUSS_API.Controllers
         [HttpGet]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucher()
         {
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher.ToList();
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher.ToList();
             return adjustments;
         }
 
         [HttpGet("requestorId/{id}")]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucherByRequestor(int id)
         {
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher
                 .Where(x => x.RequestByID == id).ToList();
             return adjustments;
         }
@@ -55,7 +55,7 @@ namespace LUSS_API.Controllers
         [HttpGet("adjustmentId/{id}")]
         public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
         {
-            AdjustmentVoucher adjustment = context123.AdjustmentVouncher.First(a => a.AdjustmentID == id);
+            AdjustmentVoucher adjustment = context123.AdjustmentVoucher.First(a => a.AdjustmentID == id);
             
             return adjustment;
         }
@@ -100,7 +100,7 @@ namespace LUSS_API.Controllers
                 TotalCost = adjustQty * price
             };
 
-            context123.AdjustmentVouncher.Add(adjustment);
+            context123.AdjustmentVoucher.Add(adjustment);
             context123.SaveChanges();
             return "success";
 

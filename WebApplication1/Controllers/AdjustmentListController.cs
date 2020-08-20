@@ -12,6 +12,8 @@ using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class AdjustmentListController : ControllerBase
     {
         public MyDbContext context123;
@@ -25,23 +27,24 @@ namespace LUSS_API.Controllers
         [HttpGet]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucher()
         {
-            List<AdjustmentVoucher> adjustmentVouchers = context123.AdjustmentVouncher.ToList();
+            List<AdjustmentVoucher> adjustmentVouchers = context123.AdjustmentVoucher.ToList();
             return adjustmentVouchers;
 
         }
 
-/*        [HttpGet("{id}")]
-        public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
-        {
-            AdjustmentVoucher iDVoucher = context123.AdjustmentVouncher.First(c => c.AdjustmentID == id);
-            return iDVoucher;
-        }*/
+        //[HttpGet("{id}")]
+        //public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
+        //{
+        //    AdjustmentVoucher iDVoucher = context123.AdjustmentVouncher.First(c => c.AdjustmentID == id);
+
+        //    return iDVoucher;
+        //}
 
         [HttpGet("{AdjustmentID}/{ItemID}/{AdjustQty}/{AdjustType}")]
         [Route("ApprovedAdjustmentVoucher/{AdjustmentID}/{status}")]
         public string SaveVoucher(int AdjustmentID, AdjustmentStatus status)
         {
-            AdjustmentVoucher adjustmentVouncher = context123.AdjustmentVouncher.First(c => c.AdjustmentID == AdjustmentID);
+            AdjustmentVoucher adjustmentVouncher = context123.AdjustmentVoucher.First(c => c.AdjustmentID == AdjustmentID);
 
             if (adjustmentVouncher != null)
             {

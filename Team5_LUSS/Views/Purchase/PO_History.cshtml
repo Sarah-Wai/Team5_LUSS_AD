@@ -28,6 +28,30 @@
 
 
     <div class="row row-eq-height">
+        <!--Start of side-bar filter-->
+        <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
+            <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
+            <div class="card border h-100 invoice-menu-section">
+                <ul class="nav flex-column invoice-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="PurchaseOrders">
+                            All Requests
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="PurchaseOrders" asp-route-status="Pending">
+                            Pending Delivery
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="PurchaseOrders" asp-route-status="Completed">
+                            Completed
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--End of side-bar filter-->
         <div class="col-12 col-lg-10 mt-3 pl-lg-0">
             <div class="card border h-100 invoice-list-section">
                 @*<div class="card-header border-bottom p-1 d-flex">
@@ -69,9 +93,9 @@
                                         else
                                         {
                                             <div class="mr-3"></div>
-                                                }
-                                            </div>
-                                        </div>
+                                        }
+                                    </div>
+                                </div>
                             }
                         </div>
                     </div>

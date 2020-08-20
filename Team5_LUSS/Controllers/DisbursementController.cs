@@ -54,11 +54,17 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url_retrieval + "/" + status))
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/byStatus/" + status))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     items = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
                 }
+            }
+
+            if(items == null)
+            {
+                TempData["noItem"] = "There are no pending request to disburse.";
+                return RedirectToAction("ManageDisbursement");
             }
 
             ViewData["items"] = items;
@@ -246,13 +252,26 @@ namespace Team5_LUSS.Controllers
         {
             using (var httpClient = new HttpClient())
             {
-                for (int i = 0; i < fulfillQty.Count(); i++)
+                //for (int i = 0; i < fulfillQty.Count(); i++)
+                //{
+                //    using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
+                //    {
+                //        string apiResponse = await response.Content.ReadAsStringAsync();
+                //    }
+                //}
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(fulfillQty), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty, content))
                 {
-                    using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                    }
+                    string apiResponse = await response.Content.ReadAsStringAsync();
                 }
+
+                using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                }
+
             }
             return RedirectToAction("ManageDisbursement");
         }

@@ -107,6 +107,8 @@ namespace LUSS_API
             //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
             //dbcontext.AddRange(retrievals);
 
+            //dbcontext.SaveChanges();
+
             //List<Request> requests = AddRequests.getAllRequest();
             //dbcontext.AddRange(requests);
 

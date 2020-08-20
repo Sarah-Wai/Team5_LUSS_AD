@@ -177,14 +177,17 @@
 <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
 
 <script>
+    $(document).ready(function () {
+        $("#li_dHeadDelegate").addClass("active");
+    });
 
     function BindStartDate() {
        $("#lblStartDate").html($("#startDate").val());
-       alert($("#startDate").val());
+       //alert($("#startDate").val());
     };
     function BindEndDate() {
         $("#lblEndDate").html($("#endDate").val());
-        alert($("#endDate").val());
+        //alert($("#endDate").val());
     };
 
     $('input[type=radio][name=rdo_depUsers]').change(function () {
@@ -193,7 +196,7 @@
         $("#userID").val(userId);
         $("#lblDelegate").html($("#lbl_" + userId).text());
         $("#sp_selectUser").html($("#lbl_" + userId).text());
-        alert(userId)
+        //alert(userId)
           $.ajax({
              type: "Post",
              url: '@Url.Action("getDelegateByUserID")',

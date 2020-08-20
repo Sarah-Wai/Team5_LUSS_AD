@@ -84,38 +84,39 @@
                         <h4 class="card-title">Department Staff List</h4>
                     </div>
                     <form>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example" class="display table dataTable table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Designation</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (User user in deptUsers)
-                                        {
-                                            <tr>
-                                                <td>@user.FirstName  @user.LastName</td>
-                                                <td>@user.Designation</td>
-                                                <td>
-                                                    @if (!@user.IsRepresentative)
-                                                    {
-                                                        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("AddRepresentative", "Representative", new { id = user.UserID })'">Assign</button>
-                                                    }
-                                                </td>
+                        @* data table contentstart*@
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="example" class="display table dataTable table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Designation</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (User user in deptUsers)
+                                                        {
+                                                            <tr>
+                                                                <td>@user.FirstName  @user.LastName</td>
+                                                                <td>@user.Designation</td>
+                                                                <td>
+                                                                    @if (!@user.IsRepresentative)
+                                                                    {
+                                                                        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("AddRepresentative", "Representative", new { id = user.UserID })'">Assign</button>
+                                                                    }
+                                                                </td>
 
 
-                                            </tr>
-                                        }
-                                    </tbody>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
 
-                                </table>
-                            </div>
-                        </div>
-                    </form>
+                                                </table>
+                                            </div>
+                                        </div>
+                    </form>@* data table content end*@
                 </div>
 
             </div>
@@ -130,14 +131,14 @@
 <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
 <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
 <!-- START: Page Script JS-->
-
+@* data table ^^*@
 <script>
     $(document).ready(function () {
 
         $('#example').DataTable({
             responsive: true
         });
-
+        @* data table ^^*@
      toastr.options = {
          tapToDismiss: true,
             toastClass: 'toast',

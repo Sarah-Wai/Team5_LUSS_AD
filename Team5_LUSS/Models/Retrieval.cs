@@ -12,7 +12,7 @@ namespace Team5_LUSS.Models
     public class Retrieval
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RetrievalID { get; set; }
         [Required]
         public EOrderStatus Status { get; set; }

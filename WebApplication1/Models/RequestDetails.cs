@@ -24,6 +24,7 @@ namespace LUSS_API.Models
         public int? FullfillQty { get; set; }
        
         public int? ReceivedQty { get; set; }
+        public bool isActive { get; set; }
         public virtual Request Request { get; set; }
         public virtual Item Item { get; set; }
     }

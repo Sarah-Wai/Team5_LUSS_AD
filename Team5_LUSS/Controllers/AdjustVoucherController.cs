@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -34,20 +35,35 @@ namespace Team5_LUSS.Controllers
         }
 
         //[HttpPost]
-        public async Task<IActionResult> GetAdjustmentVoucherByRequestor(int id)
+        public async Task<IActionResult> GetAdjustmentVoucherByRequestor(int id, string status)
         {
             id = (int)HttpContext.Session.GetInt32("UserID");
             List<AdjustmentVoucher> adjustments = new List<AdjustmentVoucher>();
-            using(var httpClient = new HttpClient())
+            if(status == null)
             {
-                using (var response = await httpClient.GetAsync(api_url + "/requestorId/" + id))
+                using (var httpClient = new HttpClient())
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    adjustments = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
-                   
+                    using (var response = await httpClient.GetAsync(api_url + "/requestorId/" + id))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        adjustments = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
 
+
+                    }
                 }
             }
+            else
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync(api_url + "/GetRequestByIdByStatus/" + id + "/" + status))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        adjustments = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
+                    }
+                }
+            }
+            
             ViewData["adjustmentByRequestor"] = adjustments;
             return View("AdjustVoucherListingClerk");
         }
@@ -80,7 +96,7 @@ namespace Team5_LUSS.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId)
+        public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId, string entryPoint)
         {
             //AdjustmentVoucher adjustment = new AdjustmentVoucher();
             using (var httpClient = new HttpClient())
@@ -92,7 +108,13 @@ namespace Team5_LUSS.Controllers
                 }
             }
             //return View(adjustment);
+            if (entryPoint.Equals("inventory"))
+            {
+                return RedirectToAction("InventoryList", "ItemList");
+            }
+
             return RedirectToAction("RetrievalForm", "Disbursement");
+
         }
 
         public async Task<IActionResult> GetItemForAdjustment(int id)

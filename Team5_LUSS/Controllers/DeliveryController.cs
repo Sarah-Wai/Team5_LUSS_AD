@@ -1,8 +1,10 @@
 ﻿using Castle.Core.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
@@ -55,13 +57,15 @@ namespace Team5_LUSS.Controllers
         #endregion
 
         #region DeliveryView_ByDepartment
-        public async Task<IActionResult> DeptConfirmDelivery(string status)
+        public async Task<IActionResult> DeptConfirmDelivery(string status, string deptName)
         {
             List<Request> dept_Request = new List<Request>();
             //create DeptCode - DeptName dictionary
             Dictionary<string, string> status_byDept = new Dictionary<string, string>();
 
+            //1st get, show all retrieval items
 
+            //filter by status
             if (status != null)
             {
                 using (var httpClient = new HttpClient())
@@ -88,6 +92,7 @@ namespace Team5_LUSS.Controllers
             }
             dept_Request = filterForStoreClerkView(dept_Request);
 
+            //prepare Department Info
             foreach (Request r in dept_Request)
             {
                 string key = r.RequestByUser.Department.DepartmentName;
@@ -103,6 +108,15 @@ namespace Team5_LUSS.Controllers
             }
 
 
+            //filter by departmentName
+            if (deptName != null)
+            {
+                dept_Request = dept_Request.Where(x => x.RequestByUser.Department.DepartmentName == deptName).ToList();
+            }
+
+
+            ViewData["deptName"] = deptName;
+            ViewData["dept_Requests"] = dept_Request;
             ViewData["status_byDept"] = status_byDept;
             return View();
         }
@@ -119,7 +133,7 @@ namespace Team5_LUSS.Controllers
 
         #region DeliveryView_DisbursementDetails
         [HttpPost]
-        public async Task<IActionResult> DisbursementDetails(int reqID, string status)
+        public async Task<IActionResult> DisbursementDetails(int reqID)
         {
             List<RequestDetails> requestDetails = new List<RequestDetails>();
             Request request = new Request();
@@ -151,14 +165,58 @@ namespace Team5_LUSS.Controllers
             ViewData["request"] = request;
             ViewData["requestDetails"] = requestDetails;
 
-            return View("Disbursement_Form_View");
+            return View("Disbursement_Form_View_Rqst");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DisbursementDetailsByDept(int retrievalID, string status, string deptID)
+        {
+            List<dynamic> pd_collectionList = new List<dynamic>();
+            User representative = new User();
+
+            //get the list of items based on retrieval ID & status
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    pd_collectionList = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
+                }
+
+                using (var response = await httpClient.GetAsync(api_url_user + "/get-representative/" + deptID))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    representative = JsonConvert.DeserializeObject<User>(apiResponse);
+                }
+
+            }
+
+            //department_filter for item list
+            List<dynamic> dept_pd_collectionList = new List<dynamic>();
+            foreach (var item in pd_collectionList)
+            {
+                dept_pd_collectionList = pd_collectionList.Where(x => x.deptId == deptID).ToList();
+            }
+
+            ViewData["deptRep"] = representative;
+            ViewData["retrievalDetails"] = dept_pd_collectionList;
+            ViewData["status"] = status;
+
+            return View("Disbursement_Form_View _Dept");
+        }
+
+
 
         #endregion
 
-        #region Disbursement_FinalConfirm_Deny
+
+
+
+        #region Disbursement_FinalConfirm_Deny/Complete
         public async Task<IActionResult> FinalActionByStore(string actionTaken, int requestID)
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
+
             //change status to pending delivery
             using (var httpClient = new HttpClient())
             {
@@ -169,9 +227,10 @@ namespace Team5_LUSS.Controllers
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }
                 }
-                else{
+                else
+                {
                     //change status to Completed and create discrepancy order
-                    using (var response = await httpClient.GetAsync(api_url_rqst + "/complete/" + requestID))
+                    using (var response = await httpClient.GetAsync(api_url_rqst + "/complete/" + requestID + "/" + userId))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }
@@ -179,6 +238,19 @@ namespace Team5_LUSS.Controllers
             }
 
             return RedirectToAction("ConfirmDelivery");
+        }
+
+
+
+        public async Task<IActionResult> FinalActionByStoreDept(string actionTaken, List<int> requestID)
+        {
+            List<int> requestIDList = requestID.Distinct().ToList();
+            foreach (var id in requestIDList)
+            {
+                await FinalActionByStore(actionTaken, id);
+            }
+
+            return RedirectToAction("DeptConfirmDelivery");
         }
         #endregion
     }

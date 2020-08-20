@@ -1,0 +1,221 @@
+﻿@model AdjustmentVoucher
+@{
+    ViewData["Title"] = "InventoryList";
+    var items = (List<Item>)ViewData["items"];
+    int userId = (int)ViewData["userId"];
+}
+
+<h3>InventoryList</h3>
+
+<!-- START: Card Data-->
+<div class="row">
+    <div class="col-12 mt-3">
+        <div class="card">
+            <div class="card-header  justify-content-between align-items-center">
+                <h4 class="card-title">Requests</h4>
+            </div>
+            <div class="card-body table-responsive">
+                <table id="inventoryTbl" class="table table-bordered  table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Item Code</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Stock Level</th>
+                            <th>Balance</th>
+                            <th>UOM</th>
+                            <th>Adjustment</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in items)
+                        {
+                            var stocklevel = "";
+                            if (item.InStockQty < item.ReStockLevel)
+                            {
+                                stocklevel = "Low Stock";
+                            }
+                            else
+                            {
+                                stocklevel = "Stocked";
+                            }
+                            <tr>
+                                <td>@item.ItemCode</td>
+                                <td>@item.ItemName</td>
+                                <td>@item.ItemCategory.CategoryName</td>
+                                <td>@stocklevel</td>
+                                <td>@item.InStockQty</td>
+                                <td>@item.UOM</td>
+                                <td class="text-right">
+                                    <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.ItemID)">
+                                        Adjust
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-info rounded-btn" asp-controller="ItemList" asp-action="ViewItemDetail" asp-route-id="@item.ItemID">Detail</a>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--raised adjustment-->
+<style>
+    td {
+        width: 150px;
+        text-align: left;
+        padding: 10px
+    }
+</style>
+<div class="modal fade" id="createAdjVoucher">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Create Adjustment Voucher
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+            <form class="edit-invoice-form" asp-action="AddAdjustmentVoucher" asp-controller="AdjustVoucher" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table style="width:30%">
+                            <input type="hidden" id="itemId" asp-for="ItemID" name="itemID" />
+                            <input type="hidden" id="userId" value="@userId" asp-for="RequestByID" name="userId" />
+                            <input type="hidden" id="entryPoint" value="inventory" name="entryPoint"/>
+                            <tr>
+                                <td>
+                                    <b>Item Code:</b>
+                                </td>
+                                <td id="itemCode">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Category:</b>
+                                </td>
+                                <td id="itemCategory">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Description:</b>
+                                </td>
+                                <td id="itemName">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Unit Cost:</b>
+                                </td>
+                                <td id="itemPrice">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>UOM:</b>
+                                </td>
+                                <td id="UOM">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">
+                                    <b>Quantity</b>
+                                </td>
+                                <td>
+                                    <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Deduct" checked="checked" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
+                                    <label for="minimal-radio-12" style="min-width:50px" id="deduct" asp-for="AdjustType">Deduct</label>
+                                    <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
+                                    <label for="minimal-radio-12" style="min-width:50px" id="add" asp-for="AdjustType">Add</label>
+                                    @*<input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">*@
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    <input type="number" id="adjustQty" asp-for="AdjustQty" name="AdjustQty" onchange="calculate()" min="1" style="width:40px; height:25px">
+                                </td>
+                            </tr>
+                            @*<input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />*@
+                            <tr>
+                                <td>
+                                    <b>Total Value</b>
+                                </td>
+                                <td id="totalPrice">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Reason:</b>
+                                </td>
+                                <td>
+                                    <input type="text" asp-for="Reason" name="Reason" id="reason" placeholder="" style="width:250px; height:80px">
+                                </td>
+                                @*<input type="hidden" asp-for="Status" name="Status" value="@AdjustmentVoucherStatus.AdjustmentStatus.Pending" />*@
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="text-right p-5">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="close">Cancel</button>
+                    <input type="hidden" id="edit-date" />
+                    <button type="submit" class="btn btn-success">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#inventoryTbl').DataTable();
+        })
+
+        function showModalAdjust(itemID) {
+            resetForm();
+            $("#createAdjVoucher").modal('show');
+            $.ajax({
+                method: "GET",
+                url: "https://localhost:44312/ItemPrice/getItemDetails/" + itemID,
+
+            })
+                .done(function (msg) {
+                    console.log(msg);
+                    $("#itemId").val(msg.item.itemID);
+                    $("#itemCode").html(msg.item.itemCode);
+                    $("#itemCategory").html(msg.item.itemCategory.categoryName);
+                    $("#itemName").html(msg.item.itemName);
+                    $("#itemPrice").html(msg.price);
+                    $("#UOM").html(msg.item.uom);
+                    calculate();
+                });
+        }
+
+        function calculate() {
+            var a = $("#adjustQty").val();
+            var b = parseFloat($("#itemPrice").html());
+            $("#totalPrice").html(a * b);
+        }
+
+        function resetForm() {
+            $("input[name='AdjustType']").removeProp('checked');
+            $("input[name='AdjustType']").first().prop('checked', true);
+            $('#adjustQty').val("1");
+            $('#reason').val("");
+        }
+
+
+    </script>
+}

@@ -32,8 +32,17 @@ namespace LUSS_API.Controllers
             return purchaseList;
         }
 
+        [HttpGet("{status}")]
+        [Route("get-po-by-status/{status}")]
+        public IEnumerable<PurchaseOrder> GetAllPOByStatus(POStatus status)
+        {
+            List<PurchaseOrder> purchaseList = context123.PurchaseOrder.Where(x=>x.Status == status).ToList();
+            return purchaseList;
+
+        }
 
         [HttpGet("{id}")]
+        [Route("get-po-by-id/{id}")]
         public PurchaseOrder GetPurchaseOrderById(int id)
         {
             PurchaseOrder purchase = context123.PurchaseOrder.First(x => x.POID == id);

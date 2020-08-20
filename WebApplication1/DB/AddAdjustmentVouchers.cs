@@ -13,7 +13,6 @@ namespace LUSS_API.DB
             List<AdjustmentVoucher> adjustmentVouchers = new List<AdjustmentVoucher>();
 
             AdjustmentVoucher adj1 = new AdjustmentVoucher();
-            adj1.AdjustmentID = 1;
             adj1.AdjustQty = 5;
             adj1.AdjustType = "Deduct";
             adj1.Status = AdjustmentVoucherStatus.AdjustmentStatus.Approved;
@@ -27,7 +26,6 @@ namespace LUSS_API.DB
             adj1.ApprovedByID = 2;
 
             AdjustmentVoucher adj2 = new AdjustmentVoucher();
-            adj2.AdjustmentID = 2;
             adj2.AdjustQty = 4;
             adj2.AdjustType = "Deduct";
             adj2.Status = AdjustmentVoucherStatus.AdjustmentStatus.Approved;

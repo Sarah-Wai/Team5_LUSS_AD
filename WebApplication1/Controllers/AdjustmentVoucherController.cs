@@ -24,43 +24,39 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        [HttpGet("newAdjVoucherId")]
-        public int GetNewAdjVoucherId()
-        {
-            int maxId = 0;
-            int? currentId = context123.AdjustmentVouncher.Max(x => x.AdjustmentID);
-            if (currentId != null)
-            {
-                maxId = (int)currentId;
-            }
-            return maxId + 1;
-        }
-
-
         [HttpGet]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucher()
         {
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher.ToList();
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher.ToList();
             return adjustments;
         }
 
         [HttpGet("requestorId/{id}")]
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucherByRequestor(int id)
         {
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher
                 .Where(x => x.RequestByID == id).ToList();
+            return adjustments;
+        }
+
+        [HttpGet("{id}/{status}")]
+        [Route("GetRequestByIdByStatus/{id}/{status}")]
+        public IEnumerable<AdjustmentVoucher> GetRequestByStatus(int id,string status)
+        {
+            AdjustmentVoucherStatus.AdjustmentStatus st = (AdjustmentVoucherStatus.AdjustmentStatus)Enum.Parse(typeof(AdjustmentVoucherStatus.AdjustmentStatus), status);
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher.Where(x => x.Status == st).ToList();
+
             return adjustments;
         }
 
         [HttpGet("adjustmentId/{id}")]
         public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
         {
-            AdjustmentVoucher adjustment = context123.AdjustmentVouncher.First(a => a.AdjustmentID == id);
+            AdjustmentVoucher adjustment = context123.AdjustmentVoucher.First(a => a.AdjustmentID == id);
             
             return adjustment;
         }
-
-        
+     
         //[HttpPost]
         //public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
         //{
@@ -100,7 +96,7 @@ namespace LUSS_API.Controllers
                 TotalCost = adjustQty * price
             };
 
-            context123.AdjustmentVouncher.Add(adjustment);
+            context123.AdjustmentVoucher.Add(adjustment);
             context123.SaveChanges();
             return "success";
 

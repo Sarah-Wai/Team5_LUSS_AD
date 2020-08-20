@@ -16,22 +16,23 @@ namespace Team5_LUSS.Controllers
     public class AdjustmentListController : Controller
     {
         string api_url = "https://localhost:44312/AdjustmentList"; // calling the right api
+        string api_url1 = "https://localhost:44312/AdjustmentVoucher";
 
-        
+
 
         public async Task<IActionResult> AdjustmentVouchers()
         {
             List<AdjustmentVoucher> adjustments = new List<AdjustmentVoucher>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url)) // call the api 
+                using (var response = await httpClient.GetAsync(api_url1)) // call the api 
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     adjustments = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
                 }
             }
             ViewData["allAdjustments"] = adjustments;
-            return View();
+            return View("AdjustmentList");
         }
 
 
@@ -102,7 +103,7 @@ namespace Team5_LUSS.Controllers
             }
             string msg = "Remove Successfully!";
 
-            MailMessage mm = new MailMessage();
+            MailMessage mm = new MailMessage(); // (email address >> receiver, subject, body )
             {
                 mm.To.Add(user.Email); // content specific
                 mm.Subject = "Voucher Rejected"; // content specific
@@ -121,9 +122,9 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
         }
 
-    }
-    /*
-    [HttpPost]
+
+    
+   // [HttpPost]
         public async Task<IActionResult> VoucherApproveDetails(int AdjustmentID)
         {
             AdjustmentVoucher adjustmentVoucher = new AdjustmentVoucher();
@@ -137,5 +138,5 @@ namespace Team5_LUSS.Controllers
             }
             return View(adjustmentVoucher);
         }
-    }*/
+    }
 }

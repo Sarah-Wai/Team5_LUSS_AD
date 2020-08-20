@@ -233,7 +233,7 @@ namespace Team5_LUSS.Controllers
                     reqItems = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
                 }
             }
-            int userId = 1; //inject session
+            int userId = (int)HttpContext.Session.GetInt32("UserID"); 
             ViewData["userId"] = userId;
             ViewData["request"] = request;
             ViewData["deptRep"] = deptRep;
@@ -254,7 +254,7 @@ namespace Team5_LUSS.Controllers
                     }
                 }
             }
-            return View("Disbursement_Manage");
+            return RedirectToAction("ManageDisbursement");
         }
         #endregion
     }

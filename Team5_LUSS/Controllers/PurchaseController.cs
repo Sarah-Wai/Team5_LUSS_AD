@@ -107,7 +107,7 @@ namespace Team5_LUSS.Controllers
             }
 
             //string poNo = "PO" + poId;
-            ViewData["purchasedBy"] = 1; // inject user session
+            ViewData["purchasedBy"] = (int)HttpContext.Session.GetInt32("UserID");
             ViewData["item"] = item;
             ViewData["suppliers"] = suppliers;
             return View("PO_Create_Low");
@@ -128,8 +128,7 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     //result = JsonConvert.DeserializeObject<String>(apiResponse);
                 }
-            }
-       
+            }       
             return RedirectToAction("ViewLowStockItems");
         }
         #endregion
@@ -218,13 +217,10 @@ namespace Team5_LUSS.Controllers
                 StringContent content = new StringContent(JsonConvert.SerializeObject(receivedQty), Encoding.UTF8, "application/json");
                 using (var response = await httpClient.PostAsync(api_url + "/received-purchase/" + receivedQty +"/" +poid, content))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    
+                    string apiResponse = await response.Content.ReadAsStringAsync();                  
                 }
             }
-
-            
-            return View("PO_History");
+            return RedirectToAction("PurchaseOrders");
         }
         #endregion
 

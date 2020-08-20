@@ -102,7 +102,7 @@ namespace Team5_LUSS.Controllers
             }
             string msg = "Remove Successfully!";
 
-            MailMessage mm = new MailMessage();
+            MailMessage mm = new MailMessage(); // (email address >> receiver, subject, body )
             {
                 mm.To.Add(user.Email); // content specific
                 mm.Subject = "Voucher Rejected"; // content specific

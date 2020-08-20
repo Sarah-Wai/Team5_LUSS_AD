@@ -44,7 +44,7 @@ namespace LUSS_API.Controllers
         public IEnumerable<AdjustmentVoucher> GetRequestByStatus(int id,string status)
         {
             AdjustmentVoucherStatus.AdjustmentStatus st = (AdjustmentVoucherStatus.AdjustmentStatus)Enum.Parse(typeof(AdjustmentVoucherStatus.AdjustmentStatus), status);
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVouncher.Where(x => x.Status == st).ToList();
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher.Where(x => x.Status == st).ToList();
 
             return adjustments;
         }

@@ -1,6 +1,5 @@
 ﻿
 @{
-
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     ViewData["Title"] = "VoucherApproveDetails";
@@ -8,54 +7,78 @@
 @model AdjustmentVoucher
 <h1>VoucherApproveDetails</h1>
 
+<form>
+    @* data table contentstart*@
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example" class="display table dataTable table-striped table-bordered">
+                <thead>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="AdjustmentID" value="@Model.AdjustmentID" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="AdjustQty" value="@Model.AdjustQty" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="AdjustType" value="@Model.AdjustType" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="Status" value="@Model.Status" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="TotalCost" value="@Model.TotalCost" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="RequestByID" value="@Model.RequestByID" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="IssuedDate" value="@Model.IssuedDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="ItemID" value="@Model.ItemID" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ID">ID:</label>
+                        <input class="form-control" name="Reason" value="@Model.Reason" />
+                    </div>
 
 
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="AdjustmentID" value="@Model.AdjustmentID" />
-</div>
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="AdjustQty" value="@Model.AdjustQty" />
-</div>
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="AdjustType" value="@Model.AdjustType" />
-</div>
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="Status" value="@Model.Status" />
-</div>
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="TotalCost" value="@Model.TotalCost" />
-</div>
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="RequestByID" value="@Model.RequestByID" />
-</div>
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="IssuedDate" value="@Model.IssuedDate" />
-</div>
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="ItemID" value="@Model.ItemID" />
-</div>
-<div class="form-group">
-    <label for="ID">ID:</label>
-    <input class="form-control" name="Reason" value="@Model.Reason" />
-</div>
+                    <div class="form-group">
+                        <label for="Name">Name:</label>
+                        <input class="form-control" name="Voucher Number" />
+                    </div>
+
+                    <div class="text-center panel-body">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="location.href='@Url.Action("Approved", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'"> Approve</button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="location.href='@Url.Action("Rejected", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'">Reject</button>
+                    </div>
+
+            </table>
+        </div>
+    </div>
+</form>
+@* data table content end*@
+@*<script src="~/js/UI/datatable.script.js"></script>*@
+<script src="~/js/System/StationeryRequests/jquery.min.js"></script>
+<script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
+<!-- START: Page Script JS-->
+@* data table ^^*@
+<script>
+    $(document).ready(function () {
+
+        $('#example').DataTable({
+            responsive: true
+        });
+    })
+        @* data table ^^*@
 
 
-<div class="form-group">
-    <label for="Name">Name:</label>
-    <input class="form-control" name="Voucher Number" />
-</div>
-
-<div class="text-center panel-body">
-    <button type="button" class="btn btn-sm btn-primary" onclick="location.href='@Url.Action("Approved", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'"> Approve</button>
-    <button type="button" class="btn btn-sm btn-primary" onclick="location.href='@Url.Action("Rejected", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'">Reject</button>
-</div>
-
-
+</script>

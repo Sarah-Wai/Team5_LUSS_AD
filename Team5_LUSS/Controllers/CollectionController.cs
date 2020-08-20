@@ -114,7 +114,7 @@ namespace Team5_LUSS.Controllers
 
             if (retrievalID != 0)
             {
-                //get the list of items based on retrieval ID
+                //get the list of items based on retrieval ID and status
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID))

@@ -279,6 +279,7 @@ namespace Team5_LUSS.Controllers
 
         public async Task<IActionResult> InventoryList(int id)
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             List<Item> itemList = new List<Item>();
             using (var httpClient = new HttpClient())
             {
@@ -288,6 +289,7 @@ namespace Team5_LUSS.Controllers
                     itemList = JsonConvert.DeserializeObject<List<Item>>(apiResponse);
                 }
             }
+            ViewData["userId"] = userId;
             ViewData["items"] = itemList;
             return View();
         }

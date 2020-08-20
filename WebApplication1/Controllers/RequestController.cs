@@ -124,8 +124,10 @@ namespace LUSS_API.Controllers
                             itemIds = i.ItemID,
                             itemCode = i.ItemCode,
                             totalQty = n.Sum(x => x.RequestQty),
+                            fullQty = n.Sum(x => x.FullfillQty),
+                            rcvedQty = n.Sum(x => x.ReceivedQty),
                             itemName = i.ItemName,
-                            ItemUOM = i.UOM,
+                            itemUOM = i.UOM,
                             collectionTime = n.Select(x => x.Request.CollectionTime).First(),
                             requestIDs = n.Select(x => x.RequestID).ToList(),
                             deptId = n.Select(x => x.Request.RequestByUser.DepartmentID).First()
@@ -278,16 +280,16 @@ namespace LUSS_API.Controllers
             context123.SaveChangesAsync(); 
         }
 
-        [HttpGet("complete/{reqID}")]
-        public void CompleteOrder(int reqID)
+        [HttpGet("complete/{reqID}/{userID}")]
+        public void CompleteOrder(int reqID, int userID)
         {
             Request r = context123.Request.Where(x => x.RequestID == reqID).FirstOrDefault();
             r.RequestStatus = EOrderStatus.Completed;
-            checkDiscrepancy(reqID);
+            checkDiscrepancy(reqID, userID);
             context123.SaveChangesAsync();
         }
 
-        private void checkDiscrepancy(int reqID)
+        private void checkDiscrepancy(int reqID, int userID)
         {
             List<RequestDetails> requestDetails = context123.RequestDetails.Where(x => x.RequestID == reqID).ToList();
             Request currentRqt = context123.Request.First(x => x.RequestID == reqID);
@@ -313,7 +315,7 @@ namespace LUSS_API.Controllers
                     RequestBy = currentRqt.RequestByUser.UserID,
                     RequestByUser = currentRqt.RequestByUser,
                     RequestType = RequestType.ERequestType.Discrepancy,
-                    ModifiedBy = currentRqt.RequestByUser.UserID
+                    ModifiedBy = userID
                 };
                 context123.Request.Add(dcp_Request);
                 context123.SaveChanges();

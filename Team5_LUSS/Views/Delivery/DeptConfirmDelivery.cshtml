@@ -72,38 +72,47 @@
                     <div class="invoices liststatus_byDept">
                         @foreach (Request r in dept_request)
                         {
-                            <form method="post" asp-action="DisbursementDetails">
+                            
                                 <div class="invoice">
                                     <div class="invoice-content">
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Retrieval ID</p>
-                                            <p class="cliname" name="status">@r.RetrievalID</p>
+                                            <p class="cliname" >@r.RetrievalID</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Department Name</p>
+                                            <p class="cliname" >@r.RequestByUser.Department.DepartmentCode</p>
                                         </div>
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Delivery Date</p>
-                                            <p class="cliname" name="status">@r.CollectionTime.Date.ToString("MMMM dd, yyyy")</p>
+                                            <p class="cliname">@r.CollectionTime.Date.ToString("MMMM dd, yyyy")</p>
                                         </div>
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Status</p>
-                                            <p class="cliname" name="status">@r.RequestStatus</p>
+                                            <p class="cliname" >@r.RequestStatus</p>
                                         </div>
                                         <div class="btn-group mb-2">
-                                            @if (@r.RequestStatus != Status.EOrderStatus.Received)
-                                            {
-                                                <button type="submit" class="btn btn-info btn-sm">
-                                                    Details
-                                                </button>
-                                            }
-                                            else
-                                            {
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    Comfirm
-                                                </button>
-                                            }
+                                            <form method="post" asp-action="DisbursementDetailsByDept">
+                                                <input style="display:none" name="retrievalID" value="@r.RetrievalID" />
+                                                <input style="display:none" name="status" value="@r.RequestStatus" />
+                                                <input style="display:none" name="deptID" value="@r.RequestByUser.Department.DepartmentID" />
+                                                @if (@r.RequestStatus != Status.EOrderStatus.Received)
+                                                {
+                                                    <button type="submit" class="btn btn-info btn-sm">
+                                                        Details
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                        Comfirm
+                                                    </button>
+                                                }
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+
                         }
                     </div>
                 </div>

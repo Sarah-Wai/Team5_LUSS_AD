@@ -22,6 +22,9 @@ namespace Team5_LUSS.Controllers
         int pendingDeliveries = 0;
         int lowStockItems = 0;
         int pendingAdjustments = 0;
+        int lowStockItemCount = 0;
+        CollectionPoint nextCollectionPoint;
+        DateTime nextCollectionDate;
 
         List<TopSixRequested> topSixRequested = new List<TopSixRequested>();
 
@@ -63,6 +66,22 @@ namespace Team5_LUSS.Controllers
                     pendingAdjustments = Int32.Parse(apiResponse);
                 }
 
+                using (var response = await httpClient.GetAsync(api_url + "get-next-collection-time-location/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    nextCollectionPoint = JsonConvert.DeserializeObject<CollectionPoint>(apiResponse);
+                }
+                using (var response = await httpClient.GetAsync(api_url + "get-next-collection-datetime/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    nextCollectionDate = JsonConvert.DeserializeObject<DateTime>(apiResponse);
+                }
+                using (var response = await httpClient.GetAsync(api_url + "get-low-stock-item-count/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lowStockItemCount = Int32.Parse(apiResponse);
+                }
+
 
             }
             ViewData["name"] = name;
@@ -70,6 +89,10 @@ namespace Team5_LUSS.Controllers
             ViewData["newRequests"] = newRequests;
             ViewData["pendingDeliveries"] = pendingDeliveries;
             ViewData["pendingAdjustments"] = pendingAdjustments;
+            ViewData["nextCollectionPoint"] = nextCollectionPoint;
+            ViewData["nextCollectionDate"] = nextCollectionDate;
+            ViewData["lowStockItemCount"] = lowStockItemCount;
+
 
 
 

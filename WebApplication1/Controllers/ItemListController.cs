@@ -118,6 +118,7 @@ namespace LUSS_API.Controllers
                     }
                 }
             }
+            if (lowStockList.Count() == 0) { return items; }
             return lowStockList;
         }
 

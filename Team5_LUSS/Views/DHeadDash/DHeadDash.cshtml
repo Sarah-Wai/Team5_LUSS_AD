@@ -2,75 +2,75 @@
 @{
     ViewData["Title"] = "Department Head Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Team5_LUSS.Models.ViewModels.TopSixRequested> highestRequestCat = (List<Team5_LUSS.Models.ViewModels.TopSixRequested>)ViewData["highestRequestCat"];
+    
 }
 <!-- START: Breadcrumbs-->
-<div class="container-fluid site-width">
-    <div class="row ">
-        <div class="col-12  align-self-center">
-            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0">Welcome @User</h4></div>
+    <div class="container-fluid site-width">
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Welcome @User</h4></div>
 
 
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="row">
-
-        <!-- Request Breakdown Chart-->
-        <div class="col-12 col-md-6 mt-3">
-            <div class="card">
-
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h6 class="card-title">Request Breakdown<br>(This Year)</h6>
-                    <a href="http://www.google.com">
-                        <div class="btn-group mb-2">
-                            <button type="button" class="btn btn-outline-info">Pending: Count</button>
-                        </div>
-                    </a>
-                </div>
-                <div class="card-body">
-                    <div id="requestBreakdown" class="height-300"></div>
                 </div>
             </div>
         </div>
 
+        <div class="row">
 
-        <!-- Category Pie Chart-->
-        <div class="col-12 col-md-6 mt-3">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h6 class="card-title">Top 5 Cost by Category<br>(This Year)</h6>
-                </div>
-                <div class="card-body">
-                    <div id="catCostChart" class="height-300"></div>
-                </div>
-            </div>
-        </div>
+            <!-- Request Breakdown Chart-->
+            <div class="col-12 col-md-6 mt-3">
+                <div class="card">
 
-
-
-        <!-- Department Cost Chart-->
-        <div class="col-12 mt-3">
-
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h6 class="card-title">Department Cost Year-on-Year</h6>
-                    <div class="form-group col-sm-4 mb-3">
-                        <label for="month">Current month :</label>
-                        <input type="month" class="form-control" id="month">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title">Request Breakdown<br>(This Year)</h6>
+                        <a href="http://www.google.com">
+                            <div class="btn-group mb-2">
+                                <button type="button" class="btn btn-outline-info">Pending: Count</button>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div id="requestBreakdown" class="height-300"></div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div id="deptCostChart" class="height-500"></div>
+            </div>
+
+
+            <!-- Category Pie Chart-->
+            <div class="col-12 col-md-6 mt-3">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title">Top 5 Cost by Category<br>(This Year)</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="catCostChart" class="height-300"></div>
+                    </div>
                 </div>
             </div>
+
+
+
+            <!-- Department Cost Chart-->
+            <div class="col-12 mt-3">
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title">Department Cost Year-on-Year</h6>
+                        <div class="form-group col-sm-4 mb-3">
+                            <label for="month">Current month :</label>
+                            <input type="month" class="form-control" id="month">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="deptCostChart" class="height-500"></div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-
-
-    </div>
 
 
 
@@ -202,18 +202,14 @@
                             show: false
                         }
                     },
-                    data: [
-                        { value: 335, name: 'Rejected' },
-                        { value: 234, name: 'Approved' },
-                        { value: 310, name: 'Canceled' },
-                    ]
+                    
                 }
             ]
         };
         // use configuration item and data specified to show chart
         requestBreakdown.setOption(requestBreakdownoption);
 
-        
+
         var catCostChart = echarts.init(document.getElementById('catCostChart'));
         // specify chart configuration item and data
         var catCostChartoption = {
@@ -253,24 +249,11 @@
                         }
                     },
                     data: [
-                        { value: 335, name: 'Clip' },
-                        { value: 310, name: 'Envelope' },
-                        { value: 234, name: 'Eraser' },
-                        { value: 135, name: 'Exercise' },
-                        { value: 135, name: 'File' },
-                        { value: 135, name: 'Pen' },
-                        { value: 135, name: 'Puncher' },
-                        { value: 135, name: 'Pad' },
-                        { value: 135, name: 'Pen' },
-                        { value: 135, name: 'Ruler' },
-                        /*{ value: 135, name: 'Scissors' },
-                        { value: 135, name: 'Tape' },
-                        { value: 135, name: 'Sharper' },
-                        { value: 135, name: 'Shorthand' },
-                        { value: 135, name: 'Stapler' },
-                        { value: 135, name: 'Tags' },
-                        { value: 135, name: 'Transparency' },
-                        { value: 135, name: 'Tray' }*/
+                        @foreach (var hrc in highestRequestCat)
+                        {
+                            <text>{ value: '@hrc.TotalPrice', name: '@hrc.ItemName' }, </text>
+                        }
+
                     ]
                 }
             ]

@@ -118,6 +118,7 @@ namespace LUSS_API.Controllers
                     }
                 }
             }
+            if (lowStockList.Count() == 0) { return items; }
             return lowStockList;
         }
 
@@ -147,7 +148,7 @@ namespace LUSS_API.Controllers
                 {
                     req.RequestStatus = EOrderStatus.Pending;
                     req.RequestDate = DateTime.Now;
-                    req.RequestBy = 1;
+                    req.RequestBy = 2;
                     req.ModifiedBy = 1;
                     req.Comment = null;
                     req.RequestType = 0;

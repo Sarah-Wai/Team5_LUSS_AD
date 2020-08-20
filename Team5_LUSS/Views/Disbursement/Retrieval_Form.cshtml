@@ -1,5 +1,6 @@
 ﻿@model AdjustmentVoucher
 @{
+
     ViewData["Title"] = "Retrieval Form";
     List<dynamic> items = (List<dynamic>)ViewData["items"];
     int? retrievalID = items.Select(x => x.retrievalID).FirstOrDefault();
@@ -37,46 +38,46 @@
                                 <tbody id="itemlist">
                                     @foreach (var item in items)
                                     {
-                                    <tr id="list">
+                                        <tr id="list">
 
-                                        @if (item.inStock <= item.reorderLevel)
-                                        {
-                                            <td class="text-right text-danger">@item.itemCode</td>
-                                            <td class="text-right text-danger">@item.itemName</td>
-                                            <td class="text-right text-danger">@item.location</td>
-                                            <td class="text-right text-danger">@item.uom</td>
-                                            <td class="text-right text-danger">@item.totalQty</td>
-                                            <td class="text-right text-danger">@item.inStock</td>
-                                        }
-                                        @if (item.inStock > item.reorderLevel)
-                                        {
-                                            <td class="text-right">@item.itemCode</td>
-                                            <td class="text-right">@item.itemName</td>
-                                            <td class="text-right">@item.location</td>
-                                            <td class="text-right">@item.uom</td>
-                                            <td class="text-right">@item.totalQty</td>
-                                            <td class="text-right">@item.inStock</td>
-                                        }
+                                            @if (item.inStock <= item.reorderLevel)
+                                            {
+                                                <td class="text-right text-danger">@item.itemCode</td>
+                                                <td class="text-right text-danger">@item.itemName</td>
+                                                <td class="text-right text-danger">@item.location</td>
+                                                <td class="text-right text-danger">@item.uom</td>
+                                                <td class="text-right text-danger">@item.totalQty</td>
+                                                <td class="text-right text-danger">@item.inStock</td>
+                                            }
+                                            @if (item.inStock > item.reorderLevel)
+                                            {
+                                                <td class="text-right">@item.itemCode</td>
+                                                <td class="text-right">@item.itemName</td>
+                                                <td class="text-right">@item.location</td>
+                                                <td class="text-right">@item.uom</td>
+                                                <td class="text-right">@item.totalQty</td>
+                                                <td class="text-right">@item.inStock</td>
+                                            }
 
-                                        @if (item.totalQty <= item.inStock)
-                                        {
-                                            <td class="text-right"><input type="number" name="retrievedQty" value="@item.totalQty" min="0" max="@item.totalQty" /></td>
-                                        }
-                                        @if (item.totalQty > item.inStock)
-                                        {
-                                            <td class="text-right"><input type="number" name="retrievedQty" value="@item.inStock" min="0" max="@item.inStock" /></td>
-                                        }
-                                        <td class="text-right">
-                                            <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.itemID)">
-                                                Adjust
-                                            </a>
-                                        </td>
-                                        <td class="text-right">
-                                            <a class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalDistribute(@item.itemID)">
-                                                Distribute
-                                            </a>
-                                        </td>
-                                    </tr>
+                                            @if (item.totalQty <= item.inStock)
+                                            {
+                                                <td class="text-right"><input type="number" name="retrievedQty" value="@item.totalQty" min="0" max="@item.totalQty" /></td>
+                                            }
+                                            @if (item.totalQty > item.inStock)
+                                            {
+                                                <td class="text-right"><input type="number" name="retrievedQty" value="@item.inStock" min="0" max="@item.inStock" /></td>
+                                            }
+                                            <td class="text-right">
+                                                <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.itemID)">
+                                                    Adjust
+                                                </a>
+                                            </td>
+                                            <td class="text-right">
+                                                <a class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalDistribute(@item.itemID)">
+                                                    Distribute
+                                                </a>
+                                            </td>
+                                        </tr>
                                     }
                                     <tr>
                                         <td colspan="10"><b>Collection Date: </b><input type="date" name="collectionDate" /></td>
@@ -96,6 +97,8 @@
         </div>
     </div>
 </form>
+
+
 
 <!--raised adjustment-->
 <style>
@@ -171,7 +174,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    
+
                                     <input type="number" id="adjustQty" asp-for="AdjustQty" name="AdjustQty" onchange="calculate()" min="1" style="width:40px; height:25px">
                                 </td>
                             </tr>
@@ -235,7 +238,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="distributionList">
-                                                @*<tr>
+                                            @*<tr>
                                                     <td class="text-right" id="requestID"></td>
                                                     <td class="text-right" id="departmentCode"></td>
                                                     <td class="text-right" id="departmentName"></td>
@@ -259,7 +262,12 @@
     </div>
 </div>
 
+
+
 <script>
+
+
+
     function showModalAdjust(itemID) {
         resetForm();
         $("#createAdjVoucher").modal('show');
@@ -292,7 +300,7 @@
         })
             .done(function (msg) {
 
-                $.each(msg, function (i){
+                $.each(msg, function (i) {
                     $("#distributionList").append("<tr>" +
                         "<td>" + msg[i].requestID + "</td>" +
                         "<td>" + msg[i].departmentCode + "</td>" +
@@ -301,7 +309,7 @@
                         "<td>" + msg[i].requestedQty + "</td>" +
                         "</tr>");
                 })
-                
+
             });
     }
 

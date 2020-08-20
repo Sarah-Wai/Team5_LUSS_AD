@@ -12,6 +12,8 @@ using static LUSS_API.Models.Status;
 
 namespace LUSS_API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class AdjustmentListController : ControllerBase
     {
         public MyDbContext context123;

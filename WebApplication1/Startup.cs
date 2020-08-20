@@ -78,8 +78,6 @@ namespace LUSS_API
             //    }
             //}
 
-            //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher();
-            //dbcontext.AddRange(adjustmentVouchers);
 
             //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
             //dbcontext.AddRange(itemCategories);
@@ -103,17 +101,23 @@ namespace LUSS_API
             //List<User> allUsers = AddUsers.getAllUsers();
             //dbcontext.AddRange(allUsers);
 
+            //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO();
+            //dbcontext.AddRange(purchaseOrders);
+
+            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
+            //dbcontext.AddRange(retrievals);
+
+            //dbcontext.SaveChanges();
+
             //List<Request> requests = AddRequests.getAllRequest();
             //dbcontext.AddRange(requests);
 
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
             //dbcontext.AddRange(requestDetails);
 
-            //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO();
-            //dbcontext.AddRange(purchaseOrders);
 
-            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
-            //dbcontext.AddRange(retrievals);
+            //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher();
+            //dbcontext.AddRange(adjustmentVouchers);
 
             //dbcontext.SaveChanges();
 

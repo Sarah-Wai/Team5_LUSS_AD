@@ -62,6 +62,7 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("{status}")]
+        [Route("byStatus/{status}")]
         public IEnumerable<dynamic> GetRequestByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
@@ -73,46 +74,50 @@ namespace LUSS_API.Controllers
             List<Request> approvedRequest = context123.Request
                 .Where(x => x.RequestStatus.Equals(st)).ToList();
 
-            Retrieval retrieval = new Retrieval()
+            if(approvedRequest.Count != 0)
             {
-                RetrievalID = GetNewRetrievalId(),// for testing, to be removed
-                Status = EOrderStatus.Approved,
-                IssueDate = DateTime.Now
+                Retrieval retrieval = new Retrieval()
+                {
+                    //RetrievalID = GetNewRetrievalId(),// for testing, to be removed
+                    Status = EOrderStatus.Approved,
+                    IssueDate = DateTime.Now
+                };
 
-            };
+                context123.Retrieval.Add(retrieval);
+                context123.SaveChanges();
 
-            context123.Retrieval.Add(retrieval);
+                foreach (Request appReq in approvedRequest)
+                {
+                    appReq.RetrievalID = retrieval.RetrievalID;
+                }
+
+                context123.SaveChanges();
+
+                var iter = (from r in requests
+                            join rd in requestDetailsList on r.RequestID equals rd.RequestID
+                            where r.RequestStatus.Equals(st)
+                            group rd by rd.ItemID into n
+                            join i in items on n.FirstOrDefault().ItemID equals i.ItemID
+                            select new
+                            {
+                                RetrievalID = retrieval.RetrievalID,
+                                ReorderLevel = i.ReStockLevel,
+                                ItemID = i.ItemID,
+                                ItemCode = i.ItemCode,
+                                ItemName = i.ItemName,
+                                UOM = i.UOM,
+                                ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
+                                Location = i.StoreItemLocation,
+                                InStock = i.InStockQty,
+                                Category = i.ItemCategory.CategoryName,
+                                TotalQty = n.Sum(x => x.RequestQty),
+                            }).ToList();
 
 
-            foreach (Request appReq in approvedRequest)
-            {
-                appReq.RetrievalID = retrieval.RetrievalID;
+                return iter;
             }
-
-            context123.SaveChanges();
-
-            var iter = (from r in requests
-                        join rd in requestDetailsList on r.RequestID equals rd.RequestID
-                        where r.RequestStatus.Equals(st)
-                        group rd by rd.ItemID into n
-                        join i in items on n.FirstOrDefault().ItemID equals i.ItemID
-                        select new
-                        {
-                            RetrievalID = retrieval.RetrievalID,
-                            ReorderLevel = i.ReStockLevel,
-                            ItemID = i.ItemID,
-                            ItemCode = i.ItemCode,
-                            ItemName = i.ItemName,
-                            UOM = i.UOM,
-                            ItemPrice = prices.Where(x => x.ItemID == i.ItemID).FirstOrDefault().Price,
-                            Location = i.StoreItemLocation,
-                            InStock = i.InStockQty,
-                            Category = i.ItemCategory.CategoryName,
-                            TotalQty = n.Sum(x => x.RequestQty),
-                        }).ToList();
-
+            return null;
             
-            return iter;
         }
 
         [HttpGet("itemID/{id}")]

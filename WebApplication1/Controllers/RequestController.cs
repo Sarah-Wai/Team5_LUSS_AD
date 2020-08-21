@@ -105,6 +105,15 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
+        [HttpGet("{type}")]
+        [Route("byType/{type}")]
+        public IEnumerable<Request> GetByType(string type)
+        {
+            RequestType.ERequestType st = (RequestType.ERequestType)Enum.Parse(typeof(RequestType.ERequestType), type);
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == EOrderStatus.Approved && x.RequestType == st).ToList();
+            return requestList;
+        }
+
         [HttpGet("{status}/{retrievalID}")]
         [Route("GetItemByStatus/{status}/{retrievalID}")]
         public IEnumerable<dynamic> GetItemsByStatus(string status, int retrievalId)

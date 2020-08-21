@@ -60,7 +60,7 @@ namespace Team5_LUSS.Controllers
             }
             string msg = "Assign Successfully!";
 
-
+            /*
             MailMessage mm = new MailMessage();
             {
                 mm.To.Add(user.Email); // content specific
@@ -76,9 +76,9 @@ namespace Team5_LUSS.Controllers
                     ("team5luss@gmail.com", "Profesther");
                 client.Send(mm);
                 ViewBag.message = "Email notification sent";
-            }
+            }*/
 
-            return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
+            return RedirectToAction("AdjustmentVouchers", "AdjustmentList"); 
         }
 
         [HttpGet]

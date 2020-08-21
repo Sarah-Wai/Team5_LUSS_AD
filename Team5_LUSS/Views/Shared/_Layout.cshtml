@@ -137,174 +137,176 @@
                         <li class="dropdown user-profile align-self-center d-inline-block">
                             <a href="#" class="nav-link py-0" data-toggle="dropdown" aria-expanded="false">
                                 <div class="media">
-                                    <img src="~/images/author.jpg" alt="" class="d-flex img-fluid rounded-circle" width="29">
-                                </div>
-                            </a>
-
-                            <div class="dropdown-menu border dropdown-menu-right p-0">
-                                @*<a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-pencil mr-2 h6 mb-0"></span> Edit Profile
-                                    </a>
-                                    <a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-user mr-2 h6 mb-0"></span> View Profile
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-support mr-2 h6  mb-0"></span> Help Center
-                                    </a>
-                                    <a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-globe mr-2 h6 mb-0"></span> Forum
-                                    </a>
-                                    <a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-settings mr-2 h6 mb-0"></span> Account Settings
-                                    </a>*@
-                                @*<div class="dropdown-divider"></div>*@
-                                <a href="" class="dropdown-item px-2 text-danger align-self-center d-flex">
-                                    <span class="icon-logout mr-2 h6  mb-0"></span> Sign Out
-                                </a>
+                                    <p>
+                                        @*http*@
+                                    @*<img src="~/images/author.jpg" alt="" class="d-flex img-fluid rounded-circle" width="29">*@
                             </div>
+                        </a>
 
-                        </li>
+                        <div class="dropdown-menu border dropdown-menu-right p-0">
+                            @*<a href="" class="dropdown-item px-2 align-self-center d-flex">
+                                    <span class="icon-pencil mr-2 h6 mb-0"></span> Edit Profile
+                                </a>
+                                <a href="" class="dropdown-item px-2 align-self-center d-flex">
+                                    <span class="icon-user mr-2 h6 mb-0"></span> View Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="" class="dropdown-item px-2 align-self-center d-flex">
+                                    <span class="icon-support mr-2 h6  mb-0"></span> Help Center
+                                </a>
+                                <a href="" class="dropdown-item px-2 align-self-center d-flex">
+                                    <span class="icon-globe mr-2 h6 mb-0"></span> Forum
+                                </a>
+                                <a href="" class="dropdown-item px-2 align-self-center d-flex">
+                                    <span class="icon-settings mr-2 h6 mb-0"></span> Account Settings
+                                </a>*@
+                            @*<div class="dropdown-divider"></div>*@
+                            <a href="" class="dropdown-item px-2 text-danger align-self-center d-flex">
+                                <span class="icon-logout mr-2 h6  mb-0"></span> Sign Out
+                            </a>
+                        </div>
 
-                    </ul>
-                </div>
-            </nav>
-        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
     </div>
-    <!-- END: Header-->
-    <!-- START: Main Menu-->
-    <div class="sidebar">
-        <div class="site-width">
-            <!-- START: Menu-->
-            <ul id="side-menu" class="sidebar-menu">
+</div>
+<!-- END: Header-->
+<!-- START: Main Menu-->
+<div class="sidebar">
+    <div class="site-width">
+        <!-- START: Menu-->
+        <ul id="side-menu" class="sidebar-menu">
 
 
-                @*Store*@
-                <li class="dropdown active" id="menu_store">
-                    <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
-                    <ul>
-                        <li id="li_storeDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
-                        <li id="li_storeInventory"><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Inventory List</a></li>
-                        <li class="dropdown" id="li_disbursement">
-                            <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
-                            <ul class="sub-menu">
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
-                            </ul>
-                        </li>
-                        <li id="li_adjustStock"><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-support"></i> Adjust Stock</a></li>
-                        <li id="li_po"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-action-redo"></i> Purchase Orders</a></li>
+            @*Store*@
+            <li class="dropdown active" id="menu_store">
+                <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
+                <ul>
+                    <li id="li_storeDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
+                    <li id="li_storeInventory"><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Inventory List</a></li>
+                    <li class="dropdown" id="li_disbursement">
+                        <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
+                        <ul class="sub-menu">
+                            <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
+                            <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
+                            <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
+                        </ul>
+                    </li>
+                    <li id="li_adjustStock"><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-support"></i> Adjust Stock</a></li>
+                    <li id="li_po"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-action-redo"></i> Purchase Orders</a></li>
 
-                    </ul>
-                </li>
-
-
-                @*Store Manager*@
-                <li class="dropdown" id="menu_mgstore">
-                    <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
-                    <ul>
-                        <li id="li_mgstoreDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
-                        <li id="li_mgstoreInventory"><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Inventory List</a></li>
-                        <li id="li_adjustVouncher"><a href="/StationeryRequests/RequestHistory?status=All"><i class="icon-briefcase"></i> Adjustment Vouncher</a></li>
-                        <li id="li_report"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Report</a></li>
-
-                    </ul>
-                </li>
+                </ul>
+            </li>
 
 
-                @*Employee*@
-                <li class="dropdown" id="menu_emp">
-                    <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
-                    <ul>
-                        <li id="li_empProducts"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Product List</a></li>
-                        <li id="li_empRequestHistory"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-layers"></i> Request History</a></li>
-                        <li id="li_empCollection"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Collection</a></li>
+            @*Store Manager*@
+            <li class="dropdown" id="menu_mgstore">
+                <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
+                <ul>
+                    <li id="li_mgstoreDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
+                    <li id="li_mgstoreInventory"><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Inventory List</a></li>
+                    <li id="li_adjustVouncher"><a href="/StationeryRequests/RequestHistory?status=All"><i class="icon-briefcase"></i> Adjustment Vouncher</a></li>
+                    <li id="li_report"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Report</a></li>
 
-                    </ul>
-                </li>
+                </ul>
+            </li>
 
-                @*DepHead*@
-                <li class="dropdown" id="menu_depHead" style="display:block">
-                    <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
-                    <ul>
-                        <li id="li_dHeadHome"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Home</a></li>
-                        <li id="li_dHeadRequests"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-layers"></i> Stationery Requests</a></li>
-                        <li id="li_dHeadDelegate"><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-briefcase"></i> Assign Delegate</a></li>
-                        <li id="li_dHeadRepresentative">
-                            <a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Assign Representative</a>
-                        </li>
 
-                    </ul>
-                </li>
+            @*Employee*@
+            <li class="dropdown" id="menu_emp">
+                <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
+                <ul>
+                    <li id="li_empProducts"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Product List</a></li>
+                    <li id="li_empRequestHistory"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-layers"></i> Request History</a></li>
+                    <li id="li_empCollection"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Collection</a></li>
 
-            </ul>
-            <!-- END: Menu-->
-            <ol class="breadcrumb bg-transparent align-self-center m-0 p-0 ml-auto">
-                <li class="breadcrumb-item"><a href="#">Application</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </div>
+                </ul>
+            </li>
+
+            @*DepHead*@
+            <li class="dropdown" id="menu_depHead" style="display:block">
+                <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
+                <ul>
+                    <li id="li_dHeadHome"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Home</a></li>
+                    <li id="li_dHeadRequests"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-layers"></i> Stationery Requests</a></li>
+                    <li id="li_dHeadDelegate"><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-briefcase"></i> Assign Delegate</a></li>
+                    <li id="li_dHeadRepresentative">
+                        <a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Assign Representative</a>
+                    </li>
+
+                </ul>
+            </li>
+
+        </ul>
+        <!-- END: Menu-->
+        <ol class="breadcrumb bg-transparent align-self-center m-0 p-0 ml-auto">
+            <li class="breadcrumb-item"><a href="#">Application</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
     </div>
-    <!-- END: Main Menu-->
-    <!-- START: Main Content-->
-    <main>
-        <div class="container-fluid site-width">
-            @RenderBody()
-        </div>
-    </main>
-    <!-- END: Content-->
-    <!-- START: Footer-->
-    <footer class="site-footer">
-        2020 &copy; Team5 NUS ISS
-    </footer>
+</div>
+<!-- END: Main Menu-->
+<!-- START: Main Content-->
+<main>
+    <div class="container-fluid site-width">
+        @RenderBody()
+    </div>
+</main>
+<!-- END: Content-->
+<!-- START: Footer-->
+<footer class="site-footer">
+    2020 &copy; Team5 NUS ISS
+</footer>
 
-    <script src="~/js/UI/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
-    <!-- END: Footer-->
-    <!-- START: Back to top-->
-    <a href="#" class="scrollup text-center">
-        <i class="icon-arrow-up"></i>
-    </a>
-    <!-- END: Back to top-->
-    <!-- START: Template JS-->
+<script src="~/js/UI/site.js" asp-append-version="true"></script>
+@RenderSection("Scripts", required: false)
+<!-- END: Footer-->
+<!-- START: Back to top-->
+<a href="#" class="scrollup text-center">
+    <i class="icon-arrow-up"></i>
+</a>
+<!-- END: Back to top-->
+<!-- START: Template JS-->
 
-    <script src="~/vendors/jquery-ui/jquery-ui.min.js"></script>
-    <script src="~/vendors/moment/moment.js"></script>
-    <script src="~/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/vendors/slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- END: Template JS-->
-    <!-- START: APP JS-->
-    <script src="~/js/UI/app.js"></script>
-    <!-- END: APP JS-->
-    <!-- START: Page Vendor JS-->
-    <script src="~/vendors/raphael/raphael.min.js"></script>
-    <script src="~/vendors/morris/morris.min.js"></script>
-    <script src="~/vendors/chartjs/Chart.min.js"></script>
-    <script src="~/vendors/starrr/starrr.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.canvaswrapper.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.colorhelpers.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.flot.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.flot.saturated.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.flot.browser.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.flot.drawSeries.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.flot.uiConstants.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.flot.legend.js"></script>
-    <script src="~/vendors/jquery-flot/jquery.flot.pie.js"></script>
-    <script src="~/vendors/chartjs/Chart.min.js"></script>
-    <script src="~/vendors/jquery-jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
-    <script src="~/vendors/jquery-jvectormap/jquery-jvectormap-world-mill.js"></script>
-    <script src="~/vendors/jquery-jvectormap/jquery-jvectormap-de-merc.js"></script>
-    <script src="~/vendors/jquery-jvectormap/jquery-jvectormap-us-aea.js"></script>
-    <script src="~/vendors/apexcharts/apexcharts.min.js"></script>
-    <script src="~/vendors/toastr/toastr.min.js"></script>
-    <script src="~/vendors/sweetalert/sweetalert.min.js"></script>
-    <script src="~/vendors/sweetalert/sweetalert.js"></script>
-    <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
-    <!-- END: Page Vendor JS-->
-    <!-- START: Page JS-->
-    <script src="~/js/UI/home.script.js"></script>
-    <!-- END: Page JS-->
+<script src="~/vendors/jquery-ui/jquery-ui.min.js"></script>
+<script src="~/vendors/moment/moment.js"></script>
+<script src="~/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/vendors/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- END: Template JS-->
+<!-- START: APP JS-->
+<script src="~/js/UI/app.js"></script>
+<!-- END: APP JS-->
+<!-- START: Page Vendor JS-->
+<script src="~/vendors/raphael/raphael.min.js"></script>
+<script src="~/vendors/morris/morris.min.js"></script>
+<script src="~/vendors/chartjs/Chart.min.js"></script>
+<script src="~/vendors/starrr/starrr.js"></script>
+<script src="~/vendors/jquery-flot/jquery.canvaswrapper.js"></script>
+<script src="~/vendors/jquery-flot/jquery.colorhelpers.js"></script>
+<script src="~/vendors/jquery-flot/jquery.flot.js"></script>
+<script src="~/vendors/jquery-flot/jquery.flot.saturated.js"></script>
+<script src="~/vendors/jquery-flot/jquery.flot.browser.js"></script>
+<script src="~/vendors/jquery-flot/jquery.flot.drawSeries.js"></script>
+<script src="~/vendors/jquery-flot/jquery.flot.uiConstants.js"></script>
+<script src="~/vendors/jquery-flot/jquery.flot.legend.js"></script>
+<script src="~/vendors/jquery-flot/jquery.flot.pie.js"></script>
+<script src="~/vendors/chartjs/Chart.min.js"></script>
+<script src="~/vendors/jquery-jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+<script src="~/vendors/jquery-jvectormap/jquery-jvectormap-world-mill.js"></script>
+<script src="~/vendors/jquery-jvectormap/jquery-jvectormap-de-merc.js"></script>
+<script src="~/vendors/jquery-jvectormap/jquery-jvectormap-us-aea.js"></script>
+<script src="~/vendors/apexcharts/apexcharts.min.js"></script>
+<script src="~/vendors/toastr/toastr.min.js"></script>
+<script src="~/vendors/sweetalert/sweetalert.min.js"></script>
+<script src="~/vendors/sweetalert/sweetalert.js"></script>
+<script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
+<!-- END: Page Vendor JS-->
+<!-- START: Page JS-->
+<script src="~/js/UI/home.script.js"></script>
+<!-- END: Page JS-->
 </body>
 <!-- END: Body-->
 </html>

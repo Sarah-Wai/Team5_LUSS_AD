@@ -12,7 +12,7 @@
     <div class="card-body">
         <div class="table-responsive">
             <table id="example" class="display table dataTable table-striped table-bordered">
-                <thead>
+
                 <td>@Model.AdjustmentID</td>
                 <td>@Model.AdjustType</td>
                 <td>@Model.ItemID</td>
@@ -23,6 +23,10 @@
                 <td>@Model.RequestByID</td>
                 <td>@Model.IssuedDate</td>
 
+                <div class="text-center panel-body">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="location.href='@Url.Action("Approved", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'"> Approve</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="location.href='@Url.Action("Rejected", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'">Reject</button>
+                </div>
                 @*
         <div class="form-group">
             <label for="ID">ID:</label>

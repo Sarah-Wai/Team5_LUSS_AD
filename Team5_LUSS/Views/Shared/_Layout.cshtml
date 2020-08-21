@@ -210,7 +210,7 @@
                     <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
                     <ul>
                         <li id="li_mgstoreDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
-                        <li id="li_mgstoreInventory"><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Inventory List</a></li>
+                        <li id="li_mgstoreInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
                         <li id="li_adjustVouncher"><a href="/StationeryRequests/RequestHistory?status=All"><i class="icon-briefcase"></i> Adjustment Vouncher</a></li>
                         <li id="li_report"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Report</a></li>
 
@@ -222,8 +222,8 @@
                 <li class="dropdown" id="menu_emp">
                     <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
                     <ul>
-                        <li id="li_empProducts"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Product List</a></li>
-                        <li id="li_empRequestHistory"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-layers"></i> Request History</a></li>
+                        <li id="li_empProducts"><a asp-controller="ItemList" asp-action="Index"><i class="icon-rocket"></i> Items List</a></li>
+                        <li id="li_empRequestHistory"><a href="/StationeryRequests/RequestHistory?status=All"><i class="icon-briefcase"></i> Request History</a></li>
                         <li id="li_empCollection"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Collection</a></li>
 
                     </ul>

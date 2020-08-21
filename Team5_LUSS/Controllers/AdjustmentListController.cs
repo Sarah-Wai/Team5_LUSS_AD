@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Threading.Tasks;
 using Team5_LUSS.Models;
+using static Team5_LUSS.Models.AdjustmentVoucherStatus;
 
 namespace Team5_LUSS.Controllers
 {
@@ -23,14 +24,16 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> AdjustmentVouchers()
         {
             List<AdjustmentVoucher> adjustments = new List<AdjustmentVoucher>();
+            List<AdjustmentVoucher> newAdjustments = new List<AdjustmentVoucher>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url1)) // call the api 
+                using (var response = await httpClient.GetAsync(api_url + "/" + "pending")) // call the api 
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     adjustments = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
                 }
             }
+            
             ViewData["allAdjustments"] = adjustments;
             return View("AdjustmentList");
         }
@@ -60,7 +63,7 @@ namespace Team5_LUSS.Controllers
             }
             string msg = "Assign Successfully!";
 
-
+            /*
             MailMessage mm = new MailMessage();
             {
                 mm.To.Add(user.Email); // content specific
@@ -76,9 +79,9 @@ namespace Team5_LUSS.Controllers
                     ("team5luss@gmail.com", "Profesther");
                 client.Send(mm);
                 ViewBag.message = "Email notification sent";
-            }
+            }*/
 
-            return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
+            return RedirectToAction("AdjustmentVouchers", "AdjustmentList"); 
         }
 
         [HttpGet]

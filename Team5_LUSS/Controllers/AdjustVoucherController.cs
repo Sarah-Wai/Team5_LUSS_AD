@@ -146,7 +146,7 @@ namespace Team5_LUSS.Controllers
                     adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
                 } 
 
-                using (var response = await httpClient.GetAsync(api_url_itemPrice + "getPrice/" +adjustment.ItemID))
+                using (var response = await httpClient.GetAsync(api_url_itemPrice + "/getPrice/" + adjustment.ItemID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     price = JsonConvert.DeserializeObject<int>(apiResponse);

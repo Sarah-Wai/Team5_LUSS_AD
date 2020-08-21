@@ -82,12 +82,13 @@
                                     <tr>
                                         <td colspan="10"><b>Collection Date: </b><input type="date" name="collectionDate" /></td>
                                         <input type="hidden" value="@retrievalID" name="retrievalID" />
+                                        <input type="hidden" value="@userId" name="id"/>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="text-right p-5">
-                            @*<button type="submit" asp-action="CancelRetrieval" asp-route-id="@retrievalID" class="btn btn-danger">Cancel</button>*@
+                            <button type="submit" asp-action="CancelRetrieval" asp-route-id="@retrievalID" class="btn btn-danger">Cancel</button>
                             <input type="hidden" id="edit-date">
                             <button type="submit" class="btn btn-success add-todo">Update</button>
                         </div>

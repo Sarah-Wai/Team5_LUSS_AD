@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Manage Disbursement";
     string? message = (string)TempData["noItem"];
-    List<Request> requests = (List<Request>)ViewData["requests"];
+    List<Request>? requests = (List<Request>)ViewData["requests"];
 }
 
 <div class="container-fluid site-width">
@@ -46,6 +46,22 @@
                         }
                         @foreach (Request r in requests)
                         {
+                            var orderType = "";
+                            string status = r.RequestType.ToString();
+                            switch (status)
+                            {
+                                case "New":
+                                    orderType = "badge-success";
+                                    break;
+                                case "Discrepancy":
+                                    orderType = "badge-danger";
+                                    break;
+                                default:
+                                    orderType = "badge-primary";
+                                    break;
+                            }
+
+
                             <div class="invoice">
                                 <div class="invoice-content">
                                     <div class="invoice-info">
@@ -54,7 +70,7 @@
                                     </div>
                                     <div class="invoice-info">
                                         <p class="mb-0 small">Request Date</p>
-                                        <p class="invoice-no">@r.RequestDate.Date.ToString("MMMM dd, yyyy")</p>
+                                        <p class="invoice-no">@r.RequestDate.Date.ToString("dd MMM yyyy")</p>
                                     </div>
                                     <div class="invoice-info">
                                         <p class="mb-0 small">Department</p>
@@ -62,12 +78,12 @@
                                     </div>
                                     <div class="invoice-info">
                                         <p class="mb-0 small">Order Type</p>
-                                        <p class="invoice-due-date">@r.RequestType</p>
+                                        <p class="invoice-due-date badge @orderType">@r.RequestType</p>
                                     </div>
-                                    <div class="invoice-status-info">
+                                    @*<div class="invoice-info">
                                         <p class="mb-0 small">Status</p>
-                                        <p>@r.RequestStatus</p>
-                                    </div>
+                                        <p class=" invoice-due-date badge badge-success">@r.RequestStatus</p>
+                                    </div>*@
                                     <div class="mr-3">
                                         <a asp-action="DisburseByRequest" asp-route-id="@r.RequestID" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white ">
                                             Disburse

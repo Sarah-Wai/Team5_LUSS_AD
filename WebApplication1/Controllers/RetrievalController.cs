@@ -176,8 +176,8 @@ namespace LUSS_API.Controllers
         }
 
 
-        [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}")]
-        public string allocateFulfilledQty(List<int> retrievedQty, int retrievalId, string collectionDate)
+        [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
+        public string allocateFulfilledQty(List<int> retrievedQty, int retrievalId, string collectionDate, int id)
         {
 
             List<RequestDetails> requests = context123.RequestDetails
@@ -238,6 +238,7 @@ namespace LUSS_API.Controllers
                 {
                     r.Request.CollectionTime = Convert.ToDateTime(collectionDate);
                     r.Request.RequestStatus = EOrderStatus.PendingDelivery;
+                    r.Request.ModifiedBy = id;
                 }
                 else if(r.FullfillQty == null)
                 {

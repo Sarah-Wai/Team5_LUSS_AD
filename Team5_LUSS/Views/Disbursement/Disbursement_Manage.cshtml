@@ -13,97 +13,111 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid site-width">
+    <div class="row ">
+        <div class="col-12  align-self-center">
+            <div class="btn-group mb-2">
+                <a asp-action="RetrievalForm" class="btn btn-primary">Retrieval Form</a>
+                @*<button type="button" class="btn btn-primary">New Adjustment Voucher</button>*@
+            </div>
+        </div>
+    </div>
+        @*<div class="container-fluid site-width">
         <div class="btn-group mb-2">
             <a asp-action="RetrievalForm" class="bg-primary float-right mr-3  py-2 px-4 rounded text-white ">
                 Retrieval Form
             </a>
-        </div>
+        </div>*@
         <!-- START: Card Data-->
-        @*<div class="row row-eq-height">
+     <div class="row row-eq-height">
             <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
                 <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
                 <div class="card border h-100 invoice-menu-section">
                     <ul class="nav flex-column invoice-menu">
                         <li class="nav-item">
                             <a class="nav-link" asp-action="ManageDisbursement">
-                                All Approved Requests
+                                All
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="ManageDisbursement" asp-route-type="New">
+                                New
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="ManageDisbursement" asp-route-type="Discrepancy">
+                                Discrepancy
                             </a>
                         </li>
                     </ul>
                 </div>
-            </div>*@
-        <div class="col-12 col-lg-12 mt-3 pl-lg-0">
-            <div class="card border h-100 invoice-list-section">
-                <div class="card-body p-0">
-                    <div class="invoices list">
+            </div>
 
-                        @if(message != null)
-                        {
-                            <div>
-                                <p class="font-weight-bold text-center">@message</p>
-                            </div>
-                        }
-                        @foreach (Request r in requests)
-                        {
-                            var orderType = "";
-                            string status = r.RequestType.ToString();
-                            switch (status)
+            <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+                <div class="card border h-100 invoice-list-section">
+                    <div class="card-body p-0">
+                        <div class="invoices list">
+
+                            @if (message != null || requests.Count == 0)
                             {
-                                case "New":
-                                    orderType = "badge-success";
-                                    break;
-                                case "Discrepancy":
-                                    orderType = "badge-danger";
-                                    break;
-                                default:
-                                    orderType = "badge-primary";
-                                    break;
+                                <div class="font-weight-bold text-danger text-center mt-xl-5">
+                                    <p>@message</p>
+                                </div>
                             }
+                            @foreach (Request r in requests)
+                            {
+                                var orderType = "";
+                                string status = r.RequestType.ToString();
+                                switch (status)
+                                {
+                                    case "New":
+                                        orderType = "badge-success";
+                                        break;
+                                    case "Discrepancy":
+                                        orderType = "badge-danger";
+                                        break;
+                                    default:
+                                        orderType = "badge-primary";
+                                        break;
+                                }
 
 
-                            <div class="invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">RequestID</p>
-                                        <p class="cliname">@r.RequestID</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Request Date</p>
-                                        <p class="invoice-no">@r.RequestDate.Date.ToString("dd MMM yyyy")</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Department</p>
-                                        <p class="invocie-date">@r.RequestByUser.Department.DepartmentCode</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Order Type</p>
-                                        <p class="invoice-due-date badge @orderType">@r.RequestType</p>
-                                    </div>
-                                    @*<div class="invoice-info">
-                                        <p class="mb-0 small">Status</p>
-                                        <p class=" invoice-due-date badge badge-success">@r.RequestStatus</p>
-                                    </div>*@
-                                    <div class="mr-3">
-                                        <a asp-action="DisburseByRequest" asp-route-id="@r.RequestID" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white ">
-                                            Disburse
-                                        </a>
+                                <div class="invoice">
+                                    <div class="invoice-content">
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">RequestID</p>
+                                            <p class="cliname">@r.RequestID</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Request Date</p>
+                                            <p class="invoice-no">@r.RequestDate.Date.ToString("dd MMM yyyy")</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Department</p>
+                                            <p class="invocie-date">@r.RequestByUser.Department.DepartmentCode</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Order Type</p>
+                                            <p class="invoice-due-date badge @orderType">@r.RequestType</p>
+                                        </div>
+                                        @*<div class="invoice-info">
+                                    <p class="mb-0 small">Status</p>
+                                    <p class=" invoice-due-date badge badge-success">@r.RequestStatus</p>
+                                </div>*@
+                                        <div class="mr-3">
+                                            <a asp-action="DisburseByRequest" asp-route-id="@r.RequestID" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white ">
+                                                Disburse
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
-                    <div class="text-right p-5 ">
-
-                    </div>
-
                 </div>
             </div>
         </div>
-    </div>
 </div>
 <!-- END: Card DATA-->
-</div>
 <!-- END: Content-->
 
 

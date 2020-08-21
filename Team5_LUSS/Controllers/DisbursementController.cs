@@ -61,7 +61,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-            if(items == null)
+            if(items == null || items.Count == 0)
             {
                 TempData["noItem"] = "There are no pending request to disburse.";
                 return RedirectToAction("ManageDisbursement");
@@ -84,7 +84,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-            return RedirectToAction("Disbursement_By_Retrieval");// to be change to by request listing 
+            return RedirectToAction("ManageDisbursement");
         }
 
         [HttpPost]
@@ -98,7 +98,7 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await reponse.Content.ReadAsStringAsync();
                 }
             }
-                return View("");
+                return RedirectToAction("ManageDisbursement");
 
         }
 
@@ -118,6 +118,8 @@ namespace Team5_LUSS.Controllers
             ViewData["requests"] = requests;
             return View("Retrieval_Form");
         }
+
+        #region retrival allocation to be removed
 
         //public async Task<IActionResult> RetrievalAllocation(int id)
         //{
@@ -144,23 +146,26 @@ namespace Team5_LUSS.Controllers
         //    return View("Disbursement_By_Retrieval");
         //}
 
-        [HttpPost]                                                                                                                          
-        public async Task<IActionResult> RetrievalList(List<int> retrievedQty)
-        {
-            
-            using (var httpClient = new HttpClient())
-            {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
+        [HttpPost]
+        //public async Task<IActionResult> RetrievalList(List<int> retrievedQty)
+        //{
 
-                using (var response = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty, content))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                }
-            }
-            return RedirectToAction("");
-        }
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
+
+        //        using (var response = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty, content))
+        //        {
+        //            string apiResponse = await response.Content.ReadAsStringAsync();
+        //        }
+        //    }
+        //    return RedirectToAction("");
+        //}
+
+        #endregion
 
         #region Manage Disbursement
+        [HttpGet]
         public async Task<IActionResult> ManageDisbursement()
         {
 

@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Manage Disbursement";
     string? message = (string)TempData["noItem"];
-    List<Request> requests = (List<Request>)ViewData["requests"];
+    List<Request>? requests = (List<Request>)ViewData["requests"];
 }
 
 <div class="container-fluid site-width">

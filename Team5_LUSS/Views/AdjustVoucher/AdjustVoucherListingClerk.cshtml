@@ -52,42 +52,61 @@
                 </ul>
             </div>
         </div>
-        <div class="col-12 col-lg-10 mt-3 pl-lg-0">
-            <div class="card border h-100 invoice-list-section">
-                <div class="card-body p-0">
-                    <div class="invoices list">
-                        @if (adjustmentByRequestor != null)
-                        {
-                            @foreach (var adj in adjustmentByRequestor)
-                            {
-                                <div class="invoice">
-                                    <div class="invoice-content" data-status="generated-invoice">
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Submitted Date: </p>
-                                            <p class="invoice-no">@adj.IssuedDate</p>
-                                        </div>
 
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Voucher No:</p>
-                                            <p class="cliname">@adj.VoucherNo</p>
-                                        </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Status: </p>
-                                            <p class="invocie-date">@adj.Status</p>
-                                        </div>
-                                        <div class="btn-group mb-2">
-                                            <a asp-action="GetAdjustmentVoucherById" asp-route-id="@adj.AdjustmentID" class="btn btn-primary">Details </a>
+            <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+                <div class="card border h-100 invoice-list-section">
+                    <div class="card-body p-0">
+                        <div class="invoices list">
+                            @if (adjustmentByRequestor != null)
+                            {
+                                @foreach (var adj in adjustmentByRequestor)
+                                {
+                                    var statuscolor = "";
+                                    string status = adj.Status.ToString();
+                                    switch (status)
+                                    {
+                                        case "Approved":
+                                            statuscolor = "badge-success";
+                                            break;
+                                        case "Pending":
+                                            statuscolor = "badge-warning";
+                                            break;
+                                        case "Rejected":
+                                            statuscolor = "badge-danger";
+                                            break;
+                                        default:
+                                            statuscolor = "badge-primary";
+                                            break;
+                                    }
+
+                                    <div class="invoice">
+                                        <div class="invoice-content" data-status="generated-invoice">
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Submitted Date: </p>
+                                                <p class="invoice-no">@adj.IssuedDate.ToString("dd MMM yyyy")</p>
+                                            </div>
+
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Voucher No:</p>
+                                                <p class="cliname">@adj.VoucherNo</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Status: </p>
+                                                <p class="invocie-date badge @statuscolor">@adj.Status</p>
+                                            </div>
+                                            <div class="mr-3">
+                                                <a asp-action="GetAdjustmentVoucherById" asp-route-id="@adj.AdjustmentID" class="btn btn-primary">Details </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             }
-                        }
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     <!-- END: Card DATA-->
 </div>
 <!-- END: Content-->

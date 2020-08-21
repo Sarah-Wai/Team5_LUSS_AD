@@ -184,18 +184,23 @@
                     <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
                     <ul>
                         <li id="li_storeDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
-                        <li id="li_storeInventory"><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Inventory List</a></li>
-                        <li class="dropdown" id="li_disbursement">
+                        <li id="li_storeInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
+                        @*<li class="dropdown" id="li_disbursement">
                             <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
                             <ul class="sub-menu">
                                 <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
                                 <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
                                 <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
                             </ul>
+                        </li>*@
+                        <li id="li_adjustStock"><a asp-controller="AdjustVoucher" asp-action="GetAdjustmentVoucherByRequestor"><i class="icon-support"></i>Adjust Stock</a></li>
+                        <li class="dropdown" id="li_po">
+                            <a><i class="icon-briefcase"></i>Purchase Orders</a>
+                            <ul class="sub-menu">
+                                <li><a asp-controller="Purchase" asp-action="ViewLowStockItems"><i class="icon-energy"></i>Low Stock</a></li>
+                                <li><a asp-controller="Purchase" asp-action="PurchaseOrders"><i class="icon-energy"></i>PO History</a></li>
+                            </ul>
                         </li>
-                        <li id="li_adjustStock"><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-support"></i> Adjust Stock</a></li>
-                        <li id="li_po"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-action-redo"></i> Purchase Orders</a></li>
-
                     </ul>
                 </li>
 

@@ -32,6 +32,14 @@ namespace LUSS_API.Controllers
 
         }
 
+        [HttpGet("pending")]
+        public IEnumerable<AdjustmentVoucher> GetPendingAdjustmentVoucherStatus()
+        {
+            List<AdjustmentVoucher> adjustmentpendingVoucherStatus = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentStatus.Pending).ToList();
+            return adjustmentpendingVoucherStatus;
+
+        }
+
         [HttpGet("{id}")]
         public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
         {

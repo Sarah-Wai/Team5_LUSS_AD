@@ -166,19 +166,38 @@ namespace Team5_LUSS.Controllers
 
         #region Manage Disbursement
         [HttpGet]
-        public async Task<IActionResult> ManageDisbursement()
+        public async Task<IActionResult> ManageDisbursement(string type)
         {
 
             List<Request> requests = new List<Request>();
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+ "get-approved-request/"))
+                if(type == null)
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    using (var response = await httpClient.GetAsync(api_url + "get-approved-request/"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    }
                 }
+
+                else
+                {
+                    using (var response = await httpClient.GetAsync(api_url + "byType/" + type))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    }
+                }
+                
             }
+
+            if(requests.Count == 0)
+            {
+                TempData["noItem"] = "There are no pending request to disburse.";
+            }
+
             ViewData["requests"] = requests;
             return View("Disbursement_Manage");
         }

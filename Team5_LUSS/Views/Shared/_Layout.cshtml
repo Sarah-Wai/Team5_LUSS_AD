@@ -185,14 +185,15 @@
                     <ul>
                         <li id="li_storeDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
                         <li id="li_storeInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
+                        <li id="li_disbursement"><a asp-controller="Disbursement" asp-action="ManageDisbursement"><i class="icon-support"></i>Manage Disbursement</a></li>
                         @*<li class="dropdown" id="li_disbursement">
-                            <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
-                            <ul class="sub-menu">
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
-                            </ul>
-                        </li>*@
+            <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
+            <ul class="sub-menu">
+                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
+                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
+                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
+            </ul>
+        </li>*@
                         <li id="li_adjustStock"><a asp-controller="AdjustVoucher" asp-action="GetAdjustmentVoucherByRequestor"><i class="icon-support"></i>Adjust Stock</a></li>
                         <li class="dropdown" id="li_po">
                             <a><i class="icon-briefcase"></i>Purchase Orders</a>

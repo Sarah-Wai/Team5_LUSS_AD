@@ -104,12 +104,22 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + reason + "/" + userId))
+                if (reason == null)
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    toID = JsonConvert.DeserializeObject<List<User>>(apiResponse);
+                    using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + userId))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        toID = JsonConvert.DeserializeObject<List<User>>(apiResponse);
+                    }
                 }
-
+                else
+                {
+                    using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + reason + "/" + userId))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        toID = JsonConvert.DeserializeObject<List<User>>(apiResponse);
+                    }
+                }
             }
 
             foreach(User u in toID)

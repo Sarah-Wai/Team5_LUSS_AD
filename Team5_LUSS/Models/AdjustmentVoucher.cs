@@ -35,7 +35,7 @@ namespace Team5_LUSS.Models
         public string VoucherNo   { get; set; }
         [MaxLength(500)]
         public string Comment  { get; set; }
-        public string Reason { get; set; }
+        public string? Reason { get; set; }
         [Required]
         public int ItemID { get; set; }
         public virtual User RequestedByUser { get; set; }

@@ -9,6 +9,7 @@ using Castle.Core.Internal;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Logging;
@@ -270,6 +271,8 @@ namespace LUSS_API.Controllers
             EOrderStatus completed = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "Completed");
             EOrderStatus pendingDelivery = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "PendingDelivery");
             List<Request> request = context123.Request.Where(x => x.RequestBy == id && x.RequestStatus != packed && x.RequestStatus != completed && x.RequestStatus != pendingDelivery).OrderByDescending(x=> x.RequestDate).ToList();
+            //request.Select(x => x.RequestDetails.Where(a => a.isActive = true)); // remove cancelled request details
+            
             return request;
         }
 
@@ -385,10 +388,10 @@ namespace LUSS_API.Controllers
                 try
                 {
                     Request request = JsonConvert.DeserializeObject<Request>(jsonData);
-                    List<RequestDetails> reqDetailList = new List<RequestDetails>();
+                    ICollection<RequestDetails> reqDetailList = new List<RequestDetails>();
 
                     reqDetailList = context123.RequestDetails.Where(r => r.RequestID == request.RequestID).ToList();
-
+                    
                     foreach (var reqDetail in reqDetailList)
                     {
                         foreach (var r in request.RequestDetails)
@@ -396,7 +399,9 @@ namespace LUSS_API.Controllers
                             if (r.ItemID == reqDetail.ItemID)
                             {
                                 reqDetail.RequestQty = r.RequestQty;
+                                reqDetail.isActive = r.isActive;
                             }
+                           
                         }
                     }
                     context123.SaveChanges();
@@ -415,7 +420,18 @@ namespace LUSS_API.Controllers
         [Route("GetReqById/{id}")]
         public Request GetReqById(int id)
         {
-            Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
+            Request request = new Request();
+            request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
+            //Request request = context123.Request.Select(x => x.RequestDetails.Select(y => y.isActive == false)).ToList();
+            //List<RequestDetails> newReqDetail = new List<RequestDetails>();
+            //foreach (var r in request.RequestDetails)
+            //{
+            //    if(r.isActive == true)
+            //    {
+            //        newReqDetail.Add(r);
+            //    }
+            //}
+           // request.RequestDetails = newReqDetail;
             return request;
         }
     }

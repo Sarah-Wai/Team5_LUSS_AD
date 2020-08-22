@@ -27,7 +27,7 @@
                                 <td>@r.AdjustType</td>
                                 <td>
                                     <button type="button" class="btn btn-danger" @* DETAIL VIEW*@
-                                            onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID })'">
+                                            onclick="location.href='@Url.Action("VoucherDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID })'">
                                         Details
                                     </button>
                                 </td>
@@ -41,6 +41,8 @@
 
         @foreach (var r in adjustmentVoucherList)
         {
+            if (r.TotalCost <= 250)
+            {
             <tbody>
                 <tr>
                     <th scope="row">@r.AdjustmentID</th>
@@ -50,12 +52,13 @@
                     <td>@r.AdjustType</td>
                     <td>
                         <button type="button" class="btn btn-danger" @* DETAIL VIEW*@
-                                onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new {AdjustmentID = @r.AdjustmentID})'">
+                                onclick="location.href='@Url.Action("VoucherDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID })'">
                             Details
                         </button>
                     </td>
                 </tr>
             </tbody>
+            }
         }
         </table>
     </div>

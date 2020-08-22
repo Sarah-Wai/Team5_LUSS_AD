@@ -66,11 +66,11 @@ namespace Team5_LUSS.Controllers
                 }
 
             }
-            int empId = 2;
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "Request/GetRequestByEmpId/" + empId))
+                using (var response = await httpClient.GetAsync(api_url + "Request/GetRequestByEmpId/" + userId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
@@ -90,6 +90,10 @@ namespace Team5_LUSS.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewRequestDetail(int id)
         {
+            //if(TempData["AlertMessage"] != null)
+            //{
+            //    TempData["AlertMessage"] = null;
+            //}
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
@@ -99,6 +103,18 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     request = JsonConvert.DeserializeObject<Request>(apiResponse);
                 }
+            }
+            if(request != null)
+            {
+                List<RequestDetails> newReqDetail = new List<RequestDetails>();
+                foreach (var r in request.RequestDetails)
+                {
+                    if (r.isActive == true)
+                    {
+                        newReqDetail.Add(r);
+                    }
+                }
+                request.RequestDetails = newReqDetail;
             }
 
             ViewData["request"] = request;
@@ -163,14 +179,15 @@ namespace Team5_LUSS.Controllers
 
             for (int i = 0; i < itemIds.Length; i++)
             {
-                var itemid = Int32.Parse(itemIds[i]);
+               
                 foreach (var requestDetail in request.RequestDetails)
                 {
                     if (requestDetail.ItemID == Int32.Parse(itemIds[i]))
                     {
                         requestDetail.RequestQty = Int32.Parse(quantities[i]);
-
+                        requestDetail.isActive = true;
                     }
+                    
                 }
 
             }

@@ -61,23 +61,30 @@
                                 <tbody>
                                     @foreach (RequestDetails r in reqItems)
                                     {
-                                        <tr>
-                                            @*<td>@r.RequestDetailID</td>
-                                                <td>@r.RequestID</td>*@
-                                            <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
-                                            <td class="text-right">@r.Item.ItemName</td>
-                                            <td class="text-right">@r.Item.UOM</td>
-                                            <td class="text-right">@r.RequestQty</td>
+                                    <tr>
+                                        @*<td>@r.RequestDetailID</td>
+        <td>@r.RequestID</td>*@
+                                        <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
+                                        <td class="text-right">@r.Item.ItemName</td>
+                                        <td class="text-right">@r.Item.UOM</td>
+                                        <td class="text-right">@r.RequestQty</td>
+                                        @if (r.RequestQty <= r.Item.InStockQty)
+                                        {
                                             <td class="text-right"><input type="number" class="fulfillQty" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.RequestQty" min="0" max="@r.RequestQty" required /></td>
-                                            <td class="text-right">
-                                                <a href="#" onclick="changeValue(0, @r.ItemID)" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
-                                                    Reset
-                                                </a>
-                                                <a href="#" onclick="changeValue(@r.RequestQty, @r.ItemID)" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                                    Full Amount
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-right"><input type="number" class="fulfillQty" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.Item.InStockQty" min="0" max="@r.Item.InStockQty" required /></td>
+                                        }
+                                        <td class="text-right">
+                                            <a href="#" onclick="changeValue(0, @r.ItemID)" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
+                                                Reset
+                                            </a>
+                                            <a href="#" onclick="changeValue(@r.RequestQty, @r.ItemID)" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
+                                                Full Amount
+                                            </a>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
@@ -120,8 +127,9 @@
             sum += parseInt($(this).val());
         })
         if (sum === 0) {
-            alert("No disbursement issued");
-            e.preventDefault;
+            //alert(sum);
+            toastr["error"]("No disbursement issued");
+            e.preventDefault();
         }
     });
 </script>

@@ -49,10 +49,11 @@
                                 <thead>
                                     <tr>
                                         @*<td>#</td>
-                                            <td>#</td>*@
+        <td>#</td>*@
                                         <td class="text-right"><b>Item Code</b></td>
                                         <td class="text-right"><b>Description</b></td>
                                         <td class="text-right"><b>UOM</b></td>
+                                        <td class="text-right"><b>InStock Qty</b></td>
                                         <td class="text-right"><b>Requested Qty</b></td>
                                         <td class="text-right"><b>Fulfilled Qty</b></td>
                                         <td class="text-right"><b></b></td>
@@ -67,6 +68,7 @@
                                         <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
                                         <td class="text-right">@r.Item.ItemName</td>
                                         <td class="text-right">@r.Item.UOM</td>
+                                        <td class="text-right">@r.Item.InStockQty</td>
                                         <td class="text-right">@r.RequestQty</td>
                                         @if (r.RequestQty <= r.Item.InStockQty)
                                         {
@@ -77,11 +79,11 @@
                                             <td class="text-right"><input type="number" class="fulfillQty" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.Item.InStockQty" min="0" max="@r.Item.InStockQty" required /></td>
                                         }
                                         <td class="text-right">
-                                            <a href="#" onclick="changeValue(0, @r.ItemID)" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
+                                            <a href="#" onclick="changeValue(0,@r.Item.InStockQty, @r.ItemID)" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
                                                 Reset
                                             </a>
-                                            <a href="#" onclick="changeValue(@r.RequestQty, @r.ItemID)" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                                Full Amount
+                                            <a href="#" onclick="changeValue(@r.RequestQty,@r.Item.InStockQty, @r.ItemID)" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
+                                                Full Amt
                                             </a>
                                         </td>
                                     </tr>
@@ -104,8 +106,12 @@
 
 <script>
     //for reset and fullAmt button
-    function changeValue(value, itemId) {
-        document.getElementById("fulfillQty-" + itemId).value = value;
+    function changeValue(quantity, instockQty, itemId) {
+        if (instockQty >= quantity) {
+            document.getElementById("fulfillQty-" + itemId).value = quantity;
+        } else {
+            document.getElementById("fulfillQty-" + itemId).value = instockQty;
+        }
         //$("fulfillQty-"+itemId).val(value);
     }
 

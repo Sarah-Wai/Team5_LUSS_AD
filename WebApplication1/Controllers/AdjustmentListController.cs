@@ -32,11 +32,19 @@ namespace LUSS_API.Controllers
 
         }
 
-        [HttpGet("pending")]
-        public IEnumerable<AdjustmentVoucher> GetPendingAdjustmentVoucherStatus()
+        [HttpGet("pendingUp")]
+        public IEnumerable<AdjustmentVoucher> GetPendingAdjustmentVoucherStatusUp()
         {
-            List<AdjustmentVoucher> adjustmentpendingVoucherStatus = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentStatus.Pending && x.TotalCost >= 250).ToList();
-            return adjustmentpendingVoucherStatus;
+            List<AdjustmentVoucher> adjustmentpendingVoucherStatusUp = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentStatus.Pending && x.TotalCost >= 250).ToList();
+            return adjustmentpendingVoucherStatusUp;
+
+        }
+
+        [HttpGet("pendingDown")]
+        public IEnumerable<AdjustmentVoucher> GetPendingAdjustmentVoucherStatusDown()
+        {
+            List<AdjustmentVoucher> adjustmentpendingVoucherStatusDown = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentStatus.Pending && x.TotalCost <= 250).ToList();
+            return adjustmentpendingVoucherStatusDown;
 
         }
 
@@ -48,26 +56,31 @@ namespace LUSS_API.Controllers
             return iDVoucher;
         }
 
-        [HttpGet("{AdjustmentID}/{ItemID}/{AdjustQty}/{AdjustType}")]
+        [HttpGet]
         [Route("ApprovedAdjustmentVoucher/{AdjustmentID}/{status}")]
-        public string SaveVoucher(int AdjustmentID, AdjustmentStatus status)
+        public string SaveVoucher(int AdjustmentID, string status)
         {
             AdjustmentVoucher adjustmentVouncher = context123.AdjustmentVoucher.First(c => c.AdjustmentID == AdjustmentID);
-
+            AdjustmentStatus state = (AdjustmentStatus)Enum.Parse(typeof(AdjustmentStatus), status);
             if (adjustmentVouncher != null)
             {
                 // do the changes to db
-                adjustmentVouncher.Status = status;
+                adjustmentVouncher.Status = state;
                 
             }
             Item item = context123.Item.First(c => c.ItemID == adjustmentVouncher.ItemID);
 
-            if (item != null)
+            if (item != null && adjustmentVouncher.AdjustType == "Deduct")
             {
-                item.InStockQty =+ adjustmentVouncher.AdjustQty;
+                item.InStockQty -= adjustmentVouncher.AdjustQty;
             }
 
-             try
+            if (item != null && adjustmentVouncher.AdjustType == "Add")
+            {
+                item.InStockQty += adjustmentVouncher.AdjustQty;
+            }
+
+            try
             {
                 context123.SaveChanges();
             }
@@ -79,7 +92,7 @@ namespace LUSS_API.Controllers
             return "Success";
         }
 
-        [HttpGet("get-manager/{id}")]
+        [HttpGet("get_manager/{id}")]
         public User GetReportToByID(int id)
         {
             User manager = new User();

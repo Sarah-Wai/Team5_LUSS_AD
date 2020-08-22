@@ -1,8 +1,11 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http;
+
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
-@HttpContextAccessor.HttpContext.Session.GetString("user")
 
+@{
+    string username = (string)Context.Session.GetString("User");
+}
 <!DOCTYPE html>
 <html lang="en">
 <!-- START: Head-->
@@ -63,17 +66,17 @@
                 </div>
 
                 @*<form class="float-left d-none d-lg-block search-form">
-                    <div class="form-group mb-0 position-relative">
-                        <input type="text" class="form-control border-0 rounded bg-search pl-5" placeholder="Search anything...">
-                        <div class="btn-search position-absolute top-0">
-                            <a href="#"><i class="h6 icon-magnifier"></i></a>
-                        </div>
-                        <a href="#" class="position-absolute close-button mobilesearch d-lg-none" data-toggle="dropdown" aria-expanded="false">
-                            <i class="icon-close h5"></i>
-                        </a>
+                        <div class="form-group mb-0 position-relative">
+                            <input type="text" class="form-control border-0 rounded bg-search pl-5" placeholder="Search anything...">
+                            <div class="btn-search position-absolute top-0">
+                                <a href="#"><i class="h6 icon-magnifier"></i></a>
+                            </div>
+                            <a href="#" class="position-absolute close-button mobilesearch d-lg-none" data-toggle="dropdown" aria-expanded="false">
+                                <i class="icon-close h5"></i>
+                            </a>
 
-                    </div>
-                </form>*@
+                        </div>
+                    </form>*@
                 <div class="navbar-right ml-auto h-100">
                     <ul class="ml-auto p-0 m-0 list-unstyled d-flex top-icon h-100">
                         <li class="d-inline-block align-self-center  d-block d-lg-none">
@@ -95,9 +98,9 @@
                         </li>
                         <li class="dropdown user-profile align-self-center d-inline-block">
                             <a href="#" class="nav-link py-0" data-toggle="dropdown" aria-expanded="false">
-                                <div class="media">
-                                    <p>username</p>
-                                    <img src="~/images/author.jpg" alt="" class="d-flex img-fluid rounded-circle" width="29">
+                                <div >
+                                    <p>Hi @username</p>
+                                   
                                 </div>
                             </a>
 
@@ -119,9 +122,16 @@
                                         <span class="icon-settings mr-2 h6 mb-0"></span> Account Settings
                                     </a>*@
                                 @*<div class="dropdown-divider"></div>*@
-                                <a href="" class="dropdown-item px-2 text-danger align-self-center d-flex">
+                                <a class="dropdown-item px-2 text-danger align-self-center d-flex"
+                                   asp-controller="Home" asp-action="Logout">
                                     <span class="icon-logout mr-2 h6  mb-0"></span> Sign Out
                                 </a>
+
+                                @* {
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                                    }*@
+
+
                             </div>
 
                         </li>
@@ -147,13 +157,13 @@
                         <li id="li_storeInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
                         <li id="li_disbursement"><a asp-controller="Disbursement" asp-action="ManageDisbursement"><i class="icon-support"></i>Manage Disbursement</a></li>
                         @*<li class="dropdown" id="li_disbursement">
-            <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
-            <ul class="sub-menu">
-                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
-                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
-                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
-            </ul>
-        </li>*@
+                                <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
+                                <ul class="sub-menu">
+                                    <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
+                                    <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
+                                    <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
+                                </ul>
+                            </li>*@
                         <li id="li_adjustStock"><a asp-controller="AdjustVoucher" asp-action="GetAdjustmentVoucherByRequestor"><i class="icon-support"></i>Adjust Stock</a></li>
 
                         <li class="dropdown" id="li_disbursement">

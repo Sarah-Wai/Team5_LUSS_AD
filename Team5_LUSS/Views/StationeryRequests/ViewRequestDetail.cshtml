@@ -37,7 +37,7 @@
                 <div class="row">
                     <form method="post" enctype="multipart/form-data" asp-controller="StationeryRequests" asp-action="UpdateRequestDetail" style="width:100%">
                         <div class="col-lg-6  col-xl-6 col-md-8 mb-4 mb-xl-0">
-                            <table class="table table-bordered mb-0 table-responsive d-block border-bottom-0 border-top-0 border-left-0 border-right-0">
+                            <table id="requestTable" class="table table-bordered mb-0 table-responsive d-block border-bottom-0 border-top-0 border-left-0 border-right-0">
                                 <thead>
                                     <tr class="bg-transparent">
                                         <th class="border-bottom-0">Image</th>
@@ -75,7 +75,7 @@
                                                 @if (isPending)
                                                 {
                                                     <td class="align-middle">
-                                                        <button type="button" onclick="removeItem(@reqDetail.RequestID)"
+                                                        <button type="button" class="btn-remove" onclick="removeItem(@reqDetail.RequestDetailID)"
                                                                 style="color:red;border:none;background:none;">
                                                             <i class="icon-trash"></i>
                                                         </button>
@@ -146,7 +146,12 @@
                  }
                 )
             }
-
+            $('#requestTable').on('click', function (e) {
+                $(this).closest('tr').remove();
+            })
+        })
+        $('.btn-remove').on('click', function (e) {
+            $(this).closest('tr').remove();
         })
     </script>
 }

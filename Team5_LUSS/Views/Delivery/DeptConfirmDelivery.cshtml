@@ -72,7 +72,23 @@
                     <div class="invoices liststatus_byDept">
                         @foreach (Request r in dept_request)
                         {
-                            
+                            var orderType = "";
+                            string status = r.RequestStatus.ToString();
+                            switch (status)
+                            {
+                                case "PendingDelivery":
+                                    orderType = "badge-warning";
+                                    break;
+                                case "Received":
+                                    orderType = "badge-danger";
+                                    break;
+                                case "Completed":
+                                    orderType = "badge-success";
+                                    break;
+                                default:
+                                    orderType = "badge-primary";
+                                    break;
+                            }
                                 <div class="invoice">
                                     <div class="invoice-content">
                                         <div class="invoice-info">
@@ -89,7 +105,7 @@
                                         </div>
                                         <div class="invoice-info">
                                             <p class="mb-0 small">Status</p>
-                                            <p class="cliname" >@r.RequestStatus</p>
+                                            <p class="invoice-due-date badge @orderType">@r.RequestStatus</p>
                                         </div>
                                         <div class="btn-group mb-2">
                                             <form method="post" asp-action="DisbursementDetailsByDept">

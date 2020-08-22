@@ -8,30 +8,57 @@
 
 
     <div class="container-fluid site-width">
-       <h1>Adjustment Vouchers</h1>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="example" class="display table dataTable table-striped table-bordered">
-                        @foreach (var r in adjustmentVoucherList)
+        <h1>Adjustment Vouchers</h1>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="display table dataTable table-striped table-bordered">
+
+                    
+                    @foreach (var r in adjustmentVoucherList)
+                    {
+                        if (r.TotalCost >= 250)
                         {
-                            <tbody>
-                                <tr>
-                                    <th scope="row">@r.AdjustmentID</th>
-                                    <td>@r.Status</td>
-                                    <td>@r.TotalCost</td>
-                                    <td>@r.AdjustQty</td>
-                                    <td>@r.AdjustType</td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger" @* DETAIL VIEW*@
-                                                onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new {AdjustmentID = @r.AdjustmentID})'">
-                                            Details
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
+                        <tbody>
+                            <tr>
+                                <th scope="row">@r.AdjustmentID</th>
+                                <td>@r.Status</td>
+                                <td>@r.TotalCost</td>
+                                <td>@r.AdjustQty</td>
+                                <td>@r.AdjustType</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" @* DETAIL VIEW*@
+                                            onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID })'">
+                                        Details
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
                         }
-                    </table>
-                </div>
+                    }
+                </table>
+            </div>
+        </div>
+
+        @foreach (var r in adjustmentVoucherList)
+        {
+            <tbody>
+                <tr>
+                    <th scope="row">@r.AdjustmentID</th>
+                    <td>@r.Status</td>
+                    <td>@r.TotalCost</td>
+                    <td>@r.AdjustQty</td>
+                    <td>@r.AdjustType</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" @* DETAIL VIEW*@
+                                onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new {AdjustmentID = @r.AdjustmentID})'">
+                            Details
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        }
+        </table>
+    </div>
             </div>
             @*<div class="modal-footer">
                 <input type="hidden" id="edit-date">

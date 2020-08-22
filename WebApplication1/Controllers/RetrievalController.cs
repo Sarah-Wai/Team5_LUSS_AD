@@ -193,9 +193,9 @@ namespace LUSS_API.Controllers
                 retrievedQtyList.Add(u.ItemID, 0);
             }
 
-            for(int i = 1; i <= retrievedQty.Count(); i++)
+            for(int i = 0; i < retrievedQty.Count(); i++)
             {
-                retrievedQtyList[i] = retrievedQty[i - 1];
+                retrievedQtyList[retrievedQtyList.ElementAt(i).Key] = retrievedQty[i];
             }
 
             //List<int> items = requests.Select(x => x.ItemID).ToList();
@@ -242,7 +242,7 @@ namespace LUSS_API.Controllers
                 }
                 else if(r.FullfillQty == null)
                 {
-                    r.Request.RetrievalID = null;
+                    //r.Request.RetrievalID = null;
                     r.FullfillQty = null;
                 }
             }

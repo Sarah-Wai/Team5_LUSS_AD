@@ -87,11 +87,11 @@
     //select or unselect all
     $("#checkedAll").on("change", function () {
         if ($(this).is(':checked')) {
-            alert("Select All");
+            toastr["info"]("Select All");
             $(".itemChecked").prop('checked', true);
         }
         else {
-            alert("Unselect All")
+            toastr["info"]("Unselect All")
             $(".itemChecked").prop('checked', false);
         };
     });
@@ -103,7 +103,7 @@
             count++;
         })
         if (count === 0) {
-            alert("Please select item(s) to restock");
+            toastr["error"]("Please select item(s) to restock");
             e.preventDefault();
         }
     });

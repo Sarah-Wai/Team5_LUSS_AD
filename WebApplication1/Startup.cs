@@ -119,7 +119,6 @@ namespace LUSS_API
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
             //dbcontext.AddRange(requestDetails);
 
-
             //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher();
             //dbcontext.AddRange(adjustmentVouchers);
 

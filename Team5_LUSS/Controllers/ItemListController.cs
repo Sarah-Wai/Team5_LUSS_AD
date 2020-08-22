@@ -25,8 +25,6 @@ namespace Team5_LUSS.Controllers
             List<ItemCategory> itemCatList = new List<ItemCategory>();
             ItemCategory defaultItem = new ItemCategory();
 
-           
-
             //we set the new default value "ALL" for dropdownlist
             defaultItem.CategoryID = 0;
             defaultItem.CategoryName = "All";

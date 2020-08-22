@@ -341,6 +341,7 @@ namespace LUSS_API.Controllers
                 {
                     RequestQty = (int)(rd.RequestQty - rd.FullfillQty),
                     ItemID = rd.Item.ItemID,
+                    isActive = true,
                     RequestID = requestID
                 };
                 context123.RequestDetails.Add(rqt_Details);

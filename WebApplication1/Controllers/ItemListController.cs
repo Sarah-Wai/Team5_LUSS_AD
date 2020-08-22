@@ -150,11 +150,11 @@ namespace LUSS_API.Controllers
                     req.RequestStatus = EOrderStatus.Pending;
                     req.RequestDate = DateTime.Now;
                     req.RequestBy = itemreq.UserID;
-                    req.ModifiedBy = 1;
+                    req.ModifiedBy = null;
                     req.Comment = null;
                     req.RequestType = 0;
                     req.ParentRequestID = null;
-                    req.CollectionTime = DateTime.Now;
+                    req.CollectionTime = null;
                     req.RetrievalID = null;
 
                     context123.Request.Add(req);

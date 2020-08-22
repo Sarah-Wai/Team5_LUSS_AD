@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@{
+    int userId = (int)Context.Session.GetInt32("UserID");
+}
+
+<a class="nav-link" data-toggle="dropdown" aria-expanded="false">
+    <i class="icon-bell h4"></i><span id="noti_qty" style="color:darkblue"></span>
+</a>
+
+<ul class="dropdown-menu dropdown-menu-right border py-0" id="list">
+</ul>
+
+
+<script>
+    $(document).ready(function () {
+        var userId = @userId;
+
+        $.ajax({
+        type: "Post",
+            url: "/Notification/Index",
+            data: { 'id': userId },
+            cache: false,
+            dataType: 'json',
+            success: function (response) {
+                var noti_qyt = Object.keys(response).length;
+                $('#noti_qty').html(noti_qyt);
+                for (var i = 0; i < noti_qyt; i++) {
+                    $("#list").append('<li value="'
+                        + response[i].notificationId + '"><a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="'
+                        + response[i].routeUri + '"><div class="media"><div class="media-body"><p class="mb-0 text-success">'
+                        + response[i].description + '</p>Check Now</div></div></a></li>');
+                }
+            },
+            error: function () {
+                alert("Something went wrong.");
+            }
+        });
+        return true;
+    });
+
+    $(document).on("click", "li",function() {
+        var idd = $(this).val();
+        $.ajax({
+            type: "Post",
+            url: "/Notification/ChangeStatus",
+            data: { 'id': idd },
+            cache: false,
+            dataType: 'json',
+            success: function (response) {
+            },
+        });
+        return true;
+    })
+
+</script>
+

@@ -141,6 +141,7 @@ namespace LUSS_API.Controllers
         public Request CreateRequest([FromBody] string jsonData)
         {
             Request req = new Request();
+            ItemRequest itemreq = JsonConvert.DeserializeObject<ItemRequest>(jsonData);
             if (jsonData != null)
             {
                 //try create new order first
@@ -148,7 +149,7 @@ namespace LUSS_API.Controllers
                 {
                     req.RequestStatus = EOrderStatus.Pending;
                     req.RequestDate = DateTime.Now;
-                    req.RequestBy = 2;
+                    req.RequestBy = itemreq.UserID;
                     req.ModifiedBy = 1;
                     req.Comment = null;
                     req.RequestType = 0;
@@ -169,7 +170,8 @@ namespace LUSS_API.Controllers
                 {
                     try
                     {
-                        List<AddToCartItem> items = JsonConvert.DeserializeObject<List<AddToCartItem>>(jsonData);
+                        //List<AddToCartItem> items = JsonConvert.DeserializeObject<List<AddToCartItem>>(jsonData);
+                        List<AddToCartItem> items = itemreq.ItemList;
                         List<RequestDetails> reqDetails = new List<RequestDetails>();
 
                         foreach (var item in items)
@@ -180,6 +182,7 @@ namespace LUSS_API.Controllers
                             reqDetail.RequestQty = item.SelectedQty;
                             reqDetail.FullfillQty = null;
                             reqDetail.ReceivedQty = null;
+                            reqDetail.isActive = true;
 
                             reqDetails.Add(reqDetail);
                         }

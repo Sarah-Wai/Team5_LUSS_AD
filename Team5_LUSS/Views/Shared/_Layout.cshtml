@@ -154,7 +154,15 @@
                 <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
             </ul>
         </li>*@
-                        <li id="li_adjustStock"><a asp-controller="AdjustVoucher" asp-action="GetAdjustmentVoucherByRequestor"><i class="icon-puzzle"></i>Adjust Stock</a></li>
+                        <li id="li_adjustStock"><a asp-controller="AdjustVoucher" asp-action="GetAdjustmentVoucherByRequestor"><i class="icon-support"></i>Adjust Stock</a></li>
+
+                        <li class="dropdown" id="li_disbursement">
+                            <a asp-controller="Delivery" asp-action="Index"><i class="icon-briefcase"></i>Manage Delivery</a>
+                            <ul class="sub-menu">
+                                <li><a asp-controller="Delivery" asp-action="ConfirmDelivery"><i class="icon-energy"></i>By Request</a></li>
+                                <li><a asp-controller="Delivery" asp-action="DeptConfirmDelivery"><i class="icon-disc"></i>By Department</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown" id="li_po">
                             <a><i class="icon-briefcase"></i>Purchase Orders</a>
                             <ul class="sub-menu">

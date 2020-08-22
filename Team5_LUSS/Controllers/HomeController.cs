@@ -44,6 +44,7 @@ namespace Team5_LUSS.Controllers
                 {
                     ViewData["User"] = login_user;
                     HttpContext.Session.SetString("Email", Email);
+                    HttpContext.Session.SetString("User", login_user.FirstName);
                     HttpContext.Session.SetInt32("UserID", login_user.UserID);
                     HttpContext.Session.SetInt32("CPId", login_user.Department.CollectionPointID);
                     HttpContext.Session.SetInt32("DeptId", login_user.DepartmentID);
@@ -96,11 +97,15 @@ namespace Team5_LUSS.Controllers
             return View();
            
         }
-        public ActionResult LogOut()
+        public IActionResult Logout()
         {
-            return RedirectToAction("index");
+
+            HttpContext.Session.Clear();
+            TempData["Alert"] = "Successfully Logout!";
+            Console.WriteLine("Logout complete");
+            return RedirectToAction("Index", "Home");
         }
-        
+
         public IActionResult Privacy()
         {
             return View();

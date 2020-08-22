@@ -51,7 +51,7 @@
                                                 }
                                             </select>
                                         </td>
-                                        <td><input type="date" name="expectedDate" id="expectedDate" min="" onclick="GetMinDate()" required/></td>
+                                        <td><input type="date" name="expectedDate" class="expectedDate" min="" onclick="GetMinDate()" required/></td>
                                     </tr>
                                     }
                                 </tbody>
@@ -78,7 +78,7 @@
         var yyyy = date.getFullYear();
         var currentDate = yyyy + "-" + MM + "-" + dd;
         var currentDate = yyyy + "-" + MM + "-" + dd;
-        document.getElementById("expectedDate").setAttribute("min", currentDate);
+        $(".expectedDate").attr('min', currentDate)
     };
 
 </script>

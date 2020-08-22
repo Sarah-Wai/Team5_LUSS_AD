@@ -90,13 +90,21 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> CompleteRetrieval(List<int> retrievedQty, int retrievalId, string collectionDate, int id)
         {
+            int fromID = (int)HttpContext.Session.GetInt32("UserID");
+            List<User> toID = new List<User>();
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
                 using (var reponse = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty + "/" + retrievalId + "/" + collectionDate + "/" + id, content))
                 {
                     string apiResponse = await reponse.Content.ReadAsStringAsync();
+                    toID = JsonConvert.DeserializeObject<List<User>>(apiResponse);
                 }
+            }
+
+            foreach(User u in toID)
+            {
+                NotificationController.ReadyForCollection(fromID, u.UserID);
             }
                 return RedirectToAction("ManageDisbursement");
 

@@ -177,9 +177,9 @@ namespace LUSS_API.Controllers
 
 
         [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
-        public string allocateFulfilledQty(List<int> retrievedQty, int retrievalId, string collectionDate, int id)
+        public List<User> allocateFulfilledQty(List<int> retrievedQty, int retrievalId, string collectionDate, int id)
         {
-
+        
             List<RequestDetails> requests = context123.RequestDetails
                 .Where(x => x.Request.RetrievalID == retrievalId).ToList();
 
@@ -251,7 +251,9 @@ namespace LUSS_API.Controllers
             retrieval.Status = EOrderStatus.PendingDelivery;
 
             context123.SaveChanges(); //save all or nothing
-            return "ok";
+
+            List<User> users = requests.Select(x => x.Request.RequestByUser).Distinct().ToList();
+            return users;
         }
 
         // POST api/<controller>

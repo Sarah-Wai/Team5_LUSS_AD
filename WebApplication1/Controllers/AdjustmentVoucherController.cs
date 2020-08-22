@@ -77,8 +77,9 @@ namespace LUSS_API.Controllers
 
         [HttpGet("{adjustType}/{itemId}/{adjustQty}/{reason}/{userId}")]
         [Route("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{reason}/{userId}")]
-        public string AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId)
+        public List<User> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId)
         {
+            List<User> users = new List<User>();
             int price = context123.ItemPrice
                 .Where(x => x.ItemID == itemId).FirstOrDefault().Price;
             //int id = GetNewAdjVoucherId();
@@ -98,7 +99,16 @@ namespace LUSS_API.Controllers
 
             context123.AdjustmentVoucher.Add(adjustment);
             context123.SaveChanges();
-            return "success";
+
+            if(adjustQty * price < 250)
+            {
+                users = context123.User.Where(x => x.Role.Equals("supervisor")).ToList();
+            }
+            else
+            {
+                users = context123.User.Where(x => x.Role.Equals("manager")).ToList();
+            }
+            return users;
 
         }
 

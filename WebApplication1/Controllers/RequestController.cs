@@ -216,7 +216,7 @@ namespace LUSS_API.Controllers
 
         [HttpPost("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request/{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        public string DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
+        public int DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
         {
 
             //To do: generate retrieval id , find out why is 0 when generated
@@ -252,7 +252,9 @@ namespace LUSS_API.Controllers
 
             
             context123.SaveChanges();
-            return "ok";
+            int userID = (int)request.RequestBy;
+
+            return userID;
         }
         // get new retrieval Id
         //public int GetNewRetrievalId()

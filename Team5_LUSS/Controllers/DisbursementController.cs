@@ -282,6 +282,8 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
         {
+            int fromID = (int)HttpContext.Session.GetInt32("UserID");
+            int toID;
             using (var httpClient = new HttpClient())
             {
                 //for (int i = 0; i < fulfillQty.Count(); i++)
@@ -297,12 +299,15 @@ namespace Team5_LUSS.Controllers
                 using (var response = await httpClient.PostAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
+                    toID = JsonConvert.DeserializeObject<int>(apiResponse);
                 }
 
-                using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                }
+                //using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty))
+                //{
+                //    string apiResponse = await response.Content.ReadAsStringAsync();
+                //}
+
+                NotificationController.ReadyForCollection(fromID, toID);
 
             }
             return RedirectToAction("ManageDisbursement");

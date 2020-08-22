@@ -277,6 +277,9 @@ namespace Team5_LUSS.Controllers
             {
                 HttpContext.Session.Remove("addedItemSession");
             }
+
+            NotificationController.NewRequest(userId);
+
             return RedirectToAction("ViewCart");
         }
 

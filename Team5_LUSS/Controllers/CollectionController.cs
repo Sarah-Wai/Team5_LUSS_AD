@@ -58,6 +58,7 @@ namespace Team5_LUSS.Controllers
 
             //Demo for notification
             //NotificationController.NewRequest(1, 2);
+            //NotificationController.DelegateAssigned(loginuserid, tosuerid[item.userid]);
             //NotificationController.ReadyForCollection(2, 1);
             //NotificationController.DelegateAssigned(2, 1);
             //NotificationController.AdjustmentVoucherForApproval(2, 1);

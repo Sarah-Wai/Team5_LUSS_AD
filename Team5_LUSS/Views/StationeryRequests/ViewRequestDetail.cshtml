@@ -75,7 +75,7 @@
                                                 @if (isPending)
                                                 {
                                                     <td class="align-middle">
-                                                        <button type="button" class="btn-remove" onclick="removeItem(@reqDetail.RequestDetailID)"
+                                                        <button type="button" class="btn-remove" onclick="removeItem(@reqDetail.RequestID,@reqDetail.RequestDetailID)"
                                                                 style="color:red;border:none;background:none;">
                                                             <i class="icon-trash"></i>
                                                         </button>
@@ -93,7 +93,8 @@
                                 <div class="float-right">
                                     @if (isPending)
                                     {
-                                        <a class="btn btn-danger mr-1" asp-controller="StationeryRequests" asp-action="CancelRequest" asp-route-id="@request.RequestID">Cancel Request</a>
+                                        <button type="button" class="btn btn-danger mr-1" onclick="cancelRequest(@request.RequestID)">Cancel Request</button>
+                                        @*<a class="btn btn-danger mr-1" asp-controller="StationeryRequests" asp-action="CancelRequest" asp-route-id="@request.RequestID">Cancel Request</a>*@
 
                                         <input type="submit" class="btn btn-primary float-right" value="Update Request">
                                     }
@@ -136,22 +137,70 @@
                 }
 
                 )
-            } else if('@TempData["AlertMessage"]' == "Cancelled") {
+            } else if ('@TempData["AlertMessage"]' == "Cancelled") {
                 swal({
                     title: "Success",
                     text: "Your request has been cancelled.",
                     type: "success"
-                },function(){
-                                window.location.href = '@Url.Action("RequestHistory","StationeryRequests")';    //when user click "OK", will redirect back to Index page
-                 }
+                }, function () {
+                    window.location.href = '@Url.Action("RequestHistory","StationeryRequests")';    //when user click "OK", will redirect back to Index page
+                }
                 )
+            } else if ('@TempData["AlertMessage"]' == "Removed") {
+                swal({
+                    title: "Success",
+                    text: "Item has been removed from Request.",
+                    type: "success"
+                })
             }
-            $('#requestTable').on('click', function (e) {
-                $(this).closest('tr').remove();
+
+        })
+        //$('.btn-remove').on('click', function (e) {
+        //    $(this).closest('tr').remove();
+        //})
+
+        var removeItem = function (reqId, reDetailId) {
+            swal({
+                title: 'Are you sure?',
+                text: "Are you sure you want to delete this from your Request?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, Remove",
+                closeOnConfirm: false
+            }, function () {
+               $(this).closest('tr').remove();
+                $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("RemoveRequestedItem", "StationeryRequests")',
+                        data: { reqId, reDetailId },
+                            success: function (result) {
+                                location.reload();
+                            }
+                    })
             })
-        })
-        $('.btn-remove').on('click', function (e) {
-            $(this).closest('tr').remove();
-        })
+        }
+
+        var cancelRequest = function (reqId) {
+            swal({
+                title: 'Are you sure?',
+                text: "Are you sure you want to cancel this Request?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, Cancel",
+                closeOnConfirm: false
+            }, function () {
+               $(this).closest('tr').remove();
+                $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("CancelRequest", "StationeryRequests")',
+                        data: { reqId },
+                            success: function (result) {
+                                location.reload();
+                            }
+                    })
+            })
+        }
     </script>
 }

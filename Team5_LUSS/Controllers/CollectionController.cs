@@ -57,14 +57,14 @@ namespace Team5_LUSS.Controllers
             ViewData["dept_CollectionPoint"] = dept_CP;
 
             //Demo for notification
-            NotificationController.NewRequest(1, 2);
-            NotificationController.ReadyForCollection(2, 1);
-            NotificationController.DelegateAssigned(2, 1);
-            NotificationController.AdjustmentVoucherForApproval(2, 1);
-            NotificationController.AdjustmentVoucherApproved(2, 1);
-            NotificationController.AdjustmentVoucherRejected(2, 1);
-            NotificationController.RequestApproved(2, 1);
-            NotificationController.RequestRejected(2, 1);
+            //NotificationController.NewRequest(1, 2);
+            //NotificationController.ReadyForCollection(2, 1);
+            //NotificationController.DelegateAssigned(2, 1);
+            //NotificationController.AdjustmentVoucherForApproval(2, 1);
+            //NotificationController.AdjustmentVoucherApproved(2, 1);
+            //NotificationController.AdjustmentVoucherRejected(2, 1);
+            //NotificationController.RequestApproved(2, 1);
+            //NotificationController.RequestRejected(2, 1);
 
             return View();
         }

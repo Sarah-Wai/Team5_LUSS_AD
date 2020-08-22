@@ -30,6 +30,17 @@ namespace LUSS_API.Controllers
             return n;
         }
 
+        [HttpGet("N_IsRead/{notiId}")]
+        public void ChangeStatus(int notiId)
+        {
+            if(notiId != 0)
+            {
+                Notification n = context123.Notification.Where(x => x.NotificationId == notiId).FirstOrDefault();
+                n.IsRead = true;
+                context123.SaveChanges();
+            }
+
+        }
 
         ////Dept Head Notifications////
         [HttpGet("N_NewRequest/{fromId}/{toId}")]

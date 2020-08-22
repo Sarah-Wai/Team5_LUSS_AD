@@ -28,6 +28,20 @@ namespace Team5_LUSS.Controllers
             return notifications;
         }
 
+        [HttpPost]
+        public async void ChangeStatus(int id)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(getURL() + "/N_IsRead/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+        }
+
+
+
         public static async void NewRequest(int fromId, int toId)
         {
             using (var httpClient = new HttpClient())

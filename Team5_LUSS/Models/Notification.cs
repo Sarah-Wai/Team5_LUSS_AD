@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Team5_LUSS.Models;
 
-namespace LUSS_API.Models
+namespace Team5_LUSS.Models
 {
     public class Notification
     {

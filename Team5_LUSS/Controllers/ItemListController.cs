@@ -255,12 +255,17 @@ namespace Team5_LUSS.Controllers
         //Create New Order Request
         public async Task<IActionResult> CreateRequest()
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            ItemRequest itemreq = new ItemRequest();
+            itemreq.UserID = userId;
+            itemreq.ItemList = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+            string jsonData = JsonConvert.SerializeObject(itemreq);
             Request req = new Request();
 
             using (var httpClient = new HttpClient())
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(cartItemJson), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(jsonData), Encoding.UTF8, "application/json");
                 using (var response = await httpClient.PostAsync(api_url + "ItemList/CreateRequest", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();

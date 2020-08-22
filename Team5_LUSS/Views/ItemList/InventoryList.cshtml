@@ -139,7 +139,6 @@
                                     <label for="minimal-radio-12" style="min-width:50px" id="deduct" asp-for="AdjustType">Deduct</label>
                                     <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
                                     <label for="minimal-radio-12" style="min-width:50px" id="add" asp-for="AdjustType">Add</label>
-                                    @*<input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">*@
                                 </td>
                             </tr>
                             <tr>
@@ -148,7 +147,6 @@
                                     <input type="number" id="adjustQty" asp-for="AdjustQty" name="AdjustQty" onchange="calculate()" min="1" style="width:40px; height:25px">
                                 </td>
                             </tr>
-                            @*<input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />*@
                             <tr>
                                 <td>
                                     <b>Total Value</b>

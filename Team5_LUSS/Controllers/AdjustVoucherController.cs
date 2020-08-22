@@ -98,16 +98,35 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId, string entryPoint)
         {
-            //AdjustmentVoucher adjustment = new AdjustmentVoucher();
+            int fromID = (int)HttpContext.Session.GetInt32("UserID");
+            List<User> toID = new List<User>();
+            
+
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + reason + "/" + userId))
+                if (reason == null)
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    //adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
+                    using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + userId))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        toID = JsonConvert.DeserializeObject<List<User>>(apiResponse);
+                    }
+                }
+                else
+                {
+                    using (var response = await httpClient.GetAsync(api_url + "/addAdjustment/" + adjustType + "/" + itemId + "/" + adjustQty + "/" + reason + "/" + userId))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        toID = JsonConvert.DeserializeObject<List<User>>(apiResponse);
+                    }
                 }
             }
-            //return View(adjustment);
+
+            foreach(User u in toID)
+            {
+                NotificationController.AdjustmentVoucherForApproval(fromID, u.UserID);
+            }
+
             if (entryPoint.Equals("inventory"))
             {
                 return RedirectToAction("InventoryList", "ItemList");

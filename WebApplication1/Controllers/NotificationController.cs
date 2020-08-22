@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
@@ -43,13 +44,15 @@ namespace LUSS_API.Controllers
         }
 
         ////Dept Head Notifications////
-        [HttpGet("N_NewRequest/{fromId}/{toId}")]
-        public void NewRequest(int fromId, int toId)
+        [HttpGet("N_NewRequest/{fromId}")]
+        public void NewRequest(int fromId)
         {
+
+            int reportToId = (int)context123.User.Where(x => x.UserID == fromId).Select(x=>x.ReportToID).First();
             Notification n = new Notification()
             {
                 FromUser = fromId,
-                ToUser = toId,
+                ToUser = reportToId,
                 RouteUri = "https://localhost:44359/StationeryRequests/StationeryRequests",
                 Description = "New Request for approval",
                 IsRead = false

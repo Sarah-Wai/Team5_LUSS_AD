@@ -56,29 +56,12 @@ namespace LUSS_API.Controllers
             
             return adjustment;
         }
-     
-        //[HttpPost]
-        //public async Task<ActionResult<AdjustmentVoucher>> SaveAdjustmentVoucher(AdjustmentVoucher adjustment)
-        //{
-        //    int price = context123.ItemPrice
-        //        .Where(x => x.ItemID == adjustment.ItemID).First().Price;
-
-        //    adjustment.AdjustmentID = 1;
-        //    adjustment.Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending;
-        //    adjustment.IssuedDate = DateTime.Now;
-        //    adjustment.VoucherNo = "VN" + adjustment.AdjustmentID;
-        //    adjustment.TotalCost = adjustment.AdjustQty * price;
-
-        //    context123.AdjustmentVouncher.Add(adjustment);
-        //    await context123.SaveChangesAsync();
-
-        //    return CreatedAtAction(nameof(GetAdjustmentVoucher), adjustment);
-        //}
 
         [HttpGet("{adjustType}/{itemId}/{adjustQty}/{reason}/{userId}")]
         [Route("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{reason}/{userId}")]
-        public string AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId)
+        public List<User> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId)
         {
+            List<User> users = new List<User>();
             int price = context123.ItemPrice
                 .Where(x => x.ItemID == itemId).FirstOrDefault().Price;
             //int id = GetNewAdjVoucherId();
@@ -98,7 +81,52 @@ namespace LUSS_API.Controllers
 
             context123.AdjustmentVoucher.Add(adjustment);
             context123.SaveChanges();
-            return "success";
+
+            if(adjustQty * price < 250)
+            {
+                users = context123.User.Where(x => x.Role.Equals("supervisor")).ToList();
+            }
+            else
+            {
+                users = context123.User.Where(x => x.Role.Equals("manager")).ToList();
+            }
+            return users;
+
+        }
+
+        [HttpGet("{adjustType}/{itemId}/{adjustQty}/{userId}")]
+        [Route("addAdjustment/{adjustType}/{itemId}/{adjustQty}/{userId}")]
+        public List<User> AddAdjustmentVoucherReasonNull(string adjustType, int itemId, int adjustQty, int userId)
+        {
+            List<User> users = new List<User>();
+            int price = context123.ItemPrice
+                .Where(x => x.ItemID == itemId).FirstOrDefault().Price;
+            //int id = GetNewAdjVoucherId();
+
+            AdjustmentVoucher adjustment = new AdjustmentVoucher()
+            {
+                Status = AdjustmentVoucherStatus.AdjustmentStatus.Pending,
+                IssuedDate = DateTime.Now,
+                RequestByID = userId,
+                VoucherNo = "VN" + DateTime.Now.ToString("yyMMddHHmmss"),
+                ItemID = itemId,
+                AdjustQty = adjustQty,
+                AdjustType = adjustType,
+                TotalCost = adjustQty * price
+            };
+
+            context123.AdjustmentVoucher.Add(adjustment);
+            context123.SaveChanges();
+
+            if (adjustQty * price < 250)
+            {
+                users = context123.User.Where(x => x.Role.Equals("supervisor")).ToList();
+            }
+            else
+            {
+                users = context123.User.Where(x => x.Role.Equals("manager")).ToList();
+            }
+            return users;
 
         }
 

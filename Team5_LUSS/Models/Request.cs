@@ -30,7 +30,6 @@ namespace Team5_LUSS.Models
         [MaxLength(50)]
         public ERequestType RequestType { get; set; }
         public int? ParentRequestID { get; set; }
-        [Required]
         public DateTime CollectionTime { get; set; }
         public int? RetrievalID { get; set; }
         public virtual User ModifiedByUser { get; set; }

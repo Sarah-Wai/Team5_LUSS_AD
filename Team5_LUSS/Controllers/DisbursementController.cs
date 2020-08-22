@@ -90,13 +90,21 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> CompleteRetrieval(List<int> retrievedQty, int retrievalId, string collectionDate, int id)
         {
+            int fromID = (int)HttpContext.Session.GetInt32("UserID");
+            List<User> toID = new List<User>();
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
                 using (var reponse = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty + "/" + retrievalId + "/" + collectionDate + "/" + id, content))
                 {
                     string apiResponse = await reponse.Content.ReadAsStringAsync();
+                    toID = JsonConvert.DeserializeObject<List<User>>(apiResponse);
                 }
+            }
+
+            foreach(User u in toID)
+            {
+                NotificationController.ReadyForCollection(fromID, u.UserID);
             }
                 return RedirectToAction("ManageDisbursement");
 
@@ -274,6 +282,8 @@ namespace Team5_LUSS.Controllers
         [HttpPost]
         public async Task<IActionResult> DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
         {
+            int fromID = (int)HttpContext.Session.GetInt32("UserID");
+            int toID;
             using (var httpClient = new HttpClient())
             {
                 //for (int i = 0; i < fulfillQty.Count(); i++)
@@ -289,12 +299,15 @@ namespace Team5_LUSS.Controllers
                 using (var response = await httpClient.PostAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
+                    toID = JsonConvert.DeserializeObject<int>(apiResponse);
                 }
 
-                using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                }
+                //using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty))
+                //{
+                //    string apiResponse = await response.Content.ReadAsStringAsync();
+                //}
+
+                NotificationController.ReadyForCollection(fromID, toID);
 
             }
             return RedirectToAction("ManageDisbursement");

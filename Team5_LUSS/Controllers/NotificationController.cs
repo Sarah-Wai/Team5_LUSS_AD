@@ -42,11 +42,11 @@ namespace Team5_LUSS.Controllers
 
 
 
-        public static async void NewRequest(int fromId, int toId)
+        public static async void NewRequest(int fromId)
         {
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(getURL() + "/N_NewRequest/" + fromId + "/" + toId))
+                using (var response = await httpClient.GetAsync(getURL() + "/N_NewRequest/" + fromId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                 }

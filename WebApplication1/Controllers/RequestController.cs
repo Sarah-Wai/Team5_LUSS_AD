@@ -155,12 +155,15 @@ namespace LUSS_API.Controllers
             Dictionary<int, int> allocationList = new Dictionary<int, int>();
             foreach (var item in list)
             {
-                allocationList.Add(item.ItemIds, 0);
+                int key = item.itemIds;
+                int value = 0;
+                allocationList.Add(key, value);
             }
 
-            for (int i = 1; i <= acceptedQty.Count(); i++)
+            for (int i = 0; i < acceptedQty.Count(); i++)
             {
-                allocationList[i] = acceptedQty[i - 1];
+                int key = allocationList.ElementAt(i).Key;
+                allocationList[key] = acceptedQty[i];
             }
 
 
@@ -174,8 +177,8 @@ namespace LUSS_API.Controllers
                 int reqQTY;
                 int balance = allocationList.ElementAt(i).Value;
 
-                List<int> requestIdList = list.Where(x => x.ItemIds == allocationList.ElementAt(i).Key)
-                                            .Select(x => x.RequestIDs).FirstOrDefault();
+                List<int> requestIdList = list.Where(x => x.itemIds == allocationList.ElementAt(i).Key)
+                                            .Select(x => x.requestIDs).FirstOrDefault();
 
 
                 for (int j = 0; j < requestIdList.Count(); j++)
@@ -213,7 +216,7 @@ namespace LUSS_API.Controllers
 
         [HttpPost("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request/{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        public string DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
+        public int DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
         {
 
             //To do: generate retrieval id , find out why is 0 when generated
@@ -249,7 +252,9 @@ namespace LUSS_API.Controllers
 
             
             context123.SaveChanges();
-            return "ok";
+            int userID = (int)request.RequestBy;
+
+            return userID;
         }
         // get new retrieval Id
         //public int GetNewRetrievalId()

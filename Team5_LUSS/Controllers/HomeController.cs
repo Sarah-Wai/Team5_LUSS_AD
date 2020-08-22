@@ -28,7 +28,7 @@ namespace Team5_LUSS.Controllers
             string action_name = "";string controller_name = "";
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+"/"+Email+"/"+ Hword)) // connect to call api
+                using (var response = await httpClient.GetAsync(api_url+"/"+ Email+"/"+ Hword)) // connect to call api
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     login_user = JsonConvert.DeserializeObject<User>(apiResponse); // convert the packets from https link to the object
@@ -74,7 +74,7 @@ namespace Team5_LUSS.Controllers
                         switch (login_user.Role)
                         {
                             case "dept_employee": action_name = "Index";controller_name = "ItemList"; break;
-                            case "dept_head": action_name = "Dashboard"; controller_name = "Dashboard"; break;
+                            case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break;
                                 //case "dept_delegate": break;
                         }
                         

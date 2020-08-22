@@ -61,7 +61,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-            if(items == null)
+            if(items == null || items.Count == 0)
             {
                 TempData["noItem"] = "There are no pending request to disburse.";
                 return RedirectToAction("ManageDisbursement");
@@ -84,21 +84,21 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-            return RedirectToAction("Disbursement_By_Retrieval");// to be change to by request listing 
+            return RedirectToAction("ManageDisbursement");
         }
 
         [HttpPost]
-        public async Task<IActionResult> CompleteRetrieval(List<int> retrievedQty, int retrievalId, string collectionDate)
+        public async Task<IActionResult> CompleteRetrieval(List<int> retrievedQty, int retrievalId, string collectionDate, int id)
         {
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
-                using (var reponse = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty + "/" + retrievalId + "/" + collectionDate, content))
+                using (var reponse = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty + "/" + retrievalId + "/" + collectionDate + "/" + id, content))
                 {
                     string apiResponse = await reponse.Content.ReadAsStringAsync();
                 }
             }
-                return View("");
+                return RedirectToAction("ManageDisbursement");
 
         }
 
@@ -118,6 +118,8 @@ namespace Team5_LUSS.Controllers
             ViewData["requests"] = requests;
             return View("Retrieval_Form");
         }
+
+        #region retrival allocation to be removed
 
         //public async Task<IActionResult> RetrievalAllocation(int id)
         //{
@@ -144,36 +146,58 @@ namespace Team5_LUSS.Controllers
         //    return View("Disbursement_By_Retrieval");
         //}
 
-        [HttpPost]                                                                                                                          
-        public async Task<IActionResult> RetrievalList(List<int> retrievedQty)
-        {
-            
-            using (var httpClient = new HttpClient())
-            {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
+        [HttpPost]
+        //public async Task<IActionResult> RetrievalList(List<int> retrievedQty)
+        //{
 
-                using (var response = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty, content))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                }
-            }
-            return RedirectToAction("");
-        }
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
+
+        //        using (var response = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty, content))
+        //        {
+        //            string apiResponse = await response.Content.ReadAsStringAsync();
+        //        }
+        //    }
+        //    return RedirectToAction("");
+        //}
+
+        #endregion
 
         #region Manage Disbursement
-        public async Task<IActionResult> ManageDisbursement()
+        [HttpGet]
+        public async Task<IActionResult> ManageDisbursement(string type)
         {
 
             List<Request> requests = new List<Request>();
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+ "get-approved-request/"))
+                if(type == null)
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    using (var response = await httpClient.GetAsync(api_url + "get-approved-request/"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    }
                 }
+
+                else
+                {
+                    using (var response = await httpClient.GetAsync(api_url + "byType/" + type))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
+                    }
+                }
+                
             }
+
+            if(requests.Count == 0)
+            {
+                TempData["noItem"] = "There are no pending request to disburse.";
+            }
+
             ViewData["requests"] = requests;
             return View("Disbursement_Manage");
         }

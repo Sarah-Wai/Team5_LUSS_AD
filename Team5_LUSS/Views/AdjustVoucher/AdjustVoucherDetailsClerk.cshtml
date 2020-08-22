@@ -28,10 +28,10 @@
         <div class="col-12  mt-3">
             <div class="card" style="text-align: left">
                 <div class="card-body">
-                    <table style="width: 30%; padding-bottom: 8px">
+                    <table style="width: 50%; padding-bottom: 8px">
                         <tr>
                             <td><b>Date Issue:</b></td>
-                            <td>@adjustment.IssuedDate</td>
+                            <td>@adjustment.IssuedDate.ToString("dd MMM yyyy")</td>
                         </tr>
                         <tr>
                             <td><b>Voucher No:</b></td>
@@ -105,3 +105,4 @@
 <!-- START: APP JS-->
 <script src="dist/js/app.js"></script>
 <!-- END: APP JS-->
+

@@ -32,13 +32,21 @@ namespace LUSS_API.Controllers
 
         }
 
-        //[HttpGet("{id}")]
-        //public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
-        //{
-        //    AdjustmentVoucher iDVoucher = context123.AdjustmentVouncher.First(c => c.AdjustmentID == id);
+        [HttpGet("pending")]
+        public IEnumerable<AdjustmentVoucher> GetPendingAdjustmentVoucherStatus()
+        {
+            List<AdjustmentVoucher> adjustmentpendingVoucherStatus = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentStatus.Pending && x.TotalCost >= 250).ToList();
+            return adjustmentpendingVoucherStatus;
 
-        //    return iDVoucher;
-        //}
+        }
+
+        [HttpGet("{id}")]
+        public AdjustmentVoucher GetAdjustmentVoucherByID(int id)
+        {
+            AdjustmentVoucher iDVoucher = context123.AdjustmentVoucher.First(c => c.AdjustmentID == id);
+
+            return iDVoucher;
+        }
 
         [HttpGet("{AdjustmentID}/{ItemID}/{AdjustQty}/{AdjustType}")]
         [Route("ApprovedAdjustmentVoucher/{AdjustmentID}/{status}")]
@@ -74,8 +82,12 @@ namespace LUSS_API.Controllers
         [HttpGet("get-manager/{id}")]
         public User GetReportToByID(int id)
         {
+            User manager = new User();
             User requester = context123.User.First(x => x.UserID == id);
-            User manager = context123.User.First(x => x.UserID == requester.ReportToID);   
+            if (requester.ReportToID != null) {
+                 manager = context123.User.First(x => x.UserID == requester.ReportToID);
+            }
+             
             return manager;
         }
 

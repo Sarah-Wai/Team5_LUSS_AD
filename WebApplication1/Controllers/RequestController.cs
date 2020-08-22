@@ -105,6 +105,15 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
+        [HttpGet("{type}")]
+        [Route("byType/{type}")]
+        public IEnumerable<Request> GetByType(string type)
+        {
+            RequestType.ERequestType st = (RequestType.ERequestType)Enum.Parse(typeof(RequestType.ERequestType), type);
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == EOrderStatus.Approved && x.RequestType == st).ToList();
+            return requestList;
+        }
+
         [HttpGet("{status}/{retrievalID}")]
         [Route("GetItemByStatus/{status}/{retrievalID}")]
         public IEnumerable<dynamic> GetItemsByStatus(string status, int retrievalId)
@@ -228,7 +237,8 @@ namespace LUSS_API.Controllers
             //update fulfill qty of each request items
             for (int i = 0; i < reqItems.Count(); i++)
             {
-                reqItems[i].FullfillQty = fulfillQty[i]; 
+                reqItems[i].FullfillQty = fulfillQty[i];
+                reqItems[i].Item.InStockQty -= fulfillQty[i]; // less out stock
                 //if (reqItems[i].FullfillQty == null && reqItems[i].RequestID == id)
                 //{
                 //    reqItems[i].FullfillQty = fulfillQty[i];

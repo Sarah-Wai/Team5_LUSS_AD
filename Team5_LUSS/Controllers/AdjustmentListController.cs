@@ -48,7 +48,7 @@ namespace Team5_LUSS.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Approved(int AdjustmentID)
+        public async Task<IActionResult> Approved(int AdjustmentID , string Comment)
         {
             string apiResponse = "";
             int userId = (int)HttpContext.Session.GetInt32("UserID");
@@ -56,7 +56,7 @@ namespace Team5_LUSS.Controllers
             
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/ApprovedAdjustmentVoucher/" + AdjustmentID + "/" + "Approved"))
+                using (var response = await httpClient.GetAsync(api_url + "/ApprovedAdjustmentVoucher/" + AdjustmentID + "/" + "Approved" + "/" + Comment))
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
@@ -132,7 +132,7 @@ namespace Team5_LUSS.Controllers
             }
             */
 
-            return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
+            return RedirectToAction("AdjustmentVouchers", "AdjustmentList");
         }
 
 

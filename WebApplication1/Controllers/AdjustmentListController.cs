@@ -57,30 +57,39 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
-        [Route("ApprovedAdjustmentVoucher/{AdjustmentID}/{status}")]
-        public string SaveVoucher(int AdjustmentID, string status)
+        [Route("ApprovedAdjustmentVoucher/{AdjustmentID}/{status}/{comment}")]
+        public string SaveVoucher(int AdjustmentID, string status , string Comment)
         {
             AdjustmentVoucher adjustmentVouncher = context123.AdjustmentVoucher.First(c => c.AdjustmentID == AdjustmentID);
             AdjustmentStatus state = (AdjustmentStatus)Enum.Parse(typeof(AdjustmentStatus), status);
-            if (adjustmentVouncher != null)
+            if (status == "Approved")
             {
                 // do the changes to db
                 adjustmentVouncher.Status = state;
-                
-            }
-            Item item = context123.Item.First(c => c.ItemID == adjustmentVouncher.ItemID);
+                adjustmentVouncher.Comment = Comment;
 
-            if (item != null && adjustmentVouncher.AdjustType == "Deduct")
+
+                Item item = context123.Item.First(c => c.ItemID == adjustmentVouncher.ItemID);
+
+                if (item != null && adjustmentVouncher.AdjustType == "Deduct")
+                {
+                    item.InStockQty -= adjustmentVouncher.AdjustQty;
+                }
+
+                if (item != null && adjustmentVouncher.AdjustType == "Add")
+                {
+                    item.InStockQty += adjustmentVouncher.AdjustQty;
+                }
+
+            }
+
+            if (status == "Rejected")
             {
-                item.InStockQty -= adjustmentVouncher.AdjustQty;
+                adjustmentVouncher.Status = state;
             }
 
-            if (item != null && adjustmentVouncher.AdjustType == "Add")
-            {
-                item.InStockQty += adjustmentVouncher.AdjustQty;
-            }
 
-            try
+                try
             {
                 context123.SaveChanges();
             }

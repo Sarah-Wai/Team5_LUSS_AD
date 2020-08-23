@@ -118,7 +118,7 @@ namespace LUSS_API.Controllers
                     }
                 }
             }
-            if (lowStockList.Count() == 0) { return items; }
+            //if (lowStockList.Count() == 0) { return items; }
             return lowStockList;
         }
 
@@ -144,19 +144,20 @@ namespace LUSS_API.Controllers
             ItemRequest itemreq = JsonConvert.DeserializeObject<ItemRequest>(jsonData);
             if (jsonData != null)
             {
+                var datetime = DateTime.Now;
                 //try create new order first
                 try
                 {
                     req.RequestStatus = EOrderStatus.Pending;
-                    req.RequestDate = DateTime.Now;
+                    req.RequestDate = datetime;
                     req.RequestBy = itemreq.UserID;
-                    req.ModifiedBy = null;
+                    req.ModifiedBy = itemreq.UserID;
                     req.Comment = null;
                     req.RequestType = 0;
                     req.ParentRequestID = null;
-                    req.CollectionTime = null;
+                    req.CollectionTime = datetime.AddYears(-10);
                     req.RetrievalID = null;
-
+                    
                     context123.Request.Add(req);
                     context123.SaveChanges();
                     //Console.WriteLine(req.RequestID);

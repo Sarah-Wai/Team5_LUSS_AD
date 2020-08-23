@@ -102,7 +102,7 @@ namespace LUSS_API.Controllers
             {
                 FromUser = fromId,
                 ToUser = toId,
-                RouteUri = "https://localhost:44359/",
+                RouteUri = "https://localhost:44359/AdjustmentList/AdjustmentVouchers",
                 Description = "A new adjustment voucher pending for your approval",
                 IsRead = false
             };

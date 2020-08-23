@@ -195,7 +195,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
 
-            return RedirectToAction("PurchaseOrders");
+            return RedirectToAction("ViewLowStockItems");
         }
 
         #endregion

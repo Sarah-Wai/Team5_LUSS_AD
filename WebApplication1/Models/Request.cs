@@ -29,7 +29,7 @@ namespace LUSS_API.Models
         [MaxLength(50)]
         public ERequestType RequestType { get; set; }
         public int? ParentRequestID { get; set; }
-        public DateTime? CollectionTime { get; set; }
+        public DateTime CollectionTime { get; set; }
         public int? RetrievalID { get; set; }
         public virtual User ModifiedByUser { get; set; }
         public virtual User RequestByUser { get; set; }

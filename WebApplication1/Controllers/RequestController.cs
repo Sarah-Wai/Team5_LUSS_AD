@@ -439,5 +439,26 @@ namespace LUSS_API.Controllers
            // request.RequestDetails = newReqDetail;
             return request;
         }
+
+        [HttpGet("{reqId}/{reqDetail}")]
+        [Route("RemoveRequestedItem/{reqId}/{reqDetail}")]
+        public bool RemoveRequestedItem(int reqId, int reqDetail)
+        {
+            bool isRemoved = false;
+            try
+            {
+                RequestDetails rd = context123.RequestDetails.Where(r => r.RequestDetailID.Equals(reqDetail) && r.RequestID.Equals(reqId)).FirstOrDefault();
+                context123.RequestDetails.Remove(rd);
+                context123.SaveChanges();
+                isRemoved = true;
+            }
+            catch
+            {
+                isRemoved = false;
+            }
+
+            return isRemoved;
+        }
     }
+
 }

@@ -9,7 +9,7 @@
     <div>
         <div class="row">
             <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
-                <a asp-action="ConfirmDelivery" class="btn btn-primary">Back </a>
+                <a asp-action="ConfirmDelivery" onclick="window.history.back()" class="btn btn-primary">Back </a>
             </div>
             <div class="col-12 col-md-12">
                 <div class="card border-0">
@@ -59,7 +59,7 @@
                                 @foreach (RequestDetails r in reqItems)
                                 {
                                     <tr>
-                                        <td>@r.RequestID</td>
+                                        <td>@r.Item.ItemCode</td>
                                         <td class="text-right">@r.Item.ItemName</td>
                                         <td class="text-right">@r.Item.UOM</td>
                                         <td class="text-right">@r.RequestQty</td>

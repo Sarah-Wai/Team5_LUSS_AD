@@ -53,22 +53,24 @@
                             string qtyclassname = "qty" + item.ItemID;
                             string itemname = "item" + item.ItemID;
                             var maxQty = item.InStockQty;
+                            bool isLowStock = false;
+                            if (item.InStockQty < item.ReStockLevel)
+                            {
+                                isLowStock = true;
+                            }
+                            else
+                            {
+                                isLowStock = false;
+                            }
                             <div class="col-md-6 col-lg-3 mb-4">
                                 <div class="item-wrapper">
                                     <div class="position-relative item-img-wrapper">
+                                        @if (isLowStock)
+                                        {
+                                            <span class="lowstock-badge badge badge-pill badge-warning p-2 mb-1">Low stock</span>
+                                        }
                                         <img src=@img alt="" class="img-fluid item-img">
-                                        <div class="caption-bg fade bg-transparent text-right">
-                                            <div class="d-table w-100 h-100 ">
-                                                <div class="d-table-cell align-bottom">
-                                                    <div class="mb-3">
-                                                        <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-heart"></i></a>
-                                                    </div>
-                                                    <div class="mb-4">
-                                                        <a href="#" class="rounded-left bg-white px-3 py-2 shadow2"><i class="icon-bag"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div class="pt-3 item-desc-wrapper">
                                         <p class="mb-2"><a href="#" class="font-weight-bold text-primary" id=@itemname>@item.ItemName</a></p>

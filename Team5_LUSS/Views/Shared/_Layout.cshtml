@@ -99,7 +99,7 @@
                         <li class="dropdown user-profile align-self-center d-inline-block">
                             <a href="#" class="nav-link py-0" data-toggle="dropdown" aria-expanded="false">
                                 <div >
-                                    <p>Hi @username</p>
+                                    <p>Hi, @username</p>
                                    
                                 </div>
                             </a>
@@ -164,7 +164,7 @@
                                     <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
                                 </ul>
                             </li>*@
-                        <li id="li_adjustStock"><a asp-controller="AdjustVoucher" asp-action="GetAdjustmentVoucherByRequestor"><i class="icon-support"></i>Adjust Stock</a></li>
+                        <li id="li_adjustStock"><a asp-controller="AdjustVoucher" asp-action="GetAdjustmentVoucherByRequestor"><i class="icon-puzzle"></i>Adjust Stock</a></li>
 
                         <li class="dropdown" id="li_disbursement">
                             <a asp-controller="Delivery" asp-action="Index"><i class="icon-briefcase"></i>Manage Delivery</a>
@@ -187,9 +187,9 @@
                 <li class="dropdown" id="menu_mgstore">
                     <a href="#"><i class="icon-organization mr-1"></i>Menu</a>
                     <ul>
-                        <li id="li_mgstoreDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
+                        @*<li id="li_mgstoreDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>*@
                         <li id="li_mgstoreInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
-                        <li id="li_adjustVouncher"><a href="/AdjustmentList/AdjustmentVouchers"><i class="icon-briefcase"></i> Adjustment Vouncher</a></li>
+                        <li id="li_adjustVouncher"><a href="/AdjustmentList/AdjustmentVouchers"><i class="icon-puzzle"></i> Adjust Stock</a></li>
                     </ul>
                 </li>
 

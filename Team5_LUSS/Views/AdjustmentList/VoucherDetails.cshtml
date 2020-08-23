@@ -1,9 +1,7 @@
 ﻿
 
 @model AdjustmentVoucher
-
-
-<h1>VoucherApproveDetails</h1>
+<h1>Voucher Approve Details</h1>
 
 <style>
     td {
@@ -29,7 +27,6 @@
             <div class="card" style="text-align: left">
                 <div class="card-body">
                     <table style="width: 50%; padding-bottom: 8px">
-                        Adjustment Voucher Details
                         <tr>
                             <td><b>Date Issue:</b></td>
                             <td>@Model.IssuedDate.ToString("dd MMM yyyy")</td>
@@ -50,7 +47,7 @@
                             <td><b>Description:</b></td>
                             <td>@Model.Item.ItemName</td>
                         </tr>
-
+                 
                         <tr>
                             <td><b>UOM:</b></td>
                             <td>@Model.Item.UOM</td>
@@ -71,37 +68,23 @@
                             <td><b>Status:</b></td>
                             <td>@Model.Status</td>
                         </tr>
-
-
+                        <tr>
+                            <td><b>Comment:</b></td>
+                            <td>@Model.Comment</td>
                         </tr>
-                        <label for="Comment">Comment:</label>
-                        <input class="text" name="Comment" value="" />
-                        </tr>
-
-                        
-
-                        @*<input type="text" asp-for="Reason" name="Reason" id="Comment" placeholder="" style="width:250px; height:80px">*@
                     </table>
                 </div>
             </div>
 
             <div class="text-center panel-body">
-                <button type="button" class="btn btn-sm btn-success" onclick="location.href =
-        '@Url.Action("Approved", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID , Comment = Comment}) ?Comment={{Comment}}'">
-                    Approve
-                </button>
-                <button type="button" class="btn btn-sm btn-danger" onclick="location.href =
-        '@Url.Action("Rejected", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID })'">
-                    Reject
-                </button>
+                <button type="button" class="btn btn-sm btn-success" onclick="location.href='@Url.Action("Approved", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'"> Approve</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("Rejected", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'">Reject</button>
             </div>
 
         </div>
     </div>
     <!-- END: Card DATA-->
 </div>
-
-
 <!-- END: Content-->
 <!-- START: Back to top-->
 <a href="#" class="scrollup text-center">

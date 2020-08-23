@@ -103,3 +103,8 @@
 .PagedList-pageCountAndLocation{
     display:none;
 }
+
+.lowstock-badge{
+    margin-left:60%;
+    position:absolute;
+}

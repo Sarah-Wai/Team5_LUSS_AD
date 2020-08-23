@@ -122,12 +122,13 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CancelRequest(int id)
+        public async Task<IActionResult> CancelRequest(int reqId)
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                string str = api_url + "Request/CancelRequest/" + id;
+                string str = api_url + "Request/CancelRequest/" + reqId;
                 using (var response = await httpClient.GetAsync(str))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -139,7 +140,7 @@ namespace Team5_LUSS.Controllers
             {
                 TempData["AlertMessage"] = "Cancelled";
             }
-            return RedirectToAction("ViewRequestDetail", new { id = id });
+            return RedirectToAction("RequestHistory", new { id = userId });
         }
 
         public async Task<IActionResult> UpdateRequestDetail()
@@ -217,5 +218,25 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("ViewRequestDetail", new { id = reqID });
         }
 
+        public async Task<IActionResult> RemoveRequestedItem(int reqId, int reDetailId)
+        {
+            bool isRemoved = false;
+            using (var httpClient = new HttpClient())
+            {
+                string str = api_url + "Request/RemoveRequestedItem/" + reqId + "/" + reDetailId;
+                using (var response = await httpClient.GetAsync(str))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    isRemoved = JsonConvert.DeserializeObject<bool>(apiResponse);
+                }
+            }
+            
+            if (isRemoved)
+            {
+                TempData["AlertMessage"] = "Removed";
+            }
+
+            return RedirectToAction("ViewRequestDetail", new { id = reqId });
+        }
     }
 }

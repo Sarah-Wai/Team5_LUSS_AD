@@ -82,7 +82,7 @@ namespace LUSS_API.Controllers
                     item.InStockQty += adjustmentVouncher.AdjustQty;
                 }
 
-            }
+            
 
             if (status == "Rejected")
             {

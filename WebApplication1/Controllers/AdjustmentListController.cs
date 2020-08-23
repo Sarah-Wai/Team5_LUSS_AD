@@ -57,8 +57,8 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
-        [Route("ApprovedAdjustmentVoucher/{AdjustmentID}/{status}")]
-        public string SaveVoucher(int AdjustmentID, string status)
+        [Route("ApprovedAdjustmentVoucher/{AdjustmentID}/{Comment}/{userID}/{status}")]
+        public string SaveVoucher(int AdjustmentID, string Comment, int userID, string status)
         {
             AdjustmentVoucher adjustmentVouncher = context123.AdjustmentVoucher.First(c => c.AdjustmentID == AdjustmentID);
             AdjustmentStatus state = (AdjustmentStatus)Enum.Parse(typeof(AdjustmentStatus), status);
@@ -66,6 +66,8 @@ namespace LUSS_API.Controllers
             {
                 // do the changes to db
                 adjustmentVouncher.Status = state;
+                adjustmentVouncher.Comment = Comment;
+                adjustmentVouncher.ApprovedByID = userID;
                 
             }
             Item item = context123.Item.First(c => c.ItemID == adjustmentVouncher.ItemID);

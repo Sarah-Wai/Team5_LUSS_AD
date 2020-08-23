@@ -62,7 +62,7 @@ namespace LUSS_API.Controllers
         {
             AdjustmentVoucher adjustmentVouncher = context123.AdjustmentVoucher.First(c => c.AdjustmentID == AdjustmentID);
             AdjustmentStatus state = (AdjustmentStatus)Enum.Parse(typeof(AdjustmentStatus), status);
-            if (adjustmentVouncher != null)
+            if (status == "Approved")
             {
                 // do the changes to db
                 adjustmentVouncher.Status = state;
@@ -72,17 +72,25 @@ namespace LUSS_API.Controllers
             }
             Item item = context123.Item.First(c => c.ItemID == adjustmentVouncher.ItemID);
 
-            if (item != null && adjustmentVouncher.AdjustType == "Deduct")
-            {
-                item.InStockQty -= adjustmentVouncher.AdjustQty;
+                if (item != null && adjustmentVouncher.AdjustType == "Deduct")
+                {
+                    item.InStockQty -= adjustmentVouncher.AdjustQty;
+                }
+
+                if (item != null && adjustmentVouncher.AdjustType == "Add")
+                {
+                    item.InStockQty += adjustmentVouncher.AdjustQty;
+                }
+
             }
 
-            if (item != null && adjustmentVouncher.AdjustType == "Add")
+            if (status == "Rejected")
             {
-                item.InStockQty += adjustmentVouncher.AdjustQty;
+                adjustmentVouncher.Status = state;
             }
 
-            try
+
+                try
             {
                 context123.SaveChanges();
             }

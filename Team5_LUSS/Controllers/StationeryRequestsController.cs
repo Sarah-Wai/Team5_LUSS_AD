@@ -66,11 +66,11 @@ namespace Team5_LUSS.Controllers
                 }
 
             }
-            int empId = 2;
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "Request/GetRequestByEmpId/" + empId))
+                using (var response = await httpClient.GetAsync(api_url + "Request/GetRequestByEmpId/" + userId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
@@ -90,6 +90,10 @@ namespace Team5_LUSS.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewRequestDetail(int id)
         {
+            //if(TempData["AlertMessage"] != null)
+            //{
+            //    TempData["AlertMessage"] = null;
+            //}
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
@@ -100,18 +104,31 @@ namespace Team5_LUSS.Controllers
                     request = JsonConvert.DeserializeObject<Request>(apiResponse);
                 }
             }
+            if(request != null)
+            {
+                List<RequestDetails> newReqDetail = new List<RequestDetails>();
+                foreach (var r in request.RequestDetails)
+                {
+                    if (r.isActive == true)
+                    {
+                        newReqDetail.Add(r);
+                    }
+                }
+                request.RequestDetails = newReqDetail;
+            }
 
             ViewData["request"] = request;
 
             return View();
         }
 
-        public async Task<IActionResult> CancelRequest(int id)
+        public async Task<IActionResult> CancelRequest(int reqId)
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                string str = api_url + "Request/CancelRequest/" + id;
+                string str = api_url + "Request/CancelRequest/" + reqId;
                 using (var response = await httpClient.GetAsync(str))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -123,7 +140,7 @@ namespace Team5_LUSS.Controllers
             {
                 TempData["AlertMessage"] = "Cancelled";
             }
-            return RedirectToAction("ViewRequestDetail", new { id = id });
+            return RedirectToAction("RequestHistory", new { id = userId });
         }
 
         public async Task<IActionResult> UpdateRequestDetail()
@@ -163,14 +180,15 @@ namespace Team5_LUSS.Controllers
 
             for (int i = 0; i < itemIds.Length; i++)
             {
-                var itemid = Int32.Parse(itemIds[i]);
+               
                 foreach (var requestDetail in request.RequestDetails)
                 {
                     if (requestDetail.ItemID == Int32.Parse(itemIds[i]))
                     {
                         requestDetail.RequestQty = Int32.Parse(quantities[i]);
-
+                        requestDetail.isActive = true;
                     }
+                    
                 }
 
             }
@@ -200,5 +218,25 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("ViewRequestDetail", new { id = reqID });
         }
 
+        public async Task<IActionResult> RemoveRequestedItem(int reqId, int reDetailId)
+        {
+            bool isRemoved = false;
+            using (var httpClient = new HttpClient())
+            {
+                string str = api_url + "Request/RemoveRequestedItem/" + reqId + "/" + reDetailId;
+                using (var response = await httpClient.GetAsync(str))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    isRemoved = JsonConvert.DeserializeObject<bool>(apiResponse);
+                }
+            }
+            
+            if (isRemoved)
+            {
+                TempData["AlertMessage"] = "Removed";
+            }
+
+            return RedirectToAction("ViewRequestDetail", new { id = reqId });
+        }
     }
 }

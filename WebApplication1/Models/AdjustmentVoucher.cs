@@ -32,7 +32,7 @@ namespace LUSS_API.Models
         public string VoucherNo   { get; set; }
         [MaxLength(500)]
         public string Comment  { get; set; }
-        public string Reason { get; set; }
+        public string? Reason { get; set; }
         [Required]
         public int ItemID { get; set; }
 

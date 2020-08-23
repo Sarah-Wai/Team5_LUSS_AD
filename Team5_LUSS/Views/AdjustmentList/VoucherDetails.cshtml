@@ -1,9 +1,7 @@
 ﻿
-@{
-    ViewData["Title"] = "AdjustVoucherDetailsClerk";
-    var adjustment = (AdjustmentVoucher)ViewData["adjustmentById"];
-    var price = (int)ViewData["price"];
-}
+
+@model AdjustmentVoucher
+<h1>VoucherApproveDetails</h1>
 
 <style>
     td {
@@ -18,7 +16,7 @@
     <div class="row ">
         <div class="col-12  align-self-center">
             <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0">Adjustment Voucher Details</h4></div>
+                @* <div class="w-sm-100 mr-auto"><h4 class="mb-0">Adjustment Voucher Details</h4></div>*@
             </div>
         </div>
     </div>
@@ -28,62 +26,61 @@
         <div class="col-12  mt-3">
             <div class="card" style="text-align: left">
                 <div class="card-body">
-                    <table style="width: 50%; padding-bottom: 8px">
+                    <table style="width: 50%; padding-bottom: 8px"> Adjustment Voucher Details
                         <tr>
                             <td><b>Date Issue:</b></td>
-                            <td>@adjustment.IssuedDate.ToString("dd MMM yyyy")</td>
+                            <td>@Model.IssuedDate.ToString("dd MMM yyyy")</td>
                         </tr>
                         <tr>
                             <td><b>Voucher No:</b></td>
-                            <td>@adjustment.VoucherNo</td>
+                            <td>@Model.VoucherNo</td>
                         </tr>
                         <tr>
                             <td><b>Item Code:</b></td>
-                            <td>@adjustment.Item.ItemCode</td>
+                            <td>@Model.Item.ItemCode</td>
                         </tr>
                         <tr>
                             <td><b>Category:</b></td>
-                            <td>@adjustment.Item.ItemCategory.CategoryName</td>
+                            <td>@Model.Item.ItemCategory.CategoryName</td>
                         </tr>
                         <tr>
                             <td><b>Description:</b></td>
-                            <td>@adjustment.Item.ItemName</td>
+                            <td>@Model.Item.ItemName</td>
                         </tr>
-                        <tr>
-                            <td><b>Unit Cost:</b></td>
-                            <td>@price</td>
-                        </tr>
+                 
                         <tr>
                             <td><b>UOM:</b></td>
-                            <td>@adjustment.Item.UOM</td>
+                            <td>@Model.Item.UOM</td>
                         </tr>
                         <tr>
                             <td><b>Quantity:</b></td>
-                            <td>@adjustment.AdjustQty</td>
+                            <td>@Model.AdjustQty</td>
                         </tr>
                         <tr>
                             <td><b>Total Value:</b></td>
-                            <td>@adjustment.TotalCost</td>
+                            <td>@Model.TotalCost</td>
                         </tr>
                         <tr>
                             <td><b>Reason:</b></td>
-                            <td>@adjustment.Reason</td>
+                            <td>@Model.Reason</td>
                         </tr>
                         <tr>
                             <td><b>Status:</b></td>
-                            <td>@adjustment.Status</td>
+                            <td>@Model.Status</td>
                         </tr>
                         <tr>
                             <td><b>Comment:</b></td>
-                            <td>@adjustment.Comment</td>
+                            <td>@Model.Comment</td>
                         </tr>
                     </table>
                 </div>
             </div>
 
-            <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
-                <a asp-action="GetAdjustmentVoucherByRequestor" asp-route-id="@adjustment.RequestByID" class="btn btn-primary">Back </a>
+            <div class="text-center panel-body">
+                <button type="button" class="btn btn-sm btn-success" onclick="location.href='@Url.Action("Approved", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'"> Approve</button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("Rejected", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID})'">Reject</button>
             </div>
+
         </div>
     </div>
     <!-- END: Card DATA-->
@@ -105,4 +102,3 @@
 <!-- START: APP JS-->
 <script src="dist/js/app.js"></script>
 <!-- END: APP JS-->
-

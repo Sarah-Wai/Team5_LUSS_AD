@@ -26,7 +26,13 @@
                                 <table id="example" class="display table dataTable table-striped table-bordered">
 
                                     <thead>
-
+                                        <tr>
+                                            <th>Adjustment ID</th>
+                                            <th>Status</th>
+                                            <th>Total Cost</th>
+                                            <th>Adjust Quantity</th>
+                                            <th>Adjust Type</th>
+                                        </tr>
                                     </thead>
                                     @foreach (var r in adjustmentVoucherList)
                                     {
@@ -38,7 +44,7 @@
                                                 <td>@r.AdjustQty</td>
                                                 <td>@r.AdjustType</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-danger" @* DETAIL VIEW*@
+                                                    <button type="button" class="btn btn" @* DETAIL VIEW*@
                                                             onclick="location.href='@Url.Action("VoucherApproveDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID})'">
                                                         Details
                                                     </button>

@@ -85,12 +85,12 @@ namespace LUSS_API.Controllers
 
         [HttpGet]
         [Route("get-next-collection-datetime")]
-        public DateTime GetNextCollectionDate()
+        public DateTime? GetNextCollectionDate()
         {
             // get next request
             Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).First();
             
-            DateTime collectionTime = nextDelivery.CollectionTime;
+            DateTime? collectionTime = nextDelivery.CollectionTime;
 
 
             return collectionTime;

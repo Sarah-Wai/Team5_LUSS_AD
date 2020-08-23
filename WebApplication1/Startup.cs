@@ -64,8 +64,6 @@ namespace LUSS_API
             });
 
 
-            //dbcontext.Database.EnsureDeleted();
-            //dbcontext.Database.EnsureCreated();
 
 
             //static string Encrypt(string value)
@@ -78,6 +76,9 @@ namespace LUSS_API
             //    }
             //}
 
+
+            //dbcontext.Database.EnsureDeleted();
+            //dbcontext.Database.EnsureCreated();
 
             //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
             //dbcontext.AddRange(itemCategories);
@@ -107,6 +108,9 @@ namespace LUSS_API
             //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
             //dbcontext.AddRange(retrievals);
 
+            //List<Notification> notifications = AddNotification.getAllNotification();
+            //dbcontext.AddRange(notifications);
+
             //dbcontext.SaveChanges();
 
             //List<Request> requests = AddRequests.getAllRequest();
@@ -114,7 +118,6 @@ namespace LUSS_API
 
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
             //dbcontext.AddRange(requestDetails);
-
 
             //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher();
             //dbcontext.AddRange(adjustmentVouchers);

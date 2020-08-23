@@ -10,7 +10,7 @@
         <div class="row ">
             <div class="col-12  align-self-center">
                 <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Stationary Delivery - Request View</h4></div>
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Stationery Delivery - Request View</h4></div>
                 </div>
             </div>
         </div>
@@ -50,6 +50,26 @@
                             <div class="invoices list">
                                 @foreach (Request r in allRequests)
                                 {
+
+
+                                    var orderType = "";
+                                    string status = r.RequestStatus.ToString();
+                                    switch (status)
+                                    {
+                                        case "PendingDelivery":
+                                            orderType = "badge-warning";
+                                            break;
+                                        case "Received":
+                                            orderType = "badge-danger";
+                                            break;
+                                        case "Completed":
+                                            orderType = "badge-success";
+                                            break;
+                                        default:
+                                            orderType = "badge-primary";
+                                            break;
+                                    }
+
                                 <form method="post" asp-action="DisbursementDetails">
                                     <div class="invoice">
                                         <div class="invoice-content">
@@ -71,20 +91,21 @@
                                             </div>
                                             <div class="invoice-status-info">
                                                 <p class="mb-0 small">Status</p>
-                                                <p name="status">@r.RequestStatus</p>
+                                                <p class="invoice-due-date badge @orderType">@r.RequestStatus</p>
+                                                @*<p name="status">@r.RequestStatus</p>*@
                                             </div>
                                             <div style="display:none"><input name="reqID" value="@r.RequestID"/><input name="status" value="@r.RequestStatus"/></div>
                                             <div class="btn-group mb-2">
                                                 @if (@r.RequestStatus != Status.EOrderStatus.Received)
                                                 {
-                                                    <button type="submit" class="btn btn-info btn-sm">
+                                                    <button type="submit" class="btn btn-primary btn-sm">
                                                         Details
                                                     </button>
                                                 }
                                                 else
                                                 {
                                                     <button type="submit" class="btn btn-primary btn-sm">
-                                                        Comfirm
+                                                        Confirm
                                                     </button>
                                                 }
                                             </div>

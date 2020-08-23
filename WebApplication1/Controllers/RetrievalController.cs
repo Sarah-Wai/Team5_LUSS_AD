@@ -176,10 +176,10 @@ namespace LUSS_API.Controllers
         }
 
 
-        [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}")]
-        public string allocateFulfilledQty(List<int> retrievedQty, int retrievalId, string collectionDate)
+        [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
+        public List<User> allocateFulfilledQty(List<int> retrievedQty, int retrievalId, string collectionDate, int id)
         {
-
+        
             List<RequestDetails> requests = context123.RequestDetails
                 .Where(x => x.Request.RetrievalID == retrievalId).ToList();
 
@@ -193,9 +193,9 @@ namespace LUSS_API.Controllers
                 retrievedQtyList.Add(u.ItemID, 0);
             }
 
-            for(int i = 1; i <= retrievedQty.Count(); i++)
+            for(int i = 0; i < retrievedQty.Count(); i++)
             {
-                retrievedQtyList[i] = retrievedQty[i - 1];
+                retrievedQtyList[retrievedQtyList.ElementAt(i).Key] = retrievedQty[i];
             }
 
             //List<int> items = requests.Select(x => x.ItemID).ToList();
@@ -205,6 +205,7 @@ namespace LUSS_API.Controllers
                 List<RequestDetails> reqByItem = requests.Where(x => x.ItemID == u).OrderBy(x => x.Request.RequestDate).ToList();
 
                 int retQty = retrievedQtyList[u];
+                Item item = context123.Item.Where(x => x.ItemID == u).FirstOrDefault();
 
                 for(int k = 0; k < reqByItem.Count(); k++)
                 {
@@ -213,11 +214,13 @@ namespace LUSS_API.Controllers
                     if(retQty >= reqQty && !(retQty<= 0))
                     {
                         reqByItem[k].FullfillQty = reqQty;
-
+                        item.InStockQty = item.InStockQty - reqQty;
+                   
                     }
                     if(retQty < reqQty && !(retQty <= 0))
                     {
                         reqByItem[k].FullfillQty = retQty;
+                        item.InStockQty = item.InStockQty - retQty;
                        
                     }
 
@@ -235,10 +238,11 @@ namespace LUSS_API.Controllers
                 {
                     r.Request.CollectionTime = Convert.ToDateTime(collectionDate);
                     r.Request.RequestStatus = EOrderStatus.PendingDelivery;
+                    r.Request.ModifiedBy = id;
                 }
                 else if(r.FullfillQty == null)
                 {
-                    r.Request.RetrievalID = null;
+                    //r.Request.RetrievalID = null;
                     r.FullfillQty = null;
                 }
             }
@@ -247,7 +251,9 @@ namespace LUSS_API.Controllers
             retrieval.Status = EOrderStatus.PendingDelivery;
 
             context123.SaveChanges(); //save all or nothing
-            return "ok";
+
+            List<User> users = requests.Select(x => x.Request.RequestByUser).Distinct().ToList();
+            return users;
         }
 
         // POST api/<controller>

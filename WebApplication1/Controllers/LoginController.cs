@@ -21,6 +21,7 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
+        /*
         [HttpGet("{Email}/{Password}")]
         [Route("CheckLogin/{Email}/{Password}")]
         public User CheckLogin(string Email,string Password)
@@ -30,5 +31,18 @@ namespace LUSS_API.Controllers
                          select i).FirstOrDefault();
             return user;
         }
+        */
+
+        [HttpGet("{Email}/{Password}")]
+        [Route("CheckLogin/{Email}/{Password}")]
+        public User CheckLogin(string Email, string Password)
+        {
+            User user = (from i in context123.User
+                         where i.Email == Email && i.Password == Password
+                         select i).FirstOrDefault();
+            if (user.DelegatedManager == null) { user.DelegatedManager = new DelegatedManager(); }
+            return user;
+        }
+
     }
 }

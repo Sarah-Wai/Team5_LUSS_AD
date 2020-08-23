@@ -3,17 +3,18 @@
     ViewData["Title"] = "InventoryList";
     var items = (List<Item>)ViewData["items"];
     int userId = (int)ViewData["userId"];
+    string userRole = (string)ViewData["userRole"];
 }
 
-<h3>InventoryList</h3>
+<h3>Inventory List</h3>
 
 <!-- START: Card Data-->
 <div class="row">
     <div class="col-12 mt-3">
         <div class="card">
-            <div class="card-header  justify-content-between align-items-center">
+@*            <div class="card-header  justify-content-between align-items-center">
                 <h4 class="card-title">Requests</h4>
-            </div>
+            </div>*@
             <div class="card-body table-responsive">
                 <table id="inventoryTbl" class="table table-bordered  table-hover mb-0">
                     <thead>
@@ -24,7 +25,11 @@
                             <th>Stock Level</th>
                             <th>Balance</th>
                             <th>UOM</th>
-                            <th>Adjustment</th>
+                            @if (userRole.Equals("store_clerk"))
+                            {
+                                <th>Adjustment</th>
+                            }
+
                             <th>Detail</th>
                         </tr>
                     </thead>
@@ -33,31 +38,38 @@
                         @foreach (var item in items)
                         {
                             var stocklevel = "";
+                            var statuscolor = "";
                             if (item.InStockQty < item.ReStockLevel)
                             {
                                 stocklevel = "Low Stock";
+                                statuscolor = "badge-danger";
                             }
                             else
                             {
                                 stocklevel = "Stocked";
+                                statuscolor = "badge-success";
                             }
-                            <tr>
-                                <td>@item.ItemCode</td>
-                                <td>@item.ItemName</td>
-                                <td>@item.ItemCategory.CategoryName</td>
-                                <td>@stocklevel</td>
-                                <td>@item.InStockQty</td>
-                                <td>@item.UOM</td>
+                        <tr>
+                            <td>@item.ItemCode</td>
+                            <td>@item.ItemName</td>
+                            <td>@item.ItemCategory.CategoryName</td>
+                            <td><span class="badge @statuscolor text-white">@stocklevel</span></td>
+                            <td>@item.InStockQty</td>
+                            <td>@item.UOM</td>
+                            @if (userRole.Equals("store_clerk"))
+                            {
                                 <td class="text-right">
-                                    <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.ItemID)">
+                                    <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.ItemID)">
                                         Adjust
                                     </a>
                                 </td>
-                                <td>
-                                    <a class="btn btn-outline-info rounded-btn" asp-controller="ItemList" asp-action="ViewItemDetail" asp-route-id="@item.ItemID">Detail</a>
+                            }
 
-                                </td>
-                            </tr>
+                            <td>
+                                <a class="btn btn-outline-info rounded-btn" asp-controller="ItemList" asp-action="ViewItemDetail" asp-route-id="@item.ItemID">Detail</a>
+
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -136,7 +148,6 @@
                                     <label for="minimal-radio-12" style="min-width:50px" id="deduct" asp-for="AdjustType">Deduct</label>
                                     <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
                                     <label for="minimal-radio-12" style="min-width:50px" id="add" asp-for="AdjustType">Add</label>
-                                    @*<input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">*@
                                 </td>
                             </tr>
                             <tr>
@@ -145,7 +156,6 @@
                                     <input type="number" id="adjustQty" asp-for="AdjustQty" name="AdjustQty" onchange="calculate()" min="1" style="width:40px; height:25px">
                                 </td>
                             </tr>
-                            @*<input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />*@
                             <tr>
                                 <td>
                                     <b>Total Value</b>

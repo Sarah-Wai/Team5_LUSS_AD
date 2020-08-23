@@ -24,6 +24,11 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <td colspan="10"><b>Collection Date: </b><input type="date" name="collectionDate" id="collectionDate" /></td>
+                                        <input type="hidden" value="@retrievalID" name="retrievalID" />
+                                        <input type="hidden" value="@userId" name="id" />
+                                    </tr>
+                                    <tr>
                                         <td class="text-right"><b>Item Code</b></td>
                                         <td class="text-right"><b>Description</b></td>
                                         <td class="text-right"><b>Location</b></td>
@@ -36,6 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="itemlist">
+                                   
                                     @foreach (var item in items)
                                     {
                                         <tr id="list">
@@ -61,11 +67,11 @@
 
                                             @if (item.totalQty <= item.inStock)
                                             {
-                                                <td class="text-right"><input type="number" name="retrievedQty" value="@item.totalQty" min="0" max="@item.totalQty" /></td>
+                                                <td class="text-right"><input type="number" name="retrievedQty" class="retrievedQty" value="@item.totalQty" min="0" max="@item.totalQty" /></td>
                                             }
                                             @if (item.totalQty > item.inStock)
                                             {
-                                                <td class="text-right"><input type="number" name="retrievedQty" value="@item.inStock" min="0" max="@item.inStock" /></td>
+                                                <td class="text-right"><input type="number" name="retrievedQty" class="retrievedQty" value="@item.inStock" min="0" max="@item.inStock" /></td>
                                             }
                                             <td class="text-right">
                                                 <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.itemID)">
@@ -79,17 +85,14 @@
                                             </td>
                                         </tr>
                                     }
-                                    <tr>
-                                        <td colspan="10"><b>Collection Date: </b><input type="date" name="collectionDate" /></td>
-                                        <input type="hidden" value="@retrievalID" name="retrievalID" />
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
                         <div class="text-right p-5">
-                            @*<button type="submit" asp-action="CancelRetrieval" asp-route-id="@retrievalID" class="btn btn-danger">Cancel</button>*@
+                            <button type="submit" asp-action="CancelRetrieval" asp-route-id="@retrievalID" class="btn btn-danger">Cancel</button>
                             <input type="hidden" id="edit-date">
-                            <button type="submit" class="btn btn-success add-todo">Update</button>
+                            <button type="submit" class="btn btn-success add-todo" id="updateBtn">Update</button>
                         </div>
                     </div>
                 </div>
@@ -256,7 +259,7 @@
                     </div>
                 </div>
                 <div class="text-right p-5">
-                    <button class="btn btn-danger" data-dismiss="modal" id="close">Back</button>
+                    <button class="btn btn-primary" data-dismiss="modal" id="close">Back</button>
                 </div>
             </form>
         </div>
@@ -267,8 +270,24 @@
 
 <script>
 
+    $("#updateBtn").on("click", function (e) {
+        var date = $("#collectionDate").val();
+        if (!Date.parse(date)) {
+            toastr["error"]("Collection Date is required");
+            e.preventDefault();
+        }
 
-
+        var sum = 0;
+        $("input[class=retrievedQty]").each(function () {
+            sum += parseInt($(this).val());
+        })
+        if (sum === 0) {
+            //alert(sum);
+            toastr["error"]("No disbursement issued");
+            e.preventDefault();
+        }
+    });
+    
     function showModalAdjust(itemID) {
         resetForm();
         $("#createAdjVoucher").modal('show');

@@ -1,9 +1,11 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http;
+
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
-@HttpContextAccessor.HttpContext.Session.GetString("user")
 
-
+@{
+    string username = (string)Context.Session.GetString("User");
+}
 <!DOCTYPE html>
 <html lang="en">
 <!-- START: Head-->
@@ -63,18 +65,18 @@
                     <a href="#" class="sidebarCollapse" id="collapse"><i class="icon-menu"></i></a>
                 </div>
 
-                <form class="float-left d-none d-lg-block search-form">
-                    <div class="form-group mb-0 position-relative">
-                        <input type="text" class="form-control border-0 rounded bg-search pl-5" placeholder="Search anything...">
-                        <div class="btn-search position-absolute top-0">
-                            <a href="#"><i class="h6 icon-magnifier"></i></a>
-                        </div>
-                        <a href="#" class="position-absolute close-button mobilesearch d-lg-none" data-toggle="dropdown" aria-expanded="false">
-                            <i class="icon-close h5"></i>
-                        </a>
+                @*<form class="float-left d-none d-lg-block search-form">
+                        <div class="form-group mb-0 position-relative">
+                            <input type="text" class="form-control border-0 rounded bg-search pl-5" placeholder="Search anything...">
+                            <div class="btn-search position-absolute top-0">
+                                <a href="#"><i class="h6 icon-magnifier"></i></a>
+                            </div>
+                            <a href="#" class="position-absolute close-button mobilesearch d-lg-none" data-toggle="dropdown" aria-expanded="false">
+                                <i class="icon-close h5"></i>
+                            </a>
 
-                    </div>
-                </form>
+                        </div>
+                    </form>*@
                 <div class="navbar-right ml-auto h-100">
                     <ul class="ml-auto p-0 m-0 list-unstyled d-flex top-icon h-100">
                         <li class="d-inline-block align-self-center  d-block d-lg-none">
@@ -87,57 +89,18 @@
                                 Html.RenderPartial("~/Views/ItemList/_CartPartial.cshtml");
                             }
                         </li>
+                        <!--Notification-->
                         <li class="dropdown align-self-center d-inline-block">
-                            <a href="#" class="nav-link" data-toggle="dropdown" aria-expanded="false">
-                                <i class="icon-bell h4"></i>
-                                <span class="badge badge-default">
-                                    <span class="ring">
-                                    </span><span class="ring-point">
-                                    </span>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right border   py-0">
-                                <li>
-                                    <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
-                                        <div class="media">
-                                            <img src="~/images/author.jpg" alt="" class="d-flex mr-3 img-fluid rounded-circle w-50">
-                                            <div class="media-body">
-                                                <p class="mb-0 text-success">john send a message</p>
-                                                12 min ago
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
-                                        <div class="media">
-                                            <img src="~/images/author2.jpg" alt="" class="d-flex mr-3 img-fluid rounded-circle">
-                                            <div class="media-body">
-                                                <p class="mb-0 text-danger">Peter send a message</p>
-                                                15 min ago
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
-                                        <div class="media">
-                                            <img src="~/images/author3.jpg" alt="" class="d-flex mr-3 img-fluid rounded-circle">
-                                            <div class="media-body">
-                                                <p class="mb-0 text-warning">Bill send a message</p>
-                                                5 min ago
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
+                            @{
+                                Html.RenderPartial("~/Views/Notification/_NotiPartial.cshtml");
+                            }
 
-                                <li><a class="dropdown-item text-center py-2" href="#"> Read All Message <i class="icon-arrow-right pl-2 small"></i></a></li>
-                            </ul>
                         </li>
                         <li class="dropdown user-profile align-self-center d-inline-block">
                             <a href="#" class="nav-link py-0" data-toggle="dropdown" aria-expanded="false">
-                                <div class="media">
-                                    <img src="~/images/author.jpg" alt="" class="d-flex img-fluid rounded-circle" width="29">
+                                <div >
+                                    <p>Hi, @username</p>
+                                   
                                 </div>
                             </a>
 
@@ -159,9 +122,16 @@
                                         <span class="icon-settings mr-2 h6 mb-0"></span> Account Settings
                                     </a>*@
                                 @*<div class="dropdown-divider"></div>*@
-                                <a href="" class="dropdown-item px-2 text-danger align-self-center d-flex">
+                                <a class="dropdown-item px-2 text-danger align-self-center d-flex"
+                                   asp-controller="Home" asp-action="Logout">
                                     <span class="icon-logout mr-2 h6  mb-0"></span> Sign Out
                                 </a>
+
+                                @* {
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                                    }*@
+
+
                             </div>
 
                         </li>
@@ -181,54 +151,70 @@
 
                 @*Store*@
                 <li class="dropdown active" id="menu_store">
-                    <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
+                    <a href="#"><i class="icon-organization mr-1"></i>Menu</a>
                     <ul>
-                        <li id="li_storeDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
-                        <li id="li_storeInventory"><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Inventory List</a></li>
+                        @*<li id="li_storeDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>*@
+                        <li id="li_storeInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
+                        <li id="li_disbursement"><a asp-controller="Disbursement" asp-action="ManageDisbursement"><i class="icon-support"></i>Manage Disbursement</a></li>
+                        @*<li class="dropdown" id="li_disbursement">
+                                <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
+                                <ul class="sub-menu">
+                                    <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
+                                    <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
+                                    <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
+                                </ul>
+                            </li>*@
+                        <li id="li_adjustStock"><a asp-controller="AdjustVoucher" asp-action="GetAdjustmentVoucherByRequestor"><i class="icon-puzzle"></i>Adjust Stock</a></li>
+
                         <li class="dropdown" id="li_disbursement">
-                            <a asp-controller="ItemList" asp-action="Index"><i class="icon-briefcase"></i> Manage Disbursement</a>
+                            <a asp-controller="Delivery" asp-action="Index"><i class="icon-briefcase"></i>Manage Delivery</a>
                             <ul class="sub-menu">
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-energy"></i> Light</a></li>
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-disc"></i> Semi Dark</a></li>
-                                <li><a asp-controller="ItemList" asp-action="Index"><i class="icon-frame"></i> Dark</a></li>
+                                <li><a asp-controller="Delivery" asp-action="ConfirmDelivery"><i class="icon-energy"></i>By Request</a></li>
+                                <li><a asp-controller="Delivery" asp-action="DeptConfirmDelivery"><i class="icon-disc"></i>By Department</a></li>
                             </ul>
                         </li>
-                        <li id="li_adjustStock"><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-support"></i> Adjust Stock</a></li>
-                        <li id="li_po"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-action-redo"></i> Purchase Orders</a></li>
-
+                        <li class="dropdown" id="li_po">
+                            <a><i class="icon-briefcase"></i>Purchase Orders</a>
+                            <ul class="sub-menu">
+                                <li><a asp-controller="Purchase" asp-action="ViewLowStockItems"><i class="icon-exclamation"></i>Low Stock</a></li>
+                                <li><a asp-controller="Purchase" asp-action="PurchaseOrders"><i class="icon-energy"></i>PO History</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 
-
                 @*Store Manager*@
                 <li class="dropdown" id="menu_mgstore">
-                    <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
+                    <a href="#"><i class="icon-organization mr-1"></i>Menu</a>
                     <ul>
                         <li id="li_mgstoreDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>
-                        <li id="li_mgstoreInventory"><a asp-controller="ItemCategory" asp-action="ItemCategory"><i class="icon-layers"></i> Inventory List</a></li>
-                        <li id="li_adjustVouncher"><a href="/StationeryRequests/RequestHistory?status=All"><i class="icon-briefcase"></i> Adjustment Vouncher</a></li>
-                        <li id="li_report"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Report</a></li>
-
+                        <li id="li_mgstoreInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
+                        <li id="li_adjustVouncher"><a href="/AdjustmentList/AdjustmentVouchers"><i class="icon-briefcase"></i> Adjustment Voucher</a></li>
                     </ul>
                 </li>
 
 
                 @*Employee*@
                 <li class="dropdown" id="menu_emp">
-                    <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
+                    <a href="#"><i class="icon-organization mr-1"></i>Menu</a>
                     <ul>
-                        <li id="li_empProducts"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Product List</a></li>
-                        <li id="li_empRequestHistory"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-layers"></i> Request History</a></li>
-                        <li id="li_empCollection"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-support"></i> Collection</a></li>
-
+                        <li id="li_empProducts"><a asp-controller="ItemList" asp-action="Index"><i class="icon-rocket"></i> Items List</a></li>
+                        <li id="li_empRequestHistory"><a href="/StationeryRequests/RequestHistory?status=All"><i class="icon-briefcase"></i> Request History</a></li>
+                        <li class="dropdown" id="id_collection">
+                            <a asp-controller="Collection" asp-action="Index"><i class="icon-support"></i> Collection</a>
+                            <ul class="sub-menu">
+                                <li><a asp-controller="Collection" asp-action="collectionPoints"><i class="icon-energy"></i>Collection Point</a></li>
+                                <li><a asp-controller="Collection" asp-action="collectionList"><i class="icon-disc"></i>Collection List</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
 
                 @*DepHead*@
                 <li class="dropdown" id="menu_depHead" style="display:block">
-                    <a href="#"><i class="icon-organization mr-1"></i>Dashboard</a>
+                    <a href="#"><i class="icon-organization mr-1"></i>Menu</a>
                     <ul>
-                        <li id="li_dHeadHome"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Home</a></li>
+                        <li id="li_dHeadHome"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Dashboard</a></li>
                         <li id="li_dHeadRequests"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-layers"></i> Stationery Requests</a></li>
                         <li id="li_dHeadDelegate"><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-briefcase"></i> Assign Delegate</a></li>
                         <li id="li_dHeadRepresentative">

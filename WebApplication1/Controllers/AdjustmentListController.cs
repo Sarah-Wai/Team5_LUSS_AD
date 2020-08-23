@@ -43,7 +43,7 @@ namespace LUSS_API.Controllers
         [HttpGet("pendingDown")]
         public IEnumerable<AdjustmentVoucher> GetPendingAdjustmentVoucherStatusDown()
         {
-            List<AdjustmentVoucher> adjustmentpendingVoucherStatusDown = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentStatus.Pending && x.TotalCost <= 250).ToList();
+            List<AdjustmentVoucher> adjustmentpendingVoucherStatusDown = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentStatus.Pending && x.TotalCost < 250).ToList();
             return adjustmentpendingVoucherStatusDown;
 
         }

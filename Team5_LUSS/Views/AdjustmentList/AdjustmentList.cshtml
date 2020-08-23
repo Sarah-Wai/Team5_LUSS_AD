@@ -32,7 +32,7 @@
 
                         @foreach (var r in adjustmentVoucherListUp)
                         {
-                            if (r.TotalCost > 250 && user == "store_manager")
+                            if (r.TotalCost >= 250 && user == "store_manager")
                             {
 
                                 <tbody>
@@ -56,7 +56,7 @@
 
                         @foreach (var r in adjustmentVoucherListDown)
                         {
-                            if (r.TotalCost <= 250 && user == "store_supervisor")
+                            if (r.TotalCost < 250 && user == "store_supervisor")
                             {
 
                                 <tbody>

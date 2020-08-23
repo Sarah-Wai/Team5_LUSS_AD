@@ -16,8 +16,12 @@ namespace Team5_LUSS.Controllers
         string api_url = "https://localhost:44312/DHeadDash/";
         string api_url_rqst = "https://localhost:44312/Request";
 
+        //NEED DEPT HEAD'S DEPARTMENT
+        int deptID = 1;
+
         List<TopSixRequested> highestRequestCat = new List<TopSixRequested>();
-        List<TopSixRequested> requestBreakdown = new List<TopSixRequested>();
+        Dictionary<string, int> requestBreakdown = new Dictionary<string, int>();
+        List<DHeadMonth> deptMonthlyCost = new List<DHeadMonth>();
 
         public async Task<IActionResult> Index()
         {
@@ -30,24 +34,31 @@ namespace Team5_LUSS.Controllers
                     name = apiResponse;
                 }
 
-                using (var response = await httpClient.GetAsync(api_url + "get-top-cost-category/"))
+                using (var response = await httpClient.GetAsync(api_url + "get-top-cost-category/"+ deptID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     highestRequestCat = JsonConvert.DeserializeObject<List<TopSixRequested>>(apiResponse);
                 }
 
-                using (var response = await httpClient.GetAsync(api_url + "get-request-breakdown/"))
+                using (var response = await httpClient.GetAsync(api_url + "get-request-breakdown/" + deptID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    requestBreakdown = JsonConvert.DeserializeObject<List<TopSixRequested>>(apiResponse);
+                    requestBreakdown = JsonConvert.DeserializeObject<Dictionary<string,int>>(apiResponse);
                 }
 
-                
+                using (var response = await httpClient.GetAsync(api_url + "get-department-cost/" + deptID))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    deptMonthlyCost = JsonConvert.DeserializeObject<List<DHeadMonth>>(apiResponse);
+                }
+
+
 
             }
             ViewData["name"] = name;
             ViewData["highestRequestCat"] = highestRequestCat;
             ViewData["requestBreakdown"] = requestBreakdown;
+            ViewData["deptMonthlyCost"] = deptMonthlyCost;
 
 
 

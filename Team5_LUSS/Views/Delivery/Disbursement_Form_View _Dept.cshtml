@@ -1,15 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Disbursement Form";
-    Request request = (Request)ViewData["request"];
     User deptRep = (User)ViewData["deptRep"];
-    List<RequestDetails> reqItems = (List<RequestDetails>)ViewData["requestDetails"];
+    List<dynamic> reqItems = (List<dynamic>)ViewData["retrievalDetails"];
+    string status = (string)ViewData["status"];
 }
 
 <div class="container-fluid site-width">
     <div>
         <div class="row">
             <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
-                <a asp-action="ConfirmDelivery" class="btn btn-primary">Back </a>
+                <a asp-action="DeptConfirmDelivery" class="btn btn-primary">Back </a>
             </div>
             <div class="col-12 col-md-12">
                 <div class="card border-0">
@@ -21,18 +21,11 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <b>Dept Name:</b> @request.RequestByUser.Department.DepartmentName<br>
-                                        <b>Dept Code:</b> @request.RequestByUser.Department.DepartmentCode<br>
-
+                                        <b>Dept Name:</b> @deptRep.Department.DepartmentName<br>
+                                        <b>Dept Code:</b> @deptRep.Department.DepartmentCode<br>
                                         <b>Dept Rep:</b> @deptRep.LastName @deptRep.FirstName <br>
                                         <b>Collection Point:</b> @deptRep.Department.CollectionPoint.Location @deptRep.Department.CollectionPoint.Description<br><br>
-                                        <b>Collection Date</b> @request.CollectionTime<br>
-                                    </td>
-                                    <td>
-                                        <b>Staff Name:</b> @request.ModifiedByUser.FirstName  @request.ModifiedByUser.LastName<br>
-                                        <b>Staff ID:</b> @request.ModifiedBy<br>
-                                        <b>Staff Email:</b> @request.ModifiedByUser.Email<br><br><br>
-                                        <b>Status:</b> @request.RequestStatus<br>
+                                        <b>Collection Date</b> @reqItems[0].collectionTime<br>
                                     </td>
                                 </tr>
                             </tbody>
@@ -40,7 +33,6 @@
                     </div>
                 </div>
             </div>
-            @*table content*@
             <div class="col-12 col-md-12">
                 <div class="card border-0">
                     <div class="card-body table-responsive">
@@ -56,27 +48,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (RequestDetails r in reqItems)
+                                @foreach (var r in reqItems)
                                 {
-                                    <tr>
-                                        <td>@r.RequestID</td>
-                                        <td class="text-right">@r.Item.ItemName</td>
-                                        <td class="text-right">@r.Item.UOM</td>
-                                        <td class="text-right">@r.RequestQty</td>
-                                        <td class="text-right">@r.FullfillQty</td>
-                                        <td class="text-right">@r.ReceivedQty</td>
-                                    </tr>
+                                <tr>
+                                    <td class="text-right">@r.itemCode</td>
+                                    <td class="text-right">@r.itemName</td>
+                                    <td class="text-right">@r.itemUOM</td>
+                                    <td class="text-right">@r.totalQty</td>
+                                    <td class="text-right">@r.fullQty</td>
+                                    <td class="text-right">@r.rcvedQty</td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
-                    @if (request.RequestStatus == Status.EOrderStatus.Received)
+                    @if (status == "Received")
                     {
                         <form method="post">
                             <div class="text-right p-5">
-                                <input style="display:none" value="@request.RequestID" name="requestID"/>
-                                <button type="submit" class="btn btn-danger" asp-action="FinalActionByStore" asp-route-actionTaken="deny">Qty Not Tally</button>
-                                <button type="submit" class="btn btn-success" asp-action="FinalActionByStore" asp-route-actionTaken="complete">Order Complete</button>
+                                @foreach (var item in reqItems)
+                                {
+                                    foreach (var id in item.requestIDs)
+                                    {
+                                        <input style="display:none" value="@id" name="requestID" />
+                                    }
+                                }
+                                <button type="submit" class="btn btn-danger" asp-action="FinalActionByStoreDept" asp-route-actionTaken="deny">Qty Not Tally</button>
+                                <button type="submit" class="btn btn-success" asp-action="FinalActionByStoreDept" asp-route-actionTaken="complete">Order Complete</button>
                             </div>
                         </form>
                     }

@@ -22,7 +22,7 @@ namespace LUSS_API.DB
                 Role= "dept_head",
                 IsRepresentative=false,
                 Designation="Department Head",
-                ReportToID=null,
+                ReportToID=2,
                 DepartmentID=1
             };
             User u2 = new User()
@@ -31,7 +31,7 @@ namespace LUSS_API.DB
                 FirstName = "Sarah",
                 LastName = "Su",
                 ContactNumber = "97744121",
-                Email = "sarah@gmail.com",
+                Email = "iantanze@gmail.com",
                 Password = "123",
                 Role = "dept_employee",
                 Designation = "Intern",

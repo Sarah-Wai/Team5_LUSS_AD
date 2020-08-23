@@ -39,7 +39,7 @@
                                         <td class="text-right">@item.ItemName</td>
                                         <td class="text-right">@item.UOM</td>
                                         <td class="text-right">@item.ReStockQty</td>
-                                        <td class="text-right"><input type="number" value="@item.ReStockQty" min="1" max="@item.ReStockQty" name="orderQty" required/></td>
+                                        <td class="text-right"><input type="number" value="@item.ReStockQty" min="1" max="@item.ReStockQty" name="orderQty" id="orderQty" required/></td>
                                         <td class="text-right">
                                             <select id="supplier" name="supplierId" required>
                                                 @foreach (var it in poitemPrice)
@@ -51,7 +51,7 @@
                                                 }
                                             </select>
                                         </td>
-                                        <td><input type="date" name="expectedDate" id="expectedDate" min="" onclick="GetMinDate()" required/></td>
+                                        <td class="text-right"><input type="date" name="expectedDate" class="expectedDate" min="" onclick="GetMinDate()" required/></td>
                                     </tr>
                                     }
                                 </tbody>
@@ -60,7 +60,7 @@
                         <div class="text-right p-5">
                             <button type="button" onclick="window.history.back()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             <input type="hidden" id="edit-date">
-                            <button type="submit" class="btn btn-success add-todo">Confirm</button>
+                            <button type="submit" class="btn btn-success" id="confirmBtn">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -78,6 +78,7 @@
         var yyyy = date.getFullYear();
         var currentDate = yyyy + "-" + MM + "-" + dd;
         var currentDate = yyyy + "-" + MM + "-" + dd;
-        document.getElementById("expectedDate").setAttribute("min", currentDate);
+        $(".expectedDate").attr('min', currentDate)
     };
+
 </script>

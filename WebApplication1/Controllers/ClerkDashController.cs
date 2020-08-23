@@ -83,6 +83,44 @@ namespace LUSS_API.Controllers
 
         }
 
+        [HttpGet]
+        [Route("get-next-collection-datetime")]
+        public DateTime? GetNextCollectionDate()
+        {
+            // get next request
+            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).First();
+            
+            DateTime? collectionTime = nextDelivery.CollectionTime;
+
+
+            return collectionTime;
+        }
+        [HttpGet]
+        [Route("get-next-collection-time-location")]
+        public CollectionPoint GetNextCollectionTimeLocation()
+        {
+            // get next request
+            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).First();
+            User requestMaker = context123.User.Where(x => x.UserID == nextDelivery.RequestBy).FirstOrDefault();
+            Department department = context123.Department.Where(x => x.DepartmentID == requestMaker.DepartmentID).FirstOrDefault();
+            CollectionPoint collectionPoint = context123.CollectionPoint.Where(x => x.CollectionPointID == department.CollectionPointID).FirstOrDefault();
+
+            
+            return collectionPoint;
+        }
+
+        [HttpGet]
+        [Route("get-low-stock-item-count")]
+        public int GetLowStockItemCount()
+        {
+            // get next request
+            
+            int lowStockItemCount = context123.Item.Where(x => x.InStockQty < x.ReStockLevel).Count();
+
+
+            return lowStockItemCount;
+        }
+
 
 
 

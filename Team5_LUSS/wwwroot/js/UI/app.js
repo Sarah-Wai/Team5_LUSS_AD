@@ -153,7 +153,7 @@
      Sidebar Settings 
      ============================================================= */
 
-    var settinghtml = `<div id="settings" class="">
+    var settinghtml = `<div style="display:none" id="settings" class="">
             <a href="#" id="settingbutton" class="setting"> 
                 <h5 class="mb-0"><i class="icon-settings"></i></h5>
             </a>

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Purchase Orders";
+    ViewData["Title"] = "Purchase Orders - Low Stock";
     List<Item> lowStockItems = (List<Item>)ViewData["lowStockItems"];
 }
 <form asp-controller="Purchase" asp-action="POCreateBulk" method="post">
@@ -11,17 +11,17 @@
                 <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
                     <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
                 </div>
-                <div class="btn-group mb-2" >
+                @*<div class="btn-group mb-2" >
                     <a asp-controller="Purchase" asp-action="ViewLowStockItems" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
                         Low Stock
                     </a>
                     <a asp-controller="Purchase" asp-action="PurchaseOrders" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
                         PO History
-                    </a>
+                    </a>*@
                     @*<a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
                         New PO
                     </a>*@
-                </div>
+                @*</div>*@
             </div>
         </div>
         <div class="row row-eq-height">
@@ -87,11 +87,11 @@
     //select or unselect all
     $("#checkedAll").on("change", function () {
         if ($(this).is(':checked')) {
-            alert("Select All");
+            toastr["info"]("Select All");
             $(".itemChecked").prop('checked', true);
         }
         else {
-            alert("Unselect All")
+            toastr["info"]("Unselect All")
             $(".itemChecked").prop('checked', false);
         };
     });
@@ -103,7 +103,7 @@
             count++;
         })
         if (count === 0) {
-            alert("Please select item(s) to restock");
+            toastr["error"]("Please select item(s) to restock");
             e.preventDefault();
         }
     });

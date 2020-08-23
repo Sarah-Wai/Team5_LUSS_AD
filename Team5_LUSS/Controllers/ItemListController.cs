@@ -25,8 +25,6 @@ namespace Team5_LUSS.Controllers
             List<ItemCategory> itemCatList = new List<ItemCategory>();
             ItemCategory defaultItem = new ItemCategory();
 
-           
-
             //we set the new default value "ALL" for dropdownlist
             defaultItem.CategoryID = 0;
             defaultItem.CategoryName = "All";
@@ -65,7 +63,7 @@ namespace Team5_LUSS.Controllers
             ViewData["items"] = itemList;
             ViewData["itemCatList"] = itemCatList;
             var pageNumber = page ?? 1;
-            int pageSize = 10;
+            int pageSize = 12;
             var onePageOfItems = itemList.ToPagedList(pageNumber, pageSize);
             return View(onePageOfItems);
         }
@@ -116,6 +114,12 @@ namespace Team5_LUSS.Controllers
             List<AddToCartItem> allItem = new List<AddToCartItem>();
             AddToCartItem addToCartItem = new AddToCartItem();
             List<AddToCartItem> addToCartItemList = new List<AddToCartItem>();
+            var count = 0;
+            if (HttpContext.Session.GetString("countSession") != null)
+            {
+                count = Int32.Parse(HttpContext.Session.GetString("countSession")) + 1;
+            }
+           
 
             using (var httpClient = new HttpClient())
             {
@@ -132,8 +136,10 @@ namespace Team5_LUSS.Controllers
                 addToCartItem = allItem.Where(x => x.ItemID.Equals(itemId)).FirstOrDefault();
                 addToCartItem.SelectedQty = Int32.Parse(qty);
                 addToCartItemList.Add(addToCartItem);
+                count++;
                 string addedItemJson = Newtonsoft.Json.JsonConvert.SerializeObject(addToCartItemList);
                 HttpContext.Session.SetString("addedItemSession", addedItemJson);
+                HttpContext.Session.SetString("countSession", count.ToString());
             }
             else
             {
@@ -165,7 +171,7 @@ namespace Team5_LUSS.Controllers
                 
                 string addedItemJson = Newtonsoft.Json.JsonConvert.SerializeObject(addToCartItemList);
                 HttpContext.Session.SetString("addedItemSession", addedItemJson);
-
+                HttpContext.Session.SetString("countSession", count.ToString());
 
             }
             
@@ -239,6 +245,11 @@ namespace Team5_LUSS.Controllers
         //remove item from cart 
         public ActionResult RemoveItem(int id)
         {
+            var count = 0;
+            if (HttpContext.Session.GetString("countSession") != null)
+            {
+                count = Int32.Parse(HttpContext.Session.GetString("countSession")) - 1;
+            }
             string cartItemJson = HttpContext.Session.GetString("addedItemSession");
             List<AddToCartItem> addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
             for(int i=0; i < addedItems.Count; i++)
@@ -251,18 +262,24 @@ namespace Team5_LUSS.Controllers
             }
             string addedItemJson = Newtonsoft.Json.JsonConvert.SerializeObject(addedItems);
             HttpContext.Session.SetString("addedItemSession", addedItemJson);
+            HttpContext.Session.SetString("countSession", count.ToString());
             return RedirectToAction("ViewCart");
         }
 
         //Create New Order Request
         public async Task<IActionResult> CreateRequest()
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
             string cartItemJson = HttpContext.Session.GetString("addedItemSession");
+            ItemRequest itemreq = new ItemRequest();
+            itemreq.UserID = userId;
+            itemreq.ItemList = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
+            string jsonData = JsonConvert.SerializeObject(itemreq);
             Request req = new Request();
 
             using (var httpClient = new HttpClient())
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(cartItemJson), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(jsonData), Encoding.UTF8, "application/json");
                 using (var response = await httpClient.PostAsync(api_url + "ItemList/CreateRequest", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -273,12 +290,18 @@ namespace Team5_LUSS.Controllers
             if(req != null)
             {
                 HttpContext.Session.Remove("addedItemSession");
+                HttpContext.Session.Remove("countSession");
             }
+
+            NotificationController.NewRequest(userId);
+
             return RedirectToAction("ViewCart");
         }
 
         public async Task<IActionResult> InventoryList(int id)
         {
+            int userId = (int)HttpContext.Session.GetInt32("UserID");
+            string userRole = (string)HttpContext.Session.GetString("UserRole");
             List<Item> itemList = new List<Item>();
             using (var httpClient = new HttpClient())
             {
@@ -288,6 +311,8 @@ namespace Team5_LUSS.Controllers
                     itemList = JsonConvert.DeserializeObject<List<Item>>(apiResponse);
                 }
             }
+            ViewData["userRole"] = userRole;
+            ViewData["userId"] = userId;
             ViewData["items"] = itemList;
             return View();
         }

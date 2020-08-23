@@ -118,7 +118,7 @@ namespace LUSS_API.Controllers
                     }
                 }
             }
-            if (lowStockList.Count() == 0) { return items; }
+            //if (lowStockList.Count() == 0) { return items; }
             return lowStockList;
         }
 
@@ -141,21 +141,23 @@ namespace LUSS_API.Controllers
         public Request CreateRequest([FromBody] string jsonData)
         {
             Request req = new Request();
+            ItemRequest itemreq = JsonConvert.DeserializeObject<ItemRequest>(jsonData);
             if (jsonData != null)
             {
+                var datetime = DateTime.Now;
                 //try create new order first
                 try
                 {
                     req.RequestStatus = EOrderStatus.Pending;
-                    req.RequestDate = DateTime.Now;
-                    req.RequestBy = 2;
-                    req.ModifiedBy = 1;
+                    req.RequestDate = datetime;
+                    req.RequestBy = itemreq.UserID;
+                    req.ModifiedBy = itemreq.UserID;
                     req.Comment = null;
                     req.RequestType = 0;
                     req.ParentRequestID = null;
-                    req.CollectionTime = DateTime.Now;
+                    req.CollectionTime = datetime.AddYears(-10);
                     req.RetrievalID = null;
-
+                    
                     context123.Request.Add(req);
                     context123.SaveChanges();
                     //Console.WriteLine(req.RequestID);
@@ -169,7 +171,8 @@ namespace LUSS_API.Controllers
                 {
                     try
                     {
-                        List<AddToCartItem> items = JsonConvert.DeserializeObject<List<AddToCartItem>>(jsonData);
+                        //List<AddToCartItem> items = JsonConvert.DeserializeObject<List<AddToCartItem>>(jsonData);
+                        List<AddToCartItem> items = itemreq.ItemList;
                         List<RequestDetails> reqDetails = new List<RequestDetails>();
 
                         foreach (var item in items)
@@ -180,6 +183,7 @@ namespace LUSS_API.Controllers
                             reqDetail.RequestQty = item.SelectedQty;
                             reqDetail.FullfillQty = null;
                             reqDetail.ReceivedQty = null;
+                            reqDetail.isActive = true;
 
                             reqDetails.Add(reqDetail);
                         }

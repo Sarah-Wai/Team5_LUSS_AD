@@ -7,6 +7,9 @@
     int newRequests = (int)ViewData["newRequests"];
     int pendingDeliveries = (int)ViewData["pendingDeliveries"];
     int pendingAdjustments = (int)ViewData["pendingAdjustments"];
+    CollectionPoint nextCollectionPoint = (CollectionPoint)ViewData["nextCollectionPoint"];
+    DateTime nextCollectionDate = (DateTime)ViewData["nextCollectionDate"];
+    int lowStockItemCount = (int)ViewData["lowStockItemCount"];
 
 }
 <!-- START: Breadcrumbs-->
@@ -27,8 +30,8 @@
                 <div class="card">
                     <div class="card-body border-bottom border-warning border-w-5">
                         <h5 class="card-title">Next Delivery</h5>
-                        <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> CollectionDate</p>
-                        <p class="font-w-500 tx-s-12">CollectionPoint</p>
+                        <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> @nextCollectionDate</p>
+                        <p class="font-w-500 tx-s-12">@nextCollectionPoint.Location</p>
                     </div>
                 </div>
             </div>
@@ -37,6 +40,9 @@
                 <div class="card">
                     <div class="card-body text-info border-bottom border-info border-w-5">
                         <h2 class="text-center">@newRequests</h2>
+                        <a class="nav-link" asp-action="ConfirmDelivery" asp-route-status="Received">
+                            Received
+                        </a>
                         <h6 class="text-center">New<br>Requests</h6>
                     </div>
                 </div>
@@ -52,7 +58,7 @@
             <div class="col-12 col-sm-6 col-xl-3 mt-3">
                 <div class="card">
                     <div class="card-body text-danger border-bottom border-danger border-w-5">
-                        <h2 class="text-center">xxxxx</h2>
+                        <h2 class="text-center">@lowStockItemCount</h2>
                         <h6 class="text-center">Low<br>Stock Items</h6>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ namespace Team5_LUSS.Controllers
             string action_name = "";string controller_name = "";
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+"/"+Email+"/"+ Hword)) // connect to call api
+                using (var response = await httpClient.GetAsync(api_url+"/"+ Email+"/"+ Hword)) // connect to call api
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     login_user = JsonConvert.DeserializeObject<User>(apiResponse); // convert the packets from https link to the object
@@ -44,6 +44,7 @@ namespace Team5_LUSS.Controllers
                 {
                     ViewData["User"] = login_user;
                     HttpContext.Session.SetString("Email", Email);
+                    HttpContext.Session.SetString("User", login_user.FirstName);
                     HttpContext.Session.SetInt32("UserID", login_user.UserID);
                     HttpContext.Session.SetInt32("CPId", login_user.Department.CollectionPointID);
                     HttpContext.Session.SetInt32("DeptId", login_user.DepartmentID);
@@ -74,7 +75,7 @@ namespace Team5_LUSS.Controllers
                         switch (login_user.Role)
                         {
                             case "dept_employee": action_name = "Index";controller_name = "ItemList"; break;
-                            case "dept_head": action_name = "Dashboard"; controller_name = "Dashboard"; break;
+                            case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break;
                                 //case "dept_delegate": break;
                         }
                         
@@ -96,11 +97,15 @@ namespace Team5_LUSS.Controllers
             return View();
            
         }
-        public ActionResult LogOut()
+        public IActionResult Logout()
         {
-            return RedirectToAction("index");
+
+            HttpContext.Session.Clear();
+            TempData["Alert"] = "Successfully Logout!";
+            Console.WriteLine("Logout complete");
+            return RedirectToAction("Index", "Home");
         }
-        
+
         public IActionResult Privacy()
         {
             return View();

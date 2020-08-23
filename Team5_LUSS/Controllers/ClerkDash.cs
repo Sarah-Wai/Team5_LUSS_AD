@@ -16,18 +16,19 @@ namespace Team5_LUSS.Controllers
     {
 
         string api_url = "https://localhost:44312/ClerkDash/";
-        string api_url2 = "http://localhost:5555/predict";
         string api_url_rqst = "https://localhost:44312/Request";
         int newRequests = 0;
-        int pendingDeliveries = 0;
-        int lowStockItems = 0;
-        int pendingAdjustments = 0;
+        int pendingDeliveries;
+        int pendingAdjustments;
+        int lowStockItemCount = 0;
+        CollectionPoint nextCollectionPoint;
+        DateTime nextCollectionDate;
 
         List<TopSixRequested> topSixRequested = new List<TopSixRequested>();
 
         public async Task<IActionResult> Index()
         {
-            string name;
+            string name = "Clerk's Name";
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url))
@@ -41,11 +42,7 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     topSixRequested = JsonConvert.DeserializeObject<List<TopSixRequested>>(apiResponse);
                 }
-                using (var response = await httpClient.GetAsync(api_url2))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    name = apiResponse;
-                }
+                
                 using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestByStatus" + "/" + "PendingDelivery"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -63,6 +60,22 @@ namespace Team5_LUSS.Controllers
                     pendingAdjustments = Int32.Parse(apiResponse);
                 }
 
+                using (var response = await httpClient.GetAsync(api_url + "get-next-collection-time-location/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    nextCollectionPoint = JsonConvert.DeserializeObject<CollectionPoint>(apiResponse);
+                }
+                using (var response = await httpClient.GetAsync(api_url + "get-next-collection-datetime/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    nextCollectionDate = JsonConvert.DeserializeObject<DateTime>(apiResponse);
+                }
+                using (var response = await httpClient.GetAsync(api_url + "get-low-stock-item-count/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lowStockItemCount = Int32.Parse(apiResponse);
+                }
+
 
             }
             ViewData["name"] = name;
@@ -70,6 +83,10 @@ namespace Team5_LUSS.Controllers
             ViewData["newRequests"] = newRequests;
             ViewData["pendingDeliveries"] = pendingDeliveries;
             ViewData["pendingAdjustments"] = pendingAdjustments;
+            ViewData["nextCollectionPoint"] = nextCollectionPoint;
+            ViewData["nextCollectionDate"] = nextCollectionDate;
+            ViewData["lowStockItemCount"] = lowStockItemCount;
+
 
 
 

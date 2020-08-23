@@ -40,5 +40,15 @@ namespace LUSS_API.Controllers
 
         }
 
+        [HttpGet("{id}")]
+        [Route("GetUsersByID/{id}")]
+        public User GetUsersByID(int id)
+        {
+            User user = context123.User
+                  .First(x => x.UserID == id);
+            return user;
+
+        }
+
     }
 }

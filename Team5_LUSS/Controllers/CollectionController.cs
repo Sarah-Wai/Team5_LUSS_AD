@@ -41,8 +41,10 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     collectionPointInfo = JsonConvert.DeserializeObject<List<CollectionPoint>>(apiResponse);
                 }
-
             }
+                //test notification
+                //NotificationController.Index();
+
             ViewData["collectionPoints"] = collectionPointInfo;
             if (newCP.CollectionPointID == 0)
             {
@@ -53,6 +55,18 @@ namespace Team5_LUSS.Controllers
                 dept_CP = newCP;
             }
             ViewData["dept_CollectionPoint"] = dept_CP;
+
+            //Demo for notification
+            //NotificationController.NewRequest(1, 2);
+            //NotificationController.DelegateAssigned(loginuserid, tosuerid[item.userid]);
+            //NotificationController.ReadyForCollection(2, 1);
+            //NotificationController.DelegateAssigned(2, 1);
+            //NotificationController.AdjustmentVoucherForApproval(2, 1);
+            //NotificationController.AdjustmentVoucherApproved(2, 1);
+            //NotificationController.AdjustmentVoucherRejected(2, 1);
+            //NotificationController.RequestApproved(2, 1);
+            //NotificationController.RequestRejected(2, 1);
+
             return View();
         }
 
@@ -69,7 +83,6 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     dept_CP = JsonConvert.DeserializeObject<CollectionPoint>(apiResponse);
                 }
-
             }
             return RedirectToAction("collectionPoints", dept_CP);
         }
@@ -114,7 +127,7 @@ namespace Team5_LUSS.Controllers
 
             if (retrievalID != 0)
             {
-                //get the list of items based on retrieval ID
+                //get the list of items based on retrieval ID and status
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID))

@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Threading.Tasks;
 using Team5_LUSS.Models;
+using static Team5_LUSS.Models.AdjustmentVoucherStatus;
 
 namespace Team5_LUSS.Controllers
 {
@@ -22,16 +23,26 @@ namespace Team5_LUSS.Controllers
 
         public async Task<IActionResult> AdjustmentVouchers()
         {
-            List<AdjustmentVoucher> adjustments = new List<AdjustmentVoucher>();
+            List<AdjustmentVoucher> adjustmentsUp = new List<AdjustmentVoucher>();
+            List<AdjustmentVoucher> adjustmentsDown = new List<AdjustmentVoucher>();
+            
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url1)) // call the api 
+                using (var response = await httpClient.GetAsync(api_url + "/" + "pendingUp")) // call the api 
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    adjustments = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
+                    adjustmentsUp = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
+                }
+
+                using (var response = await httpClient.GetAsync(api_url + "/" + "pendingDown")) // call the api 
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    adjustmentsDown = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
                 }
             }
-            ViewData["allAdjustments"] = adjustments;
+            
+            ViewData["allAdjustmentsUp"] = adjustmentsUp;
+            ViewData["allAdjustmentsDown"] = adjustmentsDown;
             return View("AdjustmentList");
         }
 
@@ -42,10 +53,10 @@ namespace Team5_LUSS.Controllers
             string apiResponse = "";
             int userId = (int)HttpContext.Session.GetInt32("UserID");
             User user = new User();
-
+            
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + AdjustmentID + "/" + "Approve" + "/" + "ItemID" + "/" + "AdjustQty" +"/" + "AdjustType"))
+                using (var response = await httpClient.GetAsync(api_url + "/ApprovedAdjustmentVoucher/" + AdjustmentID + "/" + "Approved"))
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
@@ -60,7 +71,7 @@ namespace Team5_LUSS.Controllers
             }
             string msg = "Assign Successfully!";
 
-
+            /*
             MailMessage mm = new MailMessage();
             {
                 mm.To.Add(user.Email); // content specific
@@ -76,9 +87,9 @@ namespace Team5_LUSS.Controllers
                     ("team5luss@gmail.com", "Profesther");
                 client.Send(mm);
                 ViewBag.message = "Email notification sent";
-            }
+            }*/
 
-            return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
+            return RedirectToAction("AdjustmentVouchers", "AdjustmentList"); 
         }
 
         [HttpGet]
@@ -90,7 +101,7 @@ namespace Team5_LUSS.Controllers
             User user = new User();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + AdjustmentID + "/" + "Reject" + "/" + "ItemID" + "/" + "AdjustQty" + "/" + "AdjustType"))
+                using (var response = await httpClient.GetAsync(api_url + "/ApprovedAdjustmentVoucher" + "/" + AdjustmentID + "/" + "Rejected"))
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
@@ -102,7 +113,7 @@ namespace Team5_LUSS.Controllers
                 }
             }
             string msg = "Remove Successfully!";
-
+            /*
             MailMessage mm = new MailMessage(); // (email address >> receiver, subject, body )
             {
                 mm.To.Add(user.Email); // content specific
@@ -119,13 +130,15 @@ namespace Team5_LUSS.Controllers
                 client.Send(mm);
                 ViewBag.message = "Email notification sent";
             }
+            */
+
             return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
         }
 
 
     
-   // [HttpPost]
-        public async Task<IActionResult> VoucherApproveDetails(int AdjustmentID)
+    //[HttpPost]
+        public async Task<IActionResult> VoucherDetails(int AdjustmentID)
         {
             AdjustmentVoucher adjustmentVoucher = new AdjustmentVoucher();
             using (var httpClient = new HttpClient())

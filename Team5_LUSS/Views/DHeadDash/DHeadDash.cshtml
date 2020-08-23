@@ -3,7 +3,8 @@
     ViewData["Title"] = "Department Head Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Team5_LUSS.Models.ViewModels.TopSixRequested> highestRequestCat = (List<Team5_LUSS.Models.ViewModels.TopSixRequested>)ViewData["highestRequestCat"];
-    
+    Dictionary<string, int> requestBreakdown = (Dictionary<string, int>)ViewData["requestBreakdown"];
+    List<Team5_LUSS.Models.ViewModels.DHeadMonth> deptMonthlyCost = (List<Team5_LUSS.Models.ViewModels.DHeadMonth>)ViewData["deptMonthlyCost"];
 }
 <!-- START: Breadcrumbs-->
     <div class="container-fluid site-width">
@@ -25,11 +26,12 @@
 
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="card-title">Request Breakdown<br>(This Year)</h6>
-                        <a href="http://www.google.com">
-                            <div class="btn-group mb-2">
-                                <button type="button" class="btn btn-outline-info">Pending: Count</button>
-                            </div>
-                        </a>
+                        @if (requestBreakdown.ContainsKey("Pending")) 
+                             {<a asp-controller="StationeryRequests" asp-action="StationeryRequests">
+                        <div class="btn-group mb-2">
+                            <button type="button" class="btn btn-outline-info">Pending: @requestBreakdown["Pending"]</button>
+                        </div>
+                    </a>}
                     </div>
                     <div class="card-body">
                         <div id="requestBreakdown" class="height-300"></div>
@@ -58,10 +60,11 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="card-title">Department Cost Year-on-Year</h6>
-                        <div class="form-group col-sm-4 mb-3">
+                        <!--<div class="form-group col-sm-4 mb-3">
                             <label for="month">Current month :</label>
                             <input type="month" class="form-control" id="month">
                         </div>
+                            -->
                     </div>
                     <div class="card-body">
                         <div id="deptCostChart" class="height-500"></div>
@@ -104,19 +107,11 @@
             tooltip: {},
             dataset: {
                 source: [
-                    ['product', '2019', '2020'],
-                    ['Jan', 3532, 5324],
-                    ['Feb', 1512, 8125],
-                    ['Mar', 4123, 3185],
-                    ['Apr', 2443, 1185],
-                    ['May', 4123, 1485],
-                    ['Jun', 1243, 1185],
-                    ['Jul', 3243, 8125],
-                    ['Aug', 1843, 345],
-                    ['Sep', 2143, 1285],
-                    ['Oct', 2343, 1785],
-                    ['Nov', 7243, 1485],
-                    ['Dec', 1243, 485]
+                    ['product', 'Past Year', 'Prediction for Next'],
+                    @foreach (var month in deptMonthlyCost)
+                    {
+                            <text>['@month.Month', @month.YearOne, @month.YearTwo],</text>
+                        }
                 ]
             },
             textStyle: {
@@ -202,7 +197,12 @@
                             show: false
                         }
                     },
-                    
+                    data: [
+                    @foreach (var rb in requestBreakdown)
+                        {
+                            <text>{ value: @rb.Value, name: '@rb.Key' }, </text>
+                        }
+                    ]
                 }
             ]
         };

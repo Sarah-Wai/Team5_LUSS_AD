@@ -290,6 +290,7 @@ namespace Team5_LUSS.Controllers
             if(req != null)
             {
                 HttpContext.Session.Remove("addedItemSession");
+                HttpContext.Session.Remove("countSession");
             }
 
             NotificationController.NewRequest(userId);

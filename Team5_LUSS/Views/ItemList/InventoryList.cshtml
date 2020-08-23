@@ -3,6 +3,7 @@
     ViewData["Title"] = "InventoryList";
     var items = (List<Item>)ViewData["items"];
     int userId = (int)ViewData["userId"];
+    string userRole = (string)ViewData["userRole"];
 }
 
 <h3>Inventory List</h3>
@@ -24,7 +25,10 @@
                             <th>Stock Level</th>
                             <th>Balance</th>
                             <th>UOM</th>
-                            <th>Adjustment</th>
+                            @if (userRole.Equals("store_clerk"))
+                            {
+                                <th>Adjustment</th>
+                            }
                             <th>Detail</th>
                         </tr>
                     </thead>
@@ -51,11 +55,15 @@
                             <td><span class="badge @statuscolor text-white">@stocklevel</span></td>
                             <td>@item.InStockQty</td>
                             <td>@item.UOM</td>
-                            <td class="text-right">
-                                <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.ItemID)">
-                                    Adjust
-                                </a>
-                            </td>
+                            @if (userRole.Equals("store_clerk"))
+                            {
+                                <td class="text-right">
+                                    <a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.ItemID)">
+                                        Adjust
+                                    </a>
+                                </td>
+                            }
+
                             <td>
                                 <a class="btn btn-outline-info rounded-btn" asp-controller="ItemList" asp-action="ViewItemDetail" asp-route-id="@item.ItemID">Detail</a>
 

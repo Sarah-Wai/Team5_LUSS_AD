@@ -14,16 +14,17 @@ namespace Team5_LUSS.Controllers
 {
     public class StationeryRequestsController : Controller
     {
-        string api_url = "https://localhost:44312/";
+        string api_url = "https://localhost:44312/request";
 
         [HttpGet]
         public async Task<IActionResult> StationeryRequests()
         {
-            int id = 1; //depID
+           int user_DEPId = (int)HttpContext.Session.GetInt32("DeptId");
+           // int id = 1; //depID
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+ "/getAllRequest/"+id))
+                using (var response = await httpClient.GetAsync(api_url+ "/getAllRequestByDepID/" + user_DEPId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);

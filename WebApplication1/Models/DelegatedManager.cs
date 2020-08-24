@@ -14,9 +14,13 @@ namespace LUSS_API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DelegatedManagerID   { get; set; }
         [Required]
+        [Column(TypeName = "Date")]
         public DateTime FromDate   { get; set; }
         [Required]
+        [Column(TypeName = "Date")]
         public DateTime ToDate   { get; set; }
+        [Required]
+        public bool isActive { get; set; }
         [Required]
         public int UserID    { get; set; } 
         public virtual User User { get; set; }

@@ -45,7 +45,8 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            @if (deptUsers != null)
+                            {
                             @foreach (User user in deptUsers)
                             {
                                 if (user.IsRepresentative == true)
@@ -63,7 +64,7 @@
                                 }
 
                             }
-
+                            }
 
                         </tbody>
                     </table>
@@ -134,7 +135,8 @@
 @* data table ^^*@
 <script>
     $(document).ready(function () {
-
+        $("#li_dHeadRepresentative").addClass("active");
+        
         $('#example').DataTable({
             responsive: true
         });

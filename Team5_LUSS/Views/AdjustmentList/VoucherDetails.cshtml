@@ -1,7 +1,15 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 
+@{
+    string username = (string)Context.Session.GetString("User");
+    string DeptId = (string)Context.Session.GetString("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
+}
 @model AdjustmentVoucher
-<h1>Voucher Approve Details</h1>
+
+@if (DeptId == "10" && UserRole == "store_supervisor" || UserRole == "store_manager")
+{
+    <h1>Voucher Approve Details</h1>
 
 <style>
     td {
@@ -24,7 +32,7 @@
     <!-- END: Breadcrumbs-->
     <!-- START: Card Data-->
 
-    
+
     <form id="approvalForm" asp-action="Approved" method="post">
         <div class="row">
             <div class="col-12  mt-3">
@@ -93,8 +101,8 @@
                 </div>
     </form>
 </div>
-    </div>
-    <!-- END: Card DATA-->
+}
+<!-- END: Card DATA-->
 </div>
 <!-- END: Content-->
 <!-- START: Back to top-->

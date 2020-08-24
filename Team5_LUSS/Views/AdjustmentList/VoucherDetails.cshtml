@@ -1,13 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Http;
 
 @{
-    string username = (string)Context.Session.GetString("User");
-    string DeptId = (string)Context.Session.GetString("DeptId");
-    string UserRole = (string)Context.Session.GetString("UserRole");
+    string username = (string)Context.Session.GetString("User");// copy for your page security
+    int DeptId = (int)Context.Session.GetInt32("DeptId");// copy for your page security
+    string UserRole = (string)Context.Session.GetString("UserRole");// copy for your page security
 }
 @model AdjustmentVoucher
 
-@if (DeptId == "10" && UserRole == "store_supervisor" || UserRole == "store_manager")
+
+
+@if (DeptId == 10 && UserRole == "store_supervisor" || UserRole == "store_manager") // copy for your page security
 {
     <h1>Voucher Approve Details</h1>
 

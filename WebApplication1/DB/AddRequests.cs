@@ -23,7 +23,7 @@ namespace LUSS_API.DB
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
                 CollectionTime = DateTime.Now,
-                RetrievalID = 1
+                RetrievalID = 2
 
             };
             Request r2 = new Request()
@@ -52,7 +52,7 @@ namespace LUSS_API.DB
                 CollectionTime = DateTime.Now,
                 RetrievalID = 1
 
-        };
+            };
 
 
             Request r4 = new Request()

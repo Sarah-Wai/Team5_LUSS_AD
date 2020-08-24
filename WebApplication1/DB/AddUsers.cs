@@ -93,7 +93,7 @@ namespace LUSS_API.DB
                 Password = Encrypt("123"),
                 Role = "dept_employee",
                 Designation = "Junior Officer",
-                IsRepresentative = true,
+                IsRepresentative = false,
                 ReportToID = u4.UserID,
                 DepartmentID = 3
             };

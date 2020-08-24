@@ -5,9 +5,9 @@
 
 @{
     string username = (string)Context.Session.GetString("User");
-    string DeptId = (string)Context.Session.GetString("DeptId");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
     string UserRole = (string)Context.Session.GetString("UserRole");
-    
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -87,11 +87,14 @@
                                 <i class="icon-magnifier h4"></i>
                             </a>
                         </li>
-                        <li id="cartpartial" class="dropdown align-self-center">
-                            @{
-                                Html.RenderPartial("~/Views/ItemList/_CartPartial.cshtml");
-                            }
-                        </li>
+                        @if (UserRole == "dept_employee" || UserRole == "dept_rep")
+                        {
+                            <li id="cartpartial" class="dropdown align-self-center">
+                                @{
+                                    Html.RenderPartial("~/Views/ItemList/_CartPartial.cshtml");
+                                }
+                            </li>
+                         }
                         <!--Notification-->
                         <li class="dropdown align-self-center d-inline-block">
                             @{
@@ -101,29 +104,29 @@
                         </li>
                         <li class="dropdown user-profile align-self-center d-inline-block">
                             <a href="#" class="nav-link py-0" data-toggle="dropdown" aria-expanded="false">
-                                <div >
+                                <div>
                                     <p>Hi, @username</p>
-                                   
+
                                 </div>
                             </a>
 
                             <div class="dropdown-menu border dropdown-menu-right p-0">
                                 @*<a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-pencil mr-2 h6 mb-0"></span> Edit Profile
-                                    </a>
-                                    <a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-user mr-2 h6 mb-0"></span> View Profile
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-support mr-2 h6  mb-0"></span> Help Center
-                                    </a>
-                                    <a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-globe mr-2 h6 mb-0"></span> Forum
-                                    </a>
-                                    <a href="" class="dropdown-item px-2 align-self-center d-flex">
-                                        <span class="icon-settings mr-2 h6 mb-0"></span> Account Settings
-                                    </a>*@
+                    <span class="icon-pencil mr-2 h6 mb-0"></span> Edit Profile
+                </a>
+                <a href="" class="dropdown-item px-2 align-self-center d-flex">
+                    <span class="icon-user mr-2 h6 mb-0"></span> View Profile
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="" class="dropdown-item px-2 align-self-center d-flex">
+                    <span class="icon-support mr-2 h6  mb-0"></span> Help Center
+                </a>
+                <a href="" class="dropdown-item px-2 align-self-center d-flex">
+                    <span class="icon-globe mr-2 h6 mb-0"></span> Forum
+                </a>
+                <a href="" class="dropdown-item px-2 align-self-center d-flex">
+                    <span class="icon-settings mr-2 h6 mb-0"></span> Account Settings
+                </a>*@
                                 @*<div class="dropdown-divider"></div>*@
                                 <a class="dropdown-item px-2 text-danger align-self-center d-flex"
                                    asp-controller="Home" asp-action="Logout">
@@ -131,8 +134,8 @@
                                 </a>
 
                                 @* {
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
-                                    }*@
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                }*@
 
 
                             </div>
@@ -151,7 +154,7 @@
             <!-- START: Menu-->
             <ul id="side-menu" class="sidebar-menu">
 
-                @if (DeptId == "10" && UserRole == "store_clerk")
+                @if (DeptId == 10 && UserRole == "store_clerk")
                 {
                     @*Store*@
                     <li class="dropdown active" id="menu_store">
@@ -187,7 +190,8 @@
                         </ul>
                     </li>
                 }
-                @if (DeptId == "10" && UserRole == "store_supervisor" || UserRole == "store_manager")
+
+                @if (DeptId == 10 && UserRole == "store_supervisor" || UserRole == "store_manager")
                 {
                     @*Store Manager*@
                     <li class="dropdown" id="menu_mgstore">
@@ -199,7 +203,7 @@
                         </ul>
                     </li>
                 }
-                @if (DeptId == "10" && UserRole == "dept_employee")
+                @if (DeptId == 10 && UserRole == "dept_employee")
                 {
                     @*Employee*@
                     <li class="dropdown" id="menu_emp">

@@ -24,7 +24,7 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> Login(string Email, string Password)
         {
             User  login_user = new User(); // create a new objects of "User"
-            string Hword = Password;    // string Hword = Encrypt(Password);    Change Later
+            string Hword = Encrypt(Password);    // string Hword = Encrypt(Password);    Change Later
             string action_name = "";string controller_name = "";
             using (var httpClient = new HttpClient())
             {

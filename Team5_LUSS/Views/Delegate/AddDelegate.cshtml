@@ -11,12 +11,7 @@
 }
 
 
-@if (!string.IsNullOrEmpty(@DeleteMsg))
-{
-    <script>
- alert('@DeleteMsg');
-    </script>
-}
+
 @model DelegatedManager
 
 <div class="row ">
@@ -29,7 +24,20 @@
 <div class="row ">
     <div class="col-12 col-lg-12  col-xl-12 mt-12">
         <div class="card bg-light">
-            <div class="card-header">Current Delegate</div>
+            <div class="card-header">
+                Current Delegate
+                @if (!string.IsNullOrEmpty(@DeleteMsg))
+                {
+                   // <h6><small><span class="text-danger p-sm-0">@DeleteMsg</span></small></h6>
+                   
+                    <script>
+                       
+                    </script>   
+                   
+
+                }
+
+            </div>
             <div class="card-body">
 
 
@@ -41,6 +49,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Strat Date</th>
                                 <th scope="col">End Date</th>
+                                <th scope="col">Will Active</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -55,6 +64,16 @@
                                         <td>@user.FirstName  @user.LastName</td>
                                         <td> @Html.DisplayFor(modelItem => user.DelegatedManager.FromDate)</td>
                                         <td> @Html.DisplayFor(modelItem => user.DelegatedManager.ToDate)</td>
+                                        @if (user.DelegatedManager.isActive == true)
+                                        {
+                                       <td style="text-align:center"><span class="bg-danger  text-white card-liner-small-tip">Active</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td style="text-align:center">  </td>
+                                        }
+
+
                                         <td>
                                             <button type="button" class="btn btn-danger" title="Remove" onclick="location.href='@Url.Action("DeleteDelegate", "Delegate", new { id = user.DelegatedManager.DelegatedManagerID })'"> Remove</button>
                                         </td>
@@ -123,11 +142,11 @@
                                 <div class="card-body">
                                     <div class="form-group col-md-12">
                                         <label for="inputDate">Start Date</label>
-                                        <input type="datetime-local" class="form-control" asp-for="FromDate" name="FromDate" id="startDate" onchange="BindStartDate();">
+                                        <input type="date" class="txtDate form-control" asp-for="FromDate" name="FromDate" id="startDate" onchange="BindStartDate();">
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="inputDate">End Date</label>
-                                        <input type="datetime-local" class="form-control" asp-for="ToDate" name="ToDate" id="endDate" onchange="BindEndDate();">
+                                        <input type="date" class=" txtDate form-control" asp-for="ToDate" name="ToDate" id="endDate" onchange="BindEndDate();">
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +176,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-2"></div>
-                                        <button type="submit" class="btn btn-success"  id="btnAssign">Assign</button> <span>&nbsp;&nbsp;&nbsp;</span>
+                                        <button type="submit" class="btn btn-success" id="btnAssign">Assign</button> <span>&nbsp;&nbsp;&nbsp;</span>
                                         <button type="reset" class="btn btn-primary">Cancel</button>
                                     </div>
                                 </div>
@@ -175,15 +194,45 @@
 
 
 <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
-
+<script src="~/vendors/fullcalendar/bundle/moment.js"></script>
 <script>
     $(document).ready(function () {
         $("#li_dHeadDelegate").addClass("active");
+          toastr.options = {
+                             tapToDismiss: true,
+                             toastClass: 'toast',
+                             containerId: 'toast-container',
+                             iconClass: 'toast-info',
+                             positionClass: 'toast-top-right',
+                             timeOut: 500, // Set timeOut to 0 to make it sticky
+                             titleClass: 'toast-title',
+                             messageClass: 'toast-message'
+                         };
+
+        if ('@DeleteMsg' != '') {
+            toastr["info"]('@DeleteMsg');
+
+        }
+
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+     
+        $('.txtDate').attr('min', maxDate);
     });
 
     function BindStartDate() {
-       $("#lblStartDate").html($("#startDate").val());
-       //alert($("#startDate").val());
+        $("#lblStartDate").html($("#startDate").val());
+        $('#endDate').attr('min', $("#startDate").val()); 
+       
     };
     function BindEndDate() {
         $("#lblEndDate").html($("#endDate").val());
@@ -197,7 +246,7 @@
         $("#lblDelegate").html($("#lbl_" + userId).text());
         $("#sp_selectUser").html($("#lbl_" + userId).text());
         //alert(userId)
-          $.ajax({
+          @*$.ajax({
              type: "Post",
              url: '@Url.Action("getDelegateByUserID")',
              data: { 'id': userId},
@@ -210,14 +259,14 @@
                     $("#lblStartDate").html(responce.fromDate);
                     $("#lblEndDate").html(responce.toDate);
                     $("#btnAssign").prop('disabled', !0);
-                    $("#showMsg").html(" (This person is already delegated.If you want to change any,please remove first!)");
+                  //  $("#showMsg").html(" (This person is already delegated.If you want to change any,please remove first!)");
 
                 }
                 else {
                     $("#userID").val(userId);
                     $("#lblDelegate").html($("#lbl_" + userId).text());
                     $("#sp_selectUser").html($("#lbl_" + userId).text());
-                   
+
                     $("#btnAssign").prop('disabled', !1);
                     ("#showMsg").html("");
                 }
@@ -226,7 +275,7 @@
             error: function () {
                     alert("Error while inserting data");
                 }
-            });
+            });*@
             return true;
     });
 

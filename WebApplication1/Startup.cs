@@ -84,10 +84,10 @@ namespace LUSS_API
 
             //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
             //dbcontext.AddRange(itemCategories);
-
+            //dbcontext.SaveChanges();
             //List<Item> items = AddItems.getAllItem();
             //dbcontext.AddRange(items);
-
+            //dbcontext.SaveChanges();
             //List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
             //dbcontext.AddRange(itemPrices);
 
@@ -96,11 +96,11 @@ namespace LUSS_API
 
             //List<Supplier> suppliers = AddSupplier.getAllSuppliers();
             //dbcontext.AddRange(suppliers);
-
+            //dbcontext.SaveChanges();
 
             //List<Department> allDepartments = AddDepartment.getAllDepartment(allCollectionPoints);
             //dbcontext.AddRange(allDepartments);
-
+            //dbcontext.SaveChanges();
             //List<User> allUsers = AddUsers.getAllUsers();
             //dbcontext.AddRange(allUsers);
 
@@ -117,7 +117,7 @@ namespace LUSS_API
 
             //List<Request> requests = AddRequests.getAllRequest();
             //dbcontext.AddRange(requests);
-
+            //dbcontext.SaveChanges();
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
             //dbcontext.AddRange(requestDetails);
 

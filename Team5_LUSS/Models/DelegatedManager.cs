@@ -20,6 +20,8 @@ namespace Team5_LUSS.Models
         [DisplayFormat(DataFormatString = "{0: dd-MM-yyyy}")]
         public DateTime ToDate   { get; set; }
         [Required]
+        public bool isActive { get; set; }
+        [Required]
         public int UserID    { get; set; } 
         public virtual User User { get; set; }
 

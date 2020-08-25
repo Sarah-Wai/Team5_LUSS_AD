@@ -40,7 +40,10 @@ namespace LUSS_API.Controllers
             User user = (from i in context123.User
                          where i.Email == Email && i.Password == Password
                          select i).FirstOrDefault();
-            if (user.DelegatedManager == null) { user.DelegatedManager = new DelegatedManager(); }
+            if (user != null)
+            {
+                if (user.DelegatedManager == null) { user.DelegatedManager = new DelegatedManager(); }
+            }
             return user;
         }
 

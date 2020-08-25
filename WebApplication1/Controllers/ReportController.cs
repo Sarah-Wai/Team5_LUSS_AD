@@ -18,12 +18,13 @@ namespace LUSS_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SupDashController : ControllerBase
+    public class ReportController : ControllerBase
     {
+        int twoAgo = DateTime.Now.AddMonths(-2).Month;
 
         public MyDbContext context123;
-        private readonly ILogger<SupDashController> _logger;
-        public SupDashController(ILogger<SupDashController> logger, MyDbContext context123)
+        private readonly ILogger<ReportController> _logger;
+        public ReportController(ILogger<ReportController> logger, MyDbContext context123)
         {
             _logger = logger;
             this.context123 = context123;
@@ -31,10 +32,10 @@ namespace LUSS_API.Controllers
                 
         
         [HttpGet]
-        [Route("get-by-department-category")]
-        public List<CategoryActorSum> GetEachDepartmentCategory()
+        [Route("get-month-on-month-dept")]
+        public List<CategoryActorSum> GetDepartmentMonths()
         {
-            var ungroupedDepartmentCategory = (from requests in context123.Request
+            var ungroupedDepartmentMonth = (from requests in context123.Request
                                  join requestDetails in context123.RequestDetails on requests.RequestID equals requestDetails.RequestID
                                  join item in context123.Item on requestDetails.ItemID equals item.ItemID
                                  join itemPrice in context123.ItemPrice on item.ItemID equals itemPrice.ItemID
@@ -43,12 +44,12 @@ namespace LUSS_API.Controllers
                                  && requests.RequestStatus == EOrderStatus.Completed
                                  select new CategoryActorSum
                                  {
-                                     Category = item.ItemCategory.CategoryName,
+                                     Category = requests.CollectionTime.ToString("MMM"),
                                      Actor = user.Department.DepartmentName,
                                      Sum = requestDetails.ReceivedQty * itemPrice.Price
-                                 }).OrderBy(x => x.Category).ToList();
+                                 }).ToList();
 
-            var departmentCategory = ungroupedDepartmentCategory
+            var departmentMonth = ungroupedDepartmentMonth
                 .GroupBy(x => new
                 {
                     x.Category,
@@ -61,34 +62,35 @@ namespace LUSS_API.Controllers
                     Sum = n.Sum(x => x.Sum)
                 }).ToList();
 
-            var uniqueCategories = departmentCategory.Select(dc => new { dc.Category }).Distinct().OrderBy(x => x.Category);
-            var uniqueDepts = departmentCategory.Select(dc => new { dc.Actor }).Distinct().OrderBy(x => x.Actor);
+            var months = departmentMonth.Select(dc => new { dc.Category }).Distinct().OrderBy(x => x.Category);
+            var uniqueDepts = departmentMonth.Select(dc => new { dc.Actor }).Distinct().OrderBy(x => x.Actor);
 
 
-            return departmentCategory;
+            return departmentMonth;
 
         }
 
         [HttpGet]
-        [Route("get-by-supplier-category")]
-        public List<CategoryActorSum> GetEachSupplierCategory()
+        [Route("get-month-on-month-supplier")]
+        public List<CategoryActorSum> GetSupplierMonths()
         {
-            var ungroupedSupplierCategory = (from po in context123.PurchaseOrder
+            var ungroupedSupplierMonth = (from po in context123.PurchaseOrder
                                                join poItems in context123.PurchaseOrderItems on po.POID equals poItems.POID
                                                join item in context123.Item on poItems.ItemID equals item.ItemID
                                                join itemPrice in context123.ItemPrice on item.ItemID equals itemPrice.ItemID
                                                join supplier in context123.Supplier on po.SupplierID equals supplier.SupplierID
                                                where po.CreatedOn.Year == DateTime.Now.Year
+                                               && (po.CreatedOn.Month == DateTime.Now.AddMonths(-2).Month || po.CreatedOn.Month == DateTime.Now.AddMonths(-1).Month || po.CreatedOn.Month == DateTime.Now.Month)
                                                && po.Status == POStatus.Completed
                                                && supplier.SupplierID == itemPrice.SupplierID
                                                select new CategoryActorSum
                                                {
-                                                   Category = item.ItemCategory.CategoryName,
+                                                   Category = po.CreatedOn.ToString("MMM"),
                                                    Actor = supplier.SupplierName,
                                                    Sum = poItems.ReceivedQty * itemPrice.Price
-                                               }).OrderBy(x => x.Category).ToList();
+                                               }).ToList();
 
-            var supplierCategory = ungroupedSupplierCategory
+            var supplierMonth = ungroupedSupplierMonth
                 .GroupBy(x => new
                 {
                     x.Category,
@@ -101,13 +103,12 @@ namespace LUSS_API.Controllers
                     Sum = n.Sum(x => x.Sum)
                 }).ToList();
 
-            var uniqueCategories = supplierCategory.Select(dc => new { dc.Category }).Distinct().OrderBy(x => x.Category);
-            var uniqueDepts = supplierCategory.Select(dc => new { dc.Actor }).Distinct().OrderBy(x => x.Actor);
 
 
-            return supplierCategory;
+            return supplierMonth;
 
         }
+
 
 
 

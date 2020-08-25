@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Castle.Core.Internal;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -148,7 +149,6 @@ namespace LUSS_API.Controllers
         [HttpPost("{acceptedQty}/{retrievalID}")]
         public string allocateStationary(List<int> acceptedQty, int retrievalID)
         {
-
             //get the chunk of info passed to the View
             IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID);
             //create a dic: item code -- accptQty
@@ -417,7 +417,6 @@ namespace LUSS_API.Controllers
                     isUpdated = false;
                 }
             }
-
             return isUpdated;
         }
 
@@ -459,6 +458,105 @@ namespace LUSS_API.Controllers
 
             return isRemoved;
         }
+
+        [HttpGet("{status}")]
+        [Route("get-request-by-status-mobile/{status}")]
+        public IEnumerable<CustomRequest> MGetApprovedRequest(EOrderStatus status)
+        {
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == status).ToList();
+            List<CustomRequest> customRequests = new List<CustomRequest>();
+            
+            foreach (Request r in requestList)
+            {
+                CustomRequest c = new CustomRequest();
+                c.RequestID = r.RequestID;
+                c.RequestStatus = r.RequestStatus;
+                c.RequestDate = r.RequestDate;
+                c.RequestBy = r.RequestBy;
+                c.ModifiedBy = r.ModifiedBy;
+                c.Comment = r.Comment;
+                c.RequestType = r.RequestType;
+                c.ParentRequestID = r.ParentRequestID;
+                c.CollectionTime = r.CollectionTime;
+                c.RetrievalID = r.RetrievalID;
+                c.RequestByName = r.RequestByUser.FirstName + " " + r.RequestByUser.LastName;
+                c.ModifiedByName = r.ModifiedByUser.FirstName + " " + r.ModifiedByUser.LastName;
+                c.DepartmentName = r.RequestByUser.Department.DepartmentName;
+                User rep = context123.User.First(x => x.DepartmentID == r.RequestByUser.DepartmentID && x.IsRepresentative == true);
+                c.DepartmentRep = rep.FirstName + " " + rep.LastName;
+                c.CollectionPoint = r.RequestByUser.Department.CollectionPoint.PointName;
+                
+                customRequests.Add(c);
+            }
+            return customRequests;
+        }
+
+
+        //mobile API
+
+        [HttpGet("GetItemByRetrievalByDept/{retrId}/{deptId}")]
+        public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
+        {
+            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId);
+            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
+
+            foreach (var r in requests)
+            {
+                CustomRetrieval rt = new CustomRetrieval
+                {
+                    ItemID = r.itemIds,
+                    ItemCode = r.itemCode,
+                    ItemName = r.itemName,
+                    UOM = r.itemUOM,
+                    RequestedQty = r.totalQty
+                };
+
+                retrievals.Add(rt);
+            }
+            return retrievals;
+        }
+
+        [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        public String MDisburseByRequest(int id, int userId, string collectionTime, string fulfillQty)
+        {
+            //parse string to array
+            string[] separators = { ",", "[", "]" };
+            string[] str = fulfillQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            List<int> qty = new List<int>();
+            foreach (var s in str)
+            {
+                qty.Add(int.Parse(s));
+            }
+
+            Retrieval retrieval = new Retrieval()
+            {
+                IssueDate = DateTime.Now,
+                Status = EOrderStatus.PendingDelivery
+            };
+            context123.Add(retrieval);
+            context123.SaveChanges();
+
+            //update request
+            Request request = GetById(id);
+            request.RequestStatus = EOrderStatus.PendingDelivery;
+            request.CollectionTime = Convert.ToDateTime(collectionTime);
+            request.ModifiedBy = userId;
+            request.RetrievalID = retrieval.RetrievalID;
+
+            List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
+
+            //update fulfill qty of each request items
+            for (int i = 0; i < reqItems.Count(); i++)
+            {
+                reqItems[i].FullfillQty = qty[i];
+                reqItems[i].Item.InStockQty -= qty[i]; // less out stock
+            }
+            context123.SaveChanges();
+            return "ok";
+        }
     }
 
-}
+    
+
+    }

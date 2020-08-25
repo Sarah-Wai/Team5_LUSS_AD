@@ -1,0 +1,298 @@
+﻿
+@using Microsoft.AspNetCore.Http;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Team5_LUSS.Models.ViewModels.CategoryActorSum> departmentCategory = (List<Team5_LUSS.Models.ViewModels.CategoryActorSum>)ViewData["departmentCategory"];
+    var uniqueCategories = departmentCategory.Select(dc => new { dc.Category }).Distinct().OrderBy(x => x.Category);
+    var uniqueDepts = departmentCategory.Select(dc => new { dc.Actor }).Distinct().OrderBy(x => x.Actor);
+
+    List<Team5_LUSS.Models.ViewModels.CategoryActorSum> supplierCategory = (List<Team5_LUSS.Models.ViewModels.CategoryActorSum>)ViewData["supplierCategory"];
+    var uniqueCategories2 = supplierCategory.Select(dc => new { dc.Category }).Distinct().OrderBy(x => x.Category);
+    var uniqueSuppliers = supplierCategory.Select(dc => new { dc.Actor }).Distinct().OrderBy(x => x.Actor);
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
+}
+@if (UserRole == "store_supervisor" || UserRole == "store_manager")
+{
+    <div class="container-fluid site-width">
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Your DashBoard</h4></div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+
+            <!-- Department Cost Chart-->
+            <div class="col-12 mt-3">
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title">Request Amount of Departments by Category</h6>
+                        <div class="form-group col-sm-4 mb-3">
+                            <!--<label for="month">Year :</label>
+                            <input type="month" class="form-control" id="month">-->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="department" class="height-500"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supplier Cost Chart-->
+
+            <div class="col-12 mt-3">
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title">Amount of Items Ordered from Suppliers by Category</h6>
+                        <div class="form-group col-sm-4 mb-3">
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="supplier" class="height-500"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- END: Card DATA-->
+    <script src="~/vendors/echarts/echarts.min.js"></script>
+    <script>
+    (function ($) {
+        "use strict";
+
+        var primarycolor = getComputedStyle(document.body).getPropertyValue('--primarycolor');
+        var bordercolor = getComputedStyle(document.body).getPropertyValue('--bordercolor');
+        var bodycolor = getComputedStyle(document.body).getPropertyValue('--bodycolor');
+
+        var department = echarts.init(document.getElementById('department'));
+        // specify chart configuration item and data
+
+        var departmentOption = {
+            //color: ['navy', 'teal', ' blue'],
+            color: ['red', 'orange', ' yellow', 'green', 'blue', 'indigo', 'violet'],
+
+            legend: {
+                textStyle: {
+                    color: bodycolor
+                }
+            },
+            tooltip: {},
+            dataset: {
+                source: [
+                    ['category',
+                    @foreach (var dept in uniqueDepts)
+                    {
+                        <text>'@dept.Actor',</text>
+                    }
+                    ],
+
+                    @foreach (var cat in uniqueCategories)
+                    {
+
+                        <text>['@cat.Category',</text>
+                        @foreach (var dept in uniqueDepts)
+                        {
+                            var foundDepartment = @departmentCategory.Find(n => (n.Category == cat.Category) && (n.Actor == dept.Actor));
+                            if (foundDepartment != null && foundDepartment.Sum.ToString() != null)
+                            {
+                                            <text>@foundDepartment.Sum.ToString(),</text>
+                            }
+                            else
+                            {
+                                            <text>0,</text>
+                            }
+
+
+                        }
+
+                        <text>],</text>
+                    }
+
+
+                ]
+            },
+            textStyle: {
+                color: bodycolor
+            },
+            xAxis: {
+                type: 'category',
+                axisLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                }
+            },
+            yAxis: {
+                axisLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                }
+            },
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {
+                    type: 'bar',
+                    barGap: 0,
+                    label: {
+                        color: bodycolor
+                    }
+                },
+
+                @for (int i = 0; i < uniqueDepts.Count() - 1; i++)
+                {
+                        <text>{
+                                type: 'bar',
+                                label: {
+                                color: bodycolor
+                                 }
+                                },</text>
+                }
+
+
+
+            ]
+        };
+                        // use configuration item and data specified to show chart
+                        department.setOption(departmentOption);
+
+
+        var supplier = echarts.init(document.getElementById('supplier'));
+        // specify chart configuration item and data
+
+        var supplierOption = {
+            //color: ['navy', 'teal', ' blue'],
+            color: ['red', 'orange', ' yellow', 'green', 'blue', 'indigo', 'violet'],
+
+            legend: {
+                textStyle: {
+                    color: bodycolor
+                }
+            },
+            tooltip: {},
+            dataset: {
+                source: [
+                    ['category',
+                    @foreach (var dept in uniqueSuppliers)
+                    {
+                        <text>'@dept.Actor',</text>
+                    }
+                    ],
+
+                    @foreach (var cat in uniqueCategories2)
+                    {
+
+                        <text>['@cat.Category',</text>
+                        @foreach (var dept in uniqueSuppliers)
+                        {
+                            var foundDepartment = supplierCategory.Find(n => (n.Category == cat.Category) && (n.Actor == dept.Actor));
+                            if (foundDepartment != null && foundDepartment.Sum.ToString() != null)
+                            {
+                                            <text>@foundDepartment.Sum.ToString(),</text>
+                            }
+                            else
+                            {
+                                            <text>0,</text>
+                            }
+
+
+                        }
+
+                        <text>],</text>
+                    }
+
+
+                ]
+            },
+            textStyle: {
+                color: bodycolor
+            },
+            xAxis: {
+                type: 'category',
+                axisLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                }
+            },
+            yAxis: {
+                axisLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                }
+            },
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {
+                    type: 'bar',
+                    barGap: 0,
+                    label: {
+                        color: bodycolor
+                    }
+                },
+
+                @for (int i = 0; i < uniqueSuppliers.Count() - 1; i++)
+                {
+                        <text>{
+                                type: 'bar',
+                                label: {
+                                color: bodycolor
+                                 }
+                                },</text>
+                }
+
+
+
+            ]
+        };
+                        // use configuration item and data specified to show chart
+        supplier.setOption(supplierOption);
+
+
+
+        $(window).on('resize', function () {
+
+
+
+                    if (department != null && department != undefined) {
+                        department.resize();
+                    }
+                    if (supplier != null && supplier != undefined) {
+                        supplier.resize();
+                    }
+
+
+                });
+
+    })(jQuery);</script>
+    <script src="~/vendors/echarts/echarts.min.js"></script>
+    <!-- END: Card DATA-->
+}

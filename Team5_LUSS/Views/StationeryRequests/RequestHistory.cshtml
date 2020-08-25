@@ -32,7 +32,8 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        @if (requests != null)
+                        {
                         @foreach (var request in requests)
                         {
 
@@ -70,7 +71,7 @@
                                     <a class="btn btn-outline-info rounded-btn" asp-controller="StationeryRequests" asp-action="ViewRequestDetail" asp-route-id="@request.RequestID">Detail</a>
                                 </td>
                             </tr>
-                        }
+                        }}
                     </tbody>
                 </table>
             </div>

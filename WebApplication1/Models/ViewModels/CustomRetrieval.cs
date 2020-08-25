@@ -19,6 +19,7 @@ namespace LUSS_API.Models.ViewModels
         public String ItemCategory { get; set; }
         public String CategoryName { get; set; }
         public int TotalQty { get; set; }
+        public int RequestedQty { get; set; }
 
    
     }

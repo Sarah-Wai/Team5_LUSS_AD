@@ -118,12 +118,13 @@ namespace LUSS_API
             //List<Request> requests = AddRequests.getAllRequest();
             //dbcontext.AddRange(requests);
             //dbcontext.SaveChanges();
+
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
             //dbcontext.AddRange(requestDetails);
+            //dbcontext.SaveChanges();
 
             //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher();
             //dbcontext.AddRange(adjustmentVouchers);
-
             //dbcontext.SaveChanges();
 
         }

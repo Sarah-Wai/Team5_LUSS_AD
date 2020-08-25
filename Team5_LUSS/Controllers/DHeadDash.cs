@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
 using Team5_LUSS.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
+
 
 namespace Team5_LUSS.Controllers
 {
@@ -16,8 +18,7 @@ namespace Team5_LUSS.Controllers
         string api_url = "https://localhost:44312/DHeadDash/";
         string api_url_rqst = "https://localhost:44312/Request";
 
-        //NEED DEPT HEAD'S DEPARTMENT
-        int deptID = 1;
+        
 
         List<TopSixRequested> highestRequestCat = new List<TopSixRequested>();
         Dictionary<string, int> requestBreakdown = new Dictionary<string, int>();
@@ -28,6 +29,7 @@ namespace Team5_LUSS.Controllers
             string name;
             using (var httpClient = new HttpClient())
             {
+                int deptID = (int)HttpContext.Session.GetInt32("DeptId");
                 using (var response = await httpClient.GetAsync(api_url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();

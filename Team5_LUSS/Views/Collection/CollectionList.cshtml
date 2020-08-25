@@ -1,11 +1,19 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<dynamic> collectionList = (List<dynamic>)ViewData["collectionRequest"];
     Dictionary<int, DateTime> retrieval_CollectionTime = (Dictionary<int, DateTime>)ViewData["retrieval_time"];
     CollectionPoint cp = (CollectionPoint)ViewData["collectionPoint"];
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
 
-
+@if (UserRole == "dept_rep")
+{
     <div class="container-fluid site-width">
 
         <div class="row ">
@@ -68,7 +76,7 @@
             </div>
         </div>
         <!-- START: Info Card Data-->
-        @if(retrieval_CollectionTime.Count() != 0)
+        @if (retrieval_CollectionTime.Count() != 0)
         {
             <div class="col-12" style="margin-top:1rem">
                 <div class="card text-white bg-info">
@@ -158,9 +166,9 @@
         }
         <!-- END: Card DATA-->
     </div>
-        
+}
 <script>
-    
+
     $("form").submit(function () {
         $("#idValue").val($("#retrievalID").val());
     })

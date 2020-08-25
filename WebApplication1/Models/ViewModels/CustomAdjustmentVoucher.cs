@@ -17,7 +17,7 @@ namespace LUSS_API.Models.ViewModels
         [MaxLength(50)]
         public AdjustmentStatus Status { get; set; }
         public int TotalCost { get; set; }
-        //public DateTime IssuedDate { get; set; }
+        public DateTime IssuedDate { get; set; }
         public string VoucherNo { get; set; }
         public string Comment { get; set; }
         public string Reason { get; set; }

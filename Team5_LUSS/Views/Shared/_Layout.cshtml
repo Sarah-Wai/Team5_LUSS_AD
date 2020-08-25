@@ -160,7 +160,7 @@
                     <li class="dropdown active" id="menu_store">
                         <a href="#"><i class="icon-organization mr-1"></i>Menu</a>
                         <ul>
-                            @*<li id="li_storeDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>*@
+                            <li id="li_storeDashboard"><a asp-controller="ClerkDash" asp-action="Index"><i class="icon-rocket"></i> Dashboard</a></li>
                             <li id="li_storeInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
                             <li id="li_disbursement"><a asp-controller="Disbursement" asp-action="ManageDisbursement"><i class="icon-support"></i>Manage Disbursement</a></li>
                             @*<li class="dropdown" id="li_disbursement">
@@ -197,9 +197,10 @@
                     <li class="dropdown" id="menu_mgstore">
                         <a href="#"><i class="icon-organization mr-1"></i>Menu</a>
                         <ul>
-                            @*<li id="li_mgstoreDashboard" class="active"><a asp-controller="Dashboard" asp-action="Dashboard"><i class="icon-rocket"></i> Dashboard</a></li>*@
+                            <li id="li_mgstoreDashboard"><a asp-controller="SupDash" asp-action="Index"><i class="icon-rocket"></i> Dashboard</a></li>
                             <li id="li_mgstoreInventory"><a asp-controller="ItemList" asp-action="InventoryList"><i class="icon-layers"></i> Inventory List</a></li>
                             <li id="li_adjustVouncher"><a href="/AdjustmentList/AdjustmentVouchers"><i class="icon-puzzle"></i> Adjust Stock</a></li>
+                            <li id="li_reports">><a asp-controller="Report" asp-action="Index"><i class="icon-energy"></i>Reports</a></li>
                         </ul>
                     </li>
                 }
@@ -255,7 +256,7 @@
                     <li class="dropdown" id="menu_depHead" style="display:block">
                         <a href="#"><i class="icon-organization mr-1"></i>Menu</a>
                         <ul>
-                            <li id="li_dHeadHome"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-rocket"></i> Dashboard</a></li>
+                            <li id="li_dHeadHome"><a asp-controller="DHeadDash" asp-action="Index"><i class="icon-rocket"></i> Dashboard</a></li>
                             <li id="li_dHeadRequests"><a asp-controller="StationeryRequests" asp-action="StationeryRequests"><i class="icon-layers"></i> Stationery Requests</a></li>
                             <li id="li_dHeadDelegate"><a asp-controller="Delegate" asp-action="AddDelegate"><i class="icon-briefcase"></i> Assign Delegate</a></li>
                             <li id="li_dHeadRepresentative">

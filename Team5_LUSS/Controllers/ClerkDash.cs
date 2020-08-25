@@ -42,8 +42,39 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     topSixRequested = JsonConvert.DeserializeObject<List<TopSixRequested>>(apiResponse);
                 }
-                
-                
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestByStatus" + "/" + "PendingDelivery"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    pendingDeliveries = JsonConvert.DeserializeObject<List<Request>>(apiResponse).Count;
+                }
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestByStatus" + "/" + "Approved"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    newRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse).Count;
+                }
+
+                using (var response = await httpClient.GetAsync(api_url + "get-clerk-pending"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    pendingAdjustments = Int32.Parse(apiResponse);
+                }
+
+                using (var response = await httpClient.GetAsync(api_url + "get-next-collection-time-location/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    nextCollectionPoint = JsonConvert.DeserializeObject<CollectionPoint>(apiResponse);
+                }
+                using (var response = await httpClient.GetAsync(api_url + "get-next-collection-datetime/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    nextCollectionDate = JsonConvert.DeserializeObject<DateTime>(apiResponse);
+                }
+                using (var response = await httpClient.GetAsync(api_url + "get-low-stock-item-count/"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lowStockItemCount = Int32.Parse(apiResponse);
+                }
+
 
             }
             ViewData["name"] = name;

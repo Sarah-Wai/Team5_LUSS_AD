@@ -202,7 +202,7 @@ namespace LUSS_API.Controllers
                 AdjustType = iDVoucher.AdjustType,
                 Status = iDVoucher.Status,
                 TotalCost = iDVoucher.TotalCost,
-                //IssuedDate = iDVoucher.IssuedDate,
+                IssuedDate = iDVoucher.IssuedDate,
                 VoucherNo = iDVoucher.VoucherNo,
                 Comment = iDVoucher.Comment,
                 Reason = iDVoucher.Reason,

@@ -200,7 +200,57 @@ namespace LUSS_API.Controllers
             return req;
         }
 
-      
+        [HttpGet]
+        [Route("mobile")]
+        public IEnumerable<CustomItem> GetItemList()
+        {
+            List<Item> items = context123.Item.ToList();
+            List<CustomItem> itemList = new List<CustomItem>();
+
+            foreach(Item i in items)
+            {
+                CustomItem c = new CustomItem
+                {
+                    ItemID = i.ItemID,
+                    ItemCode = i.ItemCode,
+                    ItemName = i.ItemName,
+                    Location = i.StoreItemLocation,
+                    UOM = i.UOM,
+                    InStockQty = i.InStockQty,
+                    ReOrderLevel = i.ReStockLevel,
+                    ReOrderQty = i.ReStockQty,
+                    CategoryName = i.ItemCategory.CategoryName
+                };
+
+                itemList.Add(c);
+            }
+            return itemList;
+        }
+
+        [HttpGet("{id}")]
+        [Route("mobile/GetItemByID/{id}")]
+        public CustomItem GetItemDetails(int id)
+        {
+            Item i = (from item in context123.Item
+                         where item.ItemID == id
+                         select item).FirstOrDefault();
+
+            CustomItem custom = new CustomItem
+            {
+                ItemID = i.ItemID,
+                ItemCode = i.ItemCode,
+                ItemName = i.ItemName,
+                Location = i.StoreItemLocation,
+                UOM = i.UOM,
+                InStockQty = i.InStockQty,
+                ReOrderLevel = i.ReStockLevel,
+                ReOrderQty = i.ReStockQty,
+                CategoryName = i.ItemCategory.CategoryName
+            };
+            return custom;
+        }
+
+
 
     }
 }

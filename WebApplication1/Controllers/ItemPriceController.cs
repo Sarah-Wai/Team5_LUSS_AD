@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -92,6 +93,27 @@ namespace LUSS_API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        //Mobile API
+
+        [HttpGet("mobile/getItemDetails/{id}")]
+        public CustomAdjustmentVoucher GetItemDetails(int id)
+        {
+            ItemPrice item = context123.ItemPrice
+                .Where(x => x.ItemID == id).FirstOrDefault();
+
+            CustomAdjustmentVoucher voucher = new CustomAdjustmentVoucher
+            {
+                ItemID = item.ItemID,
+                ItemCode = item.Item.ItemCode,
+                ItemName = item.Item.ItemName,
+                CategoryName = item.Item.ItemCategory.CategoryName,
+                UOM = item.Item.UOM,
+                ItemPrice = item.Price,
+            };
+
+            return voucher;
         }
     }
 }

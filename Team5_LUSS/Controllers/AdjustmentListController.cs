@@ -47,8 +47,8 @@ namespace Team5_LUSS.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> Approved(int AdjustmentID)
+        [HttpPost]
+        public async Task<IActionResult> Approved(int AdjustmentID, string Comment)
         {
             string apiResponse = "";
             int userId = (int)HttpContext.Session.GetInt32("UserID");
@@ -56,7 +56,7 @@ namespace Team5_LUSS.Controllers
             
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/ApprovedAdjustmentVoucher/" + AdjustmentID + "/" + "Approved"))
+                using (var response = await httpClient.GetAsync(api_url + "/ApprovedAdjustmentVoucher/" + AdjustmentID + "/" + Comment + "/" + userId + "/Approved"))
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
@@ -92,8 +92,8 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("AdjustmentVouchers", "AdjustmentList"); 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Rejected(int AdjustmentID)
+        [HttpPost]
+        public async Task<IActionResult> Rejected(int AdjustmentID, string Comment)
         {
             
             string apiResponse = "";
@@ -101,7 +101,7 @@ namespace Team5_LUSS.Controllers
             User user = new User();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/ApprovedAdjustmentVoucher" + "/" + AdjustmentID + "/" + "Rejected"))
+                using (var response = await httpClient.GetAsync(api_url + "/ApprovedAdjustmentVoucher" + "/" + AdjustmentID + "/" + Comment + "/" + userId + "/Rejected"))
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
@@ -132,7 +132,9 @@ namespace Team5_LUSS.Controllers
             }
             */
 
-            return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
+            //return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
+
+            return RedirectToAction("AdjustmentVouchers", "AdjustmentList");
         }
 
 

@@ -16,11 +16,9 @@ namespace Team5_LUSS.Controllers
     {
 
         string api_url = "https://localhost:44312/ClerkDash/";
-        string api_url2 = "http://localhost:5555/predict";
         string api_url_rqst = "https://localhost:44312/Request";
         int newRequests = 0;
         int pendingDeliveries = 0;
-        int lowStockItems = 0;
         int pendingAdjustments = 0;
         int lowStockItemCount = 0;
         CollectionPoint nextCollectionPoint;
@@ -30,7 +28,7 @@ namespace Team5_LUSS.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string name;
+            string name = "Clerk's Name";
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url))
@@ -44,44 +42,8 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     topSixRequested = JsonConvert.DeserializeObject<List<TopSixRequested>>(apiResponse);
                 }
-                using (var response = await httpClient.GetAsync(api_url2))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    name = apiResponse;
-                }
-                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestByStatus" + "/" + "PendingDelivery"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    pendingDeliveries = JsonConvert.DeserializeObject<List<Request>>(apiResponse).Count;
-                }
-                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestByStatus" + "/" + "Approved"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    newRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse).Count;
-                }
-                                   
-                using (var response = await httpClient.GetAsync(api_url + "get-clerk-pending"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    pendingAdjustments = Int32.Parse(apiResponse);
-                }
-
-                using (var response = await httpClient.GetAsync(api_url + "get-next-collection-time-location/"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    nextCollectionPoint = JsonConvert.DeserializeObject<CollectionPoint>(apiResponse);
-                }
-                using (var response = await httpClient.GetAsync(api_url + "get-next-collection-datetime/"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    nextCollectionDate = JsonConvert.DeserializeObject<DateTime>(apiResponse);
-                }
-                using (var response = await httpClient.GetAsync(api_url + "get-low-stock-item-count/"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    lowStockItemCount = Int32.Parse(apiResponse);
-                }
-
+                
+                
 
             }
             ViewData["name"] = name;

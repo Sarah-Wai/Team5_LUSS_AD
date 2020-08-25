@@ -491,6 +491,34 @@ namespace LUSS_API.Controllers
             return customRequests;
         }
 
+
+        //mobile API
+
+        [HttpGet("GetItemByRetrievalByDept/{retrId}/{deptId}")]
+        public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
+        {
+            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId);
+            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
+
+            foreach (var r in requests)
+            {
+                CustomRetrieval rt = new CustomRetrieval
+                {
+                    ItemID = r.itemIds,
+                    ItemCode = r.itemCode,
+                    ItemName = r.itemName,
+                    UOM = r.itemUOM,
+                    RequestedQty = r.totalQty
+                };
+
+                retrievals.Add(rt);
+            }
+            return retrievals;
+        }
+
+
+    }
+
         [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]
         public String MDisburseByRequest(int id, int userId, string collectionTime, string fulfillQty)

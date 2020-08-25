@@ -256,17 +256,6 @@ namespace LUSS_API.Controllers
 
             return userID;
         }
-        // get new retrieval Id
-        //public int GetNewRetrievalId()
-        //{
-        //    int maxId = 0;
-        //    int? currentId = context123.Retrieval.Max(x => x.RetrievalID);
-        //    if (currentId != null)
-        //    {
-        //        maxId = (int)currentId;
-        //    }
-        //    return maxId + 1;
-        //}
 
         [HttpGet("{id}")]
         [Route("GetRequestByEmpId/{id}")]
@@ -459,6 +448,7 @@ namespace LUSS_API.Controllers
             return isRemoved;
         }
 
+        //for mobile
         [HttpGet("{status}")]
         [Route("get-request-by-status-mobile/{status}")]
         public IEnumerable<CustomRequest> MGetApprovedRequest(EOrderStatus status)
@@ -529,30 +519,8 @@ namespace LUSS_API.Controllers
                 qty.Add(int.Parse(s));
             }
 
-            Retrieval retrieval = new Retrieval()
-            {
-                IssueDate = DateTime.Now,
-                Status = EOrderStatus.PendingDelivery
-            };
-            context123.Add(retrieval);
-            context123.SaveChanges();
-
-            //update request
-            Request request = GetById(id);
-            request.RequestStatus = EOrderStatus.PendingDelivery;
-            request.CollectionTime = Convert.ToDateTime(collectionTime);
-            request.ModifiedBy = userId;
-            request.RetrievalID = retrieval.RetrievalID;
-
-            List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
-
-            //update fulfill qty of each request items
-            for (int i = 0; i < reqItems.Count(); i++)
-            {
-                reqItems[i].FullfillQty = qty[i];
-                reqItems[i].Item.InStockQty -= qty[i]; // less out stock
-            }
-            context123.SaveChanges();
+            DisburseByRequest(id, userId, collectionTime, qty);
+            
             return "ok";
         }
     }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Castle.Core.Internal;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -459,6 +460,33 @@ namespace LUSS_API.Controllers
 
             return isRemoved;
         }
+
+
+        //mobile API
+
+        [HttpGet("GetItemByRetrievalByDept/{retrId}/{deptId}")]
+        public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
+        {
+            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId);
+            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
+
+            foreach (var r in requests)
+            {
+                CustomRetrieval rt = new CustomRetrieval
+                {
+                    ItemID = r.itemIds,
+                    ItemCode = r.itemCode,
+                    ItemName = r.itemName,
+                    UOM = r.itemUOM,
+                    RequestedQty = r.totalQty
+                };
+
+                retrievals.Add(rt);
+            }
+            return retrievals;
+        }
+
+
     }
 
 }

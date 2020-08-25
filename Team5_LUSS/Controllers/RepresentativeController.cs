@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace Team5_LUSS.Controllers
 {
     public class RepresentativeController : Controller
     {
-        string api_user_url = "https://localhost:44312/User"; // connect to API project Controller class
+        string api_user_url = "https://localhost:44312/User/GetAllDeptUsers"; // connect to API project Controller class
         string api_representative_url = "https://localhost:44312/Representative";
         //string msg = "";
         [HttpGet]
         public async Task<IActionResult> AssignRepresentative(int id,string msg)
         {
             List<User> users = new List<User>();
-            id = 1;
+            id = (int)HttpContext.Session.GetInt32("DeptId");
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_user_url + "/" + id))

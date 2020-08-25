@@ -12,7 +12,10 @@
     int DeptId = (int)Context.Session.GetInt32("DeptId");
     string UserRole = (string)Context.Session.GetString("UserRole");
 
+
 }
+
+
 
 @if (DeptId == 10 && UserRole == "store_supervisor" || UserRole == "store_manager")
 {
@@ -90,35 +93,33 @@
 
     </div>
 }
-else
-{
-    @*
-        @Url.Action("Privacy", "Home") // method 1
-            return RedirectToAction("Privacy", "Home"); // method 2
-    *@
-
-    <h1>Access Denied</h1>
-    <p>Please contact your IT administrator</p>
-}
 
 
 
 @* data table content end*@
 @*<script src="~/js/UI/datatable.script.js"></script>*@
-<script src="~/js/System/StationeryRequests/jquery.min.js"></script>
 <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
-<!-- START: Page Script JS-->
-@* data table ^^*@
+<script src="~/vendors/datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/vendors/datatable/jszip/jszip.min.js"></script>
+<script src="~/vendors/datatable/pdfmake/pdfmake.min.js"></script>
+<script src="~/vendors/datatable/pdfmake/vfs_fonts.js"></script>
+<script src="~/vendors/datatable/buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.colVis.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.flash.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.html5.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.print.min.js"></script>
 <script>
-            $(document).ready(function ()
-            {
-
-                $('#example').DataTable
-                ({
-                 responsive: true
-                });
-            })
-        @* data table ^^*@
+    //change context
+    var editor;
+    $('#example').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        responsive: true
+    });
+    
 
 
 </script>

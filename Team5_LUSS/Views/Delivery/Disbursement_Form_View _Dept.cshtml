@@ -1,86 +1,94 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
     ViewData["Title"] = "Disbursement Form";
     User deptRep = (User)ViewData["deptRep"];
     List<dynamic> reqItems = (List<dynamic>)ViewData["retrievalDetails"];
     string status = (string)ViewData["status"];
-}
 
-<div class="container-fluid site-width">
-    <div>
-        <div class="row">
-            <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
-                <a asp-action="DeptConfirmDelivery" class="btn btn-primary">Back </a>
-            </div>
-            <div class="col-12 col-md-12">
-                <div class="card border-0">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
-                    </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-borderless">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <b>Dept Name:</b> @deptRep.Department.DepartmentName<br>
-                                        <b>Dept Code:</b> @deptRep.Department.DepartmentCode<br>
-                                        <b>Dept Rep:</b> @deptRep.LastName @deptRep.FirstName <br>
-                                        <b>Collection Point:</b> @deptRep.Department.CollectionPoint.Location @deptRep.Department.CollectionPoint.Description<br><br>
-                                        <b>Collection Date</b> @reqItems[0].collectionTime<br>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
+}
+@if (UserRole == "store_clerk")
+{
+    <div class="container-fluid site-width">
+        <div>
+            <div class="row">
+                <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
+                    <a asp-action="DeptConfirmDelivery" class="btn btn-primary">Back </a>
+                </div>
+                <div class="col-12 col-md-12">
+                    <div class="card border-0">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>Dept Name:</b> @deptRep.Department.DepartmentName<br>
+                                            <b>Dept Code:</b> @deptRep.Department.DepartmentCode<br>
+                                            <b>Dept Rep:</b> @deptRep.LastName @deptRep.FirstName <br>
+                                            <b>Collection Point:</b> @deptRep.Department.CollectionPoint.Location @deptRep.Department.CollectionPoint.Description<br><br>
+                                            <b>Collection Date</b> @reqItems[0].collectionTime<br>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-12">
-                <div class="card border-0">
-                    <div class="card-body table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <td><b>Item Code</b></td>
-                                    <td><b>Description</b></td>
-                                    <td class="text-right"><b>UOM</b></td>
-                                    <td class="text-right"><b>Requested Qty</b></td>
-                                    <td class="text-right"><b>Fulfilled Qty</b></td>
-                                    <td class="text-right"><b>Received Qty</b></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var r in reqItems)
-                                {
-                                <tr>
-                                    <td class="text-right">@r.itemCode</td>
-                                    <td class="text-right">@r.itemName</td>
-                                    <td class="text-right">@r.itemUOM</td>
-                                    <td class="text-right">@r.totalQty</td>
-                                    <td class="text-right">@r.fullQty</td>
-                                    <td class="text-right">@r.rcvedQty</td>
-                                </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    @if (status == "Received")
-                    {
-                        <form method="post">
-                            <div class="text-right p-5">
-                                @foreach (var item in reqItems)
-                                {
-                                    foreach (var id in item.requestIDs)
+                <div class="col-12 col-md-12">
+                    <div class="card border-0">
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td><b>Item Code</b></td>
+                                        <td><b>Description</b></td>
+                                        <td class="text-right"><b>UOM</b></td>
+                                        <td class="text-right"><b>Requested Qty</b></td>
+                                        <td class="text-right"><b>Fulfilled Qty</b></td>
+                                        <td class="text-right"><b>Received Qty</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var r in reqItems)
                                     {
-                                        <input style="display:none" value="@id" name="requestID" />
+                                        <tr>
+                                            <td class="text-right">@r.itemCode</td>
+                                            <td class="text-right">@r.itemName</td>
+                                            <td class="text-right">@r.itemUOM</td>
+                                            <td class="text-right">@r.totalQty</td>
+                                            <td class="text-right">@r.fullQty</td>
+                                            <td class="text-right">@r.rcvedQty</td>
+                                        </tr>
                                     }
-                                }
-                                <button type="submit" class="btn btn-danger" asp-action="FinalActionByStoreDept" asp-route-actionTaken="deny">Qty Not Tally</button>
-                                <button type="submit" class="btn btn-success" asp-action="FinalActionByStoreDept" asp-route-actionTaken="complete">Order Complete</button>
-                            </div>
-                        </form>
-                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @if (status == "Received")
+                        {
+                            <form method="post">
+                                <div class="text-right p-5">
+                                    @foreach (var item in reqItems)
+                                    {
+                                        foreach (var id in item.requestIDs)
+                                        {
+                                            <input style="display:none" value="@id" name="requestID" />
+                                        }
+                                    }
+                                    <button type="submit" class="btn btn-danger" asp-action="FinalActionByStoreDept" asp-route-actionTaken="deny">Qty Not Tally</button>
+                                    <button type="submit" class="btn btn-success" asp-action="FinalActionByStoreDept" asp-route-actionTaken="complete">Order Complete</button>
+                                </div>
+                            </form>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
+}

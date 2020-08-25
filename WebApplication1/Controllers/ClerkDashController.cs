@@ -29,16 +29,7 @@ namespace LUSS_API.Controllers
         }
         
 
-        [HttpGet]
-        [Route("get-user-name")]
-        public string GetName()
-        {            
-            int dummyID = 1;//TO replace by real ID
-            User currentUser = context123.User.Where(x => x.UserID == dummyID).FirstOrDefault();
-            
-            return currentUser.FirstName.ToString();
-
-        }
+        
         [HttpGet]
         [Route("get-top-summed")]
         public List<TopSixRequested> GetTopSummed()
@@ -48,7 +39,7 @@ namespace LUSS_API.Controllers
                                   join requestDetails in context123.RequestDetails on requests.RequestID equals requestDetails.RequestID
                                   join item in context123.Item on requestDetails.ItemID equals item.ItemID
                                   join itemPrice in context123.ItemPrice on item.ItemID equals itemPrice.ItemID
-                                  where requests.RequestDate.Year == DateTime.Now.Year && requests.RequestStatus == EOrderStatus.Approved
+                                  where requests.RequestDate.Year == DateTime.Now.Year && requests.RequestStatus == EOrderStatus.Completed
                                   select new TopSixRequested
                                   {
                                       ItemID = requestDetails.ItemID,
@@ -56,7 +47,7 @@ namespace LUSS_API.Controllers
                                       Qty = requestDetails.ReceivedQty,
                                       ItemPrice = itemPrice.Price,
                                       TotalPrice = requestDetails.ReceivedQty * itemPrice.Price
-                                  }).OrderBy(x=>x.TotalPrice).ToList();
+                                  }).ToList();
 
             List<TopSixRequested> itemSum = (highestRequest.GroupBy(x => x.ItemID).Select(y => new TopSixRequested {
 
@@ -66,7 +57,7 @@ namespace LUSS_API.Controllers
                 ItemPrice = y.First().ItemPrice,
                 TotalPrice = y.Sum(s=> s.TotalPrice)
               
-            })).ToList();
+            })).OrderByDescending(x => x.Qty).Take(6).ToList();
                                          
             return itemSum;            
 

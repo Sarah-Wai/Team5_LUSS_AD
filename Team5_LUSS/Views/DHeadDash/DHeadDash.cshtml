@@ -11,7 +11,7 @@
         <div class="row ">
             <div class="col-12  align-self-center">
                 <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Welcome @User</h4></div>
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Your DashBoard</h4></div>
 
 
                 </div>
@@ -34,7 +34,7 @@
                     </a>}
                     </div>
                     <div class="card-body">
-                        <div id="requestBreakdown" class="height-300"></div>
+                        <div id="requestBreakdown" class="height-200"></div>
                     </div>
                 </div>
             </div>
@@ -44,10 +44,10 @@
             <div class="col-12 col-md-6 mt-3">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="card-title">Top 5 Cost by Category<br>(This Year)</h6>
+                        <h6 class="card-title">Top 5 Dollar Cost by Category<br>(This Year)</h6>
                     </div>
                     <div class="card-body">
-                        <div id="catCostChart" class="height-300"></div>
+                        <div id="catCostChart" class="height-200"></div>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
 
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="card-title">Department Cost Year-on-Year</h6>
+                        <h6 class="card-title">Your Department's Dollar Requisition Dollar Cost Year-on-Year</h6>
                         <!--<div class="form-group col-sm-4 mb-3">
                             <label for="month">Current month :</label>
                             <input type="month" class="form-control" id="month">
@@ -67,17 +67,13 @@
                             -->
                     </div>
                     <div class="card-body">
-                        <div id="deptCostChart" class="height-500"></div>
+                        <div id="deptCostChart" class="height-300"></div>
                     </div>
                 </div>
             </div>
 
 
         </div>
-
-
-
-
 
 
     </div>
@@ -107,7 +103,7 @@
             tooltip: {},
             dataset: {
                 source: [
-                    ['product', 'Past Year', 'Prediction for Next'],
+                    ['product', 'Past 12 Months', 'Current Month and Prediction for Next 11 Months'],
                     @foreach (var month in deptMonthlyCost)
                     {
                             <text>['@month.Month', @month.YearOne, @month.YearTwo],</text>

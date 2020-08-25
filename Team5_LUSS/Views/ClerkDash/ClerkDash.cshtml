@@ -17,7 +17,7 @@
         <div class="row ">
             <div class="col-12  align-self-center">
                 <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Welcome @name</h4></div>
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Your DashBoard</h4></div>
 
 
                 </div>
@@ -30,46 +30,63 @@
                 <div class="card">
                     <div class="card-body border-bottom border-warning border-w-5">
                         <h5 class="card-title">Next Delivery</h5>
+                        @if(nextCollectionDate != null && nextCollectionPoint != null)
+                        {
                         <p class="font-w-500 tx-s-12"><i class="icon-calendar"></i> @nextCollectionDate</p>
                         <p class="font-w-500 tx-s-12">@nextCollectionPoint.Location</p>
+                        }
+                        else
+                        {
+                            <p class="font-w-500 tx-s-12">No upcoming deliveries!</p>
+                        }
+
                     </div>
                 </div>
             </div>
 
+            
             <div class="col-12 col-sm-6 col-xl-3 mt-3">
-                <div class="card">
-                    <div class="card-body text-info border-bottom border-info border-w-5">
-                        <h2 class="text-center">@newRequests</h2>
-                        <a class="nav-link" asp-action="ConfirmDelivery" asp-route-status="Received">
-                            Received
-                        </a>
-                        <h6 class="text-center">New<br>Requests</h6>
+                <a asp-controller="ItemList" asp-action="InventoryList">
+                    <div class="card">
+                        <div class="card-body text-info border-bottom border-info border-w-5">
+                            <h2 class="text-center">@newRequests</h2>
+
+                            <h6 class="text-center">New<br>Requests</h6>
+                        </div>
                     </div>
-                </div>
+                </a>
+            </div>
+           
+            <div class="col-12 col-sm-6 col-xl-3 mt-3">
+                <a asp-controller="ItemList" asp-action="InventoryList">
+                    <div class="card">
+                        <div class="card-body text-success border-bottom border-success border-w-5">
+                            <h2 class="text-center">@pendingDeliveries</h2>
+                            <h6 class="text-center">Pending<br>Deliveries</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3 mt-3">
+                <a asp-controller="Purchase" asp-action="ViewLowStockItems">
+                    <div class="card">
+                        <div class="card-body text-danger border-bottom border-danger border-w-5">
+                            <h2 class="text-center">@lowStockItemCount</h2>
+                            <h6 class="text-center">Low<br>Stock Items</h6>
+                        </div>
+                    </div>
+                </a>
             </div>
             <div class="col-12 col-sm-6 col-xl-3 mt-3">
-                <div class="card">
-                    <div class="card-body text-success border-bottom border-success border-w-5">
-                        <h2 class="text-center">@pendingDeliveries</h2>
-                        <h6 class="text-center">Pending<br>Deliveries</h6>
+                <a asp-controller="AdjustVoucher">
+                    <div class="card">
+                        <div class="card-body text-info border-bottom border-info border-w-5">
+                            <h2 class="text-center">@pendingAdjustments</h2>
+                            <h6 class="text-center">Pending<br>Adjustments</h6>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-3 mt-3">
-                <div class="card">
-                    <div class="card-body text-danger border-bottom border-danger border-w-5">
-                        <h2 class="text-center">@lowStockItemCount</h2>
-                        <h6 class="text-center">Low<br>Stock Items</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-3 mt-3">
-                <div class="card">
-                    <div class="card-body text-info border-bottom border-info border-w-5">
-                        <h2 class="text-center">@pendingAdjustments</h2>
-                        <h6 class="text-center">Pending<br>Adjustments</h6>
-                    </div>
-                </div>
+                </a>
             </div>
 
             <!-- Fast Moving Stock-->
@@ -87,15 +104,14 @@
                                 <div class="col-12 col-sm-6 col-lg-4 mt-3">
                                     <div class="card bg-light">
                                         <div class="card-body">
-                                            <h5 class="card-title">@tsr.ItemName (@tsr.ItemID)</h5>
+                                            <h5 class="card-title">@tsr.ItemName</h5>
+                                            <p class="card-text">Item ID: @tsr.ItemID</p>
                                             <p class="card-text">Total Requested: @tsr.Qty</p>
                                             <p class="card-text">Total Requested Value: @tsr.TotalPrice</p>
                                         </div>
                                     </div>
                                 </div>
                             }
-
-
 
                         </div>
                     </div>

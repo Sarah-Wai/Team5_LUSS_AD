@@ -516,9 +516,6 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
-
-    }
-
         [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]
         public String MDisburseByRequest(int id, int userId, string collectionTime, string fulfillQty)

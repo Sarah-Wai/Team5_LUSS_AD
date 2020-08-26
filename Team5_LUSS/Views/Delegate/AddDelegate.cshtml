@@ -175,7 +175,7 @@
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-2"></div>
+                                        <div class="col-sm-2" id="btn_gp" style="display:none;"></div>
                                         <button type="submit" class="btn btn-success" id="btnAssign">Assign</button> <span>&nbsp;&nbsp;&nbsp;</span>
                                         <button type="reset" class="btn btn-primary">Cancel</button>
                                     </div>
@@ -232,12 +232,20 @@
     function BindStartDate() {
         $("#lblStartDate").html($("#startDate").val());
         $('#endDate').attr('min', $("#startDate").val()); 
+        CheckForDisplay();
        
     };
     function BindEndDate() {
         $("#lblEndDate").html($("#endDate").val());
+        CheckForDisplay();
         //alert($("#endDate").val());
     };
+    function CheckForDisplay() {
+        if ($("#startDate").val() != "" && $("#endDate").val() != "" && $("#userID").val() != "") {
+            $("#lblEndDate").css("display", "block");
+        }
+        btn_gp
+    }
 
     $('input[type=radio][name=rdo_depUsers]').change(function () {
         var userId = this.value;
@@ -245,37 +253,7 @@
         $("#userID").val(userId);
         $("#lblDelegate").html($("#lbl_" + userId).text());
         $("#sp_selectUser").html($("#lbl_" + userId).text());
-        //alert(userId)
-          @*$.ajax({
-             type: "Post",
-             url: '@Url.Action("getDelegateByUserID")',
-             data: { 'id': userId},
-             cache: false,
-             //contentType: "application/json; charset=utf-8",
-            success: function (responce) {
-                if (responce != null) {
-                    console.log(responce);
-                    $("#lblDelegate").html(responce.user.firstName + " " + responce.user.lastName);
-                    $("#lblStartDate").html(responce.fromDate);
-                    $("#lblEndDate").html(responce.toDate);
-                    $("#btnAssign").prop('disabled', !0);
-                  //  $("#showMsg").html(" (This person is already delegated.If you want to change any,please remove first!)");
-
-                }
-                else {
-                    $("#userID").val(userId);
-                    $("#lblDelegate").html($("#lbl_" + userId).text());
-                    $("#sp_selectUser").html($("#lbl_" + userId).text());
-
-                    $("#btnAssign").prop('disabled', !1);
-                    ("#showMsg").html("");
-                }
-
-             },
-            error: function () {
-                    alert("Error while inserting data");
-                }
-            });*@
+        CheckForDisplay();
             return true;
     });
 

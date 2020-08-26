@@ -8,7 +8,7 @@ using Team5_LUSS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Team5_LUSS.Models.ViewModels;
-
+using Microsoft.AspNetCore.Http;
 
 namespace Team5_LUSS.Controllers
 {
@@ -31,6 +31,7 @@ namespace Team5_LUSS.Controllers
             string name = "Clerk's Name";
             using (var httpClient = new HttpClient())
             {
+                int id = (int)HttpContext.Session.GetInt32("UserID");
                 using (var response = await httpClient.GetAsync(api_url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -53,7 +54,7 @@ namespace Team5_LUSS.Controllers
                     newRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse).Count;
                 }
 
-                using (var response = await httpClient.GetAsync(api_url + "get-clerk-pending"))
+                using (var response = await httpClient.GetAsync(api_url + "get-clerk-pending/"+ id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     pendingAdjustments = Int32.Parse(apiResponse);

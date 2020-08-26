@@ -472,8 +472,12 @@ namespace LUSS_API.Controllers
                 c.RequestByName = r.RequestByUser.FirstName + " " + r.RequestByUser.LastName;
                 c.ModifiedByName = r.ModifiedByUser.FirstName + " " + r.ModifiedByUser.LastName;
                 c.DepartmentName = r.RequestByUser.Department.DepartmentName;
-                User rep = context123.User.First(x => x.DepartmentID == r.RequestByUser.DepartmentID && x.IsRepresentative == true);
-                c.DepartmentRep = rep.FirstName + " " + rep.LastName;
+                User rep = context123.User.FirstOrDefault(x => x.DepartmentID == r.RequestByUser.DepartmentID && x.IsRepresentative == true);
+                if (rep != null)
+                {
+                    c.DepartmentRep = rep.FirstName + " " + rep.LastName;
+                }
+                else c.DepartmentRep = null;
                 c.CollectionPoint = r.RequestByUser.Department.CollectionPoint.PointName;
                 
                 customRequests.Add(c);

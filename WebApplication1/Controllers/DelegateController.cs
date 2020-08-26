@@ -121,6 +121,7 @@ namespace LUSS_API.Controllers
                 DateTime fTime = DateTime.ParseExact(fromDate.ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 DateTime ttime = DateTime.ParseExact(toDate.ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 User user = context123.User.Where(x => x.UserID == userId).FirstOrDefault();
+                user.DelegatedManager = new DelegatedManager();
                 DelegatedManager dm = new DelegatedManager();
                 dm.UserID = userId;
                 dm.FromDate = fTime;

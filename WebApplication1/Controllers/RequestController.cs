@@ -82,7 +82,7 @@ namespace LUSS_API.Controllers
 
         [HttpGet("{id}/{status}/{comment}")]
         [Route("ApproveRequestByDepHead/{id}/{status}/{comment}")]
-        public Request ApproveRequestByDepHead(int id, int status,string comment)
+        public Request ApproveRequestByDepHead(int id, int status, string comment)
         {
 
             Request getRequest = context123.Request
@@ -90,10 +90,10 @@ namespace LUSS_API.Controllers
             if (getRequest != null)
             {
                 getRequest.Comment = comment;
-                if (status == 1) 
-                getRequest.RequestStatus = EOrderStatus.Approved;
+                if (status == 1)
+                    getRequest.RequestStatus = EOrderStatus.Approved;
                 else
-                getRequest.RequestStatus = EOrderStatus.Rejected;
+                    getRequest.RequestStatus = EOrderStatus.Rejected;
                 context123.SaveChanges();
             }
             return getRequest;
@@ -117,7 +117,7 @@ namespace LUSS_API.Controllers
                         getRequest.RequestStatus = EOrderStatus.Rejected;
 
                     context123.SaveChanges();
-                  
+
                 }
                 return "Success";
             }
@@ -189,7 +189,7 @@ namespace LUSS_API.Controllers
                     int value = 0;
                     allocationList.Add(key, value);
                 }
-                if(list.Count() > 0)
+                if (list.Count() > 0)
                 {
                     for (int i = 0; i < acceptedQty.Count(); i++)
                     {
@@ -282,7 +282,7 @@ namespace LUSS_API.Controllers
                 //}
             }
 
-            
+
             context123.SaveChanges();
             int userID = (int)request.RequestBy;
 
@@ -296,9 +296,9 @@ namespace LUSS_API.Controllers
             EOrderStatus packed = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "Packed");
             EOrderStatus completed = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "Completed");
             EOrderStatus pendingDelivery = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "PendingDelivery");
-            List<Request> request = context123.Request.Where(x => x.RequestBy == id && x.RequestStatus != packed && x.RequestStatus != completed && x.RequestStatus != pendingDelivery).OrderByDescending(x=> x.RequestDate).ToList();
+            List<Request> request = context123.Request.Where(x => x.RequestBy == id && x.RequestStatus != packed && x.RequestStatus != completed && x.RequestStatus != pendingDelivery).OrderByDescending(x => x.RequestDate).ToList();
             //request.Select(x => x.RequestDetails.Where(a => a.isActive = true)); // remove cancelled request details
-            
+
             return request;
         }
 
@@ -315,7 +315,7 @@ namespace LUSS_API.Controllers
         {
             Request r = context123.Request.Where(x => x.RequestID == reqID).FirstOrDefault();
             r.RequestStatus = EOrderStatus.PendingDelivery;
-            context123.SaveChangesAsync(); 
+            context123.SaveChangesAsync();
         }
 
         [HttpGet("complete/{reqID}/{userID}")]
@@ -338,7 +338,7 @@ namespace LUSS_API.Controllers
 
             foreach (var rq in requestDetails)
             {
-                if(rq.FullfillQty < rq.RequestQty)
+                if (rq.FullfillQty < rq.RequestQty)
                 {
                     dcp_RequestDetails.Add(rq);
                 }
@@ -417,7 +417,7 @@ namespace LUSS_API.Controllers
                     ICollection<RequestDetails> reqDetailList = new List<RequestDetails>();
 
                     reqDetailList = context123.RequestDetails.Where(r => r.RequestID == request.RequestID).ToList();
-                    
+
                     foreach (var reqDetail in reqDetailList)
                     {
                         foreach (var r in request.RequestDetails)
@@ -427,7 +427,7 @@ namespace LUSS_API.Controllers
                                 reqDetail.RequestQty = r.RequestQty;
                                 reqDetail.isActive = r.isActive;
                             }
-                           
+
                         }
                     }
                     context123.SaveChanges();
@@ -456,7 +456,7 @@ namespace LUSS_API.Controllers
             //        newReqDetail.Add(r);
             //    }
             //}
-           // request.RequestDetails = newReqDetail;
+            // request.RequestDetails = newReqDetail;
             return request;
         }
 
@@ -487,7 +487,7 @@ namespace LUSS_API.Controllers
         {
             List<Request> requestList = context123.Request.Where(x => x.RequestStatus == status).ToList();
             List<CustomRequest> customRequests = new List<CustomRequest>();
-            
+
             foreach (Request r in requestList)
             {
                 CustomRequest c = new CustomRequest();
@@ -511,7 +511,7 @@ namespace LUSS_API.Controllers
                 }
                 else c.DepartmentRep = null;
                 c.CollectionPoint = r.RequestByUser.Department.CollectionPoint.PointName;
-                
+
                 customRequests.Add(c);
             }
             return customRequests;
@@ -557,7 +557,7 @@ namespace LUSS_API.Controllers
             }
 
             DisburseByRequest(id, userId, collectionTime, qty);
-            
+
             return "ok";
         }
 
@@ -576,28 +576,28 @@ namespace LUSS_API.Controllers
 
                 Request new_request = new Request()
                 {
-           
-                                             RequestID = r.RequestID,
-                                             RequestStatus = r.RequestStatus,
-                                             RequestDate = r.RequestDate,
-                                             RequestBy = r.RequestBy,
-                                             ModifiedBy = r.ModifiedBy,
-                                             Comment = r.Comment,
-                                             RequestType = r.RequestType,
-                                             ParentRequestID = r.ParentRequestID,
-                                             CollectionTime = r.CollectionTime,
-                                             RetrievalID = r.RetrievalID,
-                                             ModifiedByUser = new User { UserID = r.ModifiedByUser.UserID, FirstName = r.ModifiedByUser.FirstName, LastName = r.ModifiedByUser.LastName },
-                                             RequestByUser = new User { UserID = r.RequestByUser.UserID, FirstName = r.RequestByUser.FirstName, LastName = r.RequestByUser.LastName },
-                                            Retrieval = null
+
+                    RequestID = r.RequestID,
+                    RequestStatus = r.RequestStatus,
+                    RequestDate = r.RequestDate,
+                    RequestBy = r.RequestBy,
+                    ModifiedBy = r.ModifiedBy,
+                    Comment = r.Comment,
+                    RequestType = r.RequestType,
+                    ParentRequestID = r.ParentRequestID,
+                    CollectionTime = r.CollectionTime,
+                    RetrievalID = r.RetrievalID,
+                    ModifiedByUser = new User { UserID = r.ModifiedByUser.UserID, FirstName = r.ModifiedByUser.FirstName, LastName = r.ModifiedByUser.LastName },
+                    RequestByUser = new User { UserID = r.RequestByUser.UserID, FirstName = r.RequestByUser.FirstName, LastName = r.RequestByUser.LastName },
+                    Retrieval = null
 
                 };
                 List<RequestDetails> details = PrepareForRequestDetail(r.RequestDetails);
                 new_request.RequestDetails = details;
                 return_requestList.Add(new_request);
             }
-          
-                                      
+
+
             return return_requestList;
         }
 
@@ -611,11 +611,11 @@ namespace LUSS_API.Controllers
                     RequestDetailID = d.RequestDetailID,
                     RequestQty = d.RequestQty,
                     ItemID = d.ItemID,
-                    RequestID =d.RequestID,
-                    FullfillQty =d.FullfillQty,
+                    RequestID = d.RequestID,
+                    FullfillQty = d.FullfillQty,
                     ReceivedQty = d.ReceivedQty,
                     isActive = d.isActive,
-                    Item=new Item { ItemName=d.Item.ItemName,UOM=d.Item.UOM}
+                    Item = new Item { ItemName = d.Item.ItemName, UOM = d.Item.UOM }
 
 
                 };
@@ -623,10 +623,10 @@ namespace LUSS_API.Controllers
                 return_list.Add(requestDetails);
 
             }
-           
+
             return return_list;
         }
-    }
+
 
 
         [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}")]
@@ -640,12 +640,10 @@ namespace LUSS_API.Controllers
             {
                 qty.Add(int.Parse(s));
             }
-            
+
             allocateStationary(qty, retrievalID);
 
         }
     }
-
-
 
 }

@@ -482,7 +482,7 @@ namespace LUSS_API.Controllers
                     c.DepartmentRep = rep.FirstName + " " + rep.LastName;
                 }
                 else c.DepartmentRep = null;
-                c.CollectionPoint = r.RequestByUser.Department.CollectionPoint.PointName;
+                c.CollectionPoint = r.RequestByUser.Department.CollectionPoint.Location;
                 
                 customRequests.Add(c);
             }
@@ -491,7 +491,6 @@ namespace LUSS_API.Controllers
 
 
         //mobile API
-
         [HttpGet("GetItemByRetrievalByDept/{retrId}/{deptId}")]
         public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
         {
@@ -508,6 +507,30 @@ namespace LUSS_API.Controllers
                     ItemName = r.itemName,
                     UOM = r.itemUOM,
                     RequestedQty = r.totalQty
+                };
+
+                retrievals.Add(rt);
+            }
+            return retrievals;
+        }
+
+        [HttpGet("GetItemByRetrieval/{retrId}")]
+        public List<CustomRetrieval> GetItemByRetrieval(int retrId)
+        {
+            IEnumerable<dynamic> requests = GetItemsByStatus("Received", retrId);
+            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
+
+            foreach (var r in requests)
+            {
+                CustomRetrieval rt = new CustomRetrieval
+                {
+                    ItemID = r.itemIds,
+                    ItemCode = r.itemCode,
+                    ItemName = r.itemName,
+                    UOM = r.itemUOM,
+                    RequestedQty = r.totalQty,
+                    AcceptedQty = r.rcvedQty,
+                    TotalQty = r.fullQty
                 };
 
                 retrievals.Add(rt);

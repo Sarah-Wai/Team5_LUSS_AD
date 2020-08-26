@@ -65,8 +65,15 @@ namespace LUSS_API.Controllers
                 Role = user.Role,
                 UserID = user.UserID,
             };
-            return n_user;
-
+            if(n_user != null)
+            {
+                return n_user;
+            }
+            else
+            {
+                return null;
+            }
+           
         }
 
         static string Encrypt(string value)

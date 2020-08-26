@@ -24,7 +24,7 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> Login(string Email, string Password)
         {
             User  login_user = new User(); // create a new objects of "User"
-            string Hword = Password;    // string Hword = Encrypt(Password);    Change Later
+            string Hword = Encrypt(Password);    // string Hword = Encrypt(Password);    Change Later
             string action_name = "";string controller_name = "";
             using (var httpClient = new HttpClient())
             {
@@ -37,7 +37,7 @@ namespace Team5_LUSS.Controllers
                 {
                     //userModel.LoginErrorMessage = "Wrong Credentials.";
                     TempData["Alert"] = "Login Failed";
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Privacy", "Home");
                 }
 
                 else
@@ -60,29 +60,40 @@ namespace Team5_LUSS.Controllers
                     //if (HttpContext.Session.GetString("cartHistoryList") != null && HttpContext.Session.GetString("cartHistoryList") != "")
                     //if (userDetails.Role == "sales")
                     //store_clerk / store_supervisor / store_manager /  dept_employee / dept_rep / dept_delegate / dept_head
-                    if (login_user.Department.DepartmentName == "store")
+                    //if (login_user.Department.DepartmentName == "store")
+                    //{
+                    //    switch (login_user.Role)
+                    //    {
+                    //        case "store_clerk": action_name = "Index"; controller_name = "ItemList"; break;
+                    //        case "store_supervisor": action_name = "Dashboard"; controller_name = "Dashboard"; break;
+                    //        case "store_manager": action_name = "Dashboard"; controller_name = "Dashboard"; break;  ;
+                    //    }
+                    //    return RedirectToAction("Dashboard", "Dashboard");
+                    //}
+                    //else
+                    //{
+                    //    switch (login_user.Role)
+                    //    {
+                    //        case "dept_employee": action_name = "Index";controller_name = "ItemList"; break;
+                    //        case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break;
+                    //            //case "dept_delegate": break;
+                    //    }
+
+                    //}
+                    //return RedirectToAction(action_name, controller_name);
+
+                    switch (login_user.Role)
                     {
-                        switch (login_user.Role)
-                        {
-                            case "store_clerk": action_name = "Index"; controller_name = "ItemList"; break;
-                            case "store_supervisor": action_name = "Dashboard"; controller_name = "Dashboard"; break;
-                            case "store_manager": action_name = "Dashboard"; controller_name = "Dashboard"; break;  ;
-                        }
-                        return RedirectToAction("Dashboard", "Dashboard");
-                    }
-                    else
-                    {
-                        switch (login_user.Role)
-                        {
-                            case "dept_employee": action_name = "Index";controller_name = "ItemList"; break;
-                            case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break;
-                                //case "dept_delegate": break;
-                        }
-                        
+                        case "store_clerk": action_name = "Index"; controller_name = "ClerkDash"; break;
+                        case "store_supervisor": action_name = "Index"; controller_name = "SupDash"; break;
+                        case "store_manager": action_name = "Index"; controller_name = "SupDash"; break;
+                        case "dept_rep": action_name = "Index"; controller_name = "ItemList"; break; 
+                        case "dept_delegate": action_name = "StationeryRequests"; controller_name = "StationeryRequests"; break; 
+                        case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break; 
                     }
                     return RedirectToAction(action_name, controller_name);
                 }
-            }
+                }
         }
 
 

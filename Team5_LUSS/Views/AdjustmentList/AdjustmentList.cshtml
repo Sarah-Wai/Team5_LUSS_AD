@@ -3,109 +3,123 @@
 
     string user = (string)Context.Session.GetString("UserRole");
 
-   
+
     var adjustmentVoucherListUp = (List<AdjustmentVoucher>)ViewData["allAdjustmentsUp"];
     var adjustmentVoucherListDown = (List<AdjustmentVoucher>)ViewData["allAdjustmentsDown"];
-  }
+
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
+
+
+}
 
 
 
+@if (DeptId == 10 && UserRole == "store_supervisor" || UserRole == "store_manager")
+{
 
+    <div class="container-fluid site-width">
+        <h1>Adjustment Vouchers</h1>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="display table dataTable table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Adjustment ID</th>
+                            <th>Status</th>
+                            <th>Total Cost</th>
+                            <th>Adjust Quantity</th>
+                            <th>Adjust Type</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
 
-
-
-        <div class="container-fluid site-width">
-            <h1>Adjustment Vouchers</h1>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="example" class="display table dataTable table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Adjustment ID</th>
-                                <th>Status</th>
-                                <th>Total Cost</th>
-                                <th>Adjust Quantity</th>
-                                <th>Adjust Type</th>
-                                <th>Details</th>
-                            </tr>
-                        </thead>
-
-                        @foreach (var r in adjustmentVoucherListUp)
+                    @foreach (var r in adjustmentVoucherListUp)
+                    {
+                        if (r.TotalCost >= 250 && user == "store_manager")
                         {
-                            if (r.TotalCost >= 250 && user == "store_manager")
-                            {
 
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">@r.AdjustmentID</th>
-                                        <td>@r.Status</td>
-                                        <td>@r.TotalCost</td>
-                                        <td>@r.AdjustQty</td>
-                                        <td>@r.AdjustType</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" @* DETAIL VIEW*@
-                                                    onclick="location.href='@Url.Action("VoucherDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID })'">
-                                                Details
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            }
+                            <tbody>
+                                <tr>
+                                    <th scope="row">@r.AdjustmentID</th>
+                                    <td>@r.Status</td>
+                                    <td>@r.TotalCost</td>
+                                    <td>@r.AdjustQty</td>
+                                    <td>@r.AdjustType</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" @* DETAIL VIEW*@
+                                                onclick="location.href='@Url.Action("VoucherDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID })'">
+                                            Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         }
+                    }
 
 
-                        @foreach (var r in adjustmentVoucherListDown)
+                    @foreach (var r in adjustmentVoucherListDown)
+                    {
+                        if (r.TotalCost < 250 && user == "store_supervisor")
                         {
-                            if (r.TotalCost < 250 && user == "store_supervisor")
-                            {
 
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">@r.AdjustmentID</th>
-                                        <td>@r.Status</td>
-                                        <td>@r.TotalCost</td>
-                                        <td>@r.AdjustQty</td>
-                                        <td>@r.AdjustType</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" @* DETAIL VIEW*@
-                                                    onclick="location.href='@Url.Action("VoucherDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID })'">
-                                                Details
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            }
+                            <tbody>
+                                <tr>
+                                    <th scope="row">@r.AdjustmentID</th>
+                                    <td>@r.Status</td>
+                                    <td>@r.TotalCost</td>
+                                    <td>@r.AdjustQty</td>
+                                    <td>@r.AdjustType</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" @* DETAIL VIEW*@
+                                                onclick="location.href='@Url.Action("VoucherDetails", "AdjustmentList", new { AdjustmentID = @r.AdjustmentID })'">
+                                            Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         }
-                    </table>
-                </div>
+                    }
+                </table>
             </div>
-            @*<div class="modal-footer">
-                    <input type="hidden" id="edit-date">
-                    <button type="submit" class="btn btn-primary add-todo">Approve</button>
-                    <button type="submit" class="btn btn-primary add-todo">Reject</button>
-                </div>*@
-
         </div>
+        @*<div class="modal-footer">
+                <input type="hidden" id="edit-date">
+                <button type="submit" class="btn btn-primary add-todo">Approve</button>
+                <button type="submit" class="btn btn-primary add-todo">Reject</button>
+            </div>*@
+
+    </div>
+}
 
 
 
+@* data table content end*@
+@*<script src="~/js/UI/datatable.script.js"></script>*@
+<script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
+<script src="~/vendors/datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/vendors/datatable/jszip/jszip.min.js"></script>
+<script src="~/vendors/datatable/pdfmake/pdfmake.min.js"></script>
+<script src="~/vendors/datatable/pdfmake/vfs_fonts.js"></script>
+<script src="~/vendors/datatable/buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.colVis.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.flash.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.html5.min.js"></script>
+<script src="~/vendors/datatable/buttons/js/buttons.print.min.js"></script>
+<script>
+    //change context
+    var editor;
+    $('#example').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        responsive: true
+    });
+    
 
-        @* data table content end*@
-        @*<script src="~/js/UI/datatable.script.js"></script>*@
-        <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
-        <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
-        <!-- START: Page Script JS-->
-        @* data table ^^*@
-        <script>
-            $(document).ready(function ()
-            {
 
-                $('#example').DataTable
-                ({
-                 responsive: true
-                });
-            })
-        @* data table ^^*@
-
-
-        </script>
+</script>

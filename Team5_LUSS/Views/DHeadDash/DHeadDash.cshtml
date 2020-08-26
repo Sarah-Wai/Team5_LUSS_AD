@@ -1,17 +1,29 @@
 ﻿
+@using Microsoft.AspNetCore.Http;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
 @{
     ViewData["Title"] = "Department Head Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Team5_LUSS.Models.ViewModels.TopSixRequested> highestRequestCat = (List<Team5_LUSS.Models.ViewModels.TopSixRequested>)ViewData["highestRequestCat"];
     Dictionary<string, int> requestBreakdown = (Dictionary<string, int>)ViewData["requestBreakdown"];
     List<Team5_LUSS.Models.ViewModels.DHeadMonth> deptMonthlyCost = (List<Team5_LUSS.Models.ViewModels.DHeadMonth>)ViewData["deptMonthlyCost"];
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
-<!-- START: Breadcrumbs-->
+@if (UserRole == "dept_head")
+{
+    <p>@DeptId</p>
+    <!-- START: Breadcrumbs-->
     <div class="container-fluid site-width">
         <div class="row ">
             <div class="col-12  align-self-center">
                 <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Welcome @User</h4></div>
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Your DashBoard</h4></div>
 
 
                 </div>
@@ -26,15 +38,15 @@
 
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="card-title">Request Breakdown<br>(This Year)</h6>
-                        @if (requestBreakdown.ContainsKey("Pending")) 
-                             {<a asp-controller="StationeryRequests" asp-action="StationeryRequests">
-                        <div class="btn-group mb-2">
-                            <button type="button" class="btn btn-outline-info">Pending: @requestBreakdown["Pending"]</button>
-                        </div>
-                    </a>}
+                        @if (requestBreakdown.ContainsKey("Pending"))
+                        {<a asp-controller="StationeryRequests" asp-action="StationeryRequests">
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-outline-info">Pending: @requestBreakdown["Pending"]</button>
+                                </div>
+                            </a>}
                     </div>
                     <div class="card-body">
-                        <div id="requestBreakdown" class="height-300"></div>
+                        <div id="requestBreakdown" class="height-200"></div>
                     </div>
                 </div>
             </div>
@@ -44,10 +56,10 @@
             <div class="col-12 col-md-6 mt-3">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="card-title">Top 5 Cost by Category<br>(This Year)</h6>
+                        <h6 class="card-title">Top 5 Dollar Cost by Category<br>(This Year)</h6>
                     </div>
                     <div class="card-body">
-                        <div id="catCostChart" class="height-300"></div>
+                        <div id="catCostChart" class="height-200"></div>
                     </div>
                 </div>
             </div>
@@ -59,7 +71,7 @@
 
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="card-title">Department Cost Year-on-Year</h6>
+                        <h6 class="card-title">Your Department's Dollar Requisition Dollar Cost Year-on-Year</h6>
                         <!--<div class="form-group col-sm-4 mb-3">
                             <label for="month">Current month :</label>
                             <input type="month" class="form-control" id="month">
@@ -67,7 +79,7 @@
                             -->
                     </div>
                     <div class="card-body">
-                        <div id="deptCostChart" class="height-500"></div>
+                        <div id="deptCostChart" class="height-300"></div>
                     </div>
                 </div>
             </div>
@@ -76,12 +88,11 @@
         </div>
 
 
-
-
-
-
     </div>
-    <!-- END: Card DATA-->
+
+
+
+<!-- END: Card DATA-->
 <script src="~/vendors/echarts/echarts.min.js"></script>
 <script>
     (function ($) {
@@ -107,7 +118,7 @@
             tooltip: {},
             dataset: {
                 source: [
-                    ['product', 'Past Year', 'Prediction for Next'],
+                    ['product', 'Past 12 Months', 'Current Month and Prediction for Next 11 Months'],
                     @foreach (var month in deptMonthlyCost)
                     {
                             <text>['@month.Month', @month.YearOne, @month.YearTwo],</text>
@@ -283,3 +294,4 @@
     })(jQuery);</script>
 <script src="~/vendors/echarts/echarts.min.js"></script>
 <!-- END: Card DATA-->     
+}

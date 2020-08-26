@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Reflection;
@@ -71,12 +72,13 @@ namespace Team5_LUSS.Controllers
             }
             string msg = "Assign Successfully!";
 
-            /*
+            
             MailMessage mm = new MailMessage();
             {
-                mm.To.Add(user.Email); // content specific
+                string Email = "iantanze@gmail.com";
+                mm.To.Add(Email); // content specific
                 mm.Subject = "Voucher Approved"; // content specific
-                mm.Body = AdjustmentID + " has been approved"; // content specific
+                mm.Body = "Adjustment Voucher:" + AdjustmentID + ", has been approved"; // content specific
                 mm.From = new MailAddress("team5luss@gmail.com");
                 mm.IsBodyHtml = false;
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
@@ -86,8 +88,9 @@ namespace Team5_LUSS.Controllers
                 client.Credentials = new System.Net.NetworkCredential
                     ("team5luss@gmail.com", "Profesther");
                 client.Send(mm);
+
                 ViewBag.message = "Email notification sent";
-            }*/
+            }
 
             return RedirectToAction("AdjustmentVouchers", "AdjustmentList"); 
         }
@@ -113,12 +116,12 @@ namespace Team5_LUSS.Controllers
                 }
             }
             string msg = "Remove Successfully!";
-            /*
+            
             MailMessage mm = new MailMessage(); // (email address >> receiver, subject, body )
             {
                 mm.To.Add(user.Email); // content specific
                 mm.Subject = "Voucher Rejected"; // content specific
-                mm.Body = AdjustmentID + " has been rejected"; // content specific
+                mm.Body = "Adjustment Voucher:" + AdjustmentID + " has been rejected"; // content specific
                 mm.From = new MailAddress("team5luss@gmail.com");
                 mm.IsBodyHtml = false;
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
@@ -130,7 +133,7 @@ namespace Team5_LUSS.Controllers
                 client.Send(mm);
                 ViewBag.message = "Email notification sent";
             }
-            */
+            
 
             //return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
 

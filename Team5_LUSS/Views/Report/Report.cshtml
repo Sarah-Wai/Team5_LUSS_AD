@@ -1,0 +1,452 @@
+﻿
+@using Microsoft.AspNetCore.Http;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Team5_LUSS.Models.ViewModels.CategoryActorSum> departmentMonth = (List<Team5_LUSS.Models.ViewModels.CategoryActorSum>)ViewData["departmentMonth"];
+    var months = (List<string>)ViewData["months"];
+    var uniqueDepts = departmentMonth.Select(dc => new { dc.Actor }).Distinct().OrderBy(x => x.Actor);
+
+    List<Team5_LUSS.Models.ViewModels.CategoryActorSum> supplierMonth = (List<Team5_LUSS.Models.ViewModels.CategoryActorSum>)ViewData["supplierMonth"];
+    var uniqueSuppliers = supplierMonth.Select(dc => new { dc.Actor }).Distinct().OrderBy(x => x.Actor);
+
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
+}
+@if (UserRole == "store_supervisor" || UserRole == "store_manager")
+{
+    <div class="container-fluid site-width">
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Reports</h4></div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+
+            <!-- Department Cost Chart-->
+            <div class="col-6 mt-3">
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title">Chart of Category Requisition Dollar Sum by Department</h6>
+                        <div class="form-group col-sm-4 mb-3">
+                            <!--<label for="month">Year :</label>
+                    <input type="month" class="form-control" id="month">-->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="department" class="height-400"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- table start -->
+            <div class="col-6 mt-3">
+                <div class="card">
+                    <div class="card-header  justify-content-between align-items-center">
+                        <h4 class="card-title">Table of Category Requisition Dollar Sum by Department</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="departmenttable" class="display table dataTable table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Department</th>
+                                        @foreach (var month in months)
+                                        {
+                                            <th>@month ($)</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var dept in uniqueDepts)
+                                    {
+                                        <tr>
+                                            <td>@dept.Actor</td>
+
+                                            @foreach (var month in months)
+                                            {
+                                                var foundDepartment = @departmentMonth.Find(n => (n.Category == month) && (n.Actor == dept.Actor));
+                                                if (foundDepartment != null && foundDepartment.Sum.ToString() != null)
+                                                {
+
+                                                    <td>@foundDepartment.Sum.ToString()</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>0</td>
+                                                }
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Department</th>
+                                        @foreach (var month in months)
+                                        {
+                                            <th>@month ($)</th>
+                                        }
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- table end  -->
+
+            <!-- Supplier Cost Chart-->
+
+            <div class="col-6 mt-3">
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="card-title">Chart of Category Purchase Dollar Sum by Supplier</h6>
+                        <div class="form-group col-sm-4 mb-3">
+                            <!---<label for="month">Year :</label>
+                    <input type="month" class="form-control" id="month">-->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="supplier" class="height-400"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 mt-3">
+                <div class="card">
+                    <div class="card-header  justify-content-between align-items-center">
+                        <h4 class="card-title">Table of Category Purchase Dollar Sum by Supplier</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="suppliertable" class="display table dataTable table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Supplier</th>
+                                        @foreach (var month in months)
+                                        {
+                                            <th>@month ($)</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var supplier in uniqueSuppliers)
+                                    {
+                                        <tr>
+                                            <td>@supplier.Actor</td>
+
+                                            @foreach (var month in months)
+                                            {
+                                                var foundDepartment = @supplierMonth.Find(n => (n.Category == month) && (n.Actor == supplier.Actor));
+                                                if (foundDepartment != null && foundDepartment.Sum.ToString() != null)
+                                                {
+
+                                                    <td>@foundDepartment.Sum.ToString()</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>0</td>
+                                                }
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Supplier</th>
+                                        @foreach (var month in months)
+                                        {
+                                            <th>@month ($)</th>
+                                        }
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- END: Card DATA-->
+    <script src="~/vendors/echarts/echarts.min.js"></script>
+    <script>
+    (function ($) {
+        "use strict";
+
+        var primarycolor = getComputedStyle(document.body).getPropertyValue('--primarycolor');
+        var bordercolor = getComputedStyle(document.body).getPropertyValue('--bordercolor');
+        var bodycolor = getComputedStyle(document.body).getPropertyValue('--bodycolor');
+
+        var department = echarts.init(document.getElementById('department'));
+        // specify chart configuration item and data
+
+        var departmentOption = {
+            //color: ['navy', 'teal', ' blue'],
+            color: ['red', 'orange', ' yellow', 'green', 'blue', 'indigo', 'violet'],
+
+            legend: {
+                textStyle: {
+                    color: bodycolor
+                }
+            },
+            tooltip: {},
+            dataset: {
+                source: [
+                    ['category',
+                    @foreach (var dept in uniqueDepts)
+                    {
+                        <text>'@dept.Actor',</text>
+                    }
+                    ],
+
+                    @foreach (var month in months)
+                    {
+
+                        <text>['@month',</text>
+                        @foreach (var dept in uniqueDepts)
+                        {
+                            var foundDepartment = @departmentMonth.Find(n => (n.Category == month) && (n.Actor == dept.Actor));
+                            if (foundDepartment != null && foundDepartment.Sum.ToString() != null)
+                            {
+                                            <text>@foundDepartment.Sum.ToString(),</text>
+                            }
+                            else
+                            {
+                                            <text>0,</text>
+                            }
+
+
+                        }
+
+                        <text>],</text>
+                    }
+
+
+                ]
+            },
+            textStyle: {
+                color: bodycolor
+            },
+            xAxis: {
+                type: 'category',
+                axisLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                }
+            },
+            yAxis: {
+
+                axisLine: {
+                    type: 'value',
+                    formatter: '{value} °C',
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                }
+            },
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {
+                    type: 'bar',
+                    barGap: 0,
+                    label: {
+                        color: bodycolor
+                    }
+                },
+
+                @for (int i = 0; i < uniqueDepts.Count() - 1; i++)
+                {
+                        <text>{
+                                type: 'bar',
+                                label: {
+                                color: bodycolor
+                                 }
+                                },</text>
+                }
+
+
+
+            ]
+        };
+                        // use configuration item and data specified to show chart
+                        department.setOption(departmentOption);
+
+        var supplier = echarts.init(document.getElementById('supplier'));
+        // specify chart configuration item and data
+
+        var supplierOption = {
+            //color: ['navy', 'teal', ' blue'],
+            color: ['red', 'orange', ' yellow', 'green', 'blue', 'indigo', 'violet'],
+
+            legend: {
+                textStyle: {
+                    color: bodycolor
+                }
+            },
+            tooltip: {},
+            dataset: {
+                source: [
+                    ['category',
+                    @foreach (var supplier in uniqueSuppliers)
+                    {
+                        <text>'@supplier.Actor',</text>
+                    }
+                    ],
+
+                    @foreach (var month in months)
+                    {
+
+                        <text>['@month',</text>
+                        @foreach (var supplier in uniqueSuppliers)
+                        {
+                            var foundDepartment = supplierMonth.Find(n => (n.Category == month) && (n.Actor == supplier.Actor));
+                            if (foundDepartment != null && foundDepartment.Sum.ToString() != null)
+                            {
+                                            <text>@foundDepartment.Sum.ToString(),</text>
+                            }
+                            else
+                            {
+                                            <text>0,</text>
+                            }
+
+
+                        }
+
+                        <text>],</text>
+                    }
+
+
+                ]
+            },
+            textStyle: {
+                color: bodycolor
+            },
+            xAxis: {
+                type: 'category',
+                axisLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                }
+            },
+            yAxis: {
+
+                axisLine: {
+                    type: 'value',
+                    formatter: '{value} °C',
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: bordercolor
+                    }
+                }
+            },
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {
+                    type: 'bar',
+                    barGap: 0,
+                    label: {
+                        color: bodycolor
+                    }
+                },
+
+                @for (int i = 0; i < uniqueSuppliers.Count() - 1; i++)
+                {
+                        <text>{
+                                type: 'bar',
+                                label: {
+                                color: bodycolor
+                                 }
+                                },</text>
+                }
+
+
+
+            ]
+        };
+                        // use configuration item and data specified to show chart
+                        supplier.setOption(supplierOption);
+
+
+        $(window).on('resize', function () {
+
+
+
+            if (department != null && department != undefined) {
+                department.resize();
+            }
+
+            if (supplier != null && supplier != undefined) {
+                supplier.resize();
+            }
+
+
+                });
+
+    })(jQuery);</script>
+    <script src="~/vendors/echarts/echarts.min.js"></script>
+
+    <!-- start of table JS code-->
+    <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="~/vendors/datatable/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendors/datatable/jszip/jszip.min.js"></script>
+    <script src="~/vendors/datatable/pdfmake/pdfmake.min.js"></script>
+    <script src="~/vendors/datatable/pdfmake/vfs_fonts.js"></script>
+    <script src="~/vendors/datatable/buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendors/datatable/buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendors/datatable/buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/vendors/datatable/buttons/js/buttons.flash.min.js"></script>
+    <script src="~/vendors/datatable/buttons/js/buttons.html5.min.js"></script>
+    <script src="~/vendors/datatable/buttons/js/buttons.print.min.js"></script>
+    <script>
+        //change context
+        var editor;
+        $('#departmenttable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            responsive: true
+        });
+        var editor;
+        $('#suppliertable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            responsive: true
+        });
+
+
+    </script>
+    <!-- end of table JS code-->
+
+}

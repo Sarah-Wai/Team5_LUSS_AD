@@ -1,11 +1,17 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Request> allRequests = (List<Request>)ViewData["allRqt"];
 
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
-
-<!-- START: Main Content-->
+@if (UserRole == "store_clerk")
+{
+    <!-- START: Main Content-->
     <div class="container-fluid site-width">
         <div class="row ">
             <div class="col-12  align-self-center">
@@ -70,48 +76,48 @@
                                             break;
                                     }
 
-                                <form method="post" asp-action="DisbursementDetails">
-                                    <div class="invoice">
-                                        <div class="invoice-content">
-                                            <div class="invoice-info">
-                                                <p class="mb-0 small">RequestID</p>
-                                                <p class="cliname">@r.RequestID</p>
-                                            </div>
-                                            <div class="invoice-info">
-                                                <p class="mb-0 small">Request Date</p>
-                                                <p class="invoice-no">@r.RequestDate.Date.ToString("MMMM dd, yyyy")</p>
-                                            </div>
-                                            <div class="invoice-info">
-                                                <p class="mb-0 small">Department</p>
-                                                <p class="invocie-date">@r.RequestByUser.Department.DepartmentCode</p>
-                                            </div>
-                                            <div class="invoice-info">
-                                                <p class="mb-0 small">Order Type</p>
-                                                <p class="invoice-due-date">@r.RequestType</p>
-                                            </div>
-                                            <div class="invoice-status-info">
-                                                <p class="mb-0 small">Status</p>
-                                                <p class="invoice-due-date badge @orderType">@r.RequestStatus</p>
-                                                @*<p name="status">@r.RequestStatus</p>*@
-                                            </div>
-                                            <div style="display:none"><input name="reqID" value="@r.RequestID"/><input name="status" value="@r.RequestStatus"/></div>
-                                            <div class="btn-group mb-2">
-                                                @if (@r.RequestStatus != Status.EOrderStatus.Received)
-                                                {
-                                                    <button type="submit" class="btn btn-primary btn-sm">
-                                                        Details
-                                                    </button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="submit" class="btn btn-primary btn-sm">
-                                                        Confirm
-                                                    </button>
-                                                }
+                                    <form method="post" asp-action="DisbursementDetails">
+                                        <div class="invoice">
+                                            <div class="invoice-content">
+                                                <div class="invoice-info">
+                                                    <p class="mb-0 small">RequestID</p>
+                                                    <p class="cliname">@r.RequestID</p>
+                                                </div>
+                                                <div class="invoice-info">
+                                                    <p class="mb-0 small">Request Date</p>
+                                                    <p class="invoice-no">@r.RequestDate.Date.ToString("MMMM dd, yyyy")</p>
+                                                </div>
+                                                <div class="invoice-info">
+                                                    <p class="mb-0 small">Department</p>
+                                                    <p class="invocie-date">@r.RequestByUser.Department.DepartmentCode</p>
+                                                </div>
+                                                <div class="invoice-info">
+                                                    <p class="mb-0 small">Order Type</p>
+                                                    <p class="invoice-due-date">@r.RequestType</p>
+                                                </div>
+                                                <div class="invoice-status-info">
+                                                    <p class="mb-0 small">Status</p>
+                                                    <p class="invoice-due-date badge @orderType">@r.RequestStatus</p>
+                                                    @*<p name="status">@r.RequestStatus</p>*@
+                                                </div>
+                                                <div style="display:none"><input name="reqID" value="@r.RequestID" /><input name="status" value="@r.RequestStatus" /></div>
+                                                <div class="btn-group mb-2">
+                                                    @if (@r.RequestStatus != Status.EOrderStatus.Received)
+                                                    {
+                                                        <button type="submit" class="btn btn-primary btn-sm">
+                                                            Details
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="submit" class="btn btn-primary btn-sm">
+                                                            Confirm
+                                                        </button>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
                                 }
                             </div>
                         </div>
@@ -121,4 +127,5 @@
         </div>
         <!-- END: Card DATA-->
     </div>
-<!-- END: Content-->
+    <!-- END: Content-->
+}

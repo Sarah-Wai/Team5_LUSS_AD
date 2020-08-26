@@ -142,6 +142,111 @@ namespace LUSS_API.DB
                 ReportToID = u7.UserID,
                 DepartmentID = 10
             };
+
+            User u10 = new User()
+            {
+                //UserID=10,
+                FirstName = "Martin",
+                LastName = "Ng",
+                ContactNumber = "93685452",
+                Email = "martin@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Representative",
+                ReportToID = null,
+                DepartmentID = 4
+            };
+
+            User u11 = new User()
+            {
+                //UserID=11,
+                FirstName = "Jane",
+                LastName = "Lee",
+                ContactNumber = "95285672",
+                Email = "jane@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Representative",
+                ReportToID = null,
+                DepartmentID = 5
+            };
+
+            User u12 = new User()
+            {
+                //UserID=12,
+                FirstName = "Rohan",
+                LastName = "Lee",
+                ContactNumber = "95285672",
+                Email = "rohan@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Representative",
+                ReportToID = null,
+                DepartmentID = 6
+            };
+
+            User u13 = new User()
+            {
+                //UserID=13,
+                FirstName = "YuTing",
+                LastName = "Li",
+                ContactNumber = "92323672",
+                Email = "yuting@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Representative",
+                ReportToID = null,
+                DepartmentID = 7
+            };
+
+            User u14 = new User()
+            {
+                //UserID=14,
+                FirstName = "Ben",
+                LastName = "Tan",
+                ContactNumber = "97626772",
+                Email = "ben@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Representative",
+                ReportToID = null,
+                DepartmentID = 8
+            };
+
+            User u15 = new User()
+            {
+                //UserID=15,
+                FirstName = "Jan",
+                LastName = "Tan",
+                ContactNumber = "94626432",
+                Email = "jan@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Representative",
+                ReportToID = null,
+                DepartmentID = 9
+            };
+
+            User u16 = new User()
+            {
+                //UserID=15,
+                FirstName = "Ryan",
+                LastName = "Tan",
+                ContactNumber = "94626432",
+                Email = "ryan@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Representative",
+                ReportToID = null,
+                DepartmentID = 10
+            };
             users.Add(u1);
             users.Add(u2);
             users.Add(u3);
@@ -151,6 +256,13 @@ namespace LUSS_API.DB
             users.Add(u7);
             users.Add(u8);
             users.Add(u9);
+            users.Add(u10);
+            users.Add(u11);
+            users.Add(u12);
+            users.Add(u13);
+            users.Add(u14);
+            users.Add(u15);
+            users.Add(u16);
             return users;
 
             static string Encrypt(string value)

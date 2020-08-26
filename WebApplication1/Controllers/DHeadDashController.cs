@@ -17,6 +17,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using static LUSS_API.Models.Status;
+using Microsoft.AspNetCore.Http;
+
+
+
 
 namespace LUSS_API.Controllers
 {
@@ -49,6 +53,7 @@ namespace LUSS_API.Controllers
         [Route("get-top-cost-category/{deptID}")]
         public List<TopSixRequested> GetTopSummed(int deptID)
         {
+            
             //NEED PASS HEAD'S DEPARTMENT FROM HIS USER SESSION
             int department = deptID;
             //NEED CHANGE STATUS TO COMPLETED WHEN DATA HAS COMPLETED

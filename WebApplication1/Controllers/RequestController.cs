@@ -527,8 +527,25 @@ namespace LUSS_API.Controllers
             
             return "ok";
         }
+
+
+        [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}")]
+        public void GetAllocateStationary(string acceptedQty, int retrievalID)
+        {
+            //parse string to array
+            string[] separators = { ",", "[", "]" };
+            string[] str = acceptedQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            List<int> qty = new List<int>();
+            foreach (var s in str)
+            {
+                qty.Add(int.Parse(s));
+            }
+            
+            allocateStationary(qty, retrievalID);
+
+        }
     }
 
-    
 
-    }
+
+}

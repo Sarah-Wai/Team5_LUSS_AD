@@ -22,8 +22,8 @@ namespace LUSS_API.DB
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now,
-                RetrievalID = 1
+                CollectionTime = DateTime.Now
+                
 
             };
             Request r2 = new Request()
@@ -35,8 +35,8 @@ namespace LUSS_API.DB
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now,
-                RetrievalID = 1
+                CollectionTime = DateTime.Now
+                
                 
 
             };
@@ -49,10 +49,10 @@ namespace LUSS_API.DB
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now,
-                RetrievalID = 1
+                CollectionTime = DateTime.Now
+               
 
-        };
+            };
 
 
             Request r4 = new Request()
@@ -150,7 +150,8 @@ namespace LUSS_API.DB
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now
+                CollectionTime = DateTime.Now,
+                RetrievalID = 5
 
             };
             Request r12 = new Request()
@@ -162,7 +163,8 @@ namespace LUSS_API.DB
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now
+                CollectionTime = DateTime.Now,
+                RetrievalID = 1
 
             };
             Request r13 = new Request()
@@ -174,7 +176,8 @@ namespace LUSS_API.DB
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now
+                CollectionTime = DateTime.Now,
+                RetrievalID = 3
 
             };
             Request r14 = new Request()
@@ -186,7 +189,8 @@ namespace LUSS_API.DB
                 Comment = "Test",
                 RequestType = RequestType.ERequestType.New,
                 ParentRequestID = null,
-                CollectionTime = DateTime.Now
+                CollectionTime = DateTime.Now,
+                RetrievalID = 4
 
             };
             Request r15 = new Request()

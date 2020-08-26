@@ -54,5 +54,19 @@ namespace LUSS_API.Controllers
             return cp;
         }
 
+        [HttpGet("collectiontimes/{deptId}")]
+        public List<Request> getdepCollectionTime(int deptId)
+        {
+            List<Request> requests = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery && x.RequestByUser.DepartmentID == deptId).ToList();
+
+            List<Request> collectionTimes = (List<Request>)(from r in requests
+                                                            select new Request
+                                                            {
+                                                                CollectionTime = r.CollectionTime,
+                                                                RetrievalID = r.RetrievalID
+                                                            }).ToList();
+
+            return collectionTimes;
+        }
     }
 }

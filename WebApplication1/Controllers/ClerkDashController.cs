@@ -7,6 +7,7 @@ using LUSS_API.DB;
 using LUSS_API.Models;
 using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
@@ -29,16 +30,7 @@ namespace LUSS_API.Controllers
         }
         
 
-        [HttpGet]
-        [Route("get-user-name")]
-        public string GetName()
-        {            
-            int dummyID = 1;//TO replace by real ID
-            User currentUser = context123.User.Where(x => x.UserID == dummyID).FirstOrDefault();
-            
-            return currentUser.FirstName.ToString();
-
-        }
+        
         [HttpGet]
         [Route("get-top-summed")]
         public List<TopSixRequested> GetTopSummed()
@@ -48,7 +40,7 @@ namespace LUSS_API.Controllers
                                   join requestDetails in context123.RequestDetails on requests.RequestID equals requestDetails.RequestID
                                   join item in context123.Item on requestDetails.ItemID equals item.ItemID
                                   join itemPrice in context123.ItemPrice on item.ItemID equals itemPrice.ItemID
-                                  where requests.RequestDate.Year == DateTime.Now.Year && requests.RequestStatus == EOrderStatus.Approved
+                                  where requests.RequestDate.Year == DateTime.Now.Year && requests.RequestStatus == EOrderStatus.Completed
                                   select new TopSixRequested
                                   {
                                       ItemID = requestDetails.ItemID,
@@ -56,7 +48,7 @@ namespace LUSS_API.Controllers
                                       Qty = requestDetails.ReceivedQty,
                                       ItemPrice = itemPrice.Price,
                                       TotalPrice = requestDetails.ReceivedQty * itemPrice.Price
-                                  }).OrderBy(x=>x.TotalPrice).ToList();
+                                  }).ToList();
 
             List<TopSixRequested> itemSum = (highestRequest.GroupBy(x => x.ItemID).Select(y => new TopSixRequested {
 
@@ -66,7 +58,7 @@ namespace LUSS_API.Controllers
                 ItemPrice = y.First().ItemPrice,
                 TotalPrice = y.Sum(s=> s.TotalPrice)
               
-            })).ToList();
+            })).OrderByDescending(x => x.Qty).Take(6).ToList();
                                          
             return itemSum;            
 
@@ -88,9 +80,13 @@ namespace LUSS_API.Controllers
         public DateTime? GetNextCollectionDate()
         {
             // get next request
-            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).First();
-            
-            DateTime? collectionTime = nextDelivery.CollectionTime;
+            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).FirstOrDefault();
+
+            DateTime? collectionTime = new DateTime();
+            if (nextDelivery != null)
+            {
+                collectionTime = nextDelivery.CollectionTime;
+            }
 
 
             return collectionTime;
@@ -99,13 +95,20 @@ namespace LUSS_API.Controllers
         [Route("get-next-collection-time-location")]
         public CollectionPoint GetNextCollectionTimeLocation()
         {
+            CollectionPoint collectionPoint = new CollectionPoint();
             // get next request
-            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).First();
-            User requestMaker = context123.User.Where(x => x.UserID == nextDelivery.RequestBy).FirstOrDefault();
-            Department department = context123.Department.Where(x => x.DepartmentID == requestMaker.DepartmentID).FirstOrDefault();
-            CollectionPoint collectionPoint = context123.CollectionPoint.Where(x => x.CollectionPointID == department.CollectionPointID).FirstOrDefault();
-
-            
+            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).FirstOrDefault();
+            if (nextDelivery == null)
+            {
+                collectionPoint = null;
+            }
+            else
+            {
+                User requestMaker = context123.User.Where(x => x.UserID == nextDelivery.RequestBy).FirstOrDefault();
+                Department department = context123.Department.Where(x => x.DepartmentID == requestMaker.DepartmentID).FirstOrDefault();
+                collectionPoint = context123.CollectionPoint.Where(x => x.CollectionPointID == department.CollectionPointID).FirstOrDefault();
+            }
+                        
             return collectionPoint;
         }
 

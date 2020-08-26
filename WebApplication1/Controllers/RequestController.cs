@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Castle.Core.Internal;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -176,70 +177,73 @@ namespace LUSS_API.Controllers
         [HttpPost("{acceptedQty}/{retrievalID}")]
         public string allocateStationary(List<int> acceptedQty, int retrievalID)
         {
-
-            //get the chunk of info passed to the View
-            IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID);
-            //create a dic: item code -- accptQty
-            Dictionary<int, int> allocationList = new Dictionary<int, int>();
-            foreach (var item in list)
+            if (acceptedQty != null && retrievalID != 0)
             {
-                int key = item.itemIds;
-                int value = 0;
-                allocationList.Add(key, value);
-            }
-
-            for (int i = 0; i < acceptedQty.Count(); i++)
-            {
-                int key = allocationList.ElementAt(i).Key;
-                allocationList[key] = acceptedQty[i];
-            }
-
-
-            //List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
-            List<RequestDetails> requestDetailsList = context123.RequestDetails.Where(x => x.Request.RetrievalID == retrievalID).ToList();
-
-
-            //allocation starts
-            for (int i = 0; i < allocationList.Count(); i++)
-            {
-                int reqQTY;
-                int balance = allocationList.ElementAt(i).Value;
-
-                List<int> requestIdList = list.Where(x => x.itemIds == allocationList.ElementAt(i).Key)
-                                            .Select(x => x.requestIDs).FirstOrDefault();
-
-
-                for (int j = 0; j < requestIdList.Count(); j++)
+                //get the chunk of info passed to the View
+                IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID);
+                //create a dic: item code -- accptQty
+                Dictionary<int, int> allocationList = new Dictionary<int, int>();
+                foreach (var item in list)
                 {
-
-                    //get the reqQTY of each request + item code
-                    RequestDetails rr = requestDetailsList
-                                    .Where(x => x.RequestID == requestIdList[j] && x.ItemID == allocationList.ElementAt(i).Key)
-                                    .FirstOrDefault();
-                    reqQTY = rr.RequestQty;
-
-                    //check discrepancy
-                    if (balance - reqQTY >= reqQTY)
+                    int key = item.itemIds;
+                    int value = 0;
+                    allocationList.Add(key, value);
+                }
+                if(list.Count() > 0)
+                {
+                    for (int i = 0; i < acceptedQty.Count(); i++)
                     {
-                        balance -= reqQTY;
-                        rr.ReceivedQty = reqQTY;
-                    }
-                    else if (balance - reqQTY < reqQTY && balance >= 0)
-                    {
-                        rr.ReceivedQty = balance;
-                        balance = 0;
+                        int key = allocationList.ElementAt(i).Key;
+                        allocationList[key] = acceptedQty[i];
                     }
                 }
+                //List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+                List<RequestDetails> requestDetailsList = context123.RequestDetails.Where(x => x.Request.RetrievalID == retrievalID).ToList();
 
-                //after allocation done, change the status of the request
-                foreach (int rqID in requestIdList)
+
+                //allocation starts
+                for (int i = 0; i < allocationList.Count(); i++)
                 {
-                    Request r = context123.Request.Where(x => x.RequestID == rqID).FirstOrDefault();
-                    r.RequestStatus = EOrderStatus.Received;
+                    int reqQTY;
+                    int balance = allocationList.ElementAt(i).Value;
+
+                    List<int> requestIdList = list.Where(x => x.itemIds == allocationList.ElementAt(i).Key)
+                                                .Select(x => x.requestIDs).FirstOrDefault();
+
+
+                    for (int j = 0; j < requestIdList.Count(); j++)
+                    {
+
+                        //get the reqQTY of each request + item code
+                        RequestDetails rr = requestDetailsList
+                                        .Where(x => x.RequestID == requestIdList[j] && x.ItemID == allocationList.ElementAt(i).Key)
+                                        .FirstOrDefault();
+                        reqQTY = rr.RequestQty;
+
+                        //check discrepancy
+                        if (balance - reqQTY >= reqQTY)
+                        {
+                            balance -= reqQTY;
+                            rr.ReceivedQty = reqQTY;
+                        }
+                        else if (balance - reqQTY < reqQTY && balance >= 0)
+                        {
+                            rr.ReceivedQty = balance;
+                            balance = 0;
+                        }
+                    }
+
+                    //after allocation done, change the status of the request
+                    foreach (int rqID in requestIdList)
+                    {
+                        Request r = context123.Request.Where(x => x.RequestID == rqID).FirstOrDefault();
+                        r.RequestStatus = EOrderStatus.Received;
+                    }
                 }
+                context123.SaveChanges(); //save all or nothing
+                return "ok";
             }
-            context123.SaveChanges(); //save all or nothing
-            return "ok";
+            return "empty";
         }
 
         [HttpPost("{id}/{userId}/{collectionTime}/{fulfillQty}")]
@@ -284,17 +288,6 @@ namespace LUSS_API.Controllers
 
             return userID;
         }
-        // get new retrieval Id
-        //public int GetNewRetrievalId()
-        //{
-        //    int maxId = 0;
-        //    int? currentId = context123.Retrieval.Max(x => x.RetrievalID);
-        //    if (currentId != null)
-        //    {
-        //        maxId = (int)currentId;
-        //    }
-        //    return maxId + 1;
-        //}
 
         [HttpGet("{id}")]
         [Route("GetRequestByEmpId/{id}")]
@@ -445,7 +438,6 @@ namespace LUSS_API.Controllers
                     isUpdated = false;
                 }
             }
-
             return isUpdated;
         }
 
@@ -487,72 +479,26 @@ namespace LUSS_API.Controllers
 
             return isRemoved;
         }
+    }
 
-        [HttpGet("{status}/{deptId}")]
-        [Route("GetRequestMBByStatusByDept/{status}/{deptId}")]
-        public IEnumerable<Request> GetRequestMBByStatusByDept(string status, int deptId)
+
+        [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}")]
+        public void GetAllocateStationary(string acceptedQty, int retrievalID)
         {
-            EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requestList = (from r in context123.Request
-                                         where r.RequestStatus == st
-                                          && r.RequestByUser.DepartmentID == deptId
-                                         select r).ToList();
-            List<Request> return_requestList = new List<Request>();
-            foreach (Request r in requestList)
+            //parse string to array
+            string[] separators = { ",", "[", "]" };
+            string[] str = acceptedQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            List<int> qty = new List<int>();
+            foreach (var s in str)
             {
-
-                Request new_request = new Request()
-                {
-           
-                                             RequestID = r.RequestID,
-                                             RequestStatus = r.RequestStatus,
-                                             RequestDate = r.RequestDate,
-                                             RequestBy = r.RequestBy,
-                                             ModifiedBy = r.ModifiedBy,
-                                             Comment = r.Comment,
-                                             RequestType = r.RequestType,
-                                             ParentRequestID = r.ParentRequestID,
-                                             CollectionTime = r.CollectionTime,
-                                             RetrievalID = r.RetrievalID,
-                                             ModifiedByUser = new User { UserID = r.ModifiedByUser.UserID, FirstName = r.ModifiedByUser.FirstName, LastName = r.ModifiedByUser.LastName },
-                                             RequestByUser = new User { UserID = r.RequestByUser.UserID, FirstName = r.RequestByUser.FirstName, LastName = r.RequestByUser.LastName },
-                                            Retrieval = null
-
-                };
-                List<RequestDetails> details = PrepareForRequestDetail(r.RequestDetails);
-                new_request.RequestDetails = details;
-                return_requestList.Add(new_request);
+                qty.Add(int.Parse(s));
             }
-          
-                                      
-            return return_requestList;
-        }
+            
+            allocateStationary(qty, retrievalID);
 
-        public List<RequestDetails> PrepareForRequestDetail(ICollection<RequestDetails> details)
-        {
-            List<RequestDetails> return_list = new List<RequestDetails>();
-            foreach (RequestDetails d in details)
-            {
-                RequestDetails requestDetails = new RequestDetails()
-                {
-                    RequestDetailID = d.RequestDetailID,
-                    RequestQty = d.RequestQty,
-                    ItemID = d.ItemID,
-                    RequestID =d.RequestID,
-                    FullfillQty =d.FullfillQty,
-                    ReceivedQty = d.ReceivedQty,
-                    isActive = d.isActive,
-                    Item=new Item { ItemName=d.Item.ItemName,UOM=d.Item.UOM}
-
-
-                };
-
-                return_list.Add(requestDetails);
-
-            }
-           
-            return return_list;
         }
     }
+
+
 
 }

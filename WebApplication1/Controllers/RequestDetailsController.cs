@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
+using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -28,6 +30,33 @@ namespace LUSS_API.Controllers
         {
             List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
             return requestItems;
+        }
+
+        // for mobile
+        [HttpGet("{id}")]
+        [Route("get-by-request-mobile/{id}")]
+        public List<CustomRequestDetail> MGetByRequest(int id)
+        {
+            List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
+            List<CustomRequestDetail> customReqItems = new List<CustomRequestDetail>();
+            foreach(RequestDetails r in requestItems)
+            {
+                CustomRequestDetail c = new CustomRequestDetail()
+                {
+                    RequestDetailID = r.RequestDetailID,
+                    RequestQty = r.RequestQty,
+                    ItemID = r.ItemID,
+                    RequestID = r.RequestID,
+                    FulfillQty = r.FullfillQty,
+                    ItemCode = r.Item.ItemCode,
+                    ItemName = r.Item.ItemName,
+                    UOM = r.Item.UOM,
+                    inStockQty = r.Item.InStockQty
+                };
+                customReqItems.Add(c);
+            }
+            
+            return customReqItems;
         }
 
     }

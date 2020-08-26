@@ -50,5 +50,24 @@ namespace LUSS_API.Controllers
 
         }
 
+        [HttpGet("{id}")]
+        [Route("GetAllDeptUsersMB/{id}")]
+        public IEnumerable<User> GetAllDeptUsersMB(int id)
+        {
+            List<User> Users = context123.User.Where(x => x.DepartmentID == id).ToList();
+            List<User> return_users = new List<User>();
+            foreach (User u in Users)
+            {
+                User newUser = new User()
+                {
+                   UserID = u.UserID, 
+                   FirstName = u.FirstName,
+                   LastName = u.LastName 
+                };
+                return_users.Add(newUser);
+            }
+            return return_users;
+        }
+
     }
 }

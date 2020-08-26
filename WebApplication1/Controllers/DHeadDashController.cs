@@ -195,69 +195,78 @@ namespace LUSS_API.Controllers
             //test.Add(0, 1); test.Add(1, 12); test.Add(2, 12); test.Add(3, 12); test.Add(4, 12); test.Add(5, 0); test.Add(6, 12); test.Add(7, 12); test.Add(8, 12); test.Add(9, 12); test.Add(10, 12); test.Add(11, 12); test.Add(12, 12);
             //testFormat.Add(0, test);
 
+            List<DHeadMonth> formattedForDisplay = new List<DHeadMonth>();
 
             //COMMENTED OUT SO CAN PUSH FIRST
-            //var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5555/predict");
-            //httpWebRequest.ContentType = "application/json";
-            //httpWebRequest.Method = "POST";
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5555/predict");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
 
-            //string receivedFromApi;
+            string receivedFromApi;
+            try {
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
 
-            //using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            //{
-                
-            //    //string json = JsonConvert.SerializeObject(testFormat);
+                    //string json = JsonConvert.SerializeObject(testFormat);
 
-            //    streamWriter.Write(JsonConvert.SerializeObject(outputFormat));
-            //}
+                    streamWriter.Write(JsonConvert.SerializeObject(outputFormat));
+                }
 
-            //var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            //using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            //{
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
 
-            //    receivedFromApi = streamReader.ReadLine();
-            //}
-            //string trimmed = receivedFromApi.Trim(new char[] { '[', ']' });
-            //string[] pythonReturned = trimmed.Split(',');
-            //int first = 13;
-            //int second = 0;
+                    receivedFromApi = streamReader.ReadLine();
+                }
+                string trimmed = receivedFromApi.Trim(new char[] { '[', ']' });
+                string[] pythonReturned = trimmed.Split(',');
+                int first = 13;
+                int second = 0;
 
-            //foreach (string value in pythonReturned)
-            //{
-                
-            //    double newInt = Convert.ToDouble(pythonReturned[second]);
-            //    int positive = Convert.ToInt32(newInt);
-            //    if (positive < 0) {
-            //        positive = positive * (-1);
-            //    }
-            //    deptMonthlyCost.Add(first, positive);
-                
-            //    first += 1;
-            //    second += 1;
-            //}
-            //RETURN from API
+                foreach (string value in pythonReturned)
+                {
 
-            //List<DHeadMonth> formattedForDisplay = new List<DHeadMonth>();
-            //for (int i = 0; i < 12; i++)
-            //{
-            //    DHeadMonth working = new DHeadMonth();
-            //    working.Month = startDate.AddMonths(i).ToString("MMM");
-            //    working.YearOne = deptMonthlyCost.ElementAt(i).Value-1;
-            //    working.YearTwo = deptMonthlyCost.ElementAt(i + 12).Value-1;
-            //    formattedForDisplay.Add(working);
+                    double newInt = Convert.ToDouble(pythonReturned[second]);
+                    int positive = Convert.ToInt32(newInt);
+                    if (positive < 0)
+                    {
+                        positive = positive * (-1);
+                    }
+                    deptMonthlyCost.Add(first, positive);
 
-            //}
+                    first += 1;
+                    second += 1;
+                }
+                // RETURN from API
 
-            List<DHeadMonth> formattedForDisplay = new List<DHeadMonth>();
-            for (int i = 0; i < 12; i++)
-            {
-                DHeadMonth working = new DHeadMonth();
-                working.Month = startDate.AddMonths(i).ToString("MMM");
-                working.YearOne = deptMonthlyCost.ElementAt(i).Value - 1;
-                working.YearTwo = 0;
-                formattedForDisplay.Add(working);
+
+                for (int i = 0; i < 12; i++)
+                {
+                    DHeadMonth working = new DHeadMonth();
+                    working.Month = startDate.AddMonths(i).ToString("MMM");
+                    working.YearOne = deptMonthlyCost.ElementAt(i).Value - 1;
+                    working.YearTwo = deptMonthlyCost.ElementAt(i + 12).Value - 1;
+                    formattedForDisplay.Add(working);
+
+                }
 
             }
+            catch (Exception ex)
+            {
+                for (int i = 0; i < 12; i++)
+                {
+                    DHeadMonth working = new DHeadMonth();
+                    working.Month = startDate.AddMonths(i).ToString("MMM");
+                    working.YearOne = deptMonthlyCost.ElementAt(i).Value - 1;
+                    working.YearTwo = 0;
+                    formattedForDisplay.Add(working);
+
+                }
+            }
+
+         
+        
+          
 
 
             return formattedForDisplay;

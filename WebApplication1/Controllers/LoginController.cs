@@ -49,6 +49,7 @@ namespace LUSS_API.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 ContactNumber = user.ContactNumber,
+                DepartmentID=user.DepartmentID,
                 Email = user.Email,
                 Password = user.Password,
                 Role = user.Role,

@@ -492,9 +492,10 @@ namespace LUSS_API.Controllers
         public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
         {
             IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId);
+            IEnumerable<dynamic> requests_byDept = requests.Where(x => x.deptId == deptId).ToList();
             List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
 
-            foreach (var r in requests)
+            foreach (var r in requests_byDept)
             {
                 CustomRetrieval rt = new CustomRetrieval
                 {

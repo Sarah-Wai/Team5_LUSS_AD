@@ -7,6 +7,7 @@ using LUSS_API.DB;
 using LUSS_API.Models;
 using LUSS_API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
@@ -79,9 +80,13 @@ namespace LUSS_API.Controllers
         public DateTime? GetNextCollectionDate()
         {
             // get next request
-            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).First();
-            
-            DateTime? collectionTime = nextDelivery.CollectionTime;
+            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).FirstOrDefault();
+
+            DateTime? collectionTime = new DateTime();
+            if (nextDelivery != null)
+            {
+                collectionTime = nextDelivery.CollectionTime;
+            }
 
 
             return collectionTime;
@@ -90,13 +95,20 @@ namespace LUSS_API.Controllers
         [Route("get-next-collection-time-location")]
         public CollectionPoint GetNextCollectionTimeLocation()
         {
+            CollectionPoint collectionPoint = new CollectionPoint();
             // get next request
-            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).First();
-            User requestMaker = context123.User.Where(x => x.UserID == nextDelivery.RequestBy).FirstOrDefault();
-            Department department = context123.Department.Where(x => x.DepartmentID == requestMaker.DepartmentID).FirstOrDefault();
-            CollectionPoint collectionPoint = context123.CollectionPoint.Where(x => x.CollectionPointID == department.CollectionPointID).FirstOrDefault();
-
-            
+            Request nextDelivery = context123.Request.Where(x => x.RequestStatus == EOrderStatus.PendingDelivery).OrderBy(y => y.CollectionTime).FirstOrDefault();
+            if (nextDelivery == null)
+            {
+                collectionPoint = null;
+            }
+            else
+            {
+                User requestMaker = context123.User.Where(x => x.UserID == nextDelivery.RequestBy).FirstOrDefault();
+                Department department = context123.Department.Where(x => x.DepartmentID == requestMaker.DepartmentID).FirstOrDefault();
+                collectionPoint = context123.CollectionPoint.Where(x => x.CollectionPointID == department.CollectionPointID).FirstOrDefault();
+            }
+                        
             return collectionPoint;
         }
 

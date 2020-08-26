@@ -65,11 +65,11 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet]
-        [Route("get-clerk-pending")]
-        public int GetClerkPendingAdjustment()
+        [Route("get-clerk-pending/{id}")]
+        public int GetClerkPendingAdjustment(int id)
         {
             int pendingAdjustments = 0;
-            pendingAdjustments = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentVoucherStatus.AdjustmentStatus.Pending).Count();
+            pendingAdjustments = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentVoucherStatus.AdjustmentStatus.Pending && x.RequestByID == id).Count();
             
             return pendingAdjustments;
 
@@ -89,7 +89,7 @@ namespace LUSS_API.Controllers
             }
 
 
-            return collectionTime;
+                return collectionTime;
         }
         [HttpGet]
         [Route("get-next-collection-time-location")]

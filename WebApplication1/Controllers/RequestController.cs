@@ -99,6 +99,34 @@ namespace LUSS_API.Controllers
             return getRequest;
         }
 
+        [HttpGet("{id}/{status}/{comment}")]
+        [Route("ApproveRequestByDepHeadMB/{id}/{status}/{comment}")]
+        public string ApproveRequestByDepHeadMB(int id, int status, string comment)
+        {
+
+            Request getRequest = context123.Request
+                  .Where(x => x.RequestID == id).SingleOrDefault();
+            try
+            {
+                if (getRequest != null)
+                {
+                    getRequest.Comment = comment;
+                    if (status == 1)
+                        getRequest.RequestStatus = EOrderStatus.Approved;
+                    else
+                        getRequest.RequestStatus = EOrderStatus.Rejected;
+
+                    context123.SaveChanges();
+                  
+                }
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                return "Fail";
+            }
+        }
+
         [HttpGet]
         [Route("get-approved-request")]
         public IEnumerable<Request> Get()
@@ -451,87 +479,7 @@ namespace LUSS_API.Controllers
 
             return isRemoved;
         }
-
-        //for mobile
-        [HttpGet("{status}")]
-        [Route("get-request-by-status-mobile/{status}")]
-        public IEnumerable<CustomRequest> MGetApprovedRequest(EOrderStatus status)
-        {
-            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == status).ToList();
-            List<CustomRequest> customRequests = new List<CustomRequest>();
-            
-            foreach (Request r in requestList)
-            {
-                CustomRequest c = new CustomRequest();
-                c.RequestID = r.RequestID;
-                c.RequestStatus = r.RequestStatus;
-                c.RequestDate = r.RequestDate;
-                c.RequestBy = r.RequestBy;
-                c.ModifiedBy = r.ModifiedBy;
-                c.Comment = r.Comment;
-                c.RequestType = r.RequestType;
-                c.ParentRequestID = r.ParentRequestID;
-                c.CollectionTime = r.CollectionTime;
-                c.RetrievalID = r.RetrievalID;
-                c.RequestByName = r.RequestByUser.FirstName + " " + r.RequestByUser.LastName;
-                c.ModifiedByName = r.ModifiedByUser.FirstName + " " + r.ModifiedByUser.LastName;
-                c.DepartmentName = r.RequestByUser.Department.DepartmentName;
-                User rep = context123.User.FirstOrDefault(x => x.DepartmentID == r.RequestByUser.DepartmentID && x.IsRepresentative == true);
-                if (rep != null)
-                {
-                    c.DepartmentRep = rep.FirstName + " " + rep.LastName;
-                }
-                else c.DepartmentRep = null;
-                c.CollectionPoint = r.RequestByUser.Department.CollectionPoint.PointName;
-                
-                customRequests.Add(c);
-            }
-            return customRequests;
-        }
-
-
-        //mobile API
-
-        [HttpGet("GetItemByRetrievalByDept/{retrId}/{deptId}")]
-        public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
-        {
-            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId);
-            IEnumerable<dynamic> requests_byDept = requests.Where(x => x.deptId == deptId).ToList();
-            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
-
-            foreach (var r in requests_byDept)
-            {
-                CustomRetrieval rt = new CustomRetrieval
-                {
-                    ItemID = r.itemIds,
-                    ItemCode = r.itemCode,
-                    ItemName = r.itemName,
-                    UOM = r.itemUOM,
-                    RequestedQty = r.totalQty
-                };
-
-                retrievals.Add(rt);
-            }
-            return retrievals;
-        }
-
-        [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]
-        public String MDisburseByRequest(int id, int userId, string collectionTime, string fulfillQty)
-        {
-            //parse string to array
-            string[] separators = { ",", "[", "]" };
-            string[] str = fulfillQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-            List<int> qty = new List<int>();
-            foreach (var s in str)
-            {
-                qty.Add(int.Parse(s));
-            }
-
-            DisburseByRequest(id, userId, collectionTime, qty);
-            
-            return "ok";
-        }
+    }
 
 
         [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}")]

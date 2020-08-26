@@ -307,6 +307,22 @@ namespace LUSS_API.Controllers
                 retrievals.Add(rt);
             }
             return retrievals;
+        }
+
+        [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
+        [Route("mobile/allocateQty/{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
+        public List<User> MallocateFulfilledQty(string retrievedQty, int retrievalId, string collectionDate, int id)
+        {
+            //parse string to array
+            string[] separators = { ",", "[", "]" };
+            string[] str = retrievedQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            List<int> qty = new List<int>();
+            foreach (var s in str)
+            {
+                qty.Add(int.Parse(s));
+            }
+
+            return allocateFulfilledQty(qty, retrievalId, collectionDate, id);
 
         }
     }

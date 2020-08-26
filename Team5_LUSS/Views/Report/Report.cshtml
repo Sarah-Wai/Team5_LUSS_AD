@@ -42,7 +42,7 @@
                         <h6 class="card-title">Chart of Category Requisition Dollar Sum by Department</h6>
                         <div class="form-group col-sm-4 mb-3">
                             <!--<label for="month">Year :</label>
-                            <input type="month" class="form-control" id="month">-->
+                    <input type="month" class="form-control" id="month">-->
                         </div>
                     </div>
                     <div class="card-body">
@@ -51,6 +51,7 @@
                 </div>
             </div>
 
+            <!-- table start -->
             <div class="col-6 mt-3">
                 <div class="card">
                     <div class="card-header  justify-content-between align-items-center">
@@ -105,6 +106,7 @@
                     </div>
                 </div>
             </div>
+            <!-- table end  -->
 
             <!-- Supplier Cost Chart-->
 
@@ -115,7 +117,7 @@
                         <h6 class="card-title">Chart of Category Purchase Dollar Sum by Supplier</h6>
                         <div class="form-group col-sm-4 mb-3">
                             <!---<label for="month">Year :</label>
-                            <input type="month" class="form-control" id="month">-->
+                    <input type="month" class="form-control" id="month">-->
                         </div>
                     </div>
                     <div class="card-body">
@@ -412,7 +414,7 @@
     })(jQuery);</script>
     <script src="~/vendors/echarts/echarts.min.js"></script>
 
-
+    <!-- start of table JS code-->
     <script src="~/vendors/datatable/js/jquery.dataTables.min.js"></script>
     <script src="~/vendors/datatable/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/vendors/datatable/jszip/jszip.min.js"></script>
@@ -424,9 +426,8 @@
     <script src="~/vendors/datatable/buttons/js/buttons.flash.min.js"></script>
     <script src="~/vendors/datatable/buttons/js/buttons.html5.min.js"></script>
     <script src="~/vendors/datatable/buttons/js/buttons.print.min.js"></script>
-    <!-- END: Card DATA-->
     <script>
-
+        //change context
         var editor;
         $('#departmenttable').DataTable({
             dom: 'Bfrtip',
@@ -446,5 +447,6 @@
 
 
     </script>
+    <!-- end of table JS code-->
 
 }

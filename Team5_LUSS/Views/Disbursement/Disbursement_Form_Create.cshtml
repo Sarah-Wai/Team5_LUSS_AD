@@ -1,216 +1,221 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Create Disbursement Form";
     Request request = (Request)ViewData["request"];
     User deptRep = (User)ViewData["deptRep"];
     List<RequestDetails> reqItems = (List<RequestDetails>)ViewData["reqItems"];
     int userId = (int)ViewData["userId"];
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
+@if (UserRole == "store_clerk")
+{
+    <form method="post">
+        <div class="container-fluid site-width">
+            <div>
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <b>Dept Name:</b> @request.RequestByUser.Department.DepartmentName<br>
+                                                <b>Dept Code:</b> @request.RequestByUser.DepartmentID<br>
 
-<form method="post">
-    <div class="container-fluid site-width">
-        <div>
-            <div class="row">
-                <div class="col-12 col-md-12">
-                    <div class="card border-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
-                        </div>
-                        <div class="card-body table-responsive">
-                            <table class="table table-borderless">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <b>Dept Name:</b> @request.RequestByUser.Department.DepartmentName<br>
-                                            <b>Dept Code:</b> @request.RequestByUser.DepartmentID<br>
-
-                                            <b>Dept Rep:</b> @deptRep.FirstName @deptRep.LastName<br>
-                                            <b>Collection Point:</b> @deptRep.Department.CollectionPoint.Location @deptRep.Department.CollectionPoint.Description<br><br>
-                                            <b>Collection Date: </b> <input type="date" name="collectionTime" id="collectionTime" value="@request.CollectionTime" min="" onclick="GetMinDate()" required><br>
-                                            <input type="hidden" name="id" id="id" value="@request.RequestID" />
-                                            <input type="hidden" name="userId" id="userId" value="@userId" />
-                                        </td>
-                                        <td>
-                                            <b>Staff Name:</b> @request.RequestByUser.FirstName  @request.RequestByUser.LastName<br>
-                                            <b>Staff ID:</b> @request.ModifiedBy<br>
-                                            <b>Staff Email:</b> @request.RequestByUser.Email<br>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                                <b>Dept Rep:</b> @deptRep.FirstName @deptRep.LastName<br>
+                                                <b>Collection Point:</b> @deptRep.Department.CollectionPoint.Location @deptRep.Department.CollectionPoint.Description<br><br>
+                                                <b>Collection Date: </b> <input type="date" name="collectionTime" id="collectionTime" value="@request.CollectionTime" min="" onclick="GetMinDate()" required><br>
+                                                <input type="hidden" name="id" id="id" value="@request.RequestID" />
+                                                <input type="hidden" name="userId" id="userId" value="@userId" />
+                                            </td>
+                                            <td>
+                                                <b>Staff Name:</b> @request.RequestByUser.FirstName  @request.RequestByUser.LastName<br>
+                                                <b>Staff ID:</b> @request.ModifiedBy<br>
+                                                <b>Staff Email:</b> @request.RequestByUser.Email<br>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                @*table content*@
-                <div class="col-12 col-md-12">
-                    <div class="card border-0">
-                        <div class="card-body table-responsive">
-                            <table class="table table-bordered" id="tblReqItems">
-                                <thead>
-                                    <tr>
-                                        @*<td>#</td>
-        <td>#</td>*@
-                                        <td class="text-right"><b>Item Code</b></td>
-                                        <td class="text-right"><b>Description</b></td>
-                                        <td class="text-right"><b>UOM</b></td>
-                                        <td class="text-right"><b>InStock Qty</b></td>
-                                        <td class="text-right"><b>Requested Qty</b></td>
-                                        <td class="text-right"><b>Fulfilled Qty</b></td>
-                                        <td class="text-right"><b></b></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (RequestDetails r in reqItems)
-                                    {
-                                    <tr>
-                                        @*<td>@r.RequestDetailID</td>
-        <td>@r.RequestID</td>*@
-                                        <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
-                                        <td class="text-right">@r.Item.ItemName</td>
-                                        <td class="text-right">@r.Item.UOM</td>
-                                        <td class="text-right">@r.Item.InStockQty</td>
-                                        <td class="text-right">@r.RequestQty</td>
-                                        @if (r.RequestQty <= r.Item.InStockQty)
+                    @*table content*@
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0">
+                            <div class="card-body table-responsive">
+                                <table class="table table-bordered" id="tblReqItems">
+                                    <thead>
+                                        <tr>
+                                            @*<td>#</td>
+                                                <td>#</td>*@
+                                            <td class="text-right"><b>Item Code</b></td>
+                                            <td class="text-right"><b>Description</b></td>
+                                            <td class="text-right"><b>UOM</b></td>
+                                            <td class="text-right"><b>InStock Qty</b></td>
+                                            <td class="text-right"><b>Requested Qty</b></td>
+                                            <td class="text-right"><b>Fulfilled Qty</b></td>
+                                            <td class="text-right"><b></b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (RequestDetails r in reqItems)
                                         {
-                                            <td class="text-right"><input type="number" class="fulfillQty" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.RequestQty" min="0" max="@r.RequestQty" required /></td>
+                                            <tr>
+                                                @*<td>@r.RequestDetailID</td>
+                                                    <td>@r.RequestID</td>*@
+                                                <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
+                                                <td class="text-right">@r.Item.ItemName</td>
+                                                <td class="text-right">@r.Item.UOM</td>
+                                                <td class="text-right">@r.Item.InStockQty</td>
+                                                <td class="text-right">@r.RequestQty</td>
+                                                @if (r.RequestQty <= r.Item.InStockQty)
+                                                {
+                                                    <td class="text-right"><input type="number" class="fulfillQty" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.RequestQty" min="0" max="@r.RequestQty" required /></td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-right"><input type="number" class="fulfillQty" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.Item.InStockQty" min="0" max="@r.Item.InStockQty" required /></td>
+                                                }
+                                                <td class="text-right">
+                                                    <a href="#" onclick="changeValue(0,@r.Item.InStockQty, @r.ItemID)" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
+                                                        Reset
+                                                    </a>
+                                                    <a href="#" onclick="changeValue(@r.RequestQty,@r.Item.InStockQty, @r.ItemID)" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
+                                                        Full Amt
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         }
-                                        else
-                                        {
-                                            <td class="text-right"><input type="number" class="fulfillQty" name="fulfillQty" id="fulfillQty-@r.ItemID" value="@r.Item.InStockQty" min="0" max="@r.Item.InStockQty" required /></td>
-                                        }
-                                        <td class="text-right">
-                                            <a href="#" onclick="changeValue(0,@r.Item.InStockQty, @r.ItemID)" class="bg-secondary float-right mr-3  py-1 px-2 rounded text-white">
-                                                Reset
-                                            </a>
-                                            <a href="#" onclick="changeValue(@r.RequestQty,@r.Item.InStockQty, @r.ItemID)" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white">
-                                                Full Amt
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                        <div class="text-right p-5">
-                            <button type="button" onclick="window.history.back()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <input type="hidden" id="edit-date">
-                            <button type="submit" id="btnConfirm" class="btn btn-success add-todo">Confirm</button>
+                            <div class="text-right p-5">
+                                <button type="button" onclick="window.history.back()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <input type="hidden" id="edit-date">
+                                <button type="submit" id="btnConfirm" class="btn btn-success add-todo">Confirm</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
-
-<script>
-    //for reset and fullAmt button
-    function changeValue(quantity, instockQty, itemId) {
-        if (instockQty >= quantity) {
-            document.getElementById("fulfillQty-" + itemId).value = quantity;
-        } else {
-            document.getElementById("fulfillQty-" + itemId).value = instockQty;
+    </form>
+}
+    <script>
+        //for reset and fullAmt button
+        function changeValue(quantity, instockQty, itemId) {
+            if (instockQty >= quantity) {
+                document.getElementById("fulfillQty-" + itemId).value = quantity;
+            } else {
+                document.getElementById("fulfillQty-" + itemId).value = instockQty;
+            }
+            //$("fulfillQty-"+itemId).val(value);
         }
-        //$("fulfillQty-"+itemId).val(value);
-    }
 
-    //get todaydate and set min value for collectionDate
-    function GetMinDate() {
-        var date = new Date();
-        var dd = ("0" + date.getDate()).slice(-2);
-        var MM = ("0" + (date.getMonth() + 1)).slice(-2);
-        var yyyy = date.getFullYear();
-        var currentDate = yyyy + "-" + MM + "-" + dd;
-        var currentDate = yyyy + "-" + MM + "-" + dd;
-        document.getElementById("collectionTime").setAttribute("min", currentDate);
-    };
+        //get todaydate and set min value for collectionDate
+        function GetMinDate() {
+            var date = new Date();
+            var dd = ("0" + date.getDate()).slice(-2);
+            var MM = ("0" + (date.getMonth() + 1)).slice(-2);
+            var yyyy = date.getFullYear();
+            var currentDate = yyyy + "-" + MM + "-" + dd;
+            var currentDate = yyyy + "-" + MM + "-" + dd;
+            document.getElementById("collectionTime").setAttribute("min", currentDate);
+        };
 
-    //check if fulfill quantity is specified at least for one item
-    $("#btnConfirm").on("click", function (e) {
-        var sum = 0;
-        $("input[class=fulfillQty]").each(function () {
-            sum += parseInt($(this).val());
-        })
-        if (sum === 0) {
-            //alert(sum);
-            toastr["error"]("No disbursement issued");
-            e.preventDefault();
-        }
-    });
-</script>
-
-
-
-@*<script>
-        $('#btnConfirm').click(function (e) {
-            e.preventDefault;
-
-            var fulfillQtyList = [];
-            $('#fulfillQty').find('input:number').each(function () {
-                fulfillQtyList.push($(this).val());
-            });
-            //var model = {
-            //    id: $("#id").val(),
-            //    userId: $("#userId").val(),
-            //    fulfillQty: fulfillQtyList,
-            //    collectionTime: $("#collectionTime").val(),
-            //};
-
-
-            var id = $("#id").val();
-            var userId= $("#userId").val();
-            var fulfillQty= fulfillQtyList;
-            var collectionTime= $("#collectionTime").val();
-
-
-
-
-            $.ajax({
-                type: "POST",
-                url: "https://localhost:44312/Request/"+ id + "/" + userId + "/" + fulfillQty + "/" + collectionTime,
-                //data: JSON.stringify(model),
-                //contentType: "application/json; charset = utf-8",
-                //datatype: "json",
-                //async: true,
-                //cache: false,
-                //success: function (response) {
-                //    console.log(response);
-                //},
-                //error: function (x, e) {
-                //    console.log('err');
-                }
-            });
-
+        //check if fulfill quantity is specified at least for one item
+        $("#btnConfirm").on("click", function (e) {
+            var sum = 0;
+            $("input[class=fulfillQty]").each(function () {
+                sum += parseInt($(this).val());
+            })
+            if (sum === 0) {
+                //alert(sum);
+                toastr["error"]("No disbursement issued");
+                e.preventDefault();
+            }
         });
-    </script>*@
+    </script>
 
 
-@*<script>
-        $("body").on("click", "#btnConfirm", function () {
-            //Loop through the table rows and build JSON array
-            var reqItems = new Array();
-            $("#tblReqItems TBODY TR").each(function () {
-                var row = $(this);
-                var reqItem = {};
-                reqItem.requestDetailID = row.find("TD").eq(0).html();
-                reqItem.requestQty = row.find("TD").eq(5).html();
-                reqItem.itemID = row.find("TD").eq(2).html();
-                reqItem.fullfillQty = row.find("TD").eq(6).html();
-                reqItems.push(reqItem);
+
+    @*<script>
+            $('#btnConfirm').click(function (e) {
+                e.preventDefault;
+
+                var fulfillQtyList = [];
+                $('#fulfillQty').find('input:number').each(function () {
+                    fulfillQtyList.push($(this).val());
+                });
+                //var model = {
+                //    id: $("#id").val(),
+                //    userId: $("#userId").val(),
+                //    fulfillQty: fulfillQtyList,
+                //    collectionTime: $("#collectionTime").val(),
+                //};
+
+
+                var id = $("#id").val();
+                var userId= $("#userId").val();
+                var fulfillQty= fulfillQtyList;
+                var collectionTime= $("#collectionTime").val();
+
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:44312/Request/"+ id + "/" + userId + "/" + fulfillQty + "/" + collectionTime,
+                    //data: JSON.stringify(model),
+                    //contentType: "application/json; charset = utf-8",
+                    //datatype: "json",
+                    //async: true,
+                    //cache: false,
+                    //success: function (response) {
+                    //    console.log(response);
+                    //},
+                    //error: function (x, e) {
+                    //    console.log('err');
+                    }
+                });
+
             });
+        </script>*@
 
-            //Send the JSON array to Controller using AJAX.
-            $.ajax({
-                type: "POST",
-                url: "/Disbursement/Create",
-                data: JSON.stringify(reqItems),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (r) {
-                    alert(r + " record(s) inserted.");
-                }
-            });
-        })
-    </script>*@
+
+    @*<script>
+            $("body").on("click", "#btnConfirm", function () {
+                //Loop through the table rows and build JSON array
+                var reqItems = new Array();
+                $("#tblReqItems TBODY TR").each(function () {
+                    var row = $(this);
+                    var reqItem = {};
+                    reqItem.requestDetailID = row.find("TD").eq(0).html();
+                    reqItem.requestQty = row.find("TD").eq(5).html();
+                    reqItem.itemID = row.find("TD").eq(2).html();
+                    reqItem.fullfillQty = row.find("TD").eq(6).html();
+                    reqItems.push(reqItem);
+                });
+
+                //Send the JSON array to Controller using AJAX.
+                $.ajax({
+                    type: "POST",
+                    url: "/Disbursement/Create",
+                    data: JSON.stringify(reqItems),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        alert(r + " record(s) inserted.");
+                    }
+                });
+            })
+        </script>*@
 

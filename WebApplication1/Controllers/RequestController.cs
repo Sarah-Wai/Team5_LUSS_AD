@@ -472,8 +472,12 @@ namespace LUSS_API.Controllers
                 c.RequestByName = r.RequestByUser.FirstName + " " + r.RequestByUser.LastName;
                 c.ModifiedByName = r.ModifiedByUser.FirstName + " " + r.ModifiedByUser.LastName;
                 c.DepartmentName = r.RequestByUser.Department.DepartmentName;
-                User rep = context123.User.First(x => x.DepartmentID == r.RequestByUser.DepartmentID && x.IsRepresentative == true);
-                c.DepartmentRep = rep.FirstName + " " + rep.LastName;
+                User rep = context123.User.FirstOrDefault(x => x.DepartmentID == r.RequestByUser.DepartmentID && x.IsRepresentative == true);
+                if (rep != null)
+                {
+                    c.DepartmentRep = rep.FirstName + " " + rep.LastName;
+                }
+                else c.DepartmentRep = null;
                 c.CollectionPoint = r.RequestByUser.Department.CollectionPoint.PointName;
                 
                 customRequests.Add(c);
@@ -523,8 +527,25 @@ namespace LUSS_API.Controllers
             
             return "ok";
         }
+
+
+        [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}")]
+        public void GetAllocateStationary(string acceptedQty, int retrievalID)
+        {
+            //parse string to array
+            string[] separators = { ",", "[", "]" };
+            string[] str = acceptedQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            List<int> qty = new List<int>();
+            foreach (var s in str)
+            {
+                qty.Add(int.Parse(s));
+            }
+            
+            allocateStationary(qty, retrievalID);
+
+        }
     }
 
-    
 
-    }
+
+}

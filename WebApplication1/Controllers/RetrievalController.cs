@@ -311,7 +311,7 @@ namespace LUSS_API.Controllers
 
         [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
         [Route("mobile/allocateQty/{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
-        public List<User> MallocateFulfilledQty(string retrievedQty, int retrievalId, string collectionDate, int id)
+        public String MallocateFulfilledQty(string retrievedQty, int retrievalId, string collectionDate, int id)
         {
             //parse string to array
             string[] separators = { ",", "[", "]" };
@@ -322,8 +322,9 @@ namespace LUSS_API.Controllers
                 qty.Add(int.Parse(s));
             }
 
-            return allocateFulfilledQty(qty, retrievalId, collectionDate, id);
+            allocateFulfilledQty(qty, retrievalId, collectionDate, id);
 
+            return "ok";
         }
     }
 }

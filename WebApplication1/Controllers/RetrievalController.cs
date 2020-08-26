@@ -287,26 +287,35 @@ namespace LUSS_API.Controllers
             IEnumerable<dynamic> requests = GetRequestByStatus("Approved");
             List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
 
-            foreach (var r in requests)
+            if(requests == null)
             {
-                CustomRetrieval rt = new CustomRetrieval
-                {
-                    RetrievalID = r.RetrievalID,
-                    ReStockLevel = r.ReorderLevel,
-                    ItemID = r.ItemID,
-                    ItemCode = r.ItemCode,
-                    ItemName = r.ItemName,
-                    UOM = r.UOM,
-                    ItemPrice = r.ItemPrice,
-                    Location = r.Location,
-                    InStockQty = r.InStock,
-                    CategoryName = r.Category,
-                    TotalQty = r.TotalQty
-                };
-
-                retrievals.Add(rt);
+                return null;
             }
-            return retrievals;
+            else
+            {
+                foreach (var r in requests)
+                {
+                    CustomRetrieval rt = new CustomRetrieval
+                    {
+                        RetrievalID = r.RetrievalID,
+                        ReStockLevel = r.ReorderLevel,
+                        ItemID = r.ItemID,
+                        ItemCode = r.ItemCode,
+                        ItemName = r.ItemName,
+                        UOM = r.UOM,
+                        ItemPrice = r.ItemPrice,
+                        Location = r.Location,
+                        InStockQty = r.InStock,
+                        CategoryName = r.Category,
+                        TotalQty = r.TotalQty
+                    };
+
+                    retrievals.Add(rt);
+                }
+                return retrievals;
+            }
+
+            
         }
 
         [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]

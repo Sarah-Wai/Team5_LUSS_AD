@@ -479,6 +479,153 @@ namespace LUSS_API.Controllers
 
             return isRemoved;
         }
+
+        //for mobile
+        [HttpGet("{status}")]
+        [Route("get-request-by-status-mobile/{status}")]
+        public IEnumerable<CustomRequest> MGetApprovedRequest(EOrderStatus status)
+        {
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == status).ToList();
+            List<CustomRequest> customRequests = new List<CustomRequest>();
+            
+            foreach (Request r in requestList)
+            {
+                CustomRequest c = new CustomRequest();
+                c.RequestID = r.RequestID;
+                c.RequestStatus = r.RequestStatus;
+                c.RequestDate = r.RequestDate;
+                c.RequestBy = r.RequestBy;
+                c.ModifiedBy = r.ModifiedBy;
+                c.Comment = r.Comment;
+                c.RequestType = r.RequestType;
+                c.ParentRequestID = r.ParentRequestID;
+                c.CollectionTime = r.CollectionTime;
+                c.RetrievalID = r.RetrievalID;
+                c.RequestByName = r.RequestByUser.FirstName + " " + r.RequestByUser.LastName;
+                c.ModifiedByName = r.ModifiedByUser.FirstName + " " + r.ModifiedByUser.LastName;
+                c.DepartmentName = r.RequestByUser.Department.DepartmentName;
+                User rep = context123.User.FirstOrDefault(x => x.DepartmentID == r.RequestByUser.DepartmentID && x.IsRepresentative == true);
+                if (rep != null)
+                {
+                    c.DepartmentRep = rep.FirstName + " " + rep.LastName;
+                }
+                else c.DepartmentRep = null;
+                c.CollectionPoint = r.RequestByUser.Department.CollectionPoint.PointName;
+                
+                customRequests.Add(c);
+            }
+            return customRequests;
+        }
+
+
+        //mobile API
+
+        [HttpGet("GetItemByRetrievalByDept/{retrId}/{deptId}")]
+        public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
+        {
+            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId);
+            IEnumerable<dynamic> requests_byDept = requests.Where(x => x.deptId == deptId).ToList();
+            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
+
+            foreach (var r in requests_byDept)
+            {
+                CustomRetrieval rt = new CustomRetrieval
+                {
+                    ItemID = r.itemIds,
+                    ItemCode = r.itemCode,
+                    ItemName = r.itemName,
+                    UOM = r.itemUOM,
+                    RequestedQty = r.totalQty
+                };
+
+                retrievals.Add(rt);
+            }
+            return retrievals;
+        }
+
+        [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]
+        public String MDisburseByRequest(int id, int userId, string collectionTime, string fulfillQty)
+        {
+            //parse string to array
+            string[] separators = { ",", "[", "]" };
+            string[] str = fulfillQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            List<int> qty = new List<int>();
+            foreach (var s in str)
+            {
+                qty.Add(int.Parse(s));
+            }
+
+            DisburseByRequest(id, userId, collectionTime, qty);
+            
+            return "ok";
+        }
+
+        [HttpGet("{status}/{deptId}")]
+        [Route("GetRequestMBByStatusByDept/{status}/{deptId}")]
+        public IEnumerable<Request> GetRequestMBByStatusByDept(string status, int deptId)
+        {
+            EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+            List<Request> requestList = (from r in context123.Request
+                                         where r.RequestStatus == st
+                                          && r.RequestByUser.DepartmentID == deptId
+                                         select r).ToList();
+            List<Request> return_requestList = new List<Request>();
+            foreach (Request r in requestList)
+            {
+
+                Request new_request = new Request()
+                {
+           
+                                             RequestID = r.RequestID,
+                                             RequestStatus = r.RequestStatus,
+                                             RequestDate = r.RequestDate,
+                                             RequestBy = r.RequestBy,
+                                             ModifiedBy = r.ModifiedBy,
+                                             Comment = r.Comment,
+                                             RequestType = r.RequestType,
+                                             ParentRequestID = r.ParentRequestID,
+                                             CollectionTime = r.CollectionTime,
+                                             RetrievalID = r.RetrievalID,
+                                             ModifiedByUser = new User { UserID = r.ModifiedByUser.UserID, FirstName = r.ModifiedByUser.FirstName, LastName = r.ModifiedByUser.LastName },
+                                             RequestByUser = new User { UserID = r.RequestByUser.UserID, FirstName = r.RequestByUser.FirstName, LastName = r.RequestByUser.LastName },
+                                            Retrieval = null
+
+                };
+                List<RequestDetails> details = PrepareForRequestDetail(r.RequestDetails);
+                new_request.RequestDetails = details;
+                return_requestList.Add(new_request);
+            }
+          
+                                      
+            return return_requestList;
+        }
+
+        public List<RequestDetails> PrepareForRequestDetail(ICollection<RequestDetails> details)
+        {
+            List<RequestDetails> return_list = new List<RequestDetails>();
+            foreach (RequestDetails d in details)
+            {
+                RequestDetails requestDetails = new RequestDetails()
+                {
+                    RequestDetailID = d.RequestDetailID,
+                    RequestQty = d.RequestQty,
+                    ItemID = d.ItemID,
+                    RequestID =d.RequestID,
+                    FullfillQty =d.FullfillQty,
+                    ReceivedQty = d.ReceivedQty,
+                    isActive = d.isActive,
+                    Item=new Item { ItemName=d.Item.ItemName,UOM=d.Item.UOM}
+
+
+                };
+
+                return_list.Add(requestDetails);
+
+            }
+           
+            return return_list;
+        }
     }
 
 

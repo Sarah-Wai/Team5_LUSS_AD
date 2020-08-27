@@ -195,26 +195,34 @@ namespace LUSS_API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        [Route("DeleteDelegateMB/{id}")]
-        public dynamic DeleteDelegateMB(int id)
+        [HttpGet("{DMid}")]
+        [Route("DeleteDelegateMB/{DMid}")]
+        public dynamic DeleteDelegateMB(int DMid)
         {
             try
             {
-                User user = context123.User.First(c => c.DelegatedManager.DelegatedManagerID == id);
-                if (user != null)
+                DelegatedManager delegated = context123.DelegatedManager.First(c => c.DelegatedManagerID == DMid);
+                if (delegated != null)
                 {
-                    user.DelegatedManager = new DelegatedManager();
+
+                    //User user = context123.User.First(c => c.UserID == delegated.UserID);
+                    //if (user != null)
+                    //{
+
+                    //    user.DelegatedManager = new DelegatedManager();
+                    //}
+                    //context123.SaveChanges();
+
+                    context123.DelegatedManager.Remove(delegated);
+                    context123.SaveChanges();
+
+                    User Ruser = context123.User.Where(x => x.UserID == delegated.UserID).FirstOrDefault();
+
+                    dynamic returnData = getCurrentDelegate(Ruser.DepartmentID);
+                    return returnData;
                 }
-                //context123.SaveChanges();
-                DelegatedManager delegated = context123.DelegatedManager.First(c => c.DelegatedManagerID == id);
-                context123.DelegatedManager.Remove(delegated);
-                context123.SaveChanges();
-
-                User Ruser = context123.User.Where(x => x.UserID == delegated.UserID).FirstOrDefault();
-
-                dynamic returnData = getCurrentDelegate(Ruser.DepartmentID);
-                return returnData;
+                else return null;
+              
             }
             catch (Exception ex)
             {

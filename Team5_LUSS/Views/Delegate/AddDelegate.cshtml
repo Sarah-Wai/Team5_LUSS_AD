@@ -47,9 +47,9 @@
                             <tr>
 
                                 <th scope="col">Name</th>
-                                <th scope="col">Strat Date</th>
+                                <th scope="col">Start Date</th>
                                 <th scope="col">End Date</th>
-                                <th scope="col">Will Active</th>
+                                <th scope="col">Active</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -137,7 +137,7 @@
                             <input type="hidden" name="UserID" id="userID" value="" asp-for="UserID" />
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Set Time Range<small><span id="sp_selectUser"></span></small></h4>
+                                    <h4 class="card-title">Set Date Range<small><span id="sp_selectUser"></span></small></h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group col-md-12">
@@ -174,10 +174,11 @@
                                         <label for="requestID" class="col-sm-8 col-form-label"><span id="lblEndDate"></span></label>
 
                                     </div>
-                                    <div class="row" id="btn_gp" style="display:none;">
-                                        <div class="col-sm-2">&nbsp;&nbsp;&nbsp;</div>
-                                        <button type="submit" class="btn btn-success" id="btnAssign">Assign</button> <span>&nbsp;&nbsp;&nbsp;</span>
-                                        <button type="reset" class="btn btn-primary">Cancel</button>
+                                    <div class="row">
+                                        <div class="col-sm-2" id="btn_gp" style="display:none;"></div>
+                                        <span>&nbsp;&nbsp;&nbsp;</span><button type="reset" class="btn btn-primary">Cancel</button>
+                                        <span>&nbsp;&nbsp;&nbsp;</span><button type="submit" class="btn btn-success" id="btnAssign">Assign</button> 
+
                                     </div>
                                 </div>
                             </div>

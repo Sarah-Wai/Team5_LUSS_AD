@@ -109,7 +109,7 @@ namespace LUSS_API.DB
                 Role = "store_manager",
                 Designation = "Senior Officer",
                 IsRepresentative = false,
-                ReportToID = null,
+                ReportToID = 1,
                 DepartmentID = 10
             };
             User u8 = new User()
@@ -123,7 +123,7 @@ namespace LUSS_API.DB
                 Role = "store_supervisor",
                 Designation = "Junior Officer",
                 IsRepresentative = false,
-                ReportToID = u7.UserID,
+                ReportToID = 1,
                 DepartmentID = 10
             };
            

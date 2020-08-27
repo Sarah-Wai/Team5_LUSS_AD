@@ -63,16 +63,16 @@ namespace Team5_LUSS.Controllers
                 }
             
 
-            using (var response = await httpClient.GetAsync(api_url + "/get-manager" + "/" + userId))
+            //using (var response = await httpClient.GetAsync(api_url + "/get-manager" + "/" + userId))
 
-                {
-                apiResponse = await response.Content.ReadAsStringAsync();
-                 user = JsonConvert.DeserializeObject<User>(apiResponse);
-                }
+            //    {
+            //    apiResponse = await response.Content.ReadAsStringAsync();
+            //     user = JsonConvert.DeserializeObject<User>(apiResponse);
+            //    }
             }
             string msg = "Assign Successfully!";
 
-            
+            /*
             MailMessage mm = new MailMessage();
             {
                 string Email = "iantanze@gmail.com";
@@ -91,7 +91,7 @@ namespace Team5_LUSS.Controllers
 
                 ViewBag.message = "Email notification sent";
             }
-
+            */
             return RedirectToAction("AdjustmentVouchers", "AdjustmentList"); 
         }
 
@@ -108,15 +108,15 @@ namespace Team5_LUSS.Controllers
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
-                using (var response = await httpClient.GetAsync(api_url + "/get_manager" + "/" + userId))
+                //using (var response = await httpClient.GetAsync(api_url + "/get_manager" + "/" + userId))
 
-                {
-                    apiResponse = await response.Content.ReadAsStringAsync();
-                    user = JsonConvert.DeserializeObject<User>(apiResponse);
-                }
+                //{
+                //    apiResponse = await response.Content.ReadAsStringAsync();
+                //    user = JsonConvert.DeserializeObject<User>(apiResponse);
+                //}
             }
             string msg = "Remove Successfully!";
-            
+            /*
             MailMessage mm = new MailMessage(); // (email address >> receiver, subject, body )
             {
                 mm.To.Add(user.Email); // content specific
@@ -133,7 +133,7 @@ namespace Team5_LUSS.Controllers
                 client.Send(mm);
                 ViewBag.message = "Email notification sent";
             }
-            
+            */
 
             //return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
 

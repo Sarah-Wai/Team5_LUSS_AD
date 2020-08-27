@@ -43,27 +43,30 @@ namespace LUSS_API.Controllers
             User user = (from i in context123.User
                          where i.Email == Email && i.Password == Password
                          select i).FirstOrDefault();
-            User retun_user = new User()
+            if( user!= null)
             {
-                UserID = user.UserID,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                ContactNumber = user.ContactNumber,
-                DepartmentID=user.DepartmentID,
-                Email = user.Email,
-                Password = user.Password,
-                Role = user.Role,
-                IsRepresentative = user.IsRepresentative,
-                Designation = user.Designation,
-                ReportToID = user.ReportToID,
-                Department= user.Department == null? context123.Department.First(x => x.DepartmentID == user.DepartmentID): user.Department ,
-        };
+                User retun_user = new User()
+                {
+                    UserID = user.UserID,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    ContactNumber = user.ContactNumber,
+                    DepartmentID = user.DepartmentID,
+                    Email = user.Email,
+                    Password = user.Password,
+                    Role = user.Role,
+                    IsRepresentative = user.IsRepresentative,
+                    Designation = user.Designation,
+                    ReportToID = user.ReportToID,
+                    Department = user.Department == null ? context123.Department.First(x => x.DepartmentID == user.DepartmentID) : user.Department,
+                };
 
-            if(retun_user != null)
-            {
                 return retun_user;
             }
             else { return null; }
+
+
+
         }
 
         [HttpGet("MobileLogin/{Email}/{Password}")]
@@ -71,18 +74,18 @@ namespace LUSS_API.Controllers
         {
             string hpwd = Encrypt(Password);
             User user = CheckLogin(Email, hpwd);
-            User n_user = new User
+            if (user != null)
             {
-                Email = user.Email,
-                Password = user.Password,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                DepartmentID = user.DepartmentID,
-                Role = user.Role,
-                UserID = user.UserID,
-            };
-            if(n_user != null)
-            {
+                User n_user = new User
+                {
+                    Email = user.Email,
+                    Password = user.Password,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    DepartmentID = user.DepartmentID,
+                    Role = user.Role,
+                    UserID = user.UserID,
+                };
                 return n_user;
             }
             else

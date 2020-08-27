@@ -10,50 +10,55 @@
     int count = 0;
     if (@Context.Session.GetString("countSession") != null)
     {
-        count = Int32.Parse (@Context.Session.GetString("countSession"));
+        count = Int32.Parse(@Context.Session.GetString("countSession"));
     }
-
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
+@if (UserRole == "dept_employee" || UserRole == "dept_rep")
+{
 
-<a href="#" class="nav-link dropdown" data-toggle="dropdown" aria-expanded="false">
-    <i class="icon-basket h4"></i>
-    @if(count != 0)
-    {
-        <span>@count</span>
-    }
-    <span class="badge badge-default">
-        <span class="ring">
-        </span><span class="ring-point">
-        </span>
-    </span>
-</a>
-<ul class="dropdown-menu dropdown-menu-right border  py-0 dropdown-content">
-    @if (@Context.Session.GetString("addedItemSession") != null)
-    {
-        foreach (var item in cartItems)
+    <a href="#" class="nav-link dropdown" data-toggle="dropdown" aria-expanded="false">
+        <i class="icon-basket h4"></i>
+        @if (count != 0)
         {
-            string img = "/images/itemImgs/" + item.ItemCode + ".jpg";
-            <li>
-                <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
-                    <div class="media">
-                        <img src=@img alt="" class="d-flex mr-3 img-fluid rounded-circle">
-                        <div class="media-body">
-                            <p class="mb-0">@item.ItemName</p>
-                            <span class="text-success">Quantity : @item.SelectedQty</span>
-                        </div>
-                    </div>
-                </a>
-            </li>
+            <span>@count</span>
         }
-        <li><a class="dropdown-item text-center py-2" href="@Url.Action("ViewCart", "ItemList")">View Cart<i class="icon-arrow-right pl-2 small"></i></a></li>
-    }
-    else
-    {
-        <li><a class="dropdown-item text-center py-2" href="#">No item in cart.<i class="icon-arrow-right pl-2 small"></i></a></li>
-    }
+        <span class="badge badge-default">
+            <span class="ring">
+            </span><span class="ring-point">
+            </span>
+        </span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right border  py-0 dropdown-content">
+        @if (@Context.Session.GetString("addedItemSession") != null)
+        {
+            foreach (var item in cartItems)
+            {
+                string img = "/images/itemImgs/" + item.ItemCode + ".jpg";
+                <li>
+                    <a class="dropdown-item px-2 py-2 border border-top-0 border-left-0 border-right-0" href="#">
+                        <div class="media">
+                            <img src=@img alt="" class="d-flex mr-3 img-fluid rounded-circle">
+                            <div class="media-body">
+                                <p class="mb-0">@item.ItemName</p>
+                                <span class="text-success">Quantity : @item.SelectedQty</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            }
+            <li><a class="dropdown-item text-center py-2" href="@Url.Action("ViewCart", "ItemList")">View Cart<i class="icon-arrow-right pl-2 small"></i></a></li>
+        }
+        else
+        {
+            <li><a class="dropdown-item text-center py-2" href="#">No item in cart.<i class="icon-arrow-right pl-2 small"></i></a></li>
+        }
 
 
 
 
-</ul>
+    </ul>
+}
 

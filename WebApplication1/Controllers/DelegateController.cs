@@ -117,12 +117,31 @@ namespace LUSS_API.Controllers
 
         [HttpPost]
         [Route("SaveDelegatedManager")]
-        public async Task<String> SaveDelegatedManager(DelegatedManager delegatedManager)
+        public String SaveDelegatedManager(DelegatedManager delegatedManager)
         {
-            context123.DelegatedManager.Add(delegatedManager);
-            await context123.SaveChangesAsync();
+            try
+            {
+               
 
-            return "Success";
+                if (delegatedManager.FromDate.Date == DateTime.Now.Date)
+                {
+                    delegatedManager.isActive = true;
+                    User user = context123.User.Where(x => x.UserID == delegatedManager.UserID).FirstOrDefault();
+                    if (user != null)
+                    {
+                        user.Role = "dept_delegate";
+
+                    }
+                }
+                context123.DelegatedManager.Add(delegatedManager);
+                context123.SaveChanges();
+              
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                return "fail";
+            }
         }
 
         [HttpGet("{userId}/{fromDate}/{toDate}")]
@@ -139,7 +158,11 @@ namespace LUSS_API.Controllers
                 dm.UserID = userId;
                 dm.FromDate = fTime;
                 dm.ToDate = ttime;
-                if (fTime.Date == DateTime.Now.Date) dm.isActive = true;
+                if (fTime.Date == DateTime.Now.Date)
+                {
+                    dm.isActive = true;
+                    user.Role = "dept_delegate";
+                }
                 else dm.isActive = false;
                 context123.DelegatedManager.Add(dm);
                 
@@ -169,7 +192,7 @@ namespace LUSS_API.Controllers
                         current_delegatedUser = new User { UserID = return_delegated.User.UserID, FirstName = return_delegated.User.FirstName, LastName = return_delegated.User.LastName };
                     }
                 }
-                List<User> Users = context123.User.Where(x => x.DepartmentID == user.DepartmentID).ToList();
+                List<User> Users = context123.User.Where(x => x.DepartmentID == user.DepartmentID && x.ReportToID!=null).ToList();
                 List<User> return_users = new List<User>();
                 foreach (User u in Users)
                 {
@@ -222,11 +245,14 @@ namespace LUSS_API.Controllers
                 if (user != null)
                 {
                     user.DelegatedManager = new DelegatedManager();
+                    user.Role = "dept_employee";
                 }
                 //context123.SaveChanges();
                 DelegatedManager delegated = context123.DelegatedManager.First(c => c.DelegatedManagerID == id);
                 context123.DelegatedManager.Remove(delegated);
                 context123.SaveChanges();
+
+
                 return "Success";
             }
             catch (Exception ex)
@@ -245,12 +271,12 @@ namespace LUSS_API.Controllers
                 if (delegated != null)
                 {
 
-                    //User user = context123.User.First(c => c.UserID == delegated.UserID);
-                    //if (user != null)
-                    //{
-
-                    //    user.DelegatedManager = new DelegatedManager();
-                    //}
+                    User user = context123.User.First(c => c.UserID == delegated.UserID);
+                    if (user != null)
+                    {
+                        if(delegated.isActive==true)
+                        user.Role = "dept_employee";
+                    }
                     //context123.SaveChanges();
 
                     context123.DelegatedManager.Remove(delegated);

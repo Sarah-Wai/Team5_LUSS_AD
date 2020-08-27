@@ -1,121 +1,127 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Purchase Orders - PO History";
     var purchases = (List<PurchaseOrder>)ViewData["purchases"];
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
 
-
-<div class="container-fluid site-width">
-    <!-- START: Card Data-->
-    <div class="row ">
-        <div class="col-12  align-self-center">
-            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
-            </div>
-            @*<div class="btn-group mb-2">
-                <a asp-controller="Purchase" asp-action="ViewLowStockItems" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                    Low Stock
-                </a>
-                <a asp-controller="Purchase" asp-action="PurchaseOrders" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                    PO History
-                </a>*@
+@if (UserRole == "store_clerk")
+{
+    <div class="container-fluid site-width">
+        <!-- START: Card Data-->
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+                </div>
+                @*<div class="btn-group mb-2">
+                    <a asp-controller="Purchase" asp-action="ViewLowStockItems" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                        Low Stock
+                    </a>
+                    <a asp-controller="Purchase" asp-action="PurchaseOrders" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                        PO History
+                    </a>*@
                 @*<a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-            New PO
-        </a>*@
-            @*</div>*@
-        </div>
-    </div>
-
-
-    <div class="row row-eq-height">
-        <!--Start of side-bar filter-->
-        <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
-            <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
-            <div class="card border h-100 invoice-menu-section">
-                <ul class="nav flex-column invoice-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="PurchaseOrders">
-                            All Requests
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="PurchaseOrders" asp-route-status="Pending">
-                            Pending
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="PurchaseOrders" asp-route-status="Completed">
-                            Completed
-                        </a>
-                    </li>
-                </ul>
+                        New PO
+                    </a>*@
+                @*</div>*@
             </div>
         </div>
-        <!--End of side-bar filter-->
-        <div class="col-12 col-lg-10 mt-3 pl-lg-0">
-            <div class="card border h-100 invoice-list-section">
-                @*<div class="card-header border-bottom p-1 d-flex">
-                    <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
-                    <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
-                </div>*@
-                <div class="col-12 col-md-12">
-                    <div class="card-body p-0">
-                        <div class="invoices list">
-                            @foreach (var p in purchases)
-                            {
-                                var statuscolor = "";
-                                string status = p.Status.ToString();
-                                switch (status)
-                                {
-                                    case "Completed":
-                                        statuscolor = "badge-success";
-                                        break;
-                                    case "Pending":
-                                        statuscolor = "badge-warning";
-                                        break;
-                                    default:
-                                        statuscolor = "badge-primary";
-                                        break;
-                                }
 
-                                <div class="invoice">
-                                    <div class="invoice-content" data-status="generated-invoice">
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Issued Date: </p>
-                                            <p class="invocie-date">@p.CreatedOn.ToString("dd MMM yyyy")</p>
-                                        </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">PO No.: </p>
-                                            <p class="invoice-no">@p.PONo</p>
-                                        </div>
-                                        <div class="invoice-info">
-                                            <p class="mb-0 small">Status </p>
-                                            <p class="invoice-date badge @statuscolor">@p.Status</p>
-                                        </div>
-                                        <div class="mr-3">
-                                            <a asp-action="PurchaseOrderDetails" asp-route-id="@p.POID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                                                Details
-                                            </a>
-                                        </div>
-                                        @if (p.Status == PurchaseOrderStatus.POStatus.Pending)
-                                        {
+
+        <div class="row row-eq-height">
+            <!--Start of side-bar filter-->
+            <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
+                <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
+                <div class="card border h-100 invoice-menu-section">
+                    <ul class="nav flex-column invoice-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="PurchaseOrders">
+                                All Requests
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="PurchaseOrders" asp-route-status="Pending">
+                                Pending
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="PurchaseOrders" asp-route-status="Completed">
+                                Completed
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--End of side-bar filter-->
+            <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+                <div class="card border h-100 invoice-list-section">
+                    @*<div class="card-header border-bottom p-1 d-flex">
+                            <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
+                            <input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">
+                        </div>*@
+                    <div class="col-12 col-md-12">
+                        <div class="card-body p-0">
+                            <div class="invoices list">
+                                @foreach (var p in purchases)
+                                {
+                                    var statuscolor = "";
+                                    string status = p.Status.ToString();
+                                    switch (status)
+                                    {
+                                        case "Completed":
+                                            statuscolor = "badge-success";
+                                            break;
+                                        case "Pending":
+                                            statuscolor = "badge-warning";
+                                            break;
+                                        default:
+                                            statuscolor = "badge-primary";
+                                            break;
+                                    }
+
+                                    <div class="invoice">
+                                        <div class="invoice-content" data-status="generated-invoice">
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Issued Date: </p>
+                                                <p class="invocie-date">@p.CreatedOn.ToString("dd MMM yyyy")</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">PO No.: </p>
+                                                <p class="invoice-no">@p.PONo</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Status </p>
+                                                <p class="invoice-date badge @statuscolor">@p.Status</p>
+                                            </div>
                                             <div class="mr-3">
-                                                <a asp-action="ReceivePO" asp-route-id="@p.POID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                                                    Receiving
+                                                <a asp-action="PurchaseOrderDetails" asp-route-id="@p.POID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                                    Details
                                                 </a>
                                             </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="mr-3"></div>
-                                        }
+                                            @if (p.Status == PurchaseOrderStatus.POStatus.Pending)
+                                            {
+                                                <div class="mr-3">
+                                                    <a asp-action="ReceivePO" asp-route-id="@p.POID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                                        Receiving
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="mr-3"></div>
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+}

@@ -2,86 +2,91 @@
 @{
     ViewData["Title"] = "RequestHistory";
     var requests = (List<Request>)ViewData["requests"];
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
-
-<h1>Request History</h1>
-<!-- START: Card Data-->
-<div>
-    <select class="btn btn-outline-info ddlStatus" id="SelectedStatus" name="SelectedStatus" onchange="searchStatus()">
-        <option value="All">All</option>
-        <option value="Pending">Pending</option>
-        <option value="Approved">Approved</option>
-        <option value="Rejected">Rejected</option>
-        <option value="Received">Received</option>
-        <option value="Cancelled">Cancelled</option>
-    </select>
-</div>
-<div class="row">
-    <div class="col-12 mt-3">
-        <div class="card">
-            <div class="card-header  justify-content-between align-items-center">
-                <h4 class="card-title">Requests</h4>
-            </div>
-            <div class="card-body table-responsive">
-                <table id="tblStatus" class="table table-bordered  table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th>Submitted Date</th>
-                            <th>Status</th>
-                            <th>View Detail</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (requests != null)
-                        {
-                        @foreach (var request in requests)
-                        {
-
-                            var statuscolor = "";
-                            string status = request.RequestStatus.ToString();
-                            switch (status)
-                            {
-                                case "Approved":
-                                    statuscolor = "badge-success";
-                                    break;
-                                case "Pending":
-                                    statuscolor = "badge-warning";
-                                    break;
-                                case "Rejected":
-                                    statuscolor = "badge-danger";
-                                    break;
-                                case "Received":
-                                    statuscolor = "badge-primary";
-                                    break;
-                                case "Cancelled":
-                                    statuscolor = "badge-danger";
-                                    break;
-                                default:
-                                    statuscolor = "badge-primary";
-                                    break;
-                            }
-
-
-
-
+@if (DeptId == 10 && UserRole == "store_supervisor" || UserRole == "store_manager")
+{
+    <h1>Request History</h1>
+    <!-- START: Card Data-->
+    <div>
+        <select class="btn btn-outline-info ddlStatus" id="SelectedStatus" name="SelectedStatus" onchange="searchStatus()">
+            <option value="All">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Received">Received</option>
+            <option value="Cancelled">Cancelled</option>
+        </select>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-header  justify-content-between align-items-center">
+                    <h4 class="card-title">Requests</h4>
+                </div>
+                <div class="card-body table-responsive">
+                    <table id="tblStatus" class="table table-bordered  table-hover mb-0">
+                        <thead>
                             <tr>
-                                <td>@request.RequestDate</td>
-                                <td><span class="badge @statuscolor text-white">@request.RequestStatus</span></td>
-                                <td>
-                                    <a class="btn btn-outline-info rounded-btn" asp-controller="StationeryRequests" asp-action="ViewRequestDetail" asp-route-id="@request.RequestID">Detail</a>
-                                </td>
+                                <th>Submitted Date</th>
+                                <th>Status</th>
+                                <th>View Detail</th>
                             </tr>
-                        }}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @if (requests != null)
+                            {
+                                @foreach (var request in requests)
+                                {
+
+                                    var statuscolor = "";
+                                    string status = request.RequestStatus.ToString();
+                                    switch (status)
+                                    {
+                                        case "Approved":
+                                            statuscolor = "badge-success";
+                                            break;
+                                        case "Pending":
+                                            statuscolor = "badge-warning";
+                                            break;
+                                        case "Rejected":
+                                            statuscolor = "badge-danger";
+                                            break;
+                                        case "Received":
+                                            statuscolor = "badge-primary";
+                                            break;
+                                        case "Cancelled":
+                                            statuscolor = "badge-danger";
+                                            break;
+                                        default:
+                                            statuscolor = "badge-primary";
+                                            break;
+                                    }
+
+
+
+
+                                    <tr>
+                                        <td>@request.RequestDate</td>
+                                        <td><span class="badge @statuscolor text-white">@request.RequestStatus</span></td>
+                                        <td>
+                                            <a class="btn btn-outline-info rounded-btn" asp-controller="StationeryRequests" asp-action="ViewRequestDetail" asp-route-id="@request.RequestID">Detail</a>
+                                        </td>
+                                    </tr>
+                                }}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+    @section Scripts{
 
-@section Scripts{
-
-    <script>
+        <script>
        //setting auto default '0' inside Session
         $(document).ready(function () {
                                     //get selected category value from session to show seleced category when page reload after search
@@ -104,7 +109,7 @@
                 }
             })
         }
-       
-    </script>
 
-}
+        </script>
+
+    }

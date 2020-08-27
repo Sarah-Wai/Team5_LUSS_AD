@@ -1,389 +1,396 @@
 ﻿@model AdjustmentVoucher
+@using Microsoft.AspNetCore.Http;
 @{
 
     ViewData["Title"] = "Retrieval Form";
     List<dynamic> items = (List<dynamic>)ViewData["items"];
     int? retrievalID = items.Select(x => x.retrievalID).FirstOrDefault();
     int userId = (int)ViewData["userId"];
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
-<form asp-action="CompleteRetrieval" method="post">
-    <div class="container-fluid site-width">
-        <div>
-            <div class="row">
-                <div class="col-12 col-md-12">
-                    <div class="card border-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+@if (UserRole == "store_clerk")
+{
+    <form asp-action="CompleteRetrieval" method="post">
+        <div class="container-fluid site-width">
+            <div>
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-                @*table content*@
-                <div class="col-12 col-md-12">
-                    <div class="card border-0">
-                        <div class="card-body table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <td colspan="10"><b>Collection Date: </b><input type="date" name="collectionDate" id="collectionDate" /></td>
-                                        <input type="hidden" value="@retrievalID" name="retrievalID" />
-                                        <input type="hidden" value="@userId" name="id" />
-                                    </tr>
-                                    <tr>
-                                        <td class="text-right"><b>Item Code</b></td>
-                                        <td class="text-right"><b>Description</b></td>
-                                        <td class="text-right"><b>Location</b></td>
-                                        <td class="text-right"><b>UOM</b></td>
-                                        <td class="text-right"><b>Requested Qty</b></td>
-                                        <td class="text-right"><b>InStock Qty</b></td>
-                                        <td class="text-right"><b>Retrieved Qty</b></td>
-                                        <td class="text-right"><b></b></td>
-                                        <td class="text-right"><b></b></td>
-                                    </tr>
-                                </thead>
-                                <tbody id="itemlist">
-                                   
-                                    @foreach (var item in items)
-                                    {
-                                        <tr id="list">
-
-                                            @if (item.inStock <= item.reorderLevel)
-                                            {
-                                                <td class="text-right text-danger">@item.itemCode</td>
-                                                <td class="text-right text-danger">@item.itemName</td>
-                                                <td class="text-right text-danger">@item.location</td>
-                                                <td class="text-right text-danger">@item.uom</td>
-                                                <td class="text-right text-danger">@item.totalQty</td>
-                                                <td class="text-right text-danger">@item.inStock</td>
-                                            }
-                                            @if (item.inStock > item.reorderLevel)
-                                            {
-                                                <td class="text-right">@item.itemCode</td>
-                                                <td class="text-right">@item.itemName</td>
-                                                <td class="text-right">@item.location</td>
-                                                <td class="text-right">@item.uom</td>
-                                                <td class="text-right">@item.totalQty</td>
-                                                <td class="text-right">@item.inStock</td>
-                                            }
-
-                                            @if (item.totalQty <= item.inStock)
-                                            {
-                                                <td class="text-right"><input type="number" name="retrievedQty" class="retrievedQty" value="@item.totalQty" min="0" max="@item.totalQty" /></td>
-                                            }
-                                            @if (item.totalQty > item.inStock)
-                                            {
-                                                <td class="text-right"><input type="number" name="retrievedQty" class="retrievedQty" value="@item.inStock" min="0" max="@item.inStock" /></td>
-                                            }
-                                            <td class="text-right">
-                                                <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.itemID)">
-                                                    Adjust
-                                                </a>
-                                            </td>
-                                            <td class="text-right">
-                                                <a class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalDistribute(@item.itemID)">
-                                                    Distribute
-                                                </a>
-                                            </td>
+                    @*table content*@
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0">
+                            <div class="card-body table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="10"><b>Collection Date: </b><input type="date" name="collectionDate" id="collectionDate" /></td>
+                                            <input type="hidden" value="@retrievalID" name="retrievalID" />
+                                            <input type="hidden" value="@userId" name="id" />
                                         </tr>
-                                    }
+                                        <tr>
+                                            <td class="text-right"><b>Item Code</b></td>
+                                            <td class="text-right"><b>Description</b></td>
+                                            <td class="text-right"><b>Location</b></td>
+                                            <td class="text-right"><b>UOM</b></td>
+                                            <td class="text-right"><b>Requested Qty</b></td>
+                                            <td class="text-right"><b>InStock Qty</b></td>
+                                            <td class="text-right"><b>Retrieved Qty</b></td>
+                                            <td class="text-right"><b></b></td>
+                                            <td class="text-right"><b></b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="itemlist">
 
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-right p-5">
-                            <button type="submit" asp-action="CancelRetrieval" asp-route-id="@retrievalID" class="btn btn-danger">Cancel</button>
-                            <input type="hidden" id="edit-date">
-                            <button type="submit" class="btn btn-success add-todo" id="updateBtn">Update</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
+                                        @foreach (var item in items)
+                                        {
+                                            <tr id="list">
 
+                                                @if (item.inStock <= item.reorderLevel)
+                                                {
+                                                    <td class="text-right text-danger">@item.itemCode</td>
+                                                    <td class="text-right text-danger">@item.itemName</td>
+                                                    <td class="text-right text-danger">@item.location</td>
+                                                    <td class="text-right text-danger">@item.uom</td>
+                                                    <td class="text-right text-danger">@item.totalQty</td>
+                                                    <td class="text-right text-danger">@item.inStock</td>
+                                                }
+                                                @if (item.inStock > item.reorderLevel)
+                                                {
+                                                    <td class="text-right">@item.itemCode</td>
+                                                    <td class="text-right">@item.itemName</td>
+                                                    <td class="text-right">@item.location</td>
+                                                    <td class="text-right">@item.uom</td>
+                                                    <td class="text-right">@item.totalQty</td>
+                                                    <td class="text-right">@item.inStock</td>
+                                                }
 
-
-<!--raised adjustment-->
-<style>
-    td {
-        width: 150px;
-        text-align: left;
-        padding: 10px
-    }
-</style>
-<div class="modal fade" id="createAdjVoucher">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Create Adjustment Voucher
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
-                    <i class="icon-close"></i>
-                </button>
-            </div>
-            <form class="edit-invoice-form" asp-action="AddAdjustmentVoucher" asp-controller="AdjustVoucher" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <table style="width:30%">
-                            <input type="hidden" id="itemId" asp-for="ItemID" name="itemID" />
-                            <input type="hidden" id="userId" value="@userId" asp-for="RequestByID" name="userId" />
-                            <input type="hidden" id="entryPoint" value="retrieval" name="entryPoint" />
-                            <tr>
-                                <td>
-                                    <b>Item Code:</b>
-                                </td>
-                                <td id="itemCode">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Category:</b>
-                                </td>
-                                <td id="itemCategory">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Description:</b>
-                                </td>
-                                <td id="itemName">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Unit Cost:</b>
-                                </td>
-                                <td id="itemPrice">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>UOM:</b>
-                                </td>
-                                <td id="UOM">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">
-                                    <b>Quantity</b>
-                                </td>
-                                <td>
-                                    <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Deduct" checked="checked" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
-                                    <label for="minimal-radio-12" style="min-width:50px" id="deduct" asp-for="AdjustType">Deduct</label>
-                                    <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
-                                    <label for="minimal-radio-12" style="min-width:50px" id="add" asp-for="AdjustType">Add</label>
-                                    @*<input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">*@
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-
-                                    <input type="number" id="adjustQty" asp-for="AdjustQty" name="AdjustQty" onchange="calculate()" min="1" style="width:40px; height:25px">
-                                </td>
-                            </tr>
-                            @*<input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />*@
-                            <tr>
-                                <td>
-                                    <b>Total Value</b>
-                                </td>
-                                <td id="totalPrice">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>Reason:</b>
-                                </td>
-                                <td>
-                                    <input type="text" asp-for="Reason" name="Reason" id="reason" placeholder="" style="width:250px; height:80px">
-                                </td>
-                                @*<input type="hidden" asp-for="Status" name="Status" value="@AdjustmentVoucherStatus.AdjustmentStatus.Pending" />*@
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="text-right p-5">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="close">Cancel</button>
-                    <input type="hidden" id="edit-date" />
-                    <button type="submit" class="btn btn-success">Confirm</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Distribution -->
-<div class="modal fade" id="distribute">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Item Distribution
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="icon-close"></i>
-                </button>
-            </div>
-            <form class="edit-invoice-form" id="requestList">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="col-12 col-md-12">
-                            <div class="card border-0">
-                                <div class="card-body table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td class="text-right"><b>Request ID</b></td>
-                                                <td class="text-right"><b>Department ID</b></td>
-                                                <td class="text-right"><b>Department</b></td>
-                                                <td class="text-right"><b>UOM</b></td>
-                                                <td class="text-right"><b>Requested Qty</b></td>
-                                                @*<td class="text-right"><b>Allocated Qty</b></td>*@
+                                                @if (item.totalQty <= item.inStock)
+                                                {
+                                                    <td class="text-right"><input type="number" name="retrievedQty" class="retrievedQty" value="@item.totalQty" min="0" max="@item.totalQty" /></td>
+                                                }
+                                                @if (item.totalQty > item.inStock)
+                                                {
+                                                    <td class="text-right"><input type="number" name="retrievedQty" class="retrievedQty" value="@item.inStock" min="0" max="@item.inStock" /></td>
+                                                }
+                                                <td class="text-right">
+                                                    <a href="#" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalAdjust(@item.itemID)">
+                                                        Adjust
+                                                    </a>
+                                                </td>
+                                                <td class="text-right">
+                                                    <a class="bg-primary float-right mr-3  py-1 px-2 rounded text-white" onclick="showModalDistribute(@item.itemID)">
+                                                        Distribute
+                                                    </a>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody id="distributionList">
-                                            @*<tr>
-                                                    <td class="text-right" id="requestID"></td>
-                                                    <td class="text-right" id="departmentCode"></td>
-                                                    <td class="text-right" id="departmentName"></td>
-                                                    <td class="text-right" id="uom"></td>
-                                                    <td class="text-right" id="requestedQty"></td>
-                                                    <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                                </tr>*@
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        }
 
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-right p-5">
+                                <button type="submit" asp-action="CancelRetrieval" asp-route-id="@retrievalID" class="btn btn-danger">Cancel</button>
+                                <input type="hidden" id="edit-date">
+                                <button type="submit" class="btn btn-success add-todo" id="updateBtn">Update</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="text-right p-5">
-                    <button class="btn btn-primary" data-dismiss="modal" id="close">Back</button>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!--raised adjustment-->
+    <style>
+        td {
+            width: 150px;
+            text-align: left;
+            padding: 10px
+        }
+    </style>
+    <div class="modal fade" id="createAdjVoucher">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Create Adjustment Voucher
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                        <i class="icon-close"></i>
+                    </button>
                 </div>
-            </form>
+                <form class="edit-invoice-form" asp-action="AddAdjustmentVoucher" asp-controller="AdjustVoucher" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <table style="width:30%">
+                                <input type="hidden" id="itemId" asp-for="ItemID" name="itemID" />
+                                <input type="hidden" id="userId" value="@userId" asp-for="RequestByID" name="userId" />
+                                <input type="hidden" id="entryPoint" value="retrieval" name="entryPoint" />
+                                <tr>
+                                    <td>
+                                        <b>Item Code:</b>
+                                    </td>
+                                    <td id="itemCode">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Category:</b>
+                                    </td>
+                                    <td id="itemCategory">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Description:</b>
+                                    </td>
+                                    <td id="itemName">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Unit Cost:</b>
+                                    </td>
+                                    <td id="itemPrice">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>UOM:</b>
+                                    </td>
+                                    <td id="UOM">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">
+                                        <b>Quantity</b>
+                                    </td>
+                                    <td>
+                                        <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Deduct" checked="checked" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
+                                        <label for="minimal-radio-12" style="min-width:50px" id="deduct" asp-for="AdjustType">Deduct</label>
+                                        <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
+                                        <label for="minimal-radio-12" style="min-width:50px" id="add" asp-for="AdjustType">Add</label>
+                                        @*<input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">*@
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                        <input type="number" id="adjustQty" asp-for="AdjustQty" name="AdjustQty" onchange="calculate()" min="1" style="width:40px; height:25px">
+                                    </td>
+                                </tr>
+                                @*<input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />*@
+                                <tr>
+                                    <td>
+                                        <b>Total Value</b>
+                                    </td>
+                                    <td id="totalPrice">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Reason:</b>
+                                    </td>
+                                    <td>
+                                        <input type="text" asp-for="Reason" name="Reason" id="reason" placeholder="" style="width:250px; height:80px">
+                                    </td>
+                                    @*<input type="hidden" asp-for="Status" name="Status" value="@AdjustmentVoucherStatus.AdjustmentStatus.Pending" />*@
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="text-right p-5">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="close">Cancel</button>
+                        <input type="hidden" id="edit-date" />
+                        <button type="submit" class="btn btn-success">Confirm</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- Distribution -->
+    <div class="modal fade" id="distribute">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Item Distribution
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="icon-close"></i>
+                    </button>
+                </div>
+                <form class="edit-invoice-form" id="requestList">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-12 col-md-12">
+                                <div class="card border-0">
+                                    <div class="card-body table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td class="text-right"><b>Request ID</b></td>
+                                                    <td class="text-right"><b>Department ID</b></td>
+                                                    <td class="text-right"><b>Department</b></td>
+                                                    <td class="text-right"><b>UOM</b></td>
+                                                    <td class="text-right"><b>Requested Qty</b></td>
+                                                    @*<td class="text-right"><b>Allocated Qty</b></td>*@
+                                                </tr>
+                                            </thead>
+                                            <tbody id="distributionList">
+                                                @*<tr>
+                                                        <td class="text-right" id="requestID"></td>
+                                                        <td class="text-right" id="departmentCode"></td>
+                                                        <td class="text-right" id="departmentName"></td>
+                                                        <td class="text-right" id="uom"></td>
+                                                        <td class="text-right" id="requestedQty"></td>
+                                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
+                                                    </tr>*@
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right p-5">
+                        <button class="btn btn-primary" data-dismiss="modal" id="close">Back</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
 
 
+    <script>
 
-<script>
+        $("#updateBtn").on("click", function (e) {
+            var date = $("#collectionDate").val();
+            if (!Date.parse(date)) {
+                toastr["error"]("Collection Date is required");
+                e.preventDefault();
+            }
 
-    $("#updateBtn").on("click", function (e) {
-        var date = $("#collectionDate").val();
-        if (!Date.parse(date)) {
-            toastr["error"]("Collection Date is required");
-            e.preventDefault();
-        }
-
-        var sum = 0;
-        $("input[class=retrievedQty]").each(function () {
-            sum += parseInt($(this).val());
-        })
-        if (sum === 0) {
-            //alert(sum);
-            toastr["error"]("No disbursement issued");
-            e.preventDefault();
-        }
-    });
-    
-    function showModalAdjust(itemID) {
-        resetForm();
-        $("#createAdjVoucher").modal('show');
-        $.ajax({
-            method: "GET",
-            url: "https://localhost:44312/ItemPrice/getItemDetails/" + itemID,
-
-        })
-            .done(function (msg) {
-                console.log(msg);
-                $("#itemId").val(msg.item.itemID);
-                $("#itemCode").html(msg.item.itemCode);
-                $("#itemCategory").html(msg.item.itemCategory.categoryName);
-                $("#itemName").html(msg.item.itemName);
-                $("#itemPrice").html(msg.price);
-                $("#UOM").html(msg.item.uom);
-                calculate();
-                pick();
-
-            });
-    }
-
-    function showModalDistribute(itemID) {
-        clear();
-        $("#distribute").modal('show');
-        $.ajax({
-            method: "GET",
-            url: "https://localhost:44312/Retrieval/itemID/" + itemID,
-
-        })
-            .done(function (msg) {
-
-                $.each(msg, function (i) {
-                    $("#distributionList").append("<tr>" +
-                        "<td>" + msg[i].requestID + "</td>" +
-                        "<td>" + msg[i].departmentCode + "</td>" +
-                        "<td>" + msg[i].departmentName + "</td>" +
-                        "<td>" + msg[i].uom + "</td>" +
-                        "<td>" + msg[i].requestedQty + "</td>" +
-                        "</tr>");
-                })
-
-            });
-    }
-
-    function calculate() {
-        var a = $("#adjustQty").val();
-        var b = parseFloat($("#itemPrice").html());
-        $("#totalPrice").html(a * b);
-    }
-
-    //function pick() {
-    //    $checked = $("input[name='AdjustType']:checked").next().next();
-    //    $unchecked = $("input[name='AdjustType']:not(:checked)").next().next();
-
-    //    $checked.removeAttr('disabled');
-    //    $unchecked.attr('disabled', true);
-    //    $unchecked.val("1");
-    //}
-
-    function resetForm() {
-        $("input[name='AdjustType']").removeProp('checked');
-        $("input[name='AdjustType']").first().prop('checked', true);
-        //$('#qty_deduct').val("1");
-        //$('#qty_add').val("1");
-        $('#adjustQty').val("1");
-        $('#reason').val("");
-    }
-
-    function submitForm() {
-        $data = new Object();
-        $data.itemID = $("#itemId").val();
-        $data.adjType = "add";
-        $data.adjQty = 5;
-        $data.reason = $("#reason").val();
-        $data.requestor = 1
-        console.log($data);
-
-        $.ajax({
-            method: "PUT",
-            url: "https://localhost:44312/AdjustmentVoucher/SaveAdjustmentVoucher",
-            data: $data
-        })
-            .done(function (msg) {
-                console.log(msg);
-            });
-    }
-
-    function clear() {
-        $("#distribute").on("hidden.bs.modal", function () {
-            $('#distributionList').html("");
+            var sum = 0;
+            $("input[class=retrievedQty]").each(function () {
+                sum += parseInt($(this).val());
+            })
+            if (sum === 0) {
+                //alert(sum);
+                toastr["error"]("No disbursement issued");
+                e.preventDefault();
+            }
         });
-    }
 
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementsByName("collectionDate")[0].setAttribute('min', today);
+        function showModalAdjust(itemID) {
+            resetForm();
+            $("#createAdjVoucher").modal('show');
+            $.ajax({
+                method: "GET",
+                url: "https://localhost:44312/ItemPrice/getItemDetails/" + itemID,
+
+            })
+                .done(function (msg) {
+                    console.log(msg);
+                    $("#itemId").val(msg.item.itemID);
+                    $("#itemCode").html(msg.item.itemCode);
+                    $("#itemCategory").html(msg.item.itemCategory.categoryName);
+                    $("#itemName").html(msg.item.itemName);
+                    $("#itemPrice").html(msg.price);
+                    $("#UOM").html(msg.item.uom);
+                    calculate();
+                    pick();
+
+                });
+        }
+
+        function showModalDistribute(itemID) {
+            clear();
+            $("#distribute").modal('show');
+            $.ajax({
+                method: "GET",
+                url: "https://localhost:44312/Retrieval/itemID/" + itemID,
+
+            })
+                .done(function (msg) {
+
+                    $.each(msg, function (i) {
+                        $("#distributionList").append("<tr>" +
+                            "<td>" + msg[i].requestID + "</td>" +
+                            "<td>" + msg[i].departmentCode + "</td>" +
+                            "<td>" + msg[i].departmentName + "</td>" +
+                            "<td>" + msg[i].uom + "</td>" +
+                            "<td>" + msg[i].requestedQty + "</td>" +
+                            "</tr>");
+                    })
+
+                });
+        }
+
+        function calculate() {
+            var a = $("#adjustQty").val();
+            var b = parseFloat($("#itemPrice").html());
+            $("#totalPrice").html(a * b);
+        }
+
+        //function pick() {
+        //    $checked = $("input[name='AdjustType']:checked").next().next();
+        //    $unchecked = $("input[name='AdjustType']:not(:checked)").next().next();
+
+        //    $checked.removeAttr('disabled');
+        //    $unchecked.attr('disabled', true);
+        //    $unchecked.val("1");
+        //}
+
+        function resetForm() {
+            $("input[name='AdjustType']").removeProp('checked');
+            $("input[name='AdjustType']").first().prop('checked', true);
+            //$('#qty_deduct').val("1");
+            //$('#qty_add').val("1");
+            $('#adjustQty').val("1");
+            $('#reason').val("");
+        }
+
+        function submitForm() {
+            $data = new Object();
+            $data.itemID = $("#itemId").val();
+            $data.adjType = "add";
+            $data.adjQty = 5;
+            $data.reason = $("#reason").val();
+            $data.requestor = 1
+            console.log($data);
+
+            $.ajax({
+                method: "PUT",
+                url: "https://localhost:44312/AdjustmentVoucher/SaveAdjustmentVoucher",
+                data: $data
+            })
+                .done(function (msg) {
+                    console.log(msg);
+                });
+        }
+
+        function clear() {
+            $("#distribute").on("hidden.bs.modal", function () {
+                $('#distributionList').html("");
+            });
+        }
+
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("collectionDate")[0].setAttribute('min', today);
 
 
-</script>
+    </script>

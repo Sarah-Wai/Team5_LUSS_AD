@@ -1,81 +1,90 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Purchase Order Details";
     var purchase = (PurchaseOrder)ViewData["purchase"];
     var orderItems = (List<PurchaseOrderItems>)ViewData["orderItems"];
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
 
-<div class="container-fluid site-width">
-    <div>
-        <div class="row">
-            <div class="col-12 col-md-12">
-                <div class="card border-0">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
-                    </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-borderless">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <b>PO No:</b> @purchase.PONo<br>
-                                        <b>Expected Date:</b> @purchase.ExpectedDate<br>
-                                        <b>Supplier ID:</b> @purchase.SupplierID<br>
-                                        <b>Supplier Name: </b>@purchase.Supplier.SupplierName<br><br>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
+@if (UserRole == "store_clerk")
+{
+
+    <div class="container-fluid site-width">
+        <div>
+            <div class="row">
+                <div class="col-12 col-md-12">
+                    <div class="card border-0">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <b>PO No:</b> @purchase.PONo<br>
+                                            <b>Expected Date:</b> @purchase.ExpectedDate<br>
+                                            <b>Supplier ID:</b> @purchase.SupplierID<br>
+                                            <b>Supplier Name: </b>@purchase.Supplier.SupplierName<br><br>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-            @*table content*@
-        <div class="col-12 col-md-12">
-            <div class="card border-0">
-                <div class="card-body table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td><b>Item Code</b></td>
-                                <td><b>Description</b></td>
-                                <td class="text-right"><b>UOM</b></td>
-                                <td class="text-right"><b>Reorder Qty</b></td>
-                                <td class="text-right"><b>Qty</b></td>
-                                @if (purchase.Status == PurchaseOrderStatus.POStatus.Completed)
-                                {
-                                    <td class="text-right"><b>Received Qty</b></td>
-                                }
+                @*table content*@
+                <div class="col-12 col-md-12">
+                    <div class="card border-0">
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td><b>Item Code</b></td>
+                                        <td><b>Description</b></td>
+                                        <td class="text-right"><b>UOM</b></td>
+                                        <td class="text-right"><b>Reorder Qty</b></td>
+                                        <td class="text-right"><b>Qty</b></td>
+                                        @if (purchase.Status == PurchaseOrderStatus.POStatus.Completed)
+                                        {
+                                            <td class="text-right"><b>Received Qty</b></td>
+                                        }
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (PurchaseOrderItems item in orderItems)
-                            {
-                                <tr>
-                                    <td class="text-right">@item.Item.ItemCode</td>
-                                    <td class="text-right">@item.Item.ItemName</td>
-                                    <td class="text-right">@item.Item.UOM</td>
-                                    <td class="text-right">@item.Item.ReStockLevel</td>
-                                    <td class="text-right">@item.OrderQty</td>
-                                    @if (item.ReceivedQty != 0)
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (PurchaseOrderItems item in orderItems)
                                     {
-                                        <td class="text-right">@item.ReceivedQty</td>
-                                    }
+                                        <tr>
+                                            <td class="text-right">@item.Item.ItemCode</td>
+                                            <td class="text-right">@item.Item.ItemName</td>
+                                            <td class="text-right">@item.Item.UOM</td>
+                                            <td class="text-right">@item.Item.ReStockLevel</td>
+                                            <td class="text-right">@item.OrderQty</td>
+                                            @if (item.ReceivedQty != 0)
+                                            {
+                                                <td class="text-right">@item.ReceivedQty</td>
+                                            }
 
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
+                        <a asp-action="PurchaseOrders" onclick="window.history.back()" class="btn btn-primary">Back </a>
+                    </div>
                 </div>
             </div>
-            <div class="btn-group mb-2" style="float: right; padding:5px 5px 5px 5px">
-                <a asp-action="PurchaseOrders"  onclick="window.history.back()" class="btn btn-primary">Back </a>
-            </div>
-        </div>
         </div>
     </div>
-</div>
+}
+
 
 
 

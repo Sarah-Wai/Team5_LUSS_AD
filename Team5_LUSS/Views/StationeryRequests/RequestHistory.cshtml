@@ -7,7 +7,7 @@
     int DeptId = (int)Context.Session.GetInt32("DeptId");
     string UserRole = (string)Context.Session.GetString("UserRole");
 }
-@if (DeptId == 10 && UserRole == "store_supervisor" || UserRole == "store_manager")
+@if (DeptId != 10 && UserRole != "dept_head" || UserRole == "dept_delegate")
 {
     <h1>Request History</h1>
     <!-- START: Card Data-->

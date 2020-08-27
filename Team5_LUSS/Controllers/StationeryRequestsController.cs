@@ -71,7 +71,7 @@ namespace Team5_LUSS.Controllers
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "Request/GetRequestByEmpId/" + userId))
+                using (var response = await httpClient.GetAsync(api_url + "/GetRequestByEmpId/" + userId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);

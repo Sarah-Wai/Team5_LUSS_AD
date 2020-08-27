@@ -14,7 +14,7 @@ namespace LUSS_API.DB
 
             Department dep1 = new Department()
             {
-                DepartmentID=1,
+                DepartmentID = 1,
                 DepartmentCode= "CLAI",
                 DepartmentName = "Claims Department",
                 CollectionPointID= collectionPoints[0].CollectionPointID,
@@ -105,13 +105,13 @@ namespace LUSS_API.DB
             Department dep10 = new Department()//check
             {
                 DepartmentID = 10,
-                DepartmentCode = "Stor",
-                DepartmentName = "Stor Department",
+                DepartmentCode = "STOR",
+                DepartmentName = "Store Department",
                 CollectionPointID = collectionPoints[0].CollectionPointID,
                 Fax = "867 3311",
                 PhoneNo = "817 3311"
             };
-
+            /*
             Department dep11 = new Department()
             {
                 DepartmentID = 11,
@@ -120,7 +120,7 @@ namespace LUSS_API.DB
                 CollectionPointID = collectionPoints[0].CollectionPointID,
                 Fax = "867 3311",
                 PhoneNo = "817 3311"
-            };
+            };*/
             departments.Add(dep1);
             departments.Add(dep2);
             departments.Add(dep3);
@@ -131,7 +131,7 @@ namespace LUSS_API.DB
             departments.Add(dep8);
             departments.Add(dep9);
             departments.Add(dep10);
-            departments.Add(dep11);
+            //departments.Add(dep11);
             return departments;
         }
     }

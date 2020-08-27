@@ -1,111 +1,118 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Purchase Orders - Low Stock";
     List<Item> lowStockItems = (List<Item>)ViewData["lowStockItems"];
+
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
-<form asp-controller="Purchase" asp-action="POCreateBulk" method="post">
-    <div class="container-fluid site-width">
-        <!-- START: Card Data-->
-        <div class="row ">
-            <div class="col-12  align-self-center">
-                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
-                </div>
-                @*<div class="btn-group mb-2" >
-                    <a asp-controller="Purchase" asp-action="ViewLowStockItems" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                        Low Stock
-                    </a>
-                    <a asp-controller="Purchase" asp-action="PurchaseOrders" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                        PO History
-                    </a>*@
-                    @*<a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                        New PO
-                    </a>*@
-                @*</div>*@
-            </div>
-        </div>
-        <div class="row row-eq-height">
-            <div class="col-12 col-lg-10 mt-3 pl-lg-0">
-                <div class="card border h-100 invoice-list-section">
-                    <div class="card-header border-bottom p-1 d-flex">
-                        <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
-                        @*<input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">*@
+
+@if (UserRole == "store_clerk")
+{
+    <form asp-controller="Purchase" asp-action="POCreateBulk" method="post">
+        <div class="container-fluid site-width">
+            <!-- START: Card Data-->
+            <div class="row ">
+                <div class="col-12  align-self-center">
+                    <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                        <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
                     </div>
-                    <div class="col-12 col-md-12">
-                        <div class="card border-0">
-                            <div class="card-body table-responsive">
-                                <table class="table table-bordered" data-tablesaw>
-                                    <thead>
-                                        <tr>
-                                            <td><label><input id="checkedAll" type="checkbox" data-tablesaw-checkall><span class="sr-only"> Check All</span></label></td>
-                                            <td scope="col" class="text-right"><b>Item Code</b></td>
-                                            <td scope="col" class="text-right"><b>Description</b></td>
-                                            <td scope="col" class="text-right"><b>UOM</b></td>
-                                            <td scope="col" class="text-right"><b>InStock Qty</b></td>
-                                            <td scope="col" class="text-right"><b>Reorder Level</b></td>
-                                            <td scope="col" class="text-right"><b>Reorder Quantity</b></td>
-                                            <td scope="col" class="text-right"><b></b></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (lowStockItems != null)
-                                        {
-                                            foreach (Item i in lowStockItems)
+                    @*<div class="btn-group mb-2" >
+                        <a asp-controller="Purchase" asp-action="ViewLowStockItems" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                            Low Stock
+                        </a>
+                        <a asp-controller="Purchase" asp-action="PurchaseOrders" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                            PO History
+                        </a>*@
+                    @*<a href="#" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                            New PO
+                        </a>*@
+                    @*</div>*@
+                </div>
+            </div>
+            <div class="row row-eq-height">
+                <div class="col-12 col-lg-10 mt-3 pl-lg-0">
+                    <div class="card border h-100 invoice-list-section">
+                        <div class="card-header border-bottom p-1 d-flex">
+                            <a href="#" class="d-inline-block d-lg-none flip-menu-toggle"><i class="icon-menu"></i></a>
+                            @*<input type="text" class="form-control border-0 p-2 w-100 h-100 invoice-search" placeholder="Search ...">*@
+                        </div>
+                        <div class="col-12 col-md-12">
+                            <div class="card border-0">
+                                <div class="card-body table-responsive">
+                                    <table class="table table-bordered" data-tablesaw>
+                                        <thead>
+                                            <tr>
+                                                <td><label><input id="checkedAll" type="checkbox" data-tablesaw-checkall><span class="sr-only"> Check All</span></label></td>
+                                                <td scope="col" class="text-right"><b>Item Code</b></td>
+                                                <td scope="col" class="text-right"><b>Description</b></td>
+                                                <td scope="col" class="text-right"><b>UOM</b></td>
+                                                <td scope="col" class="text-right"><b>InStock Qty</b></td>
+                                                <td scope="col" class="text-right"><b>Reorder Level</b></td>
+                                                <td scope="col" class="text-right"><b>Reorder Quantity</b></td>
+                                                <td scope="col" class="text-right"><b></b></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (lowStockItems != null)
                                             {
-                                                <tr>
-                                                    <td><input class="itemChecked" type="checkbox" name="itemId" value="@i.ItemID"></td>
-                                                    <td class="text-right">@i.ItemCode</td>
-                                                    <td class="text-right">@i.ItemName</td>
-                                                    <td class="text-right">@i.UOM</td>
-                                                    <td class="text-right">@i.InStockQty</td>
-                                                    <td class="text-right">@i.ReStockLevel</td>
-                                                    <td class="text-right">@i.ReStockQty</td>
-                                                    @*<td class="text-right"><input type="number" value="@i.ReStockQty" min="0" max="@i.ReStockLevel" /></td>*@
-                                                    <td>
-                                                        <a asp-action="POCreateLow" asp-route-id="@i.ItemID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
-                                                            Create
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                foreach (Item i in lowStockItems)
+                                                {
+                                                    <tr>
+                                                        <td><input class="itemChecked" type="checkbox" name="itemId" value="@i.ItemID"></td>
+                                                        <td class="text-right">@i.ItemCode</td>
+                                                        <td class="text-right">@i.ItemName</td>
+                                                        <td class="text-right">@i.UOM</td>
+                                                        <td class="text-right">@i.InStockQty</td>
+                                                        <td class="text-right">@i.ReStockLevel</td>
+                                                        <td class="text-right">@i.ReStockQty</td>
+                                                        @*<td class="text-right"><input type="number" value="@i.ReStockQty" min="0" max="@i.ReStockLevel" /></td>*@
+                                                        <td>
+                                                            <a asp-action="POCreateLow" asp-route-id="@i.ItemID" class="bg-primary float-left mr-3  py-1 px-2 rounded text-white ">
+                                                                Create
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
                                             }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="text-right p-5">
-                                <button type="submit" id="createSelected" class="btn btn-success">Create Selected</button>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-right p-5">
+                                    <button type="submit" id="createSelected" class="btn btn-success">Create Selected</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+}
+    <script>
+        //select or unselect all
+        $("#checkedAll").on("change", function () {
+            if ($(this).is(':checked')) {
+                toastr["info"]("Select All");
+                $(".itemChecked").prop('checked', true);
+            }
+            else {
+                toastr["info"]("Unselect All")
+                $(".itemChecked").prop('checked', false);
+            };
+        });
 
-<script>
-    //select or unselect all
-    $("#checkedAll").on("change", function () {
-        if ($(this).is(':checked')) {
-            toastr["info"]("Select All");
-            $(".itemChecked").prop('checked', true);
-        }
-        else {
-            toastr["info"]("Unselect All")
-            $(".itemChecked").prop('checked', false);
-        };
-    });
-
-    //checked if items checked before submission
-    $("#createSelected").on("click", function (e) {
-        var count = 0;
-        $(".itemChecked:checked").each(function () {
-            count++;
-        })
-        if (count === 0) {
-            toastr["error"]("Please select item(s) to restock");
-            e.preventDefault();
-        }
-    });
-</script>
+        //checked if items checked before submission
+        $("#createSelected").on("click", function (e) {
+            var count = 0;
+            $(".itemChecked:checked").each(function () {
+                count++;
+            })
+            if (count === 0) {
+                toastr["error"]("Please select item(s) to restock");
+                e.preventDefault();
+            }
+        });
+    </script>
 

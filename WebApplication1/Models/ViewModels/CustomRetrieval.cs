@@ -21,6 +21,7 @@ namespace LUSS_API.Models.ViewModels
         public int TotalQty { get; set; }
         public int RequestedQty { get; set; }
         public int AcceptedQty { get; set; }
+        public String CollectionDate { get; set; }
 
     }
 }

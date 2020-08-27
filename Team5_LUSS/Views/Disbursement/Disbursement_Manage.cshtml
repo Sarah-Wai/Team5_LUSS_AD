@@ -1,34 +1,39 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Manage Disbursement";
     string? message = (string)TempData["noItem"];
     List<Request>? requests = (List<Request>)ViewData["requests"];
-}
 
-<div class="container-fluid site-width">
-    <div class="row ">
-        <div class="col-12  align-self-center">
-            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
+}
+@if (UserRole == "store_clerk")
+{
+    <div class="container-fluid site-width">
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row ">
-        <div class="col-12  align-self-center">
-            <div class="btn-group mb-2">
-                <a asp-action="RetrievalForm" class="btn btn-primary">Retrieval Form</a>
-                @*<button type="button" class="btn btn-primary">New Adjustment Voucher</button>*@
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="btn-group mb-2">
+                    <a asp-action="RetrievalForm" class="btn btn-primary">Retrieval Form</a>
+                    @*<button type="button" class="btn btn-primary">New Adjustment Voucher</button>*@
+                </div>
             </div>
         </div>
-    </div>
         @*<div class="container-fluid site-width">
-        <div class="btn-group mb-2">
-            <a asp-action="RetrievalForm" class="bg-primary float-right mr-3  py-2 px-4 rounded text-white ">
-                Retrieval Form
-            </a>
-        </div>*@
+            <div class="btn-group mb-2">
+                <a asp-action="RetrievalForm" class="bg-primary float-right mr-3  py-2 px-4 rounded text-white ">
+                    Retrieval Form
+                </a>
+            </div>*@
         <!-- START: Card Data-->
-     <div class="row row-eq-height">
+        <div class="row row-eq-height">
             <div class="col-12 col-lg-2 mt-3 todo-menu-bar flip-menu pr-lg-0">
                 <a href="#" class="d-inline-block d-lg-none mt-1 flip-menu-close"><i class="icon-close"></i></a>
                 <div class="card border h-100 invoice-menu-section">
@@ -100,9 +105,9 @@
                                             <p class="invoice-due-date badge @orderType">@r.RequestType</p>
                                         </div>
                                         @*<div class="invoice-info">
-                                    <p class="mb-0 small">Status</p>
-                                    <p class=" invoice-due-date badge badge-success">@r.RequestStatus</p>
-                                </div>*@
+                                                <p class="mb-0 small">Status</p>
+                                                <p class=" invoice-due-date badge badge-success">@r.RequestStatus</p>
+                                            </div>*@
                                         <div class="mr-3">
                                             <a asp-action="DisburseByRequest" asp-route-id="@r.RequestID" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white ">
                                                 Disburse
@@ -116,8 +121,9 @@
                 </div>
             </div>
         </div>
-</div>
-<!-- END: Card DATA-->
-<!-- END: Content-->
+    </div>
+}
+    <!-- END: Card DATA-->
+    <!-- END: Content-->
 
 

@@ -51,7 +51,8 @@ namespace LUSS_API.Controllers
                     ItemCode = r.Item.ItemCode,
                     ItemName = r.Item.ItemName,
                     UOM = r.Item.UOM,
-                    inStockQty = r.Item.InStockQty
+                    inStockQty = r.Item.InStockQty,
+                    ReceivedQty = r.ReceivedQty
                 };
                 customReqItems.Add(c);
             }

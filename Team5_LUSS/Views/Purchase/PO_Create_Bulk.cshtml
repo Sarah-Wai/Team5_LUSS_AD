@@ -1,84 +1,91 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@model IEnumerable<PurchaseOrder>
+@{
     ViewData["Title"] = "Create Bulk Purchase Order";
     List<Item> poitems = (List<Item>)ViewData["poitems"];
-    List<ItemPrice> poitemPrice = (List<ItemPrice>) ViewData["poItemPrice"];
-}
-@model IEnumerable<PurchaseOrder>
+    List<ItemPrice> poitemPrice = (List<ItemPrice>)ViewData["poItemPrice"];
 
-<form method="post" asp-action="POCreation">
-    <div class="container-fluid site-width">
-        <div>
-            <div class="row">
-                <div class="col-12 col-md-12">
-                    <div class="card border-0">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
+}
+
+@if (UserRole == "store_clerk")
+{
+    <form method="post" asp-action="POCreation">
+        <div class="container-fluid site-width">
+            <div>
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">@ViewData["Title"]<span class="inv-no"></span></h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-md-12">
-                    <div class="card border-0">
-                        <div class="card-body table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <td><b>Item Code</b></td>
-                                        <td><b>Description</b></td>
-                                        <td class="text-right"><b>UOM</b></td>
-                                        <td class="text-right"><b>Reorder Qty</b></td>
-                                        <td class="text-right"><b>Ordered Qty</b></td>
-                                        <td class="text-right"><b>Supplier(unit price)</b></td>
-                                        <td class="text-right"><b>Expected Date</b></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in poitems)
-                                    {
-                                    <tr>
-                                        <td class="text-right" name="ItemCode">@item.ItemCode <input type="hidden" name="itemId" value="@item.ItemID" /></td>
-                                        <td class="text-right">@item.ItemName</td>
-                                        <td class="text-right">@item.UOM</td>
-                                        <td class="text-right">@item.ReStockQty</td>
-                                        <td class="text-right"><input type="number" value="@item.ReStockQty" min="1" max="@item.ReStockQty" name="orderQty" id="orderQty" required/></td>
-                                        <td class="text-right">
-                                            <select id="supplier" name="supplierId" required>
-                                                @foreach (var it in poitemPrice)
-                                                {
-                                                    if (it.ItemID == item.ItemID)
-                                                    {
-                                                        <option value="@it.Supplier.SupplierID">@it.Supplier.SupplierName ($S @it.Price )</option>
-                                                    }
-                                                }
-                                            </select>
-                                        </td>
-                                        <td class="text-right"><input type="date" name="expectedDate" class="expectedDate" min="" onclick="GetMinDate()" required/></td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-right p-5">
-                            <button type="button" onclick="window.history.back()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <input type="hidden" id="edit-date">
-                            <button type="submit" class="btn btn-success" id="confirmBtn">Confirm</button>
+                    <div class="col-12 col-md-12">
+                        <div class="card border-0">
+                            <div class="card-body table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td><b>Item Code</b></td>
+                                            <td><b>Description</b></td>
+                                            <td class="text-right"><b>UOM</b></td>
+                                            <td class="text-right"><b>Reorder Qty</b></td>
+                                            <td class="text-right"><b>Ordered Qty</b></td>
+                                            <td class="text-right"><b>Supplier(unit price)</b></td>
+                                            <td class="text-right"><b>Expected Date</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in poitems)
+                                        {
+                                            <tr>
+                                                <td class="text-right" name="ItemCode">@item.ItemCode <input type="hidden" name="itemId" value="@item.ItemID" /></td>
+                                                <td class="text-right">@item.ItemName</td>
+                                                <td class="text-right">@item.UOM</td>
+                                                <td class="text-right">@item.ReStockQty</td>
+                                                <td class="text-right"><input type="number" value="@item.ReStockQty" min="1" max="@item.ReStockQty" name="orderQty" id="orderQty" required /></td>
+                                                <td class="text-right">
+                                                    <select id="supplier" name="supplierId" required>
+                                                        @foreach (var it in poitemPrice)
+                                                        {
+                                                            if (it.ItemID == item.ItemID)
+                                                            {
+                                                                <option value="@it.Supplier.SupplierID">@it.Supplier.SupplierName ($S @it.Price )</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td class="text-right"><input type="date" name="expectedDate" class="expectedDate" min="" onclick="GetMinDate()" required /></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-right p-5">
+                                <button type="button" onclick="window.history.back()" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <input type="hidden" id="edit-date">
+                                <button type="submit" class="btn btn-success" id="confirmBtn">Confirm</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+}
+    <script>
+        //get todaydate and set min value for expecteddate
+        function GetMinDate() {
+            var date = new Date();
+            var dd = ("0" + date.getDate()).slice(-2);
+            var MM = ("0" + (date.getMonth() + 1)).slice(-2);
+            var yyyy = date.getFullYear();
+            var currentDate = yyyy + "-" + MM + "-" + dd;
+            var currentDate = yyyy + "-" + MM + "-" + dd;
+            $(".expectedDate").attr('min', currentDate)
+        };
 
-<script>
-    //get todaydate and set min value for expecteddate
-    function GetMinDate() {
-        var date = new Date();
-        var dd = ("0" + date.getDate()).slice(-2);
-        var MM = ("0" + (date.getMonth() + 1)).slice(-2);
-        var yyyy = date.getFullYear();
-        var currentDate = yyyy + "-" + MM + "-" + dd;
-        var currentDate = yyyy + "-" + MM + "-" + dd;
-        $(".expectedDate").attr('min', currentDate)
-    };
-
-</script>
+    </script>

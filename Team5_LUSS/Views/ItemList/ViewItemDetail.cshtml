@@ -1,69 +1,74 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "ViewItemDetail";
     Item item = (Item)ViewData["item"];
     string img = "/images/itemImgs/" + item.ItemCode + ".jpg";
 
+    string username = (string)Context.Session.GetString("User");
+    int DeptId = (int)Context.Session.GetInt32("DeptId");
+    string UserRole = (string)Context.Session.GetString("UserRole");
 }
+@if (UserRole == "store_clerk")
+{
+    <h3>Item Detail</h3>
 
-<h3>Item Detail</h3>
-
-<!-- START: Card Data-->
-<div class="row">
-    <div class="col-12 col-md-6 mt-3">
-        <div class="card">
-            <div class="card-header  justify-content-between align-items-center">
-                <h4 class="card-title">Details</h4>
-            </div>
-            <div class="card-body">
-                <dl class="row mb-0 redial-line-height-2_5">
-                    <dt><img src=@img alt="" class="img-fluid" width="150"></dt>
-                    <dd class="col-sm-7"></dd>
-
-                    <dt class="col-sm-5"></dt>
-                    <dd class="col-sm-7"></dd>
-
-                    <dt class="col-sm-5">Item Code:</dt>
-                    <dd class="col-sm-7">@item.ItemCode</dd>
-
-                    <dt class="col-sm-5">Category:</dt>
-                    <dd class="col-sm-7">@item.ItemCategory.CategoryName</dd>
-
-                    <dt class="col-sm-5">Description:</dt>
-                    <dd class="col-sm-7">@item.ItemName</dd>
-
-                    <dt class="col-sm-5">Location:</dt>
-                    <dd class="col-sm-7">@item.StoreItemLocation</dd>
-
-                    <dt class="col-sm-5">UOM:</dt>
-                    <dd class="col-sm-7">@item.UOM</dd>
-
-                    <dt class="col-sm-5">Quantity:</dt>
-                    <dd class="col-sm-7">@item.InStockQty</dd>
-
-                    <dt class="col-sm-5">Reorder Level:</dt>
-                    <dd class="col-sm-7">@item.ReStockLevel</dd>
-
-                    <dt class="col-sm-5">Reorder Qty:</dt>
-                    <dd class="col-sm-7">@item.ReStockQty</dd>
-                </dl>
-
-                <div class="row mt-4">
-                    <div class="col-lg-6 col-md-6">
-                        <button type="button" onclick="homePage()" class="btn btn-primary float-left">Back to List</button>
-                    </div>
+    <!-- START: Card Data-->
+    <div class="row">
+        <div class="col-12 col-md-6 mt-3">
+            <div class="card">
+                <div class="card-header  justify-content-between align-items-center">
+                    <h4 class="card-title">Details</h4>
                 </div>
+                <div class="card-body">
+                    <dl class="row mb-0 redial-line-height-2_5">
+                        <dt><img src=@img alt="" class="img-fluid" width="150"></dt>
+                        <dd class="col-sm-7"></dd>
 
+                        <dt class="col-sm-5"></dt>
+                        <dd class="col-sm-7"></dd>
+
+                        <dt class="col-sm-5">Item Code:</dt>
+                        <dd class="col-sm-7">@item.ItemCode</dd>
+
+                        <dt class="col-sm-5">Category:</dt>
+                        <dd class="col-sm-7">@item.ItemCategory.CategoryName</dd>
+
+                        <dt class="col-sm-5">Description:</dt>
+                        <dd class="col-sm-7">@item.ItemName</dd>
+
+                        <dt class="col-sm-5">Location:</dt>
+                        <dd class="col-sm-7">@item.StoreItemLocation</dd>
+
+                        <dt class="col-sm-5">UOM:</dt>
+                        <dd class="col-sm-7">@item.UOM</dd>
+
+                        <dt class="col-sm-5">Quantity:</dt>
+                        <dd class="col-sm-7">@item.InStockQty</dd>
+
+                        <dt class="col-sm-5">Reorder Level:</dt>
+                        <dd class="col-sm-7">@item.ReStockLevel</dd>
+
+                        <dt class="col-sm-5">Reorder Qty:</dt>
+                        <dd class="col-sm-7">@item.ReStockQty</dd>
+                    </dl>
+
+                    <div class="row mt-4">
+                        <div class="col-lg-6 col-md-6">
+                            <button type="button" onclick="homePage()" class="btn btn-primary float-left">Back to List</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
 
-@section Scripts{
+    @section Scripts{
 
-    <script>
+        <script>
         var homePage = function () {
              window.location.href = '@Url.Action("InventoryList","ItemList")';
         }
-    </script>
-}
+        </script>
+    }

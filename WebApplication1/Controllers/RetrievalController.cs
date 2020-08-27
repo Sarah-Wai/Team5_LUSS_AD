@@ -287,27 +287,90 @@ namespace LUSS_API.Controllers
             IEnumerable<dynamic> requests = GetRequestByStatus("Approved");
             List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
 
-            foreach (var r in requests)
+            if(requests == null)
             {
-                CustomRetrieval rt = new CustomRetrieval
-                {
-                    RetrievalID = r.RetrievalID,
-                    ReStockLevel = r.ReorderLevel,
-                    ItemID = r.ItemID,
-                    ItemCode = r.ItemCode,
-                    ItemName = r.ItemName,
-                    UOM = r.UOM,
-                    ItemPrice = r.ItemPrice,
-                    Location = r.Location,
-                    InStockQty = r.InStock,
-                    CategoryName = r.Category,
-                    TotalQty = r.TotalQty
-                };
-
-                retrievals.Add(rt);
+                return null;
             }
-            return retrievals;
+            else
+            {
+                foreach (var r in requests)
+                {
+                    CustomRetrieval rt = new CustomRetrieval
+                    {
+                        RetrievalID = r.RetrievalID,
+                        ReStockLevel = r.ReorderLevel,
+                        ItemID = r.ItemID,
+                        ItemCode = r.ItemCode,
+                        ItemName = r.ItemName,
+                        UOM = r.UOM,
+                        ItemPrice = r.ItemPrice,
+                        Location = r.Location,
+                        InStockQty = r.InStock,
+                        CategoryName = r.Category,
+                        TotalQty = r.TotalQty
+                    };
 
+                    retrievals.Add(rt);
+                }
+                return retrievals;
+            }
+
+            
+        }
+
+        [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
+        [Route("mobile/allocateQty/{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
+        public String MallocateFulfilledQty(string retrievedQty, int retrievalId, string collectionDate, int id)
+        {
+            //parse string to array
+            string[] separators = { ",", "[", "]" };
+            string[] str = retrievedQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            List<int> qty = new List<int>();
+            foreach (var s in str)
+            {
+                qty.Add(int.Parse(s));
+            }
+
+            allocateFulfilledQty(qty, retrievalId, collectionDate, id);
+
+            return "ok";
+        }
+
+ /*       [HttpGet("mDeliveryConfirmation")]
+        public List<CustomRetrieval> GetDeliveryRetrivalList()
+        {
+            IEnumerable<dynamic> requests = GetRequestByStatus("Received");
+            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
+
+            if (requests == null)
+            {
+                return null;
+            }
+            else
+            {
+                foreach (var r in requests)
+                {
+                    CustomRetrieval rt = new CustomRetrieval
+                    {
+                        RetrievalID = r.RetrievalID,
+                        ReStockLevel = r.ReorderLevel,
+                        ItemID = r.ItemID,
+                        ItemCode = r.ItemCode,
+                        ItemName = r.ItemName,
+                        UOM = r.UOM,
+                        ItemPrice = r.ItemPrice,
+                        Location = r.Location,
+                        InStockQty = r.InStock,
+                        CategoryName = r.Category,
+                        TotalQty = r.TotalQty,
+                        AcceptedQty = r.AcceptedQty
+                        
+                    };
+
+                    retrievals.Add(rt);
+                }
+                return retrievals;
+            
+        }*/
         }
     }
-}

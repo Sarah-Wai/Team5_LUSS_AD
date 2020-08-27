@@ -59,8 +59,11 @@ namespace LUSS_API.Controllers
                 Department= user.Department == null? context123.Department.First(x => x.DepartmentID == user.DepartmentID): user.Department ,
         };
 
-         
-            return retun_user;
+            if(retun_user != null)
+            {
+                return retun_user;
+            }
+            else { return null; }
         }
 
         [HttpGet("MobileLogin/{Email}/{Password}")]

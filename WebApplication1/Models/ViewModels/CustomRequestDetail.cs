@@ -16,6 +16,7 @@ namespace LUSS_API.Models.ViewModels
         public string ItemName { get; set; }
         public string UOM { get; set; }
         public int inStockQty { get; set; }
+        public int ReceivedQty { get; set; }
 
 
     }

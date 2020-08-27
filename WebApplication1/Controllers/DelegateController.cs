@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System;
 using System.Globalization;
+using System.Net.Http;
 
 namespace LUSS_API.Controllers
 {
@@ -121,8 +122,6 @@ namespace LUSS_API.Controllers
         {
             try
             {
-               
-
                 if (delegatedManager.FromDate.Date == DateTime.Now.Date)
                 {
                     delegatedManager.isActive = true;
@@ -135,7 +134,11 @@ namespace LUSS_API.Controllers
                 }
                 context123.DelegatedManager.Add(delegatedManager);
                 context123.SaveChanges();
-              
+
+                //Sending Email
+                User toUser = context123.User.Where(x => x.UserID == delegatedManager.UserID).FirstOrDefault();
+                EmailController.SendEmail(toUser.Email,toUser.FirstName+" "+toUser.LastName, "DelegateToEmp");
+
                 return "Success";
             }
             catch (Exception ex)
@@ -168,6 +171,8 @@ namespace LUSS_API.Controllers
                 
                  context123.SaveChanges();
 
+                //Sending Email
+                EmailController.SendEmail(user.Email, user.FirstName + " " + user.LastName, "DelegateToEmp");
 
                 DelegatedManager return_delegated = new DelegatedManager();
                 User current_delegatedUser = new User();

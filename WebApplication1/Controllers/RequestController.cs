@@ -84,18 +84,29 @@ namespace LUSS_API.Controllers
         [Route("ApproveRequestByDepHead/{id}/{status}/{comment}")]
         public Request ApproveRequestByDepHead(int id, int status, string comment)
         {
-
+            string template = "";
             Request getRequest = context123.Request
                   .Where(x => x.RequestID == id).SingleOrDefault();
             if (getRequest != null)
             {
                 getRequest.Comment = comment;
                 if (status == 1)
+                {
                     getRequest.RequestStatus = EOrderStatus.Approved;
+                    template = "approvedVoucherToDeptHead";
+                }
                 else
+                {
                     getRequest.RequestStatus = EOrderStatus.Rejected;
+                    template = "rejectedVoucherToDeptHead";
+                }
                 context123.SaveChanges();
             }
+
+            //Sending Email
+            User toUser = context123.User.Where(x => x.UserID == getRequest.RequestBy).FirstOrDefault();
+            EmailController.SendEmail(toUser.Email, toUser.FirstName + " " + toUser.LastName, template);
+
             return getRequest;
         }
 
@@ -103,22 +114,33 @@ namespace LUSS_API.Controllers
         [Route("ApproveRequestByDepHeadMB/{id}/{status}/{comment}")]
         public string ApproveRequestByDepHeadMB(int id, int status, string comment)
         {
-
-            Request getRequest = context123.Request
-                  .Where(x => x.RequestID == id).SingleOrDefault();
+            string template = "";
+            Request getRequest = context123.Request.Where(x => x.RequestID == id).SingleOrDefault();
             try
             {
                 if (getRequest != null)
                 {
                     getRequest.Comment = comment;
                     if (status == 1)
+                    {
                         getRequest.RequestStatus = EOrderStatus.Approved;
+                        template = "approvedVoucherToDeptHead";
+                    }
                     else
+                    {
                         getRequest.RequestStatus = EOrderStatus.Rejected;
+                        template = "rejectedVoucherToDeptHead";
+                    }
 
                     context123.SaveChanges();
 
+                    //Sending Email
+                    User toUser = context123.User.Where(x => x.UserID == getRequest.RequestBy).FirstOrDefault();
+                    EmailController.SendEmail(toUser.Email, toUser.FirstName + " " + toUser.LastName, template);
+
                 }
+
+
                 return "Success";
             }
             catch (Exception ex)

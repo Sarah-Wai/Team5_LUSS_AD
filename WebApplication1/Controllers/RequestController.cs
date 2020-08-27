@@ -589,9 +589,11 @@ namespace LUSS_API.Controllers
         public IEnumerable<Request> GetRequestMBByStatusByDept(string status, int deptId)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+
+            List<int> userIDs= context123.User.Where(x => x.DepartmentID == deptId).Select(c=>c.UserID).ToList();
             List<Request> requestList = (from r in context123.Request
                                          where r.RequestStatus == st
-                                          && r.RequestByUser.DepartmentID == deptId
+                                          && userIDs.Contains(r.RequestBy.Value)
                                          select r).ToList();
             List<Request> return_requestList = new List<Request>();
             foreach (Request r in requestList)

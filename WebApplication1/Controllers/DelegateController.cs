@@ -44,17 +44,30 @@ namespace LUSS_API.Controllers
         {
             try
             {
-                List<int> users = context123.User.Where(x => x.DepartmentID == depID).Select(c => c.UserID).ToList();
-                DelegatedManager delegated = context123.DelegatedManager.Where(x => users.Contains(x.UserID) &&
-                x.isActive == true).FirstOrDefault();
-                DelegatedManager current_delegated = new DelegatedManager();
+                DelegatedManager return_delegated = new DelegatedManager();
                 User current_delegatedUser = new User();
-                if (delegated != null)
+                List<int> users = context123.User.Where(x => x.DepartmentID == depID).Select(c => c.UserID).ToList();
+                List<DelegatedManager> delegated_list = context123.DelegatedManager.Where(x => users.Contains(x.UserID) && x.FromDate >=DateTime.Now.Date).OrderBy(x=>x.FromDate).ToList();  //current active delegate
+                if (delegated_list.Count > 0)
                 {
-                    current_delegated = delegated;
-                    current_delegatedUser = new User { UserID = current_delegated.User.UserID, FirstName = current_delegated.User.FirstName, LastName = current_delegated.User.LastName };
+                    DelegatedManager current_active_delegate = delegated_list.Where(x => x.isActive == true).FirstOrDefault();
+
+                    if (current_active_delegate != null)
+                    {
+                        return_delegated = current_active_delegate;
+
+                    }
+                    else
+                    {   //no current active delegate
+                        return_delegated = delegated_list[0];
+
+                    }
+                    if (return_delegated.User != null)
+                    {
+                        current_delegatedUser = new User { UserID = return_delegated.User.UserID, FirstName = return_delegated.User.FirstName, LastName = return_delegated.User.LastName };
+                    }
                 }
-                List<User> Users = context123.User.Where(x => x.DepartmentID == depID).ToList();
+                    List<User> Users = context123.User.Where(x => x.DepartmentID == depID).ToList();
                 List<User> return_users = new List<User>();
                 foreach (User u in Users)
                 {
@@ -69,11 +82,11 @@ namespace LUSS_API.Controllers
 
 
                 dynamic return_value = new System.Dynamic.ExpandoObject();
-                return_value.delegatedManagerID = current_delegated.DelegatedManagerID;
-                return_value.fromDate = current_delegated.FromDate;
-                return_value.toDate = current_delegated.ToDate;
-                return_value.isActive = current_delegated.isActive;
-                return_value.userID = current_delegated.UserID;
+                return_value.delegatedManagerID = return_delegated.DelegatedManagerID;
+                return_value.fromDate = return_delegated.FromDate;
+                return_value.toDate = return_delegated.ToDate;
+                return_value.isActive = return_delegated.isActive;
+                return_value.userID = return_delegated.UserID;
                 return_value.user = current_delegatedUser;
                 return_value.users = return_users;
 
@@ -131,27 +144,54 @@ namespace LUSS_API.Controllers
                 context123.DelegatedManager.Add(dm);
                 
                  context123.SaveChanges();
-              
 
-                List<int> users = context123.User.Where(x => x.DepartmentID == user.DepartmentID).Select(c => c.UserID).ToList();
-                DelegatedManager delegated = context123.DelegatedManager.Where(x => users.Contains(x.UserID) &&
-                x.isActive == true).FirstOrDefault();
-                DelegatedManager current_delegated = new DelegatedManager();
+
+                DelegatedManager return_delegated = new DelegatedManager();
                 User current_delegatedUser = new User();
-                if (delegated != null)
+                List<int> users = context123.User.Where(x => x.DepartmentID == user.DepartmentID).Select(c => c.UserID).ToList();
+                List<DelegatedManager> delegated_list = context123.DelegatedManager.Where(x => users.Contains(x.UserID) && x.FromDate >= DateTime.Now.Date).OrderBy(x => x.FromDate).ToList();  //current active delegate
+                if (delegated_list.Count > 0)
                 {
-                    current_delegated = delegated;
-                    current_delegatedUser = new User { UserID = current_delegated.User.UserID, FirstName = current_delegated.User.FirstName, LastName = current_delegated.User.LastName };
+                    DelegatedManager current_active_delegate = delegated_list.Where(x => x.isActive == true).FirstOrDefault();
+
+                    if (current_active_delegate != null)
+                    {
+                        return_delegated = current_active_delegate;
+
+                    }
+                    else
+                    {   //no current active delegate
+                        return_delegated = delegated_list[0];
+
+                    }
+                    if (return_delegated.User != null)
+                    {
+                        current_delegatedUser = new User { UserID = return_delegated.User.UserID, FirstName = return_delegated.User.FirstName, LastName = return_delegated.User.LastName };
+                    }
                 }
-            
+                List<User> Users = context123.User.Where(x => x.DepartmentID == user.DepartmentID).ToList();
+                List<User> return_users = new List<User>();
+                foreach (User u in Users)
+                {
+                    User newUser = new User()
+                    {
+                        UserID = u.UserID,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName
+                    };
+                    return_users.Add(newUser);
+                }
+
 
                 dynamic return_value = new System.Dynamic.ExpandoObject();
-                return_value.delegatedManagerID = current_delegated.DelegatedManagerID;
-                return_value.fromDate = current_delegated.FromDate;
-                return_value.toDate = current_delegated.ToDate;
-                return_value.isActive = current_delegated.isActive;
-                return_value.userID = current_delegated.UserID;
+                return_value.delegatedManagerID = return_delegated.DelegatedManagerID;
+                return_value.fromDate = return_delegated.FromDate;
+                return_value.toDate = return_delegated.ToDate;
+                return_value.isActive = return_delegated.isActive;
+                return_value.userID = return_delegated.UserID;
                 return_value.user = current_delegatedUser;
+                return_value.users = return_users;
+
                 return_value.users = new List<User>();
 
                 return return_value;

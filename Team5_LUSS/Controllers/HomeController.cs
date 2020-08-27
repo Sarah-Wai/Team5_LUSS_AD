@@ -89,7 +89,8 @@ namespace Team5_LUSS.Controllers
                         case "store_manager": action_name = "Index"; controller_name = "SupDash"; break;
                         case "dept_rep": action_name = "Index"; controller_name = "ItemList"; break; 
                         case "dept_delegate": action_name = "StationeryRequests"; controller_name = "StationeryRequests"; break; 
-                        case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break; 
+                        case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break;
+                        case "dept_employee": action_name = "Index"; controller_name = "ItemList"; break;
                     }
                     return RedirectToAction(action_name, controller_name);
                 }

@@ -63,7 +63,7 @@ namespace LUSS_API.Controllers
         {
             AdjustmentVoucher adjustmentVouncher = context123.AdjustmentVoucher.First(c => c.AdjustmentID == AdjustmentID);
             AdjustmentStatus state = (AdjustmentStatus)Enum.Parse(typeof(AdjustmentStatus), status);
-            if (status == "Approved")
+            if (status.Equals("Approved"))
             {
                 // do the changes to db
                 adjustmentVouncher.Status = state;
@@ -85,7 +85,7 @@ namespace LUSS_API.Controllers
 
             
 
-            if (status == "Rejected")
+            if (status.Equals("Rejected"))
             {
                 adjustmentVouncher.Status = state;
                 adjustmentVouncher.Comment = Comment;

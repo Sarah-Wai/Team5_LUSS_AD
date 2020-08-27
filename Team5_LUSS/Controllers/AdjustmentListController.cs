@@ -108,7 +108,7 @@ namespace Team5_LUSS.Controllers
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
-                using (var response = await httpClient.GetAsync(api_url + "/get-manager" + "/" + userId))
+                using (var response = await httpClient.GetAsync(api_url + "/get_manager" + "/" + userId))
 
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();

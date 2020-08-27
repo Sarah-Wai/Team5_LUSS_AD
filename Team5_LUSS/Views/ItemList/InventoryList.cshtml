@@ -10,7 +10,7 @@
     int DeptId = (int)Context.Session.GetInt32("DeptId");
     string UserRole = (string)Context.Session.GetString("UserRole");
 }
-@if (UserRole == "store_clerk")
+@if (UserRole == "store_clerk"|| UserRole == "store_manager" || UserRole == "store_supervisor")
 {
     <h3>Inventory List</h3>
 

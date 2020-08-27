@@ -71,7 +71,7 @@ namespace Team5_LUSS.Controllers
             List<Request> requests = new List<Request>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "Request/GetRequestByEmpId/" + userId))
+                using (var response = await httpClient.GetAsync(api_url + "/GetRequestByEmpId/" + userId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
@@ -98,7 +98,7 @@ namespace Team5_LUSS.Controllers
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                string str = api_url + "Request/GetReqById/" + id;
+                string str = api_url + "/GetReqById/" + id;
                 using (var response = await httpClient.GetAsync(str))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -129,7 +129,7 @@ namespace Team5_LUSS.Controllers
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                string str = api_url + "Request/CancelRequest/" + reqId;
+                string str = api_url + "/CancelRequest/" + reqId;
                 using (var response = await httpClient.GetAsync(str))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -171,7 +171,7 @@ namespace Team5_LUSS.Controllers
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
-                string str = api_url + "Request/GetReqById/" + Int32.Parse(reqID);
+                string str = api_url + "/GetReqById/" + Int32.Parse(reqID);
                 using (var response = await httpClient.GetAsync(str))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -199,7 +199,7 @@ namespace Team5_LUSS.Controllers
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(requestJson), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(api_url + "Request/UpdateRequestDetail", content))
+                using (var response = await httpClient.PostAsync(api_url + "/UpdateRequestDetail", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     returnData = JsonConvert.DeserializeObject<Boolean>(apiResponse);
@@ -224,7 +224,7 @@ namespace Team5_LUSS.Controllers
             bool isRemoved = false;
             using (var httpClient = new HttpClient())
             {
-                string str = api_url + "Request/RemoveRequestedItem/" + reqId + "/" + reDetailId;
+                string str = api_url + "/RemoveRequestedItem/" + reqId + "/" + reDetailId;
                 using (var response = await httpClient.GetAsync(str))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();

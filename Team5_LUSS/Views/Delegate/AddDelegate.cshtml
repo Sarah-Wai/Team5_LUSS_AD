@@ -161,7 +161,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <label for="requestID" class="col-sm-4 col-form-label">Delegate :</label>
-                                        <label for="requestID" class="col-sm-8 col-form-label"><span id="lblDelegate">Wai Phu</span></label>
+                                        <label for="requestID" class="col-sm-8 col-form-label"><span id="lblDelegate"></span></label>
 
                                     </div>
                                     <div class="row">
@@ -174,8 +174,8 @@
                                         <label for="requestID" class="col-sm-8 col-form-label"><span id="lblEndDate"></span></label>
 
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-2" id="btn_gp" style="display:none;"></div>
+                                    <div class="row" id="btn_gp" style="display:none;">
+                                        <div class="col-sm-2">&nbsp;&nbsp;&nbsp;</div>
                                         <button type="submit" class="btn btn-success" id="btnAssign">Assign</button> <span>&nbsp;&nbsp;&nbsp;</span>
                                         <button type="reset" class="btn btn-primary">Cancel</button>
                                     </div>
@@ -242,9 +242,9 @@
     };
     function CheckForDisplay() {
         if ($("#startDate").val() != "" && $("#endDate").val() != "" && $("#userID").val() != "") {
-            $("#lblEndDate").css("display", "block");
+            $("#btn_gp").css("display", "block");
         }
-        btn_gp
+        
     }
 
     $('input[type=radio][name=rdo_depUsers]').change(function () {

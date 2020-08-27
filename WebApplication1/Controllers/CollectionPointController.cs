@@ -54,6 +54,14 @@ namespace LUSS_API.Controllers
             return cp;
         }
 
+        [HttpGet("ByDeptID/{deptID}")]
+        public string getCollectionPointByDeptID(int deptID)
+        {
+            Department d = context123.Department.Where(x => x.DepartmentID == deptID).FirstOrDefault();
+            string collectionPoint = d.CollectionPoint.Location + " " + d.CollectionPoint.Description;
+            return collectionPoint;
+        }
+
         [HttpGet("collectiontimes/{deptId}")]
         public List<Request> getdepCollectionTime(int deptId)
         {

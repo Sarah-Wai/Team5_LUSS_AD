@@ -39,6 +39,15 @@ namespace LUSS_API.Controllers
             return Users;
 
         }
+        [HttpGet("{id}")]
+        [Route("GetAllDeptEmpUsers/{id}")]
+        public IEnumerable<User> GetAllDeptEmpUsers(int id)
+        {
+            List<User> Users = context123.User
+                  .Where(x => x.DepartmentID == id && x.ReportToID!=null).ToList();
+            return Users;
+
+        }
 
         [HttpGet("{id}")]
         [Route("GetUsersByID/{id}")]

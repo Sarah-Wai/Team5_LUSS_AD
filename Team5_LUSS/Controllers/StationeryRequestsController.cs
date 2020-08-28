@@ -20,8 +20,9 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> StationeryRequests()
         {
            int user_DEPId = (int)HttpContext.Session.GetInt32("DeptId");
-           // int id = 1; //depID
+         
             List<Request> requests = new List<Request>();
+            List<RequestDetails> requestDetil = new List<RequestDetails>();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url+ "/getAllRequestByDepID/" + user_DEPId))
@@ -29,8 +30,10 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                 }
+              
             }
           
+
             ViewData["requests"] = requests;
             return View();
         }
@@ -38,6 +41,10 @@ namespace Team5_LUSS.Controllers
         [HttpGet]
         public async Task<IActionResult> ApproveRequestByDepHead(int id,int status, string comment)
         {
+            if (comment == "")
+            {
+                comment = "-";
+            }
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {
@@ -49,6 +56,24 @@ namespace Team5_LUSS.Controllers
             }
 
             return RedirectToAction("StationeryRequests");
+        }
+
+        [HttpGet]
+        public async Task<List<RequestDetails>> GetRequestDetail(int id)
+        {
+           
+            List<RequestDetails> request_detis = new List<RequestDetails>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44312/RequestDetails/get-by-request/" + id ))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    request_detis = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
+
+                }
+            }
+
+            return request_detis;
         }
 
         [HttpGet]

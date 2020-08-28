@@ -14,7 +14,7 @@ namespace Team5_LUSS.Controllers
 {
     public class DelegateController : Controller
     {
-        string api_user_url = "https://localhost:44312/User/GetAllDeptUsers"; // connect to API project Controller class
+        string api_user_url = "https://localhost:44312/User/GetAllDeptEmpUsers"; // connect to API project Controller class
         string api_delegate_url = "https://localhost:44312/Delegate";
         string msg = "";
         public IActionResult Delegate()

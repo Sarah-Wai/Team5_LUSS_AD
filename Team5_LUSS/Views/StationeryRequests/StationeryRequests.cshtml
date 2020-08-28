@@ -19,11 +19,7 @@
 </div>
 <!-- END: Breadcrumbs-->
 <!-- Edit request -->
-@if (requests != null)
-{
-    @foreach (Request c in requests)
-    {
-        <div class="modal fade" id="editrequest_@c.RequestID">
+        @*<div class="modal fade" id="editrequest">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -35,7 +31,7 @@
                         </button>
                     </div>
 
-                    <form class="edit-request-form" asp-action="ApproveRequestByDepHead" method="post">
+                    <form class="edit-request-form">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-12">
@@ -102,7 +98,7 @@
                             @if (c.RequestStatus == 0)
                             {<div class="col-sm-10">
 
-                                    <button type="button" class="btn btn-primary" onclick="UpdateRequest(@c.RequestID,1)" @*onclick="location.href='@Url.Action("ApproveRequestByDepHead", "StationeryRequests", new { id = @c.RequestID,status=1})'"*@> Approve</button>
+                                    <button type="button" class="btn btn-primary" onclick="UpdateRequest(@c.RequestID,1)> Approve</button>
                                     <button type="button" class="btn btn-outline-warning" onclick="UpdateRequest(@c.RequestID,2)">Reject</button>
                                 </div>
                             }
@@ -111,11 +107,10 @@
                     </form>
                 </div>
             </div>
-        </div>
-    }
+        </div>*@
 
 
-}
+
 <!-- START: Card Data-->
 <div class="row row-eq-height">
     <div class="col-12 col-lg-3 mt-3 todo-menu-bar flip-menu pr-lg-0">
@@ -211,7 +206,7 @@
                                     </div>
 
                                     <div class="line-h-1 h3">
-                                        <a class="text-success" href="#" data-toggle="modal" data-target="#editrequest_@c.RequestID"><i class="icon-note"></i></a>
+                                        <a class="text-success" href="#" data-toggle="modal" @*data-target="#editrequest_@c.RequestID"*@ onclick="GetRequestDetail(@c.RequestID);"><i class="icon-note"></i></a>
 
                                     </div>
                                 </div>
@@ -234,7 +229,7 @@
 @*<script src="~/js/System/StationeryRequests/stationeryRequests.js"></script>*@
 @section Scripts{
     <script>
-     
+
         function UpdateRequest(id, status) {
             var comment = $("#txtComment_" + id).val();
           console.log()
@@ -252,6 +247,29 @@
                       toastr["success"]('Rejected!');
                       $('#editrequest').modal('toggle');
                       location.reload();
+                  }
+
+              }
+          })
+        };
+
+          function GetRequestDetail(id) {
+              console.log(id);
+          $.ajax({
+              type: "GET",
+              url: '@Url.Action("GetRequestDetail", "StationeryRequests")',
+              data: { id},
+              success: function (result) {
+                  if (result != null) {
+
+                      $('#lblRequestID').val($(this).closest('.request').find('.request-due-date').html());
+    //    $('#lblRequestBy').val($(this).closest('.request').find('.request-due-date').html());
+    //    $('#lblStatus').val($(this).closest('.request').find('.request-due-date').html());
+    //    $('#lblUpdateBy').val($(this).closest('.request').find('.request-due-date').html());
+    //    $('#txtComment').html($(this).closest('.request').find('.request-due-date').html());
+
+    //    $('#status').val($(this).closest('.request').find('.request-content').data('status'));
+    //    $("#editrequest").modal();
                   }
 
               }

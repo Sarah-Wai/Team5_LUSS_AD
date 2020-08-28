@@ -43,9 +43,24 @@ namespace LUSS_API.Controllers
 
         [HttpGet("{id}")]
         [Route("getAllRequestByDepID/{id}")]
-        public IEnumerable<Request> GetAllRequest(int id)
+        public List<Request> GetAllRequest(int id)
         {
-            List<Request> requests = context123.Request.Where(x => x.RequestByUser.DepartmentID == id).ToList();
+            List<Request> requests = context123.Request.Where(x => x.RequestByUser.DepartmentID == id).Select(c=>
+            new Request()
+            {
+                RequestID=c.RequestID,
+                RequestStatus = c.RequestStatus,
+                RequestDate = c.RequestDate,
+                RequestBy = c.RequestBy,
+                ModifiedBy = c.ModifiedBy,
+                Comment = c.Comment,
+                RequestType = c.RequestType,
+                ParentRequestID = c.ParentRequestID,
+                CollectionTime = c.CollectionTime,
+                RequestByUser=new User { UserID=c.RequestByUser.UserID, LastName=c.RequestByUser.LastName,FirstName= c.RequestByUser.FirstName},
+          
+            }).OrderByDescending(x => x.RequestDate).ToList();
+          //  string return_string= JsonConvert.SerializeObject(requests);
             return requests;
 
         }
@@ -93,18 +108,29 @@ namespace LUSS_API.Controllers
         [Route("ApproveRequestByDepHead/{id}/{status}/{comment}")]
         public Request ApproveRequestByDepHead(int id, int status, string comment)
         {
-
+            string template = "";
             Request getRequest = context123.Request
                   .Where(x => x.RequestID == id).SingleOrDefault();
             if (getRequest != null)
             {
                 getRequest.Comment = comment;
                 if (status == 1)
+                {
                     getRequest.RequestStatus = EOrderStatus.Approved;
+                    template = "approvedVoucherToDeptHead";
+                }
                 else
+                {
                     getRequest.RequestStatus = EOrderStatus.Rejected;
+                    template = "rejectedVoucherToDeptHead";
+                }
                 context123.SaveChanges();
             }
+
+            //Sending Email
+            User toUser = context123.User.Where(x => x.UserID == getRequest.RequestBy).FirstOrDefault();
+            EmailController.SendEmail(toUser.Email, toUser.FirstName + " " + toUser.LastName, template);
+
             return getRequest;
         }
 
@@ -112,22 +138,33 @@ namespace LUSS_API.Controllers
         [Route("ApproveRequestByDepHeadMB/{id}/{status}/{comment}")]
         public string ApproveRequestByDepHeadMB(int id, int status, string comment)
         {
-
-            Request getRequest = context123.Request
-                  .Where(x => x.RequestID == id).SingleOrDefault();
+            string template = "";
+            Request getRequest = context123.Request.Where(x => x.RequestID == id).SingleOrDefault();
             try
             {
                 if (getRequest != null)
                 {
                     getRequest.Comment = comment;
                     if (status == 1)
+                    {
                         getRequest.RequestStatus = EOrderStatus.Approved;
+                        template = "approvedVoucherToDeptHead";
+                    }
                     else
+                    {
                         getRequest.RequestStatus = EOrderStatus.Rejected;
+                        template = "rejectedVoucherToDeptHead";
+                    }
 
                     context123.SaveChanges();
 
+                    //Sending Email
+                    User toUser = context123.User.Where(x => x.UserID == getRequest.RequestBy).FirstOrDefault();
+                    EmailController.SendEmail(toUser.Email, toUser.FirstName + " " + toUser.LastName, template);
+
                 }
+
+
                 return "Success";
             }
             catch (Exception ex)

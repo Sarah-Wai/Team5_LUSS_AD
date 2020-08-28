@@ -112,44 +112,42 @@
                 <div class="col-12 col-lg-10 mt-3 pl-lg-0">
                     <div class="card border h-100 invoice-list-section">
                         <div class="card-body p-0">
-                            <div style="margin: 1rem">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editinvoice">Collect</button>
-                            </div>
+
+                            @if (collectionList.Count != 0)
+                            {
                             <div class="invoices list">
-                                @if (collectionList != null)
+                                <div style="margin: 1rem">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editinvoice">Collect</button>
+                                </div>
+                                @foreach (var r in collectionList)
                                 {
-                                    foreach (var r in collectionList)
-                                    {
-                                        <div class="invoice">
-                                            <div class="invoice-content">
-                                                <div class="invoice-info">
-                                                    <p class="mb-0 small">Item Code</p>
-                                                    <p class="invoice-no">@r.itemCode</p>
-                                                </div>
-                                                <div class="invoice-info">
-                                                    <p class="mb-0 small">Item Name</p>
-                                                    <p class="cliname">@r.itemName</p>
-                                                </div>
-                                                <div class="invoice-info">
-                                                    <p class="mb-0 small">Unit</p>
-                                                    <p class="invocie-date">@r.itemUOM</p>
-                                                </div>
-                                                <div class="invoice-info">
-                                                    <p class="mb-0 small">Requested Quantity</p>
-                                                    <p class="invoice-due-date">@r.totalQty</p>
-                                                </div>
-                                                <div class="invoice-info">
-                                                </div>
+                                    <div class="invoice">
+                                        <div class="invoice-content">
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Item Code</p>
+                                                <p class="invoice-no">@r.itemCode</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Item Name</p>
+                                                <p class="cliname">@r.itemName</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Unit</p>
+                                                <p class="invocie-date">@r.itemUOM</p>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <p class="mb-0 small">Requested Quantity</p>
+                                                <p class="invoice-due-date">@r.totalQty</p>
+                                            </div>
+                                            <div class="invoice-info">
                                             </div>
                                         </div>
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="invoice">Pick a collection date date first.</div>
+                                    </div>
                                 }
                             </div>
-                        </div>
+                                    }
+
+                            </div>
                     </div>
                 </div>
             </div>

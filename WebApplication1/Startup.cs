@@ -15,6 +15,8 @@ using LUSS_API.DB;
 using LUSS_API.Models;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace LUSS_API
 {
@@ -37,11 +39,12 @@ namespace LUSS_API
                        .AllowAnyHeader();
             }));
 
-            services.AddControllers().AddNewtonsoftJson(options=>options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllers().AddNewtonsoftJson(
+                options=>options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<MyDbContext>
                (opt => opt.UseLazyLoadingProxies()
-            .UseSqlServer(Configuration.GetConnectionString("DbConn"))
-            );
+            .UseSqlServer(Configuration.GetConnectionString("DbConn")));
+      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

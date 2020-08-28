@@ -12,61 +12,274 @@ namespace LUSS_API.DB
         {
             List<ItemPrice> itemPrices = new List<ItemPrice>();
 
-            ItemPrice itemPrice1 = new ItemPrice ()
-            {
-                ItemPriceID = 1,
-                ItemID = 1,
-                SupplierID = 1,
-                Price = 2,
-            };
+            ItemPrice itemPrice1 = new ItemPrice(); itemPrice1.ItemPriceID = 1; itemPrice1.ItemID = 1; itemPrice1.SupplierID = 1; itemPrice1.Price = 6; itemPrices.Add(itemPrice1);
+            ItemPrice itemPrice2 = new ItemPrice(); itemPrice2.ItemPriceID = 2; itemPrice2.ItemID = 2; itemPrice2.SupplierID = 1; itemPrice2.Price = 5; itemPrices.Add(itemPrice2);
+            ItemPrice itemPrice3 = new ItemPrice(); itemPrice3.ItemPriceID = 3; itemPrice3.ItemID = 3; itemPrice3.SupplierID = 1; itemPrice3.Price = 2; itemPrices.Add(itemPrice3);
+            ItemPrice itemPrice4 = new ItemPrice(); itemPrice4.ItemPriceID = 4; itemPrice4.ItemID = 4; itemPrice4.SupplierID = 1; itemPrice4.Price = 4; itemPrices.Add(itemPrice4);
+            ItemPrice itemPrice5 = new ItemPrice(); itemPrice5.ItemPriceID = 5; itemPrice5.ItemID = 5; itemPrice5.SupplierID = 1; itemPrice5.Price = 2; itemPrices.Add(itemPrice5);
+            ItemPrice itemPrice6 = new ItemPrice(); itemPrice6.ItemPriceID = 6; itemPrice6.ItemID = 6; itemPrice6.SupplierID = 1; itemPrice6.Price = 3; itemPrices.Add(itemPrice6);
+            ItemPrice itemPrice7 = new ItemPrice(); itemPrice7.ItemPriceID = 7; itemPrice7.ItemID = 7; itemPrice7.SupplierID = 1; itemPrice7.Price = 2; itemPrices.Add(itemPrice7);
+            ItemPrice itemPrice8 = new ItemPrice(); itemPrice8.ItemPriceID = 8; itemPrice8.ItemID = 8; itemPrice8.SupplierID = 1; itemPrice8.Price = 1; itemPrices.Add(itemPrice8);
+            ItemPrice itemPrice9 = new ItemPrice(); itemPrice9.ItemPriceID = 9; itemPrice9.ItemID = 9; itemPrice9.SupplierID = 1; itemPrice9.Price = 5; itemPrices.Add(itemPrice9);
+            ItemPrice itemPrice10 = new ItemPrice(); itemPrice10.ItemPriceID = 10; itemPrice10.ItemID = 10; itemPrice10.SupplierID = 1; itemPrice10.Price = 4; itemPrices.Add(itemPrice10);
+            ItemPrice itemPrice11 = new ItemPrice(); itemPrice11.ItemPriceID = 11; itemPrice11.ItemID = 11; itemPrice11.SupplierID = 1; itemPrice11.Price = 1; itemPrices.Add(itemPrice11);
+            ItemPrice itemPrice12 = new ItemPrice(); itemPrice12.ItemPriceID = 12; itemPrice12.ItemID = 12; itemPrice12.SupplierID = 1; itemPrice12.Price = 5; itemPrices.Add(itemPrice12);
+            ItemPrice itemPrice13 = new ItemPrice(); itemPrice13.ItemPriceID = 13; itemPrice13.ItemID = 13; itemPrice13.SupplierID = 1; itemPrice13.Price = 4; itemPrices.Add(itemPrice13);
+            ItemPrice itemPrice14 = new ItemPrice(); itemPrice14.ItemPriceID = 14; itemPrice14.ItemID = 14; itemPrice14.SupplierID = 1; itemPrice14.Price = 3; itemPrices.Add(itemPrice14);
+            ItemPrice itemPrice15 = new ItemPrice(); itemPrice15.ItemPriceID = 15; itemPrice15.ItemID = 15; itemPrice15.SupplierID = 1; itemPrice15.Price = 6; itemPrices.Add(itemPrice15);
+            ItemPrice itemPrice16 = new ItemPrice(); itemPrice16.ItemPriceID = 16; itemPrice16.ItemID = 16; itemPrice16.SupplierID = 1; itemPrice16.Price = 4; itemPrices.Add(itemPrice16);
+            ItemPrice itemPrice17 = new ItemPrice(); itemPrice17.ItemPriceID = 17; itemPrice17.ItemID = 17; itemPrice17.SupplierID = 1; itemPrice17.Price = 6; itemPrices.Add(itemPrice17);
+            ItemPrice itemPrice18 = new ItemPrice(); itemPrice18.ItemPriceID = 18; itemPrice18.ItemID = 18; itemPrice18.SupplierID = 1; itemPrice18.Price = 5; itemPrices.Add(itemPrice18);
+            ItemPrice itemPrice19 = new ItemPrice(); itemPrice19.ItemPriceID = 19; itemPrice19.ItemID = 19; itemPrice19.SupplierID = 1; itemPrice19.Price = 3; itemPrices.Add(itemPrice19);
+            ItemPrice itemPrice20 = new ItemPrice(); itemPrice20.ItemPriceID = 20; itemPrice20.ItemID = 20; itemPrice20.SupplierID = 1; itemPrice20.Price = 1; itemPrices.Add(itemPrice20);
+            ItemPrice itemPrice21 = new ItemPrice(); itemPrice21.ItemPriceID = 21; itemPrice21.ItemID = 21; itemPrice21.SupplierID = 1; itemPrice21.Price = 6; itemPrices.Add(itemPrice21);
+            ItemPrice itemPrice22 = new ItemPrice(); itemPrice22.ItemPriceID = 22; itemPrice22.ItemID = 22; itemPrice22.SupplierID = 1; itemPrice22.Price = 2; itemPrices.Add(itemPrice22);
+            ItemPrice itemPrice23 = new ItemPrice(); itemPrice23.ItemPriceID = 23; itemPrice23.ItemID = 23; itemPrice23.SupplierID = 1; itemPrice23.Price = 1; itemPrices.Add(itemPrice23);
+            ItemPrice itemPrice24 = new ItemPrice(); itemPrice24.ItemPriceID = 24; itemPrice24.ItemID = 24; itemPrice24.SupplierID = 1; itemPrice24.Price = 5; itemPrices.Add(itemPrice24);
+            ItemPrice itemPrice25 = new ItemPrice(); itemPrice25.ItemPriceID = 25; itemPrice25.ItemID = 25; itemPrice25.SupplierID = 1; itemPrice25.Price = 4; itemPrices.Add(itemPrice25);
+            ItemPrice itemPrice26 = new ItemPrice(); itemPrice26.ItemPriceID = 26; itemPrice26.ItemID = 26; itemPrice26.SupplierID = 1; itemPrice26.Price = 1; itemPrices.Add(itemPrice26);
+            ItemPrice itemPrice27 = new ItemPrice(); itemPrice27.ItemPriceID = 27; itemPrice27.ItemID = 27; itemPrice27.SupplierID = 1; itemPrice27.Price = 5; itemPrices.Add(itemPrice27);
+            ItemPrice itemPrice28 = new ItemPrice(); itemPrice28.ItemPriceID = 28; itemPrice28.ItemID = 28; itemPrice28.SupplierID = 1; itemPrice28.Price = 3; itemPrices.Add(itemPrice28);
+            ItemPrice itemPrice29 = new ItemPrice(); itemPrice29.ItemPriceID = 29; itemPrice29.ItemID = 29; itemPrice29.SupplierID = 1; itemPrice29.Price = 5; itemPrices.Add(itemPrice29);
+            ItemPrice itemPrice30 = new ItemPrice(); itemPrice30.ItemPriceID = 30; itemPrice30.ItemID = 30; itemPrice30.SupplierID = 1; itemPrice30.Price = 4; itemPrices.Add(itemPrice30);
+            ItemPrice itemPrice31 = new ItemPrice(); itemPrice31.ItemPriceID = 31; itemPrice31.ItemID = 31; itemPrice31.SupplierID = 1; itemPrice31.Price = 2; itemPrices.Add(itemPrice31);
+            ItemPrice itemPrice32 = new ItemPrice(); itemPrice32.ItemPriceID = 32; itemPrice32.ItemID = 32; itemPrice32.SupplierID = 1; itemPrice32.Price = 4; itemPrices.Add(itemPrice32);
+            ItemPrice itemPrice33 = new ItemPrice(); itemPrice33.ItemPriceID = 33; itemPrice33.ItemID = 33; itemPrice33.SupplierID = 1; itemPrice33.Price = 4; itemPrices.Add(itemPrice33);
+            ItemPrice itemPrice34 = new ItemPrice(); itemPrice34.ItemPriceID = 34; itemPrice34.ItemID = 34; itemPrice34.SupplierID = 1; itemPrice34.Price = 3; itemPrices.Add(itemPrice34);
+            ItemPrice itemPrice35 = new ItemPrice(); itemPrice35.ItemPriceID = 35; itemPrice35.ItemID = 35; itemPrice35.SupplierID = 1; itemPrice35.Price = 6; itemPrices.Add(itemPrice35);
+            ItemPrice itemPrice36 = new ItemPrice(); itemPrice36.ItemPriceID = 36; itemPrice36.ItemID = 36; itemPrice36.SupplierID = 1; itemPrice36.Price = 5; itemPrices.Add(itemPrice36);
+            ItemPrice itemPrice37 = new ItemPrice(); itemPrice37.ItemPriceID = 37; itemPrice37.ItemID = 37; itemPrice37.SupplierID = 1; itemPrice37.Price = 4; itemPrices.Add(itemPrice37);
+            ItemPrice itemPrice38 = new ItemPrice(); itemPrice38.ItemPriceID = 38; itemPrice38.ItemID = 38; itemPrice38.SupplierID = 1; itemPrice38.Price = 3; itemPrices.Add(itemPrice38);
+            ItemPrice itemPrice39 = new ItemPrice(); itemPrice39.ItemPriceID = 39; itemPrice39.ItemID = 39; itemPrice39.SupplierID = 1; itemPrice39.Price = 6; itemPrices.Add(itemPrice39);
+            ItemPrice itemPrice40 = new ItemPrice(); itemPrice40.ItemPriceID = 40; itemPrice40.ItemID = 40; itemPrice40.SupplierID = 1; itemPrice40.Price = 1; itemPrices.Add(itemPrice40);
+            ItemPrice itemPrice41 = new ItemPrice(); itemPrice41.ItemPriceID = 41; itemPrice41.ItemID = 41; itemPrice41.SupplierID = 1; itemPrice41.Price = 1; itemPrices.Add(itemPrice41);
+            ItemPrice itemPrice42 = new ItemPrice(); itemPrice42.ItemPriceID = 42; itemPrice42.ItemID = 42; itemPrice42.SupplierID = 1; itemPrice42.Price = 3; itemPrices.Add(itemPrice42);
+            ItemPrice itemPrice43 = new ItemPrice(); itemPrice43.ItemPriceID = 43; itemPrice43.ItemID = 43; itemPrice43.SupplierID = 1; itemPrice43.Price = 4; itemPrices.Add(itemPrice43);
+            ItemPrice itemPrice44 = new ItemPrice(); itemPrice44.ItemPriceID = 44; itemPrice44.ItemID = 44; itemPrice44.SupplierID = 1; itemPrice44.Price = 1; itemPrices.Add(itemPrice44);
+            ItemPrice itemPrice45 = new ItemPrice(); itemPrice45.ItemPriceID = 45; itemPrice45.ItemID = 45; itemPrice45.SupplierID = 1; itemPrice45.Price = 4; itemPrices.Add(itemPrice45);
+            ItemPrice itemPrice46 = new ItemPrice(); itemPrice46.ItemPriceID = 46; itemPrice46.ItemID = 46; itemPrice46.SupplierID = 1; itemPrice46.Price = 1; itemPrices.Add(itemPrice46);
+            ItemPrice itemPrice47 = new ItemPrice(); itemPrice47.ItemPriceID = 47; itemPrice47.ItemID = 47; itemPrice47.SupplierID = 1; itemPrice47.Price = 4; itemPrices.Add(itemPrice47);
+            ItemPrice itemPrice48 = new ItemPrice(); itemPrice48.ItemPriceID = 48; itemPrice48.ItemID = 48; itemPrice48.SupplierID = 1; itemPrice48.Price = 2; itemPrices.Add(itemPrice48);
+            ItemPrice itemPrice49 = new ItemPrice(); itemPrice49.ItemPriceID = 49; itemPrice49.ItemID = 49; itemPrice49.SupplierID = 1; itemPrice49.Price = 4; itemPrices.Add(itemPrice49);
+            ItemPrice itemPrice50 = new ItemPrice(); itemPrice50.ItemPriceID = 50; itemPrice50.ItemID = 50; itemPrice50.SupplierID = 1; itemPrice50.Price = 1; itemPrices.Add(itemPrice50);
+            ItemPrice itemPrice51 = new ItemPrice(); itemPrice51.ItemPriceID = 51; itemPrice51.ItemID = 51; itemPrice51.SupplierID = 1; itemPrice51.Price = 4; itemPrices.Add(itemPrice51);
+            ItemPrice itemPrice52 = new ItemPrice(); itemPrice52.ItemPriceID = 52; itemPrice52.ItemID = 52; itemPrice52.SupplierID = 1; itemPrice52.Price = 3; itemPrices.Add(itemPrice52);
+            ItemPrice itemPrice53 = new ItemPrice(); itemPrice53.ItemPriceID = 53; itemPrice53.ItemID = 53; itemPrice53.SupplierID = 1; itemPrice53.Price = 4; itemPrices.Add(itemPrice53);
+            ItemPrice itemPrice54 = new ItemPrice(); itemPrice54.ItemPriceID = 54; itemPrice54.ItemID = 54; itemPrice54.SupplierID = 1; itemPrice54.Price = 5; itemPrices.Add(itemPrice54);
+            ItemPrice itemPrice55 = new ItemPrice(); itemPrice55.ItemPriceID = 55; itemPrice55.ItemID = 55; itemPrice55.SupplierID = 1; itemPrice55.Price = 4; itemPrices.Add(itemPrice55);
+            ItemPrice itemPrice56 = new ItemPrice(); itemPrice56.ItemPriceID = 56; itemPrice56.ItemID = 56; itemPrice56.SupplierID = 1; itemPrice56.Price = 5; itemPrices.Add(itemPrice56);
+            ItemPrice itemPrice57 = new ItemPrice(); itemPrice57.ItemPriceID = 57; itemPrice57.ItemID = 57; itemPrice57.SupplierID = 1; itemPrice57.Price = 5; itemPrices.Add(itemPrice57);
+            ItemPrice itemPrice58 = new ItemPrice(); itemPrice58.ItemPriceID = 58; itemPrice58.ItemID = 58; itemPrice58.SupplierID = 1; itemPrice58.Price = 1; itemPrices.Add(itemPrice58);
+            ItemPrice itemPrice59 = new ItemPrice(); itemPrice59.ItemPriceID = 59; itemPrice59.ItemID = 59; itemPrice59.SupplierID = 1; itemPrice59.Price = 3; itemPrices.Add(itemPrice59);
+            ItemPrice itemPrice60 = new ItemPrice(); itemPrice60.ItemPriceID = 60; itemPrice60.ItemID = 60; itemPrice60.SupplierID = 1; itemPrice60.Price = 6; itemPrices.Add(itemPrice60);
+            ItemPrice itemPrice61 = new ItemPrice(); itemPrice61.ItemPriceID = 61; itemPrice61.ItemID = 61; itemPrice61.SupplierID = 1; itemPrice61.Price = 1; itemPrices.Add(itemPrice61);
+            ItemPrice itemPrice62 = new ItemPrice(); itemPrice62.ItemPriceID = 62; itemPrice62.ItemID = 62; itemPrice62.SupplierID = 1; itemPrice62.Price = 1; itemPrices.Add(itemPrice62);
+            ItemPrice itemPrice63 = new ItemPrice(); itemPrice63.ItemPriceID = 63; itemPrice63.ItemID = 63; itemPrice63.SupplierID = 1; itemPrice63.Price = 1; itemPrices.Add(itemPrice63);
+            ItemPrice itemPrice64 = new ItemPrice(); itemPrice64.ItemPriceID = 64; itemPrice64.ItemID = 64; itemPrice64.SupplierID = 1; itemPrice64.Price = 6; itemPrices.Add(itemPrice64);
+            ItemPrice itemPrice65 = new ItemPrice(); itemPrice65.ItemPriceID = 65; itemPrice65.ItemID = 65; itemPrice65.SupplierID = 1; itemPrice65.Price = 2; itemPrices.Add(itemPrice65);
+            ItemPrice itemPrice66 = new ItemPrice(); itemPrice66.ItemPriceID = 66; itemPrice66.ItemID = 66; itemPrice66.SupplierID = 1; itemPrice66.Price = 6; itemPrices.Add(itemPrice66);
+            ItemPrice itemPrice67 = new ItemPrice(); itemPrice67.ItemPriceID = 67; itemPrice67.ItemID = 67; itemPrice67.SupplierID = 1; itemPrice67.Price = 3; itemPrices.Add(itemPrice67);
+            ItemPrice itemPrice68 = new ItemPrice(); itemPrice68.ItemPriceID = 68; itemPrice68.ItemID = 68; itemPrice68.SupplierID = 1; itemPrice68.Price = 6; itemPrices.Add(itemPrice68);
+            ItemPrice itemPrice69 = new ItemPrice(); itemPrice69.ItemPriceID = 69; itemPrice69.ItemID = 69; itemPrice69.SupplierID = 1; itemPrice69.Price = 6; itemPrices.Add(itemPrice69);
+            ItemPrice itemPrice70 = new ItemPrice(); itemPrice70.ItemPriceID = 70; itemPrice70.ItemID = 70; itemPrice70.SupplierID = 1; itemPrice70.Price = 5; itemPrices.Add(itemPrice70);
+            ItemPrice itemPrice71 = new ItemPrice(); itemPrice71.ItemPriceID = 71; itemPrice71.ItemID = 71; itemPrice71.SupplierID = 1; itemPrice71.Price = 2; itemPrices.Add(itemPrice71);
+            ItemPrice itemPrice72 = new ItemPrice(); itemPrice72.ItemPriceID = 72; itemPrice72.ItemID = 72; itemPrice72.SupplierID = 1; itemPrice72.Price = 5; itemPrices.Add(itemPrice72);
+            ItemPrice itemPrice73 = new ItemPrice(); itemPrice73.ItemPriceID = 73; itemPrice73.ItemID = 73; itemPrice73.SupplierID = 1; itemPrice73.Price = 1; itemPrices.Add(itemPrice73);
+            ItemPrice itemPrice74 = new ItemPrice(); itemPrice74.ItemPriceID = 74; itemPrice74.ItemID = 74; itemPrice74.SupplierID = 1; itemPrice74.Price = 6; itemPrices.Add(itemPrice74);
+            ItemPrice itemPrice75 = new ItemPrice(); itemPrice75.ItemPriceID = 75; itemPrice75.ItemID = 75; itemPrice75.SupplierID = 1; itemPrice75.Price = 1; itemPrices.Add(itemPrice75);
+            ItemPrice itemPrice76 = new ItemPrice(); itemPrice76.ItemPriceID = 76; itemPrice76.ItemID = 76; itemPrice76.SupplierID = 1; itemPrice76.Price = 6; itemPrices.Add(itemPrice76);
+            ItemPrice itemPrice77 = new ItemPrice(); itemPrice77.ItemPriceID = 77; itemPrice77.ItemID = 77; itemPrice77.SupplierID = 1; itemPrice77.Price = 2; itemPrices.Add(itemPrice77);
+            ItemPrice itemPrice78 = new ItemPrice(); itemPrice78.ItemPriceID = 78; itemPrice78.ItemID = 78; itemPrice78.SupplierID = 1; itemPrice78.Price = 5; itemPrices.Add(itemPrice78);
+            ItemPrice itemPrice79 = new ItemPrice(); itemPrice79.ItemPriceID = 79; itemPrice79.ItemID = 79; itemPrice79.SupplierID = 1; itemPrice79.Price = 6; itemPrices.Add(itemPrice79);
+            ItemPrice itemPrice80 = new ItemPrice(); itemPrice80.ItemPriceID = 80; itemPrice80.ItemID = 80; itemPrice80.SupplierID = 1; itemPrice80.Price = 6; itemPrices.Add(itemPrice80);
+            ItemPrice itemPrice81 = new ItemPrice(); itemPrice81.ItemPriceID = 81; itemPrice81.ItemID = 81; itemPrice81.SupplierID = 1; itemPrice81.Price = 2; itemPrices.Add(itemPrice81);
+            ItemPrice itemPrice82 = new ItemPrice(); itemPrice82.ItemPriceID = 82; itemPrice82.ItemID = 82; itemPrice82.SupplierID = 1; itemPrice82.Price = 2; itemPrices.Add(itemPrice82);
+            ItemPrice itemPrice83 = new ItemPrice(); itemPrice83.ItemPriceID = 83; itemPrice83.ItemID = 83; itemPrice83.SupplierID = 1; itemPrice83.Price = 1; itemPrices.Add(itemPrice83);
+            ItemPrice itemPrice84 = new ItemPrice(); itemPrice84.ItemPriceID = 84; itemPrice84.ItemID = 84; itemPrice84.SupplierID = 1; itemPrice84.Price = 1; itemPrices.Add(itemPrice84);
+            ItemPrice itemPrice85 = new ItemPrice(); itemPrice85.ItemPriceID = 85; itemPrice85.ItemID = 85; itemPrice85.SupplierID = 1; itemPrice85.Price = 2; itemPrices.Add(itemPrice85);
+            ItemPrice itemPrice86 = new ItemPrice(); itemPrice86.ItemPriceID = 86; itemPrice86.ItemID = 86; itemPrice86.SupplierID = 1; itemPrice86.Price = 4; itemPrices.Add(itemPrice86);
+            ItemPrice itemPrice87 = new ItemPrice(); itemPrice87.ItemPriceID = 87; itemPrice87.ItemID = 87; itemPrice87.SupplierID = 1; itemPrice87.Price = 6; itemPrices.Add(itemPrice87);
+            ItemPrice itemPrice88 = new ItemPrice(); itemPrice88.ItemPriceID = 88; itemPrice88.ItemID = 88; itemPrice88.SupplierID = 1; itemPrice88.Price = 4; itemPrices.Add(itemPrice88);
+            ItemPrice itemPrice89 = new ItemPrice(); itemPrice89.ItemPriceID = 89; itemPrice89.ItemID = 89; itemPrice89.SupplierID = 1; itemPrice89.Price = 4; itemPrices.Add(itemPrice89);
+            ItemPrice itemPrice90 = new ItemPrice(); itemPrice90.ItemPriceID = 90; itemPrice90.ItemID = 1; itemPrice90.SupplierID = 2; itemPrice90.Price = 3; itemPrices.Add(itemPrice90);
+            ItemPrice itemPrice91 = new ItemPrice(); itemPrice91.ItemPriceID = 91; itemPrice91.ItemID = 2; itemPrice91.SupplierID = 2; itemPrice91.Price = 3; itemPrices.Add(itemPrice91);
+            ItemPrice itemPrice92 = new ItemPrice(); itemPrice92.ItemPriceID = 92; itemPrice92.ItemID = 3; itemPrice92.SupplierID = 2; itemPrice92.Price = 4; itemPrices.Add(itemPrice92);
+            ItemPrice itemPrice93 = new ItemPrice(); itemPrice93.ItemPriceID = 93; itemPrice93.ItemID = 4; itemPrice93.SupplierID = 2; itemPrice93.Price = 3; itemPrices.Add(itemPrice93);
+            ItemPrice itemPrice94 = new ItemPrice(); itemPrice94.ItemPriceID = 94; itemPrice94.ItemID = 5; itemPrice94.SupplierID = 2; itemPrice94.Price = 3; itemPrices.Add(itemPrice94);
+            ItemPrice itemPrice95 = new ItemPrice(); itemPrice95.ItemPriceID = 95; itemPrice95.ItemID = 6; itemPrice95.SupplierID = 2; itemPrice95.Price = 3; itemPrices.Add(itemPrice95);
+            ItemPrice itemPrice96 = new ItemPrice(); itemPrice96.ItemPriceID = 96; itemPrice96.ItemID = 7; itemPrice96.SupplierID = 2; itemPrice96.Price = 4; itemPrices.Add(itemPrice96);
+            ItemPrice itemPrice97 = new ItemPrice(); itemPrice97.ItemPriceID = 97; itemPrice97.ItemID = 8; itemPrice97.SupplierID = 2; itemPrice97.Price = 2; itemPrices.Add(itemPrice97);
+            ItemPrice itemPrice98 = new ItemPrice(); itemPrice98.ItemPriceID = 98; itemPrice98.ItemID = 9; itemPrice98.SupplierID = 2; itemPrice98.Price = 5; itemPrices.Add(itemPrice98);
+            ItemPrice itemPrice99 = new ItemPrice(); itemPrice99.ItemPriceID = 99; itemPrice99.ItemID = 10; itemPrice99.SupplierID = 2; itemPrice99.Price = 2; itemPrices.Add(itemPrice99);
+            ItemPrice itemPrice100 = new ItemPrice(); itemPrice100.ItemPriceID = 100; itemPrice100.ItemID = 11; itemPrice100.SupplierID = 2; itemPrice100.Price = 4; itemPrices.Add(itemPrice100);
+            ItemPrice itemPrice101 = new ItemPrice(); itemPrice101.ItemPriceID = 101; itemPrice101.ItemID = 12; itemPrice101.SupplierID = 2; itemPrice101.Price = 5; itemPrices.Add(itemPrice101);
+            ItemPrice itemPrice102 = new ItemPrice(); itemPrice102.ItemPriceID = 102; itemPrice102.ItemID = 13; itemPrice102.SupplierID = 2; itemPrice102.Price = 2; itemPrices.Add(itemPrice102);
+            ItemPrice itemPrice103 = new ItemPrice(); itemPrice103.ItemPriceID = 103; itemPrice103.ItemID = 14; itemPrice103.SupplierID = 2; itemPrice103.Price = 1; itemPrices.Add(itemPrice103);
+            ItemPrice itemPrice104 = new ItemPrice(); itemPrice104.ItemPriceID = 104; itemPrice104.ItemID = 15; itemPrice104.SupplierID = 2; itemPrice104.Price = 3; itemPrices.Add(itemPrice104);
+            ItemPrice itemPrice105 = new ItemPrice(); itemPrice105.ItemPriceID = 105; itemPrice105.ItemID = 16; itemPrice105.SupplierID = 2; itemPrice105.Price = 1; itemPrices.Add(itemPrice105);
+            ItemPrice itemPrice106 = new ItemPrice(); itemPrice106.ItemPriceID = 106; itemPrice106.ItemID = 17; itemPrice106.SupplierID = 2; itemPrice106.Price = 1; itemPrices.Add(itemPrice106);
+            ItemPrice itemPrice107 = new ItemPrice(); itemPrice107.ItemPriceID = 107; itemPrice107.ItemID = 18; itemPrice107.SupplierID = 2; itemPrice107.Price = 2; itemPrices.Add(itemPrice107);
+            ItemPrice itemPrice108 = new ItemPrice(); itemPrice108.ItemPriceID = 108; itemPrice108.ItemID = 19; itemPrice108.SupplierID = 2; itemPrice108.Price = 2; itemPrices.Add(itemPrice108);
+            ItemPrice itemPrice109 = new ItemPrice(); itemPrice109.ItemPriceID = 109; itemPrice109.ItemID = 20; itemPrice109.SupplierID = 2; itemPrice109.Price = 2; itemPrices.Add(itemPrice109);
+            ItemPrice itemPrice110 = new ItemPrice(); itemPrice110.ItemPriceID = 110; itemPrice110.ItemID = 21; itemPrice110.SupplierID = 2; itemPrice110.Price = 1; itemPrices.Add(itemPrice110);
+            ItemPrice itemPrice111 = new ItemPrice(); itemPrice111.ItemPriceID = 111; itemPrice111.ItemID = 22; itemPrice111.SupplierID = 2; itemPrice111.Price = 2; itemPrices.Add(itemPrice111);
+            ItemPrice itemPrice112 = new ItemPrice(); itemPrice112.ItemPriceID = 112; itemPrice112.ItemID = 23; itemPrice112.SupplierID = 2; itemPrice112.Price = 4; itemPrices.Add(itemPrice112);
+            ItemPrice itemPrice113 = new ItemPrice(); itemPrice113.ItemPriceID = 113; itemPrice113.ItemID = 24; itemPrice113.SupplierID = 2; itemPrice113.Price = 6; itemPrices.Add(itemPrice113);
+            ItemPrice itemPrice114 = new ItemPrice(); itemPrice114.ItemPriceID = 114; itemPrice114.ItemID = 25; itemPrice114.SupplierID = 2; itemPrice114.Price = 6; itemPrices.Add(itemPrice114);
+            ItemPrice itemPrice115 = new ItemPrice(); itemPrice115.ItemPriceID = 115; itemPrice115.ItemID = 26; itemPrice115.SupplierID = 2; itemPrice115.Price = 4; itemPrices.Add(itemPrice115);
+            ItemPrice itemPrice116 = new ItemPrice(); itemPrice116.ItemPriceID = 116; itemPrice116.ItemID = 27; itemPrice116.SupplierID = 2; itemPrice116.Price = 1; itemPrices.Add(itemPrice116);
+            ItemPrice itemPrice117 = new ItemPrice(); itemPrice117.ItemPriceID = 117; itemPrice117.ItemID = 28; itemPrice117.SupplierID = 2; itemPrice117.Price = 2; itemPrices.Add(itemPrice117);
+            ItemPrice itemPrice118 = new ItemPrice(); itemPrice118.ItemPriceID = 118; itemPrice118.ItemID = 29; itemPrice118.SupplierID = 2; itemPrice118.Price = 3; itemPrices.Add(itemPrice118);
+            ItemPrice itemPrice119 = new ItemPrice(); itemPrice119.ItemPriceID = 119; itemPrice119.ItemID = 30; itemPrice119.SupplierID = 2; itemPrice119.Price = 1; itemPrices.Add(itemPrice119);
+            ItemPrice itemPrice120 = new ItemPrice(); itemPrice120.ItemPriceID = 120; itemPrice120.ItemID = 31; itemPrice120.SupplierID = 2; itemPrice120.Price = 6; itemPrices.Add(itemPrice120);
+            ItemPrice itemPrice121 = new ItemPrice(); itemPrice121.ItemPriceID = 121; itemPrice121.ItemID = 32; itemPrice121.SupplierID = 2; itemPrice121.Price = 6; itemPrices.Add(itemPrice121);
+            ItemPrice itemPrice122 = new ItemPrice(); itemPrice122.ItemPriceID = 122; itemPrice122.ItemID = 33; itemPrice122.SupplierID = 2; itemPrice122.Price = 5; itemPrices.Add(itemPrice122);
+            ItemPrice itemPrice123 = new ItemPrice(); itemPrice123.ItemPriceID = 123; itemPrice123.ItemID = 34; itemPrice123.SupplierID = 2; itemPrice123.Price = 2; itemPrices.Add(itemPrice123);
+            ItemPrice itemPrice124 = new ItemPrice(); itemPrice124.ItemPriceID = 124; itemPrice124.ItemID = 35; itemPrice124.SupplierID = 2; itemPrice124.Price = 5; itemPrices.Add(itemPrice124);
+            ItemPrice itemPrice125 = new ItemPrice(); itemPrice125.ItemPriceID = 125; itemPrice125.ItemID = 36; itemPrice125.SupplierID = 2; itemPrice125.Price = 1; itemPrices.Add(itemPrice125);
+            ItemPrice itemPrice126 = new ItemPrice(); itemPrice126.ItemPriceID = 126; itemPrice126.ItemID = 37; itemPrice126.SupplierID = 2; itemPrice126.Price = 6; itemPrices.Add(itemPrice126);
+            ItemPrice itemPrice127 = new ItemPrice(); itemPrice127.ItemPriceID = 127; itemPrice127.ItemID = 38; itemPrice127.SupplierID = 2; itemPrice127.Price = 4; itemPrices.Add(itemPrice127);
+            ItemPrice itemPrice128 = new ItemPrice(); itemPrice128.ItemPriceID = 128; itemPrice128.ItemID = 39; itemPrice128.SupplierID = 2; itemPrice128.Price = 4; itemPrices.Add(itemPrice128);
+            ItemPrice itemPrice129 = new ItemPrice(); itemPrice129.ItemPriceID = 129; itemPrice129.ItemID = 40; itemPrice129.SupplierID = 2; itemPrice129.Price = 5; itemPrices.Add(itemPrice129);
+            ItemPrice itemPrice130 = new ItemPrice(); itemPrice130.ItemPriceID = 130; itemPrice130.ItemID = 41; itemPrice130.SupplierID = 2; itemPrice130.Price = 5; itemPrices.Add(itemPrice130);
+            ItemPrice itemPrice131 = new ItemPrice(); itemPrice131.ItemPriceID = 131; itemPrice131.ItemID = 42; itemPrice131.SupplierID = 2; itemPrice131.Price = 2; itemPrices.Add(itemPrice131);
+            ItemPrice itemPrice132 = new ItemPrice(); itemPrice132.ItemPriceID = 132; itemPrice132.ItemID = 43; itemPrice132.SupplierID = 2; itemPrice132.Price = 6; itemPrices.Add(itemPrice132);
+            ItemPrice itemPrice133 = new ItemPrice(); itemPrice133.ItemPriceID = 133; itemPrice133.ItemID = 44; itemPrice133.SupplierID = 2; itemPrice133.Price = 5; itemPrices.Add(itemPrice133);
+            ItemPrice itemPrice134 = new ItemPrice(); itemPrice134.ItemPriceID = 134; itemPrice134.ItemID = 45; itemPrice134.SupplierID = 2; itemPrice134.Price = 6; itemPrices.Add(itemPrice134);
+            ItemPrice itemPrice135 = new ItemPrice(); itemPrice135.ItemPriceID = 135; itemPrice135.ItemID = 46; itemPrice135.SupplierID = 2; itemPrice135.Price = 6; itemPrices.Add(itemPrice135);
+            ItemPrice itemPrice136 = new ItemPrice(); itemPrice136.ItemPriceID = 136; itemPrice136.ItemID = 47; itemPrice136.SupplierID = 2; itemPrice136.Price = 5; itemPrices.Add(itemPrice136);
+            ItemPrice itemPrice137 = new ItemPrice(); itemPrice137.ItemPriceID = 137; itemPrice137.ItemID = 48; itemPrice137.SupplierID = 2; itemPrice137.Price = 3; itemPrices.Add(itemPrice137);
+            ItemPrice itemPrice138 = new ItemPrice(); itemPrice138.ItemPriceID = 138; itemPrice138.ItemID = 49; itemPrice138.SupplierID = 2; itemPrice138.Price = 4; itemPrices.Add(itemPrice138);
+            ItemPrice itemPrice139 = new ItemPrice(); itemPrice139.ItemPriceID = 139; itemPrice139.ItemID = 50; itemPrice139.SupplierID = 2; itemPrice139.Price = 1; itemPrices.Add(itemPrice139);
+            ItemPrice itemPrice140 = new ItemPrice(); itemPrice140.ItemPriceID = 140; itemPrice140.ItemID = 51; itemPrice140.SupplierID = 2; itemPrice140.Price = 1; itemPrices.Add(itemPrice140);
+            ItemPrice itemPrice141 = new ItemPrice(); itemPrice141.ItemPriceID = 141; itemPrice141.ItemID = 52; itemPrice141.SupplierID = 2; itemPrice141.Price = 1; itemPrices.Add(itemPrice141);
+            ItemPrice itemPrice142 = new ItemPrice(); itemPrice142.ItemPriceID = 142; itemPrice142.ItemID = 53; itemPrice142.SupplierID = 2; itemPrice142.Price = 6; itemPrices.Add(itemPrice142);
+            ItemPrice itemPrice143 = new ItemPrice(); itemPrice143.ItemPriceID = 143; itemPrice143.ItemID = 54; itemPrice143.SupplierID = 2; itemPrice143.Price = 1; itemPrices.Add(itemPrice143);
+            ItemPrice itemPrice144 = new ItemPrice(); itemPrice144.ItemPriceID = 144; itemPrice144.ItemID = 55; itemPrice144.SupplierID = 2; itemPrice144.Price = 6; itemPrices.Add(itemPrice144);
+            ItemPrice itemPrice145 = new ItemPrice(); itemPrice145.ItemPriceID = 145; itemPrice145.ItemID = 56; itemPrice145.SupplierID = 2; itemPrice145.Price = 2; itemPrices.Add(itemPrice145);
+            ItemPrice itemPrice146 = new ItemPrice(); itemPrice146.ItemPriceID = 146; itemPrice146.ItemID = 57; itemPrice146.SupplierID = 2; itemPrice146.Price = 3; itemPrices.Add(itemPrice146);
+            ItemPrice itemPrice147 = new ItemPrice(); itemPrice147.ItemPriceID = 147; itemPrice147.ItemID = 58; itemPrice147.SupplierID = 2; itemPrice147.Price = 4; itemPrices.Add(itemPrice147);
+            ItemPrice itemPrice148 = new ItemPrice(); itemPrice148.ItemPriceID = 148; itemPrice148.ItemID = 59; itemPrice148.SupplierID = 2; itemPrice148.Price = 6; itemPrices.Add(itemPrice148);
+            ItemPrice itemPrice149 = new ItemPrice(); itemPrice149.ItemPriceID = 149; itemPrice149.ItemID = 60; itemPrice149.SupplierID = 2; itemPrice149.Price = 3; itemPrices.Add(itemPrice149);
+            ItemPrice itemPrice150 = new ItemPrice(); itemPrice150.ItemPriceID = 150; itemPrice150.ItemID = 61; itemPrice150.SupplierID = 2; itemPrice150.Price = 4; itemPrices.Add(itemPrice150);
+            ItemPrice itemPrice151 = new ItemPrice(); itemPrice151.ItemPriceID = 151; itemPrice151.ItemID = 62; itemPrice151.SupplierID = 2; itemPrice151.Price = 6; itemPrices.Add(itemPrice151);
+            ItemPrice itemPrice152 = new ItemPrice(); itemPrice152.ItemPriceID = 152; itemPrice152.ItemID = 63; itemPrice152.SupplierID = 2; itemPrice152.Price = 3; itemPrices.Add(itemPrice152);
+            ItemPrice itemPrice153 = new ItemPrice(); itemPrice153.ItemPriceID = 153; itemPrice153.ItemID = 64; itemPrice153.SupplierID = 2; itemPrice153.Price = 4; itemPrices.Add(itemPrice153);
+            ItemPrice itemPrice154 = new ItemPrice(); itemPrice154.ItemPriceID = 154; itemPrice154.ItemID = 65; itemPrice154.SupplierID = 2; itemPrice154.Price = 5; itemPrices.Add(itemPrice154);
+            ItemPrice itemPrice155 = new ItemPrice(); itemPrice155.ItemPriceID = 155; itemPrice155.ItemID = 66; itemPrice155.SupplierID = 2; itemPrice155.Price = 6; itemPrices.Add(itemPrice155);
+            ItemPrice itemPrice156 = new ItemPrice(); itemPrice156.ItemPriceID = 156; itemPrice156.ItemID = 67; itemPrice156.SupplierID = 2; itemPrice156.Price = 5; itemPrices.Add(itemPrice156);
+            ItemPrice itemPrice157 = new ItemPrice(); itemPrice157.ItemPriceID = 157; itemPrice157.ItemID = 68; itemPrice157.SupplierID = 2; itemPrice157.Price = 3; itemPrices.Add(itemPrice157);
+            ItemPrice itemPrice158 = new ItemPrice(); itemPrice158.ItemPriceID = 158; itemPrice158.ItemID = 69; itemPrice158.SupplierID = 2; itemPrice158.Price = 5; itemPrices.Add(itemPrice158);
+            ItemPrice itemPrice159 = new ItemPrice(); itemPrice159.ItemPriceID = 159; itemPrice159.ItemID = 70; itemPrice159.SupplierID = 2; itemPrice159.Price = 4; itemPrices.Add(itemPrice159);
+            ItemPrice itemPrice160 = new ItemPrice(); itemPrice160.ItemPriceID = 160; itemPrice160.ItemID = 71; itemPrice160.SupplierID = 2; itemPrice160.Price = 3; itemPrices.Add(itemPrice160);
+            ItemPrice itemPrice161 = new ItemPrice(); itemPrice161.ItemPriceID = 161; itemPrice161.ItemID = 72; itemPrice161.SupplierID = 2; itemPrice161.Price = 4; itemPrices.Add(itemPrice161);
+            ItemPrice itemPrice162 = new ItemPrice(); itemPrice162.ItemPriceID = 162; itemPrice162.ItemID = 73; itemPrice162.SupplierID = 2; itemPrice162.Price = 6; itemPrices.Add(itemPrice162);
+            ItemPrice itemPrice163 = new ItemPrice(); itemPrice163.ItemPriceID = 163; itemPrice163.ItemID = 74; itemPrice163.SupplierID = 2; itemPrice163.Price = 1; itemPrices.Add(itemPrice163);
+            ItemPrice itemPrice164 = new ItemPrice(); itemPrice164.ItemPriceID = 164; itemPrice164.ItemID = 75; itemPrice164.SupplierID = 2; itemPrice164.Price = 6; itemPrices.Add(itemPrice164);
+            ItemPrice itemPrice165 = new ItemPrice(); itemPrice165.ItemPriceID = 165; itemPrice165.ItemID = 76; itemPrice165.SupplierID = 2; itemPrice165.Price = 3; itemPrices.Add(itemPrice165);
+            ItemPrice itemPrice166 = new ItemPrice(); itemPrice166.ItemPriceID = 166; itemPrice166.ItemID = 77; itemPrice166.SupplierID = 2; itemPrice166.Price = 1; itemPrices.Add(itemPrice166);
+            ItemPrice itemPrice167 = new ItemPrice(); itemPrice167.ItemPriceID = 167; itemPrice167.ItemID = 78; itemPrice167.SupplierID = 2; itemPrice167.Price = 1; itemPrices.Add(itemPrice167);
+            ItemPrice itemPrice168 = new ItemPrice(); itemPrice168.ItemPriceID = 168; itemPrice168.ItemID = 79; itemPrice168.SupplierID = 2; itemPrice168.Price = 1; itemPrices.Add(itemPrice168);
+            ItemPrice itemPrice169 = new ItemPrice(); itemPrice169.ItemPriceID = 169; itemPrice169.ItemID = 80; itemPrice169.SupplierID = 2; itemPrice169.Price = 2; itemPrices.Add(itemPrice169);
+            ItemPrice itemPrice170 = new ItemPrice(); itemPrice170.ItemPriceID = 170; itemPrice170.ItemID = 81; itemPrice170.SupplierID = 2; itemPrice170.Price = 3; itemPrices.Add(itemPrice170);
+            ItemPrice itemPrice171 = new ItemPrice(); itemPrice171.ItemPriceID = 171; itemPrice171.ItemID = 82; itemPrice171.SupplierID = 2; itemPrice171.Price = 4; itemPrices.Add(itemPrice171);
+            ItemPrice itemPrice172 = new ItemPrice(); itemPrice172.ItemPriceID = 172; itemPrice172.ItemID = 83; itemPrice172.SupplierID = 2; itemPrice172.Price = 5; itemPrices.Add(itemPrice172);
+            ItemPrice itemPrice173 = new ItemPrice(); itemPrice173.ItemPriceID = 173; itemPrice173.ItemID = 84; itemPrice173.SupplierID = 2; itemPrice173.Price = 5; itemPrices.Add(itemPrice173);
+            ItemPrice itemPrice174 = new ItemPrice(); itemPrice174.ItemPriceID = 174; itemPrice174.ItemID = 85; itemPrice174.SupplierID = 2; itemPrice174.Price = 6; itemPrices.Add(itemPrice174);
+            ItemPrice itemPrice175 = new ItemPrice(); itemPrice175.ItemPriceID = 175; itemPrice175.ItemID = 86; itemPrice175.SupplierID = 2; itemPrice175.Price = 6; itemPrices.Add(itemPrice175);
+            ItemPrice itemPrice176 = new ItemPrice(); itemPrice176.ItemPriceID = 176; itemPrice176.ItemID = 87; itemPrice176.SupplierID = 2; itemPrice176.Price = 1; itemPrices.Add(itemPrice176);
+            ItemPrice itemPrice177 = new ItemPrice(); itemPrice177.ItemPriceID = 177; itemPrice177.ItemID = 88; itemPrice177.SupplierID = 2; itemPrice177.Price = 2; itemPrices.Add(itemPrice177);
+            ItemPrice itemPrice178 = new ItemPrice(); itemPrice178.ItemPriceID = 178; itemPrice178.ItemID = 89; itemPrice178.SupplierID = 2; itemPrice178.Price = 2; itemPrices.Add(itemPrice178);
+            ItemPrice itemPrice179 = new ItemPrice(); itemPrice179.ItemPriceID = 179; itemPrice179.ItemID = 1; itemPrice179.SupplierID = 3; itemPrice179.Price = 2; itemPrices.Add(itemPrice179);
+            ItemPrice itemPrice180 = new ItemPrice(); itemPrice180.ItemPriceID = 180; itemPrice180.ItemID = 2; itemPrice180.SupplierID = 3; itemPrice180.Price = 6; itemPrices.Add(itemPrice180);
+            ItemPrice itemPrice181 = new ItemPrice(); itemPrice181.ItemPriceID = 181; itemPrice181.ItemID = 3; itemPrice181.SupplierID = 3; itemPrice181.Price = 5; itemPrices.Add(itemPrice181);
+            ItemPrice itemPrice182 = new ItemPrice(); itemPrice182.ItemPriceID = 182; itemPrice182.ItemID = 4; itemPrice182.SupplierID = 3; itemPrice182.Price = 5; itemPrices.Add(itemPrice182);
+            ItemPrice itemPrice183 = new ItemPrice(); itemPrice183.ItemPriceID = 183; itemPrice183.ItemID = 5; itemPrice183.SupplierID = 3; itemPrice183.Price = 6; itemPrices.Add(itemPrice183);
+            ItemPrice itemPrice184 = new ItemPrice(); itemPrice184.ItemPriceID = 184; itemPrice184.ItemID = 6; itemPrice184.SupplierID = 3; itemPrice184.Price = 1; itemPrices.Add(itemPrice184);
+            ItemPrice itemPrice185 = new ItemPrice(); itemPrice185.ItemPriceID = 185; itemPrice185.ItemID = 7; itemPrice185.SupplierID = 3; itemPrice185.Price = 5; itemPrices.Add(itemPrice185);
+            ItemPrice itemPrice186 = new ItemPrice(); itemPrice186.ItemPriceID = 186; itemPrice186.ItemID = 8; itemPrice186.SupplierID = 3; itemPrice186.Price = 3; itemPrices.Add(itemPrice186);
+            ItemPrice itemPrice187 = new ItemPrice(); itemPrice187.ItemPriceID = 187; itemPrice187.ItemID = 9; itemPrice187.SupplierID = 3; itemPrice187.Price = 2; itemPrices.Add(itemPrice187);
+            ItemPrice itemPrice188 = new ItemPrice(); itemPrice188.ItemPriceID = 188; itemPrice188.ItemID = 10; itemPrice188.SupplierID = 3; itemPrice188.Price = 1; itemPrices.Add(itemPrice188);
+            ItemPrice itemPrice189 = new ItemPrice(); itemPrice189.ItemPriceID = 189; itemPrice189.ItemID = 11; itemPrice189.SupplierID = 3; itemPrice189.Price = 2; itemPrices.Add(itemPrice189);
+            ItemPrice itemPrice190 = new ItemPrice(); itemPrice190.ItemPriceID = 190; itemPrice190.ItemID = 12; itemPrice190.SupplierID = 3; itemPrice190.Price = 3; itemPrices.Add(itemPrice190);
+            ItemPrice itemPrice191 = new ItemPrice(); itemPrice191.ItemPriceID = 191; itemPrice191.ItemID = 13; itemPrice191.SupplierID = 3; itemPrice191.Price = 4; itemPrices.Add(itemPrice191);
+            ItemPrice itemPrice192 = new ItemPrice(); itemPrice192.ItemPriceID = 192; itemPrice192.ItemID = 14; itemPrice192.SupplierID = 3; itemPrice192.Price = 5; itemPrices.Add(itemPrice192);
+            ItemPrice itemPrice193 = new ItemPrice(); itemPrice193.ItemPriceID = 193; itemPrice193.ItemID = 15; itemPrice193.SupplierID = 3; itemPrice193.Price = 2; itemPrices.Add(itemPrice193);
+            ItemPrice itemPrice194 = new ItemPrice(); itemPrice194.ItemPriceID = 194; itemPrice194.ItemID = 16; itemPrice194.SupplierID = 3; itemPrice194.Price = 6; itemPrices.Add(itemPrice194);
+            ItemPrice itemPrice195 = new ItemPrice(); itemPrice195.ItemPriceID = 195; itemPrice195.ItemID = 17; itemPrice195.SupplierID = 3; itemPrice195.Price = 6; itemPrices.Add(itemPrice195);
+            ItemPrice itemPrice196 = new ItemPrice(); itemPrice196.ItemPriceID = 196; itemPrice196.ItemID = 18; itemPrice196.SupplierID = 3; itemPrice196.Price = 4; itemPrices.Add(itemPrice196);
+            ItemPrice itemPrice197 = new ItemPrice(); itemPrice197.ItemPriceID = 197; itemPrice197.ItemID = 19; itemPrice197.SupplierID = 3; itemPrice197.Price = 4; itemPrices.Add(itemPrice197);
+            ItemPrice itemPrice198 = new ItemPrice(); itemPrice198.ItemPriceID = 198; itemPrice198.ItemID = 20; itemPrice198.SupplierID = 3; itemPrice198.Price = 2; itemPrices.Add(itemPrice198);
+            ItemPrice itemPrice199 = new ItemPrice(); itemPrice199.ItemPriceID = 199; itemPrice199.ItemID = 21; itemPrice199.SupplierID = 3; itemPrice199.Price = 1; itemPrices.Add(itemPrice199);
+            ItemPrice itemPrice200 = new ItemPrice(); itemPrice200.ItemPriceID = 200; itemPrice200.ItemID = 22; itemPrice200.SupplierID = 3; itemPrice200.Price = 1; itemPrices.Add(itemPrice200);
+            ItemPrice itemPrice201 = new ItemPrice(); itemPrice201.ItemPriceID = 201; itemPrice201.ItemID = 23; itemPrice201.SupplierID = 3; itemPrice201.Price = 3; itemPrices.Add(itemPrice201);
+            ItemPrice itemPrice202 = new ItemPrice(); itemPrice202.ItemPriceID = 202; itemPrice202.ItemID = 24; itemPrice202.SupplierID = 3; itemPrice202.Price = 5; itemPrices.Add(itemPrice202);
+            ItemPrice itemPrice203 = new ItemPrice(); itemPrice203.ItemPriceID = 203; itemPrice203.ItemID = 25; itemPrice203.SupplierID = 3; itemPrice203.Price = 4; itemPrices.Add(itemPrice203);
+            ItemPrice itemPrice204 = new ItemPrice(); itemPrice204.ItemPriceID = 204; itemPrice204.ItemID = 26; itemPrice204.SupplierID = 3; itemPrice204.Price = 2; itemPrices.Add(itemPrice204);
+            ItemPrice itemPrice205 = new ItemPrice(); itemPrice205.ItemPriceID = 205; itemPrice205.ItemID = 27; itemPrice205.SupplierID = 3; itemPrice205.Price = 6; itemPrices.Add(itemPrice205);
+            ItemPrice itemPrice206 = new ItemPrice(); itemPrice206.ItemPriceID = 206; itemPrice206.ItemID = 28; itemPrice206.SupplierID = 3; itemPrice206.Price = 1; itemPrices.Add(itemPrice206);
+            ItemPrice itemPrice207 = new ItemPrice(); itemPrice207.ItemPriceID = 207; itemPrice207.ItemID = 29; itemPrice207.SupplierID = 3; itemPrice207.Price = 5; itemPrices.Add(itemPrice207);
+            ItemPrice itemPrice208 = new ItemPrice(); itemPrice208.ItemPriceID = 208; itemPrice208.ItemID = 30; itemPrice208.SupplierID = 3; itemPrice208.Price = 1; itemPrices.Add(itemPrice208);
+            ItemPrice itemPrice209 = new ItemPrice(); itemPrice209.ItemPriceID = 209; itemPrice209.ItemID = 31; itemPrice209.SupplierID = 3; itemPrice209.Price = 1; itemPrices.Add(itemPrice209);
+            ItemPrice itemPrice210 = new ItemPrice(); itemPrice210.ItemPriceID = 210; itemPrice210.ItemID = 32; itemPrice210.SupplierID = 3; itemPrice210.Price = 6; itemPrices.Add(itemPrice210);
+            ItemPrice itemPrice211 = new ItemPrice(); itemPrice211.ItemPriceID = 211; itemPrice211.ItemID = 33; itemPrice211.SupplierID = 3; itemPrice211.Price = 6; itemPrices.Add(itemPrice211);
+            ItemPrice itemPrice212 = new ItemPrice(); itemPrice212.ItemPriceID = 212; itemPrice212.ItemID = 34; itemPrice212.SupplierID = 3; itemPrice212.Price = 1; itemPrices.Add(itemPrice212);
+            ItemPrice itemPrice213 = new ItemPrice(); itemPrice213.ItemPriceID = 213; itemPrice213.ItemID = 35; itemPrice213.SupplierID = 3; itemPrice213.Price = 1; itemPrices.Add(itemPrice213);
+            ItemPrice itemPrice214 = new ItemPrice(); itemPrice214.ItemPriceID = 214; itemPrice214.ItemID = 36; itemPrice214.SupplierID = 3; itemPrice214.Price = 4; itemPrices.Add(itemPrice214);
+            ItemPrice itemPrice215 = new ItemPrice(); itemPrice215.ItemPriceID = 215; itemPrice215.ItemID = 37; itemPrice215.SupplierID = 3; itemPrice215.Price = 5; itemPrices.Add(itemPrice215);
+            ItemPrice itemPrice216 = new ItemPrice(); itemPrice216.ItemPriceID = 216; itemPrice216.ItemID = 38; itemPrice216.SupplierID = 3; itemPrice216.Price = 2; itemPrices.Add(itemPrice216);
+            ItemPrice itemPrice217 = new ItemPrice(); itemPrice217.ItemPriceID = 217; itemPrice217.ItemID = 39; itemPrice217.SupplierID = 3; itemPrice217.Price = 6; itemPrices.Add(itemPrice217);
+            ItemPrice itemPrice218 = new ItemPrice(); itemPrice218.ItemPriceID = 218; itemPrice218.ItemID = 40; itemPrice218.SupplierID = 3; itemPrice218.Price = 4; itemPrices.Add(itemPrice218);
+            ItemPrice itemPrice219 = new ItemPrice(); itemPrice219.ItemPriceID = 219; itemPrice219.ItemID = 41; itemPrice219.SupplierID = 3; itemPrice219.Price = 3; itemPrices.Add(itemPrice219);
+            ItemPrice itemPrice220 = new ItemPrice(); itemPrice220.ItemPriceID = 220; itemPrice220.ItemID = 42; itemPrice220.SupplierID = 3; itemPrice220.Price = 1; itemPrices.Add(itemPrice220);
+            ItemPrice itemPrice221 = new ItemPrice(); itemPrice221.ItemPriceID = 221; itemPrice221.ItemID = 43; itemPrice221.SupplierID = 3; itemPrice221.Price = 3; itemPrices.Add(itemPrice221);
+            ItemPrice itemPrice222 = new ItemPrice(); itemPrice222.ItemPriceID = 222; itemPrice222.ItemID = 44; itemPrice222.SupplierID = 3; itemPrice222.Price = 6; itemPrices.Add(itemPrice222);
+            ItemPrice itemPrice223 = new ItemPrice(); itemPrice223.ItemPriceID = 223; itemPrice223.ItemID = 45; itemPrice223.SupplierID = 3; itemPrice223.Price = 5; itemPrices.Add(itemPrice223);
+            ItemPrice itemPrice224 = new ItemPrice(); itemPrice224.ItemPriceID = 224; itemPrice224.ItemID = 46; itemPrice224.SupplierID = 3; itemPrice224.Price = 2; itemPrices.Add(itemPrice224);
+            ItemPrice itemPrice225 = new ItemPrice(); itemPrice225.ItemPriceID = 225; itemPrice225.ItemID = 47; itemPrice225.SupplierID = 3; itemPrice225.Price = 3; itemPrices.Add(itemPrice225);
+            ItemPrice itemPrice226 = new ItemPrice(); itemPrice226.ItemPriceID = 226; itemPrice226.ItemID = 48; itemPrice226.SupplierID = 3; itemPrice226.Price = 2; itemPrices.Add(itemPrice226);
+            ItemPrice itemPrice227 = new ItemPrice(); itemPrice227.ItemPriceID = 227; itemPrice227.ItemID = 49; itemPrice227.SupplierID = 3; itemPrice227.Price = 2; itemPrices.Add(itemPrice227);
+            ItemPrice itemPrice228 = new ItemPrice(); itemPrice228.ItemPriceID = 228; itemPrice228.ItemID = 50; itemPrice228.SupplierID = 3; itemPrice228.Price = 5; itemPrices.Add(itemPrice228);
+            ItemPrice itemPrice229 = new ItemPrice(); itemPrice229.ItemPriceID = 229; itemPrice229.ItemID = 51; itemPrice229.SupplierID = 3; itemPrice229.Price = 5; itemPrices.Add(itemPrice229);
+            ItemPrice itemPrice230 = new ItemPrice(); itemPrice230.ItemPriceID = 230; itemPrice230.ItemID = 52; itemPrice230.SupplierID = 3; itemPrice230.Price = 5; itemPrices.Add(itemPrice230);
+            ItemPrice itemPrice231 = new ItemPrice(); itemPrice231.ItemPriceID = 231; itemPrice231.ItemID = 53; itemPrice231.SupplierID = 3; itemPrice231.Price = 2; itemPrices.Add(itemPrice231);
+            ItemPrice itemPrice232 = new ItemPrice(); itemPrice232.ItemPriceID = 232; itemPrice232.ItemID = 54; itemPrice232.SupplierID = 3; itemPrice232.Price = 5; itemPrices.Add(itemPrice232);
+            ItemPrice itemPrice233 = new ItemPrice(); itemPrice233.ItemPriceID = 233; itemPrice233.ItemID = 55; itemPrice233.SupplierID = 3; itemPrice233.Price = 6; itemPrices.Add(itemPrice233);
+            ItemPrice itemPrice234 = new ItemPrice(); itemPrice234.ItemPriceID = 234; itemPrice234.ItemID = 56; itemPrice234.SupplierID = 3; itemPrice234.Price = 2; itemPrices.Add(itemPrice234);
+            ItemPrice itemPrice235 = new ItemPrice(); itemPrice235.ItemPriceID = 235; itemPrice235.ItemID = 57; itemPrice235.SupplierID = 3; itemPrice235.Price = 1; itemPrices.Add(itemPrice235);
+            ItemPrice itemPrice236 = new ItemPrice(); itemPrice236.ItemPriceID = 236; itemPrice236.ItemID = 58; itemPrice236.SupplierID = 3; itemPrice236.Price = 5; itemPrices.Add(itemPrice236);
+            ItemPrice itemPrice237 = new ItemPrice(); itemPrice237.ItemPriceID = 237; itemPrice237.ItemID = 59; itemPrice237.SupplierID = 3; itemPrice237.Price = 5; itemPrices.Add(itemPrice237);
+            ItemPrice itemPrice238 = new ItemPrice(); itemPrice238.ItemPriceID = 238; itemPrice238.ItemID = 60; itemPrice238.SupplierID = 3; itemPrice238.Price = 3; itemPrices.Add(itemPrice238);
+            ItemPrice itemPrice239 = new ItemPrice(); itemPrice239.ItemPriceID = 239; itemPrice239.ItemID = 61; itemPrice239.SupplierID = 3; itemPrice239.Price = 2; itemPrices.Add(itemPrice239);
+            ItemPrice itemPrice240 = new ItemPrice(); itemPrice240.ItemPriceID = 240; itemPrice240.ItemID = 62; itemPrice240.SupplierID = 3; itemPrice240.Price = 4; itemPrices.Add(itemPrice240);
+            ItemPrice itemPrice241 = new ItemPrice(); itemPrice241.ItemPriceID = 241; itemPrice241.ItemID = 63; itemPrice241.SupplierID = 3; itemPrice241.Price = 5; itemPrices.Add(itemPrice241);
+            ItemPrice itemPrice242 = new ItemPrice(); itemPrice242.ItemPriceID = 242; itemPrice242.ItemID = 64; itemPrice242.SupplierID = 3; itemPrice242.Price = 4; itemPrices.Add(itemPrice242);
+            ItemPrice itemPrice243 = new ItemPrice(); itemPrice243.ItemPriceID = 243; itemPrice243.ItemID = 65; itemPrice243.SupplierID = 3; itemPrice243.Price = 2; itemPrices.Add(itemPrice243);
+            ItemPrice itemPrice244 = new ItemPrice(); itemPrice244.ItemPriceID = 244; itemPrice244.ItemID = 66; itemPrice244.SupplierID = 3; itemPrice244.Price = 6; itemPrices.Add(itemPrice244);
+            ItemPrice itemPrice245 = new ItemPrice(); itemPrice245.ItemPriceID = 245; itemPrice245.ItemID = 67; itemPrice245.SupplierID = 3; itemPrice245.Price = 6; itemPrices.Add(itemPrice245);
+            ItemPrice itemPrice246 = new ItemPrice(); itemPrice246.ItemPriceID = 246; itemPrice246.ItemID = 68; itemPrice246.SupplierID = 3; itemPrice246.Price = 4; itemPrices.Add(itemPrice246);
+            ItemPrice itemPrice247 = new ItemPrice(); itemPrice247.ItemPriceID = 247; itemPrice247.ItemID = 69; itemPrice247.SupplierID = 3; itemPrice247.Price = 2; itemPrices.Add(itemPrice247);
+            ItemPrice itemPrice248 = new ItemPrice(); itemPrice248.ItemPriceID = 248; itemPrice248.ItemID = 70; itemPrice248.SupplierID = 3; itemPrice248.Price = 3; itemPrices.Add(itemPrice248);
+            ItemPrice itemPrice249 = new ItemPrice(); itemPrice249.ItemPriceID = 249; itemPrice249.ItemID = 71; itemPrice249.SupplierID = 3; itemPrice249.Price = 4; itemPrices.Add(itemPrice249);
+            ItemPrice itemPrice250 = new ItemPrice(); itemPrice250.ItemPriceID = 250; itemPrice250.ItemID = 72; itemPrice250.SupplierID = 3; itemPrice250.Price = 2; itemPrices.Add(itemPrice250);
+            ItemPrice itemPrice251 = new ItemPrice(); itemPrice251.ItemPriceID = 251; itemPrice251.ItemID = 73; itemPrice251.SupplierID = 3; itemPrice251.Price = 6; itemPrices.Add(itemPrice251);
+            ItemPrice itemPrice252 = new ItemPrice(); itemPrice252.ItemPriceID = 252; itemPrice252.ItemID = 74; itemPrice252.SupplierID = 3; itemPrice252.Price = 5; itemPrices.Add(itemPrice252);
+            ItemPrice itemPrice253 = new ItemPrice(); itemPrice253.ItemPriceID = 253; itemPrice253.ItemID = 75; itemPrice253.SupplierID = 3; itemPrice253.Price = 3; itemPrices.Add(itemPrice253);
+            ItemPrice itemPrice254 = new ItemPrice(); itemPrice254.ItemPriceID = 254; itemPrice254.ItemID = 76; itemPrice254.SupplierID = 3; itemPrice254.Price = 1; itemPrices.Add(itemPrice254);
+            ItemPrice itemPrice255 = new ItemPrice(); itemPrice255.ItemPriceID = 255; itemPrice255.ItemID = 77; itemPrice255.SupplierID = 3; itemPrice255.Price = 4; itemPrices.Add(itemPrice255);
+            ItemPrice itemPrice256 = new ItemPrice(); itemPrice256.ItemPriceID = 256; itemPrice256.ItemID = 78; itemPrice256.SupplierID = 3; itemPrice256.Price = 6; itemPrices.Add(itemPrice256);
+            ItemPrice itemPrice257 = new ItemPrice(); itemPrice257.ItemPriceID = 257; itemPrice257.ItemID = 79; itemPrice257.SupplierID = 3; itemPrice257.Price = 3; itemPrices.Add(itemPrice257);
+            ItemPrice itemPrice258 = new ItemPrice(); itemPrice258.ItemPriceID = 258; itemPrice258.ItemID = 80; itemPrice258.SupplierID = 3; itemPrice258.Price = 5; itemPrices.Add(itemPrice258);
+            ItemPrice itemPrice259 = new ItemPrice(); itemPrice259.ItemPriceID = 259; itemPrice259.ItemID = 81; itemPrice259.SupplierID = 3; itemPrice259.Price = 5; itemPrices.Add(itemPrice259);
+            ItemPrice itemPrice260 = new ItemPrice(); itemPrice260.ItemPriceID = 260; itemPrice260.ItemID = 82; itemPrice260.SupplierID = 3; itemPrice260.Price = 4; itemPrices.Add(itemPrice260);
+            ItemPrice itemPrice261 = new ItemPrice(); itemPrice261.ItemPriceID = 261; itemPrice261.ItemID = 83; itemPrice261.SupplierID = 3; itemPrice261.Price = 1; itemPrices.Add(itemPrice261);
+            ItemPrice itemPrice262 = new ItemPrice(); itemPrice262.ItemPriceID = 262; itemPrice262.ItemID = 84; itemPrice262.SupplierID = 3; itemPrice262.Price = 1; itemPrices.Add(itemPrice262);
+            ItemPrice itemPrice263 = new ItemPrice(); itemPrice263.ItemPriceID = 263; itemPrice263.ItemID = 85; itemPrice263.SupplierID = 3; itemPrice263.Price = 3; itemPrices.Add(itemPrice263);
+            ItemPrice itemPrice264 = new ItemPrice(); itemPrice264.ItemPriceID = 264; itemPrice264.ItemID = 86; itemPrice264.SupplierID = 3; itemPrice264.Price = 1; itemPrices.Add(itemPrice264);
+            ItemPrice itemPrice265 = new ItemPrice(); itemPrice265.ItemPriceID = 265; itemPrice265.ItemID = 87; itemPrice265.SupplierID = 3; itemPrice265.Price = 1; itemPrices.Add(itemPrice265);
+            ItemPrice itemPrice266 = new ItemPrice(); itemPrice266.ItemPriceID = 266; itemPrice266.ItemID = 88; itemPrice266.SupplierID = 3; itemPrice266.Price = 2; itemPrices.Add(itemPrice266);
+            ItemPrice itemPrice267 = new ItemPrice(); itemPrice267.ItemPriceID = 267; itemPrice267.ItemID = 89; itemPrice267.SupplierID = 3; itemPrice267.Price = 2; itemPrices.Add(itemPrice267);
 
-            ItemPrice itemPrice2 = new ItemPrice()
-            {
-                ItemPriceID = 2,
-                ItemID = 1,
-                SupplierID = 2,
-                Price = 2,
-            };
-
-            ItemPrice itemPrice3 = new ItemPrice()
-            {
-                ItemPriceID = 3,
-                ItemID = 1,
-                SupplierID = 3,
-                Price = 2,
-            };
-
-            ItemPrice itemPrice4 = new ItemPrice()
-            {
-                ItemPriceID = 4,
-                ItemID = 2,
-                SupplierID = 1,
-                Price = 5,
-            };
-
-            ItemPrice itemPrice5 = new ItemPrice()
-            {
-                ItemPriceID = 5,
-                ItemID = 2,
-                SupplierID = 2,
-                Price = 6,
-            };
-
-            ItemPrice itemPrice6 = new ItemPrice()
-            {
-                ItemPriceID = 6,
-                ItemID = 2,
-                SupplierID = 3,
-                Price = 7,
-            };
-
-
-            itemPrices.Add(itemPrice1);
-            itemPrices.Add(itemPrice2);
-            itemPrices.Add(itemPrice3);
-            itemPrices.Add(itemPrice4);
-            itemPrices.Add(itemPrice5);
-            itemPrices.Add(itemPrice6);
 
             return itemPrices;
         }

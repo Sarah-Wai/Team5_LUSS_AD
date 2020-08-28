@@ -97,24 +97,27 @@ namespace LUSS_API.Controllers
             List<Item> items = context123.Item.Where(x => x.InStockQty < x.ReStockLevel).ToList();
 
             List<int> poItemIds = context123.PurchaseOrderItems.Where(x => x.PurchaseOrder.Status == PurchaseOrderStatus.POStatus.Pending).Select(x => x.ItemID).Distinct().ToList();
-
             List<Item> lowStockList = new List<Item>();
-            for(int i = 0; i < items.Count(); i++)
+            if (poItemIds.Count == 0) { lowStockList = items; }
+            else
             {
-                bool flag = false;
-                //loop each item through list of pending poItemIds
-                for (int j = 0; j < poItemIds.Count(); j++)
+                for (int i = 0; i < items.Count(); i++)
                 {
-                    //if item id in the list, break the inner loop 
-                    if(items[i].ItemID == poItemIds[j])
+                    bool flag = false;
+                    //loop each item through list of pending poItemIds
+                    for (int j = 0; j < poItemIds.Count(); j++)
                     {
-                        flag = true;
-                        break;
-                    }
-                    //if no flag and at final inner loop, add items into list
-                    if (!flag && (j==poItemIds.Count-1))
-                    {
-                        lowStockList.Add(items[i]);
+                        //if item id in the list, break the inner loop 
+                        if (items[i].ItemID == poItemIds[j])
+                        {
+                            flag = true;
+                            break;
+                        }
+                        //if no flag and at final inner loop, add items into list
+                        if (!flag && (j == poItemIds.Count - 1))
+                        {
+                            lowStockList.Add(items[i]);
+                        }
                     }
                 }
             }

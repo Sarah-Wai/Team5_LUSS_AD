@@ -10,7 +10,7 @@ namespace LUSS_API.DB
     {
         public static List<Notification> getAllNotification()
         {
-            List<Notification> purchases = new List<Notification>();
+            List<Notification> notifications = new List<Notification>();
             string api = "http://localhost:44359";
 
             Notification n1 = new Notification()
@@ -23,7 +23,7 @@ namespace LUSS_API.DB
 
             Notification n2 = new Notification()
             {
-                ToUser = 2,
+                ToUser = 3,
                 Description = "Stationary is ready for collection now.",
                 IsRead = false,
                 RouteUri = api + "/Collection/collectionList"
@@ -31,17 +31,17 @@ namespace LUSS_API.DB
 
             Notification n3 = new Notification()
             {
-                ToUser = 3,
+                ToUser = 9,
                 Description = "Your Adjustment Voucher is approved",
                 IsRead = false,
                 RouteUri = api + "/AdjustmentList/AdjustmentVouchers"
             };
 
-            purchases.Add(n1);
-            purchases.Add(n2);
-            purchases.Add(n3);
+            notifications.Add(n1);
+            notifications.Add(n2);
+            notifications.Add(n3);
 
-            return purchases;
+            return notifications;
         }
 
 

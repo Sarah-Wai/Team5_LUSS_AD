@@ -11,7 +11,7 @@ namespace LUSS_API.Models
     public class ItemPrice
     {
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ItemPriceID { get; set; }
         [Required]
         public int ItemID   { get; set; }

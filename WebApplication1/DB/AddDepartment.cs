@@ -37,7 +37,7 @@ namespace LUSS_API.DB
                 DepartmentID = 3,
                 DepartmentCode = "CPSC",
                 DepartmentName = "Computer Science",
-                CollectionPointID = collectionPoints[0].CollectionPointID,
+                CollectionPointID = collectionPoints[1].CollectionPointID,
                 Fax = "890 1235",
                 PhoneNo = "892 1457"
             };
@@ -47,7 +47,7 @@ namespace LUSS_API.DB
                 DepartmentID = 4,
                 DepartmentCode = "ENGL",
                 DepartmentName = "English Department",
-                CollectionPointID = collectionPoints[0].CollectionPointID,
+                CollectionPointID = collectionPoints[2].CollectionPointID,
                 Fax = "874 2234",
                 PhoneNo = "892 1456"
             };
@@ -57,7 +57,7 @@ namespace LUSS_API.DB
                 DepartmentID = 5,
                 DepartmentCode = "ESTS",
                 DepartmentName = "Real Estate Department",
-                CollectionPointID = collectionPoints[0].CollectionPointID,
+                CollectionPointID = collectionPoints[3].CollectionPointID,
                 Fax = "864 2311",
                 PhoneNo = "890 1131"
             };
@@ -67,7 +67,7 @@ namespace LUSS_API.DB
                 DepartmentID = 6,
                 DepartmentCode = "FINN",
                 DepartmentName = "Finance Department",
-                CollectionPointID = collectionPoints[0].CollectionPointID,
+                CollectionPointID = collectionPoints[4].CollectionPointID,
                 Fax = "811 1123",
                 PhoneNo = "813 7643"
             };
@@ -77,7 +77,7 @@ namespace LUSS_API.DB
                 DepartmentID = 7,
                 DepartmentCode = "REGR",
                 DepartmentName = "Registrar Department",
-                CollectionPointID = collectionPoints[0].CollectionPointID,
+                CollectionPointID = collectionPoints[5].CollectionPointID,
                 Fax = "892 1465",
                 PhoneNo = "890 1266"
             };
@@ -87,7 +87,7 @@ namespace LUSS_API.DB
                 DepartmentID = 8,
                 DepartmentCode = "CLAI",
                 DepartmentName = "Claims Department",
-                CollectionPointID = collectionPoints[0].CollectionPointID,
+                CollectionPointID = collectionPoints[1].CollectionPointID,
                 Fax = "867 3311",
                 PhoneNo = "817 3311"
             };
@@ -97,7 +97,7 @@ namespace LUSS_API.DB
                 DepartmentID = 9,
                 DepartmentCode = "ZOOL",
                 DepartmentName = "Zoology Department",
-                CollectionPointID = collectionPoints[0].CollectionPointID,
+                CollectionPointID = collectionPoints[2].CollectionPointID,
                 Fax = "892 1465",
                 PhoneNo = "890 1266"
             };
@@ -107,7 +107,7 @@ namespace LUSS_API.DB
                 DepartmentID = 10,
                 DepartmentCode = "STOR",
                 DepartmentName = "Store Department",
-                CollectionPointID = collectionPoints[0].CollectionPointID,
+                CollectionPointID = collectionPoints[3].CollectionPointID,
                 Fax = "867 3311",
                 PhoneNo = "817 3311"
             };

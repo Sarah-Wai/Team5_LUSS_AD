@@ -8,205 +8,196 @@ namespace LUSS_API.DB
 {
     public class AddRequestDetail
     {
-        public static List<RequestDetails> getAllRequestDetails()
+        public static List<RequestDetails> getAllRequestDetails(List<Item> items, List<Request> requests)
         {
             List<RequestDetails> requestDetails = new List<RequestDetails>();
             RequestDetails del1 = new RequestDetails()
             {
-                // RequestDetailID = 1,
                 RequestQty = 10,
-                ItemID = 1,
-                RequestID = 1,
+                ItemID = items[4].ItemID,
+                RequestID = requests[1].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del2 = new RequestDetails()
             {
-               // RequestDetailID = 2,
-                RequestQty = 20,
-                ItemID = 2,
-                RequestID = 2,
+                RequestQty = 12,
+                ItemID = items[7].ItemID,
+                RequestID = requests[1].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del3 = new RequestDetails()
             {
-               // RequestDetailID = 3,
-                RequestQty = 30,
-                ItemID = 3,
-                RequestID = 3,
+                RequestQty = 1,
+                ItemID = items[34].ItemID,
+                RequestID = requests[1].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del4 = new RequestDetails()
             {
-               // RequestDetailID = 4,
-                RequestQty = 40,
-                ItemID = 1,
-                RequestID = 4,
+                RequestQty = 13,
+                ItemID = items[7].ItemID,
+                RequestID = requests[2].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
             };
             RequestDetails del5 = new RequestDetails()
             {
-               // RequestDetailID = 5,
-                RequestQty = 50,
-                ItemID = 2,
-                RequestID = 5,
+                RequestQty = 6,
+                ItemID = items[9].ItemID,
+                RequestID = requests[2].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
-            RequestDetails del6 = new RequestDetails()
+           RequestDetails del6 = new RequestDetails()
             {
-               // RequestDetailID = 6,
-                RequestQty = 30,
-                ItemID = 3,
-                RequestID = 6,
-                FullfillQty = null,
-                ReceivedQty = null,
-                isActive = true
-            };
+
+               RequestQty = 6,
+               ItemID = items[44].ItemID,
+               RequestID = requests[2].RequestID,
+               FullfillQty = 6,
+               ReceivedQty = 6,
+           };
             RequestDetails del7 = new RequestDetails()
             {
-                // RequestDetailID = 7,
-                RequestQty = 30,
-                ItemID = 12,
-                RequestID = 7,
-                FullfillQty = null,
-                ReceivedQty = null,
-                isActive = true
+
+                RequestQty = 16,
+                ItemID = items[14].ItemID,
+                RequestID = requests[0].RequestID,
+                FullfillQty = 16,
+                ReceivedQty = 16,
+
             };
-            RequestDetails del8 = new RequestDetails()
+ /*           RequestDetails del8 = new RequestDetails()
             {
-                // RequestDetailID = 8,
+
                 RequestQty = 30,
                 ItemID = 4,
                 RequestID = 8,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del9 = new RequestDetails()
             {
-                // RequestDetailID = 9,
+
                 RequestQty = 30,
                 ItemID = 11,
                 RequestID = 9,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del10 = new RequestDetails()
             {
-                // RequestDetailID = 10,
                 RequestQty = 30,
                 ItemID = 8,
                 RequestID = 10,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del11 = new RequestDetails()
             {
-                // RequestDetailID = 11,
+
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 11,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del12 = new RequestDetails()
             {
-                // RequestDetailID = 12,
                 RequestQty = 30,
                 ItemID = 9,
                 RequestID = 12,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del13 = new RequestDetails()
             {
-                // RequestDetailID = 13,
+
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 13,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del14 = new RequestDetails()
             {
-                // RequestDetailID = 14,
+
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 14,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del15 = new RequestDetails()
             {
-                // RequestDetailID = 15,
+
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 15,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del16 = new RequestDetails()
             {
-                // RequestDetailID = 16,
+
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 1,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del17 = new RequestDetails()
             {
-                // RequestDetailID = 17,
+
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 12,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del18 = new RequestDetails()
             {
-                // RequestDetailID = 18,
+
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 2,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
+
             };
             RequestDetails del19 = new RequestDetails()
             {
-                // RequestDetailID = 19,
                 RequestQty = 30,
                 ItemID = 3,
                 RequestID = 2,
                 FullfillQty = null,
                 ReceivedQty = null,
-                isActive = true
-            };
+
+            };*/
+
             requestDetails.Add(del1);
             requestDetails.Add(del2);
             requestDetails.Add(del3);
             requestDetails.Add(del4);
             requestDetails.Add(del5);
-            requestDetails.Add(del6);
+/*            requestDetails.Add(del6);
             requestDetails.Add(del7);
             requestDetails.Add(del8);
             requestDetails.Add(del9);
@@ -218,7 +209,7 @@ namespace LUSS_API.DB
             requestDetails.Add(del15);
             requestDetails.Add(del16);
             requestDetails.Add(del17);
-            requestDetails.Add(del18);
+            requestDetails.Add(del18);*/
             return requestDetails;
         }
     }

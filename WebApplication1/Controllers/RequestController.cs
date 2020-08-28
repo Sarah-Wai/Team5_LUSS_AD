@@ -55,18 +55,27 @@ namespace LUSS_API.Controllers
         public IEnumerable<Request> GetRequestByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requestList = requestList = context123.Request.Where(x => x.RequestStatus == st).ToList();
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == st).ToList();
 
             return requestList;
         }
 
+        [HttpGet("{status}")]
+        [Route("GetRequestCountByStatus/{status}")]
+        public int GetRequestCountByStatus(string status)
+        {
+            EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
+            int count = context123.Request.Where(x => x.RequestStatus == st).ToList().Count();
+
+            return count;
+        }
 
         [HttpGet("{status}/{deptId}")]
         [Route("GetRequestByStatusByDept/{status}/{deptId}")]
         public IEnumerable<Request> GetRequestByStatusByDept(string status, int deptId)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requestList = requestList = context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptId).ToList();
+            List<Request> requestList =  context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptId).ToList();
             return requestList;
         }
 

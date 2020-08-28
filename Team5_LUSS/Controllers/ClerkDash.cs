@@ -43,15 +43,15 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     topSixRequested = JsonConvert.DeserializeObject<List<TopSixRequested>>(apiResponse);
                 }
-                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestByStatus" + "/" + "PendingDelivery"))
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestCountByStatus" + "/" + "PendingDelivery"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    pendingDeliveries = JsonConvert.DeserializeObject<List<Request>>(apiResponse).Count;
+                    pendingDeliveries = JsonConvert.DeserializeObject<int>(apiResponse);
                 }
-                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestByStatus" + "/" + "Approved"))
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "GetRequestCountByStatus" + "/" + "Approved"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    newRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse).Count;
+                    newRequests = JsonConvert.DeserializeObject<int>(apiResponse);
                 }
 
                 using (var response = await httpClient.GetAsync(api_url + "get-clerk-pending/"+ id))

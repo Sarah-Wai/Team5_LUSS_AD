@@ -65,7 +65,7 @@ namespace Team5_LUSS.Controllers
             List<RequestDetails> request_detis = new List<RequestDetails>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44312/RequestDetails/get-by-request/" + id ))
+                using (var response = await httpClient.GetAsync("https://localhost:44312/RequestDetails/get-by-request-lowdata/" + id ))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     request_detis = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);

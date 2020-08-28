@@ -32,6 +32,23 @@ namespace LUSS_API.Controllers
             return requestItems;
         }
 
+        [HttpGet("get-by-request-lowdata/{id}")]
+        public List<RequestDetails> GetByRequestWithSData(int id)
+        {
+            List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == id && x.isActive == true).Select(c =>
+              new RequestDetails()
+              {
+                  RequestDetailID = c.RequestDetailID,
+                  RequestQty = c.RequestQty,
+                  ItemID = c.ItemID,
+                  RequestID = c.RequestID,
+                  Item = c.Item
+              }).ToList();
+
+            return requestItems;
+        }
+
+
         // for mobile
         [HttpGet("{id}")]
         [Route("get-by-request-mobile/{id}")]

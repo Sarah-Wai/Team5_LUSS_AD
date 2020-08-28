@@ -45,21 +45,7 @@ namespace LUSS_API.Controllers
         [Route("getAllRequestByDepID/{id}")]
         public List<Request> GetAllRequest(int id)
         {
-            List<Request> requests = context123.Request.Where(x => x.RequestByUser.DepartmentID == id).Select(c=>
-            new Request()
-            {
-                RequestID=c.RequestID,
-                RequestStatus = c.RequestStatus,
-                RequestDate = c.RequestDate,
-                RequestBy = c.RequestBy,
-                ModifiedBy = c.ModifiedBy,
-                Comment = c.Comment,
-                RequestType = c.RequestType,
-                ParentRequestID = c.ParentRequestID,
-                CollectionTime = c.CollectionTime,
-                RequestByUser=new User { UserID=c.RequestByUser.UserID, LastName=c.RequestByUser.LastName,FirstName= c.RequestByUser.FirstName},
-          
-            }).OrderByDescending(x => x.RequestDate).ToList();
+            List<Request> requests = context123.Request.Where(x => x.RequestByUser.DepartmentID == id).ToList();
           //  string return_string= JsonConvert.SerializeObject(requests);
             return requests;
 

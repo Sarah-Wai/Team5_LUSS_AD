@@ -19,11 +19,8 @@
 </div>
 <!-- END: Breadcrumbs-->
 <!-- Edit request -->
-@if (requests != null)
-{
-    @foreach (Request c in requests)
-    {
-        <div class="modal fade" id="editrequest_@c.RequestID">
+
+        <div class="modal fade" id="editrequest">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -39,31 +36,31 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <input type="hidden" name="hidRequestID" value="@c.RequestID" />
+                                    <input type="hidden" id="hidRequestID" />
                                     <div class="row">
                                         <label for="requestID" class="col-sm-4 col-form-label">Request ID :</label>
-                                        <label for="requestID" class="col-sm-4 col-form-label"><span id="lblRequestID_@c.RequestID">@c.RequestID</span></label>
+                                        <label for="requestID" class="col-sm-4 col-form-label"><span id="lblRequestID">1</span></label>
 
                                     </div>
                                     <div class="row">
                                         <label for="requestBy" class="col-sm-4 col-form-label">Request By :</label>
-                                        <label for="requestBy" class="col-sm-4 col-form-label"><span id="lblRequestBy_@c.RequestID">@c.RequestID</span></label>
+                                        <label for="requestBy" class="col-sm-4 col-form-label"><span id="lblRequestBy">Test</span></label>
                                     </div>
                                     <div class="row">
                                         <label for="status" class="col-sm-4 col-form-label">Status :</label>
-                                        <label for="status" class="col-sm-4 col-form-label"><span id="lblStatus_@c.RequestID">@c.RequestStatus</span></label>
+                                        <label for="status" class="col-sm-4 col-form-label"><span id="lblStatus">Status</span></label>
 
                                     </div>
                                     <div class="row">
                                         <label for="updataBy" class="col-sm-4 col-form-label">Update By :</label>
-                                        <label for="updataBy" class="col-sm-4 col-form-label"><span id="lblUpdateBy_@c.RequestID">@c.ModifiedByUser.FirstName  @c.ModifiedByUser.LastName</span></label>
+                                        <label for="updataBy" class="col-sm-4 col-form-label"><span id="lblUpdateBy">Test</span></label>
 
                                     </div>
                                     <div class="row">
                                         <label for="username" class="col-sm-2 col-form-label"></label>
                                         <div class="col-sm-10">
                                             <div class="table-responsive">
-                                                <table class="table layout-secondary">
+                                                <table class="table layout-secondary" id="requestItem">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">ItemName</th>
@@ -72,8 +69,8 @@
 
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="requestItem">
-                                                        @foreach (RequestDetails d in c.RequestDetails)
+                                                    <tbody >
+                                                        @*@foreach (RequestDetails d in c.RequestDetails)
                                                         {
                                                             <tr>
                                                                 <th scope="row">@d.Item.ItemName</th>
@@ -81,7 +78,7 @@
                                                                 <td>@d.RequestQty</td>
 
                                                             </tr>
-                                                        }
+                                                        }*@
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -91,7 +88,7 @@
                                     <div class="row">
                                         <label for="username" class="col-sm-2 col-form-label">Comment</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" name="comment" id="txtComment_@c.RequestID" placeholder="Comment....">@c.Comment</textarea>
+                                            <textarea class="form-control" name="comment" id="txtComment" placeholder="Comment....">-</textarea>
                                         </div>
                                     </div>
 
@@ -99,24 +96,19 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            @if (c.RequestStatus == 0)
-                            {<div class="col-sm-10">
+                           
+                            <div class="col-sm-10" id="status">
 
-                                    <button type="button" class="btn btn-primary" onclick="UpdateRequest(@c.RequestID,1)"> Approve</button>
-                                    <button type="button" class="btn btn-outline-warning" onclick="UpdateRequest(@c.RequestID,2)">Reject</button>
+                                    <button type="button" class="btn btn-primary" onclick="UpdateRequest(1)"> Approve</button>
+                                    <button type="button" class="btn btn-outline-warning" onclick="UpdateRequest(2)">Reject</button>
                                 </div>
-                            }
+                            
 
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    }
-
-
-}
-
 
 
 <!-- START: Card Data-->
@@ -214,7 +206,10 @@
                                     </div>
 
                                     <div class="line-h-1 h3">
-                                        <a class="text-success" href="#" data-toggle="modal" data-target="#editrequest_@c.RequestID" @*onclick="GetRequestDetail(@c.RequestID);"*@><i class="icon-note"></i></a>
+                                        <a class="text-success" href="#" data-toggle="modal" @*data-target="#editrequest_@c.RequestID"*@ 
+                                           onclick="GetRequestDetail('@c.RequestID','@c.RequestByUser.FirstName  @c.RequestByUser.LastName' ,'@c.RequestStatus',
+                                            '@c.Comment','@c.ModifiedByUser.FirstName  @c.ModifiedByUser.LastName');">
+                                        <i class="icon-note"></i></a>
 
                                     </div>
                                 </div>
@@ -238,8 +233,9 @@
 @section Scripts{
     <script>
 
-        function UpdateRequest(id, status) {
-            var comment = $("#txtComment_" + id).val();
+        function UpdateRequest(status) {
+            var comment = $("#txtComment").val();
+            var id = $("#hidRequestID").val();
           console.log()
           $.ajax({
               type: "GET",
@@ -261,23 +257,41 @@
           })
         };
 
-          function GetRequestDetail(id) {
-              console.log(id);
+        function GetRequestDetail(id, requestBy, status,comment,modifiedBy) {
+
           $.ajax({
               type: "GET",
               url: '@Url.Action("GetRequestDetail", "StationeryRequests")',
               data: { id},
               success: function (result) {
                   if (result != null) {
+                      var detail_items = "";
+                      $("#requestItem > tbody:last-child").empty();
+                      //$('#requestItem > tbody:last-child').append("");
+                      $.each(result, function (key, value) {
+                          detail_items +='<tr><th scope="row">' + value.item.itemCode + '</th>'
+                              + '<td>' + value.item.uom + '</td>'
+                              + '<td>' + value.requestQty + '</td></tr>';
+                         
+                      });
 
-                      $('#lblRequestID').val($(this).closest('.request').find('.request-due-date').html());
-    //    $('#lblRequestBy').val($(this).closest('.request').find('.request-due-date').html());
-    //    $('#lblStatus').val($(this).closest('.request').find('.request-due-date').html());
-    //    $('#lblUpdateBy').val($(this).closest('.request').find('.request-due-date').html());
-    //    $('#txtComment').html($(this).closest('.request').find('.request-due-date').html());
+                      $('#requestItem > tbody:last-child').append(detail_items);
+                      $('#hidRequestID').val(id);
+                      $('#lblRequestID').html(id);
+                      $('#lblRequestBy').html(requestBy);
+                      $('#lblStatus').html(status);
+                      $('#lblUpdateBy').html(modifiedBy);
+                      $('#txtComment').html(comment);
+                      $("#editrequest").modal();
 
-    //    $('#status').val($(this).closest('.request').find('.request-content').data('status'));
-    //    $("#editrequest").modal();
+                      if (status == "Pending") {
+                          $('#status').css("display", "block");
+
+                      }
+                      else {
+                          $('#status').css("display", "none");
+                      }
+
                   }
 
               }

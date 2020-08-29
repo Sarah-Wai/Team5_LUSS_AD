@@ -15,44 +15,39 @@ namespace LUSS_API.DB
 
             Retrieval r1 = new Retrieval()
             {
-                //RetrievalID = 1,
-                Status = Status.EOrderStatus.Packed,
-                IssueDate = DateTime.Now,
+                Status = Status.EOrderStatus.Completed,
+                IssueDate = DateTime.Now.AddDays(-1),
             };
 
-            Retrieval r2 = new Retrieval()
+/*            Retrieval r2 = new Retrieval()
             {
-                //RetrievalID = 2,
                 Status = Status.EOrderStatus.PendingDelivery,
                 IssueDate = DateTime.Now,
             };
 
             Retrieval r3 = new Retrieval()
             {
-                //RetrievalID = 3,
                 Status = Status.EOrderStatus.Packed,
                 IssueDate = DateTime.Now,
             };
 
             Retrieval r4 = new Retrieval()
             {
-                //RetrievalID = 4,
                 Status = Status.EOrderStatus.Completed,
                 IssueDate = DateTime.Now,
             };
 
             Retrieval r5 = new Retrieval()
             {
-                //RetrievalID = 5,
                 Status = Status.EOrderStatus.Received,
                 IssueDate = DateTime.Now,
-            };
+            };*/
 
             retrievals.Add(r1);
-            retrievals.Add(r2);
+/*            retrievals.Add(r2);
             retrievals.Add(r3);
             retrievals.Add(r4);
-            retrievals.Add(r5);
+            retrievals.Add(r5);*/
             return retrievals;
         }
     }

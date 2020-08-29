@@ -9,17 +9,16 @@ namespace LUSS_API.DB
 {
     public class AddPO
     {
-        public static List<PurchaseOrder> getAllPO()
+        public static List<PurchaseOrder> getAllPO(List<Supplier> suppliers, List<User> users)
         {
             List<PurchaseOrder> purchases = new List<PurchaseOrder>();
 
             PurchaseOrder p1 = new PurchaseOrder()
             {
-                //POID = 1,
-                CreatedOn = DateTime.Now,
-                ExpectedDate = DateTime.Now,
-                PurchasedBy = 1,
-                SupplierID = 1,
+                CreatedOn = DateTime.Now.AddDays(-2),
+                ExpectedDate = DateTime.Now.AddDays(4),
+                PurchasedBy = users[7].UserID,
+                SupplierID = suppliers[0].SupplierID,
                 Status = POStatus.Pending,
                 PONo = "PO1",
             };
@@ -27,22 +26,21 @@ namespace LUSS_API.DB
 
             PurchaseOrder p2 = new PurchaseOrder()
             {
-                //POID = 2,
-                CreatedOn = DateTime.Now,
-                ExpectedDate = DateTime.Now,
-                PurchasedBy = 1,
-                SupplierID = 1,
-                Status = POStatus.Pending,
+                CreatedOn = DateTime.Now.AddDays(-8),
+                ExpectedDate = DateTime.Now.AddDays(-4),
+                PurchasedBy = users[7].UserID,
+                SupplierID = suppliers[4].SupplierID,
+                Status = POStatus.Completed,
+                ReceivedDate = DateTime.Now.AddDays(-2),
                 PONo = "PO2",
             };
 
             PurchaseOrder p3 = new PurchaseOrder()
             {
-                //POID = 3,
-                CreatedOn = DateTime.Now,
-                ExpectedDate = DateTime.Now,
-                PurchasedBy = 1,
-                SupplierID = 1,
+                CreatedOn = DateTime.Now.AddDays(-3),
+                ExpectedDate = DateTime.Now.AddDays(5),
+                PurchasedBy = users[7].UserID,
+                SupplierID = suppliers[3].SupplierID,
                 Status = POStatus.Pending,
                 PONo = "PO3",
             };

@@ -185,14 +185,27 @@ namespace Team5_LUSS.Controllers
         }
 
         //View Cart Page 
-        public ActionResult ViewCart()
+        public async Task<IActionResult> ViewCart()
         {
             string cartItemJson = HttpContext.Session.GetString("addedItemSession");
             List<AddToCartItem> addedItems = new List<AddToCartItem>();
+            List<TopSixRequested> userTopItems = new List<TopSixRequested>();
             if (!String.IsNullOrEmpty(cartItemJson))
             {
                 addedItems = JsonConvert.DeserializeObject<List<AddToCartItem>>(cartItemJson);
             }
+            using (var httpClient = new HttpClient())
+            {
+                int userId = (int)HttpContext.Session.GetInt32("UserID");
+                string str = api_url + "ItemList/" + "get-user-top" + '/' + userId;
+                using (var response = await httpClient.GetAsync(str))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    userTopItems = JsonConvert.DeserializeObject<List<TopSixRequested>>(apiResponse);
+                }
+            }
+
+            ViewData["userTopItems"] = userTopItems;
             ViewData["addedItems"] = addedItems;
             return View();
         }

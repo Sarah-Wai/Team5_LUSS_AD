@@ -13,7 +13,7 @@
 <div class="row ">
     <div class="col-12  align-self-center">
         <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-            <div class="w-sm-100 mr-auto"><h5 class="mb-0">Requisition History</h5></div>
+            <div class="w-sm-100 mr-auto"><h5 class="mb-0">Department Request History</h5></div>
         </div>
     </div>
 </div>
@@ -25,7 +25,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
-                            <i class="icon-pencil"></i> Edit request
+                            <i class="icon-pencil"></i> Request Details
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <i class="icon-close"></i>
@@ -98,10 +98,9 @@
                         <div class="modal-footer">
                            
                             <div class="col-sm-10" id="status">
-
-                                    <button type="button" class="btn btn-primary" onclick="UpdateRequest(1)"> Approve</button>
-                                    <button type="button" class="btn btn-outline-warning" onclick="UpdateRequest(2)">Reject</button>
-                                </div>
+                                <button type="button" class="btn btn-danger" onclick="UpdateRequest(2)">Reject</button>
+                                <button type="button" class="btn btn-success" onclick="UpdateRequest(1)"> Approve</button>
+                            </div>
                             
 
                         </div>
@@ -120,45 +119,44 @@
             <ul class="nav flex-column request-menu">
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="request">
-                        <i class="fas fa-list-alt"></i> All
+                        All
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#" data-requesttype="pending-request">
-                        <i class="fas fa-money-check-alt"></i> Pending
+                        Pending
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="approved-request">
-                        <i class="far fa-money-bill-alt"></i> Approved
+                         Approved
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="rejected-request">
-                        <i class="far fa-window-close"></i> Rejected
+                         Rejected
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="packed-request">
-                        <i class="far fa-window-close"></i> Packed
+                        Packed
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="pendingDelivery-request">
-                        <i class="far fa-window-close"></i> PendingDeli
+                        PendingDelivery
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="received-request">
-                        <i class="far fa-window-close"></i> Received
+                        Received
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="completed-request">
-                        <i class="far fa-window-close"></i> Completed
+                        Completed
                     </a>
                 </li>
-
             </ul>
 
         </div>

@@ -6,6 +6,7 @@
     List<dynamic> collectionList = (List<dynamic>)ViewData["collectionRequest"];
     Dictionary<int, DateTime> retrieval_CollectionTime = (Dictionary<int, DateTime>)ViewData["retrieval_time"];
     CollectionPoint cp = (CollectionPoint)ViewData["collectionPoint"];
+    var message = TempData["AlertMessage"] ?? string.Empty;
 
     string username = (string)Context.Session.GetString("User");
     int DeptId = (int)Context.Session.GetInt32("DeptId");
@@ -166,6 +167,19 @@
     </div>
 }
 <script>
+
+     $(document).ready(function () {
+            if ('@TempData["AlertMessage"]' == "Success") {
+
+                swal({
+                    title: "Success",
+                    text: "Stationery Collected",
+                    type: "success"
+                }
+                )
+            }
+        })
+
 
     $("form").submit(function () {
         $("#idValue").val($("#retrievalID").val());

@@ -73,6 +73,7 @@ namespace Team5_LUSS.Controllers
                     dept_CP = JsonConvert.DeserializeObject<CollectionPoint>(apiResponse);
                 }
             }
+            TempData["AlertMessage"] = "Updated";
             return RedirectToAction("collectionPoints", dept_CP);
         }
 
@@ -156,6 +157,8 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                 }
             }
+
+            TempData["AlertMessage"] = "Success";
             return RedirectToAction("collectionList");
         }
     }

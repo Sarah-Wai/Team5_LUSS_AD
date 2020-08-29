@@ -203,6 +203,35 @@ namespace LUSS_API.Controllers
             return req;
         }
 
+        [HttpGet("{userId}")]
+        [Route("get-user-top/{userId}")]
+        public List<TopSixRequested> GetUserTopItems(int userId)
+        {
+
+            var highestRequest = (from requests in context123.Request
+                                  join requestDetails in context123.RequestDetails on requests.RequestID equals requestDetails.RequestID
+                                  join item in context123.Item on requestDetails.ItemID equals item.ItemID
+                                  where requests.RequestByUser.UserID == userId
+                                  select new TopSixRequested
+                                  {
+                                      ItemID = requestDetails.ItemID,
+                                      ItemName = item.ItemName,
+                                      Qty = requestDetails.RequestQty,
+                                  }).ToList();
+
+            List<TopSixRequested> userTopItems = (highestRequest.GroupBy(x => x.ItemID).Select(y => new TopSixRequested
+            {
+
+                ItemID = y.First().ItemID,
+                ItemName = y.First().ItemName,
+                Qty = y.Sum(s => s.Qty),
+
+            })).OrderByDescending(x => x.Qty).Take(6).ToList();
+
+            return userTopItems;
+
+        }
+
         [HttpGet]
         [Route("mobile")]
         public IEnumerable<CustomItem> GetItemList()

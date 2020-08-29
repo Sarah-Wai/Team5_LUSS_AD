@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var CollectionPoints = (List<CollectionPoint>)ViewData["collectionPoints"];
     CollectionPoint dept_cp = (CollectionPoint)ViewData["dept_CollectionPoint"];
-    //pass the actual Department ID
+    var message = TempData["AlertMessage"] ?? string.Empty;
 
     string username = (string)Context.Session.GetString("User");
     int DeptId = (int)Context.Session.GetInt32("DeptId");
@@ -17,55 +17,74 @@
 {
 
     <!-- START: Main Content-->
-<div class="container-fluid site-width">
-    <div class="row ">
-        <div class="col-12  align-self-center">
-            <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
-                <div class="w-sm-100 mr-auto"><h4 class="mb-0">Collection Points</h4></div>
+    <div class="container-fluid site-width">
+        <div class="row ">
+            <div class="col-12  align-self-center">
+                <div class="sub-header mt-3 py-3 align-self-center d-sm-flex w-100 rounded">
+                    <div class="w-sm-100 mr-auto"><h4 class="mb-0">Collection Points</h4></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- START: Card Data-->
-    <div class="row">
-        <div class="col-12  mt-3">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title">Current Collection Point</h4>
-                </div>
-                <div class="card-body">
-                    @dept_cp.Description - @dept_cp.Location
+        <!-- START: Card Data-->
+        <div class="row">
+            <div class="col-12  mt-3">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title">Current Collection Point</h4>
+                    </div>
+                    <div class="card-body">
+                        @dept_cp.Description - @dept_cp.Location
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- END: Card DATA-->
     </div>
-    <!-- END: Card DATA-->
-</div>
-<div class="col-12  mt-3">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4 class="card-title">Pick a New Collection Points</h4>
-        </div>
-        <div class="card-body">
-            <form method="post">
-                <!--remember to replace the value with deptID-->
-                <div class="skin skin-flat">
-                    <ul class="list list-unstyled  mr-3">
-                        @{
-                            foreach (CollectionPoint cp in CollectionPoints)
-                            {
-                                <li>
-                                    <input tabindex="7" type="radio" id="minimal-radio-11" value="@cp.CollectionPointID" name="cpID">
-                                    <label>@cp.Location - @cp.Description </label>
-                                </li>
+    <div class="col-12  mt-3">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title">Pick a New Collection Points</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <!--remember to replace the value with deptID-->
+                    <div class="skin skin-flat">
+                        <ul class="list list-unstyled  mr-3">
+                            @{
+                                foreach (CollectionPoint cp in CollectionPoints)
+                                {
+                                    <li>
+                                        <input tabindex="7" type="radio" id="minimal-radio-11" value="@cp.CollectionPointID" name="cpID">
+                                        <label>@cp.Location - @cp.Description </label>
+                                    </li>
+                                }
                             }
-                        }
-                    </ul>
-                </div>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </form>
+                        </ul>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<!-- END: Content-->
+    <!-- END: Content-->
+}
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            if ('@TempData["AlertMessage"]' == "Updated") {
+
+                swal({
+                    title: "Success",
+                    text: "Collection Point has been updated.",
+                    type: "success"
+                }
+
+                )
+            }
+        })
+
+    </script>
 }

@@ -81,53 +81,44 @@ namespace LUSS_API
                 }
             }
 
+            //run all at the same time
 
             //dbcontext.Database.EnsureDeleted();
             //dbcontext.Database.EnsureCreated();
 
-            //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
-            //dbcontext.AddRange(itemCategories);
-            //dbcontext.SaveChanges();
-            //List<Item> items = AddItems.getAllItem();
-            //dbcontext.AddRange(items);
-            //dbcontext.SaveChanges();
-            //List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
-            //dbcontext.AddRange(itemPrices);
-
             //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
             //dbcontext.AddRange(allCollectionPoints);
-
-            //List<Supplier> suppliers = AddSupplier.getAllSuppliers();
-            //dbcontext.AddRange(suppliers);
-            //dbcontext.SaveChanges();
-
             //List<Department> allDepartments = AddDepartment.getAllDepartment(allCollectionPoints);
             //dbcontext.AddRange(allDepartments);
-            //dbcontext.SaveChanges();
             //List<User> allUsers = AddUsers.getAllUsers();
             //dbcontext.AddRange(allUsers);
-
-            //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO();
-            //dbcontext.AddRange(purchaseOrders);
-
-            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
-            //dbcontext.AddRange(retrievals);
-
-            //List<Notification> notifications = AddNotification.getAllNotification();
-            //dbcontext.AddRange(notifications);
-
+            //List<Supplier> suppliers = AddSupplier.getAllSuppliers();
+            //dbcontext.AddRange(suppliers);
+            //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
+            //dbcontext.AddRange(itemCategories);
+            //List<Item> items = AddItems.getAllItem();
+            //dbcontext.AddRange(items);
+            //List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
+            //dbcontext.AddRange(itemPrices);
             //dbcontext.SaveChanges();
 
-            //List<Request> requests = AddRequests.getAllRequest();
+            //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher(allUsers, items);
+            //dbcontext.AddRange(adjustmentVouchers);
+            //List<Notification> notifications = AddNotification.getAllNotification();
+            //dbcontext.AddRange(notifications);
+            //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO(suppliers, allUsers);
+            //dbcontext.AddRange(purchaseOrders);
+            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
+            //dbcontext.AddRange(retrievals);
+            //dbcontext.SaveChanges();
+
+            //List<Request> requests = AddRequests.getAllRequest(allUsers, retrievals);
             //dbcontext.AddRange(requests);
             //dbcontext.SaveChanges();
 
-            //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails();
+            //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails(items, requests);
             //dbcontext.AddRange(requestDetails);
-            //dbcontext.SaveChanges();
 
-            //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher();
-            //dbcontext.AddRange(adjustmentVouchers);
             //dbcontext.SaveChanges();
 
         }

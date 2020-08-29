@@ -32,6 +32,8 @@ namespace LUSS_API.Models
             {
                
                 representativeUser.IsRepresentative = status;
+                if (status) representativeUser.Role = "dept_rep";
+                else representativeUser.Role = "dept_employee";
                 representativeUser.DelegatedManager = null;
                 representativeUser.RequestedBy = null;
                 representativeUser.RequestMade = null;

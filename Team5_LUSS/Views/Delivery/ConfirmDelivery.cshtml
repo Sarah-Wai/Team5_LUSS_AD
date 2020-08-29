@@ -4,6 +4,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Request> allRequests = (List<Request>)ViewData["allRqt"];
+    var message = TempData["AlertMessage"] ?? string.Empty;
 
     string username = (string)Context.Session.GetString("User");
     int DeptId = (int)Context.Session.GetInt32("DeptId");
@@ -129,3 +130,28 @@
     </div>
     <!-- END: Content-->
 }
+
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["AlertMessage"]' == "Complete") {
+
+            swal({
+                title: "Success",
+                text: "Delivery Completed",
+                type: "success"
+            }
+            )
+        }
+        else if ('@TempData["AlertMessage"]' == "deny") {
+
+            swal({
+                title: "Deny",
+                text: "Delivery Denied",
+                type: "error"
+            }
+            )
+        };
+
+    });
+</script>

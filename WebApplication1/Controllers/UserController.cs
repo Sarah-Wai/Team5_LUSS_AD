@@ -50,6 +50,17 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Route("GetAllRepresentativeUsers/{id}")]
+        public IEnumerable<User> GetAllRepresentativeUsers(int id)
+        {
+            List<User> Users = context123.User
+                  .Where(x => x.DepartmentID == id && x.ReportToID != null && x.Role!= "dept_delegate").ToList();
+            return Users;
+
+        }
+
+
+        [HttpGet("{id}")]
         [Route("GetUsersByID/{id}")]
         public User GetUsersByID(int id)
         {

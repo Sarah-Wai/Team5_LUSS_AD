@@ -47,18 +47,18 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
-        [HttpGet("retrievalId/{id}")]
-        public string RemoveRetrievalId(int id)
+        [HttpGet("retrievalId/{retrievalID}")]
+        public string RemoveRetrievalId(int retrievalID)
         {
             List<Request> requests = context123.Request
-                .Where(x => x.RetrievalID == id).ToList();
+                .Where(x => x.RetrievalID == retrievalID).ToList();
 
             foreach (Request r in requests)
             {
                 r.RetrievalID = null;
             }
 
-            Delete(id);
+            Delete(retrievalID);
             return "success";
         }
 

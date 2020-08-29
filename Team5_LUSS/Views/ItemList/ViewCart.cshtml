@@ -69,18 +69,19 @@
                                 </div>
                             </div>
                         </div>
-                    </form>                  
+                    </form>
                 </section>
-                <aside class="card-body p-4" style="float:right; width:40%">
-                    <table class="table table-bordered mb-0 table-responsive d-block border-bottom-0 border-top-0 border-left-0 border-right-0">
-                        <thead>
-                            <tr class="mb-0 font-w-600 text-primary">  
-                                <th colspan="24" class="border-bottom-0" style="color:forestgreen">You may also want:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Recommendations != null)
-                            {
+                @if (Recommendations.Count() !=0)
+                {
+                    <aside class="card-body p-4" style="float:right; width:40%">
+                        <table class="table table-bordered mb-0 table-responsive d-block border-bottom-0 border-top-0 border-left-0 border-right-0">
+                            <thead>
+                                <tr class="mb-0 font-w-600 text-primary">
+                                    <th colspan="24" class="border-bottom-0" style="color:forestgreen">You may also want:</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
                                 @foreach (var item in Recommendations)
                                 {
                                     string itemclassname = "item" + item.ItemID;
@@ -92,12 +93,12 @@
                                     </tr>
 
                                 }
-                            }
-                        </tbody>
-                    </table>
-                </aside>
-            </div>
-            
+
+                            </tbody>
+                        </table>
+                    </aside>
+                }
+                </div>
         </div>
     </div>
 </div>

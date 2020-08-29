@@ -15,7 +15,7 @@ namespace LUSS_API.DB
             {
                 RequestQty = 10,
                 ItemID = items[4].ItemID,
-                RequestID = requests[1].RequestID,
+                RequestID = requests[2].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
 
@@ -24,7 +24,7 @@ namespace LUSS_API.DB
             {
                 RequestQty = 12,
                 ItemID = items[7].ItemID,
-                RequestID = requests[1].RequestID,
+                RequestID = requests[2].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
 
@@ -33,7 +33,7 @@ namespace LUSS_API.DB
             {
                 RequestQty = 1,
                 ItemID = items[34].ItemID,
-                RequestID = requests[1].RequestID,
+                RequestID = requests[2].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
 
@@ -42,7 +42,7 @@ namespace LUSS_API.DB
             {
                 RequestQty = 13,
                 ItemID = items[7].ItemID,
-                RequestID = requests[2].RequestID,
+                RequestID = requests[1].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
             };
@@ -50,7 +50,7 @@ namespace LUSS_API.DB
             {
                 RequestQty = 6,
                 ItemID = items[9].ItemID,
-                RequestID = requests[2].RequestID,
+                RequestID = requests[1].RequestID,
                 FullfillQty = null,
                 ReceivedQty = null,
 
@@ -60,7 +60,7 @@ namespace LUSS_API.DB
 
                RequestQty = 6,
                ItemID = items[44].ItemID,
-               RequestID = requests[2].RequestID,
+               RequestID = requests[1].RequestID,
                FullfillQty = 6,
                ReceivedQty = 6,
            };

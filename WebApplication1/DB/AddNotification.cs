@@ -18,7 +18,7 @@ namespace LUSS_API.DB
                 ToUser = users[0].UserID,
                 Description = "New Request for approval",
                 IsRead = false,
-                RouteUri = api + "/StationeryRequests/RequestHistory"
+                RouteUri = api + "/StationeryRequests/StationeryRequests"
             };
 
             Notification n2 = new Notification()

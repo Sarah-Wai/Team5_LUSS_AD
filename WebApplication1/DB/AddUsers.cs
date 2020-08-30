@@ -36,7 +36,7 @@ namespace LUSS_API.DB
                 Role = "dept_delegate",
                 Designation = "dept_employee",
                 IsRepresentative = false,
-                ReportToID = u1.UserID,
+                ReportToID = 10,
                 DepartmentID = 2
             };
             User u3 = new User()
@@ -49,7 +49,7 @@ namespace LUSS_API.DB
                 Role = "dept_rep",
                 Designation = "Assistant",
                 IsRepresentative = true,
-                ReportToID = u1.UserID,
+                ReportToID = 10,
                 DepartmentID = 2
             };
             User u4 = new User()
@@ -75,7 +75,7 @@ namespace LUSS_API.DB
                 Role = "dept_rep",
                 Designation = "Junior Officer",
                 IsRepresentative = true,
-                ReportToID = u4.UserID,
+                ReportToID = 7,
                 DepartmentID = 3
             };
             User u6 = new User()
@@ -88,7 +88,7 @@ namespace LUSS_API.DB
                 Role = "dept_employee",
                 Designation = "Junior Officer",
                 IsRepresentative = false,
-                ReportToID = u4.UserID,
+                ReportToID = 7,
                 DepartmentID = 3
             };
 
@@ -115,7 +115,7 @@ namespace LUSS_API.DB
                 Role = "store_supervisor",
                 Designation = "Junior Officer",
                 IsRepresentative = false,
-                ReportToID = u7.UserID,
+                ReportToID = 4,
                 DepartmentID = 10
             };
            
@@ -131,7 +131,7 @@ namespace LUSS_API.DB
                 Role = "store_clerk",
                 Designation = "Assistant",
                 IsRepresentative = false,
-                ReportToID = u7.UserID,
+                ReportToID = 4,
                 DepartmentID = 10
             };
 
@@ -145,7 +145,7 @@ namespace LUSS_API.DB
                 Role = "dept_employee",
                 IsRepresentative = false,
                 Designation = "Department Assistant",
-                ReportToID = u1.UserID,
+                ReportToID = 10,
                 DepartmentID = 2
             };
 
@@ -159,7 +159,7 @@ namespace LUSS_API.DB
                 Role = "dept_employee",
                 IsRepresentative = false,
                 Designation = "Department Assistant",
-                ReportToID = u1.UserID,
+                ReportToID = 10,
                 DepartmentID = 2
             };
 
@@ -173,7 +173,7 @@ namespace LUSS_API.DB
                 Role = "dept_employee",
                 IsRepresentative = false,
                 Designation = "Department Assistant",
-                ReportToID = u1.UserID,
+                ReportToID = 10,
                 DepartmentID = 2
             };
 
@@ -200,7 +200,7 @@ namespace LUSS_API.DB
                 Role = "dept_rep",
                 IsRepresentative = true,
                 Designation = "Department Assistant",
-                ReportToID = u13.UserID,
+                ReportToID = 13,
                 DepartmentID = 7
             };
 
@@ -227,7 +227,7 @@ namespace LUSS_API.DB
                 Role = "dept_rep",
                 IsRepresentative = true,
                 Designation = "Department Assistant",
-                ReportToID = u15.UserID,
+                ReportToID = 15,
                 DepartmentID = 9
             };
             users.Add(u1);

@@ -17,6 +17,11 @@ using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace LUSS_API
 {
@@ -32,19 +37,31 @@ namespace LUSS_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(o => o.AddPolicy("EnableCors", builder =>
+            services.AddAuthentication(options =>
             {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
-
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+           .AddJwtBearer(options =>
+           {
+               options.SaveToken = true;
+               options.RequireHttpsMetadata = false;
+               options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+               {
+                   ValidateIssuer = true,
+                   ValidateAudience = true,
+                   ValidAudience = "https://www.yogihosting.com",
+                   ValidIssuer = "https://www.yogihosting.com",
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MyTeamIsTeam5SuperHeroes"))
+               };
+           });
             services.AddControllers().AddNewtonsoftJson(
-                options=>options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<MyDbContext>
                (opt => opt.UseLazyLoadingProxies()
             .UseSqlServer(Configuration.GetConnectionString("DbConn")));
-      
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,25 +78,14 @@ namespace LUSS_API
 
             app.UseCors("EnableCors");
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            //  app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-
-
-
-            static string Encrypt(string value)
-            {
-                using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
-                {
-                    UTF8Encoding utf8 = new UTF8Encoding();
-                    byte[] data = md5.ComputeHash(utf8.GetBytes(value));
-                    return Convert.ToBase64String(data);
-                }
-            }
 
             //run all at the same time
 

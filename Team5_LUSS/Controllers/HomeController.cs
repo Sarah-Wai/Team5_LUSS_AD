@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Team5_LUSS.Models;
 
@@ -21,13 +25,30 @@ namespace Team5_LUSS.Controllers
 
 
         string api_url = "https://localhost:44312/Login"; // connect to API project Controller class
+        private string GenerateJSONWebToken()
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MyTeamIsTeam5SuperHeroes"));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "https://www.yogihosting.com",
+                audience: "https://www.yogihosting.com",
+                expires: DateTime.Now.AddHours(3),
+                signingCredentials: credentials
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        [HttpPost]
         public async Task<IActionResult> Login(string Email, string Password)
         {
-            User  login_user = new User(); // create a new objects of "User"
+            var tokenString = GenerateJSONWebToken();
+            User login_user = new User(); // create a new objects of "User"
             string Hword = Encrypt(Password);    // string Hword = Encrypt(Password);    Change Later
-            string action_name = "";string controller_name = "";
+            string action_name = ""; string controller_name = "";
             using (var httpClient = new HttpClient())
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
                 using (var response = await httpClient.GetAsync(api_url + "/CheckLogin/" + Email + "/" + Hword)) // connect to call api
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -47,7 +68,7 @@ namespace Team5_LUSS.Controllers
                     HttpContext.Session.SetInt32("DeptId", login_user.DepartmentID);
                     HttpContext.Session.SetString("UserRole", login_user.Role);
 
-                    SessionHelper.SetObjectAsJson(HttpContext.Session, "UserObj", login_user);                  
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "UserObj", login_user);
                     TempData["Alert"] = "Login Successful";
 
                     switch (login_user.Role)
@@ -78,7 +99,7 @@ namespace Team5_LUSS.Controllers
         public IActionResult Index()
         {
             return View();
-           
+
         }
         public IActionResult Logout()
         {

@@ -9,67 +9,73 @@ using System.Security.Cryptography;
 using System.Text;
 using System;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
 
 namespace LUSS_API.Controllers
 {
     [Route("[controller]")]
-    [ApiController]
+   
     public class LoginController : ControllerBase
     {
         public MyDbContext context123;
+        private IConfiguration _config;
         private readonly ILogger<LoginController> _logger;
-        public LoginController(ILogger<LoginController> logger, MyDbContext context123)
+        public LoginController(ILogger<LoginController> logger, MyDbContext context123, IConfiguration config)
         {
             _logger = logger;
+            _config = config;
             this.context123 = context123;
         }
 
-        /*
-        [HttpGet("{Email}/{Password}")]
-        [Route("CheckLogin/{Email}/{Password}")]
-        public User CheckLogin(string Email,string Password)
-        {
-            User user = (from i in context123.User
-                         where i.Email == Email && i.Password== Password
-                         select i).FirstOrDefault();
-            return user;
-        }
-        */
 
         [HttpGet("{Email}/{Password}")]
-        [Route("CheckLogin/{Email}/{Password}")]
+        //[Route("CheckLogin/{Email}/{Password}")]
         public User CheckLogin(string Email, string Password)
         {
             User user = (from i in context123.User
                          where i.Email == Email && i.Password == Password
                          select i).FirstOrDefault();
-            if( user!= null)
-            {
-                User retun_user = new User()
-                {
-                    UserID = user.UserID,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    ContactNumber = user.ContactNumber,
-                    DepartmentID = user.DepartmentID,
-                    Email = user.Email,
-                    Password = user.Password,
-                    Role = user.Role,
-                    IsRepresentative = user.IsRepresentative,
-                    Designation = user.Designation,
-                    ReportToID = user.ReportToID,
-                    Department = user.Department == null ? context123.Department.First(x => x.DepartmentID == user.DepartmentID) : user.Department,
-                };
-
-                return retun_user;
-            }
-            else { return null; }
-
-
-
+            return user;
         }
 
-        [HttpGet("MobileLogin/{Email}/{Password}")]
+
+        //[HttpGet("{Email}/{Password}")]
+        //[Route("CheckLogin/{Email}/{Password}")]
+        //public User CheckLogin(string Email, string Password)
+        //{
+        //    User user = (from i in context123.User
+        //                 where i.Email == Email && i.Password == Password
+        //                 select i).FirstOrDefault();
+        //    if( user!= null)
+        //    {
+        //        User retun_user = new User()
+        //        {
+        //            UserID = user.UserID,
+        //            FirstName = user.FirstName,
+        //            LastName = user.LastName,
+        //            ContactNumber = user.ContactNumber,
+        //            DepartmentID = user.DepartmentID,
+        //            Email = user.Email,
+        //            Password = user.Password,
+        //            Role = user.Role,
+        //            IsRepresentative = user.IsRepresentative,
+        //            Designation = user.Designation,
+        //            ReportToID = user.ReportToID,
+        //            Department = user.Department == null ? context123.Department.First(x => x.DepartmentID == user.DepartmentID) : user.Department,
+        //        };
+
+        //        return retun_user;
+        //    }
+        //    else { return null; }
+
+
+
+        //}
+
+        [HttpPost("MobileLogin/{Email}/{Password}")]
         public User MCheckLogin(string Email, string Password)
         {
             string hpwd = Encrypt(Password);
@@ -103,6 +109,55 @@ namespace LUSS_API.Controllers
                 byte[] data = md5.ComputeHash(utf8.GetBytes(value));
                 return Convert.ToBase64String(data);
             }
+        }
+
+        
+        [HttpGet("{Email}/{Password}")]
+        [Route("CheckLogin/{Email}/{Password}")]
+        [Authorize]
+        public User Login(string Email, string Password)
+        {
+          
+            IActionResult response = Unauthorized();
+            var user = AuthenticateUser(Email, Password);
+
+            if (user != null)
+            {
+                return user;
+            }
+            else return null;
+          
+        }
+
+        private User AuthenticateUser(string Email, string Password)
+        {
+
+            //Validate the User Credentials     
+            User user = (from i in context123.User
+                         where i.Email == Email && i.Password == Password
+                         select i).FirstOrDefault();
+            if (user != null)
+            {
+                User retun_user = new User()
+                {
+                    UserID = user.UserID,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    ContactNumber = user.ContactNumber,
+                    DepartmentID = user.DepartmentID,
+                    Email = user.Email,
+                    Password = user.Password,
+                    Role = user.Role,
+                    IsRepresentative = user.IsRepresentative,
+                    Designation = user.Designation,
+                    ReportToID = user.ReportToID,
+                    Department = user.Department == null ? context123.Department.First(x => x.DepartmentID == user.DepartmentID) : user.Department,
+                };
+
+                return retun_user;
+            }
+            else { return null; }
+           
         }
     }
 }

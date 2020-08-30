@@ -20,7 +20,7 @@ namespace Team5_LUSS.Controllers
             return "https://localhost:44312/AdjustmentList";
         }
 
-
+       
         public static async void Email(int UserID, string subject)
         {
             //use UserID -> get receipiantID, -> get Email 

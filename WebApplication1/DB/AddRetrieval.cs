@@ -13,41 +13,13 @@ namespace LUSS_API.DB
         {
             List<Retrieval> retrievals = new List<Retrieval>();
 
-            Retrieval r1 = new Retrieval()
-            {
-                Status = Status.EOrderStatus.Completed,
-                IssueDate = DateTime.Now.AddDays(-1),
-            };
+            Retrieval rv1 = new Retrieval(); rv1.Status = Status.EOrderStatus.Completed; rv1.IssueDate = DateTime.Now.AddDays(-1); retrievals.Add(rv1);
+            Retrieval rv2 = new Retrieval(); rv2.Status = Status.EOrderStatus.PendingDelivery; rv2.IssueDate = DateTime.Now.AddDays(-2); retrievals.Add(rv2);
+            Retrieval rv3 = new Retrieval(); rv3.Status = Status.EOrderStatus.Approved; rv3.IssueDate = DateTime.Now.AddDays(-3); retrievals.Add(rv3);
+            Retrieval rv4 = new Retrieval(); rv4.Status = Status.EOrderStatus.PendingDelivery; rv4.IssueDate = DateTime.Now.AddDays(-4); retrievals.Add(rv4);
+            Retrieval rv5 = new Retrieval(); rv5.Status = Status.EOrderStatus.PendingDelivery; rv5.IssueDate = DateTime.Now.AddDays(-5); retrievals.Add(rv5);
+            Retrieval rv6 = new Retrieval(); rv6.Status = Status.EOrderStatus.PendingDelivery; rv6.IssueDate = DateTime.Now.AddDays(-2); retrievals.Add(rv6);
 
-/*            Retrieval r2 = new Retrieval()
-            {
-                Status = Status.EOrderStatus.PendingDelivery,
-                IssueDate = DateTime.Now,
-            };
-
-            Retrieval r3 = new Retrieval()
-            {
-                Status = Status.EOrderStatus.Packed,
-                IssueDate = DateTime.Now,
-            };
-
-            Retrieval r4 = new Retrieval()
-            {
-                Status = Status.EOrderStatus.Completed,
-                IssueDate = DateTime.Now,
-            };
-
-            Retrieval r5 = new Retrieval()
-            {
-                Status = Status.EOrderStatus.Received,
-                IssueDate = DateTime.Now,
-            };*/
-
-            retrievals.Add(r1);
-/*            retrievals.Add(r2);
-            retrievals.Add(r3);
-            retrievals.Add(r4);
-            retrievals.Add(r5);*/
             return retrievals;
         }
     }

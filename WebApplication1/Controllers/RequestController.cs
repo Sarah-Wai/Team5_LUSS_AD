@@ -41,6 +41,31 @@ namespace LUSS_API.Controllers
             return requests;
         }
 
+        [HttpGet]
+        [Route("get-all-requests")]
+        public IEnumerable<Request> GetAllRequestDelivery()
+        {
+            List<Request> requests = context123.Request.Where(x=>x.RequestStatus == EOrderStatus.PendingDelivery
+            || x.RequestStatus == EOrderStatus.Completed
+            || x.RequestStatus == EOrderStatus.Received).Select(
+                c => new Request()
+                {
+                    RequestID = c.RequestID,
+                    RequestStatus = c.RequestStatus,
+                    RequestBy = c.RequestBy,
+                    ModifiedBy = c.ModifiedBy,
+                    RequestDate = c.RequestDate,
+                    RequestByUser = new User { Department = new Department { DepartmentCode = c.RequestByUser.Department.DepartmentCode, DepartmentName = c.RequestByUser.Department.DepartmentName, DepartmentID = c.RequestByUser.DepartmentID} },
+                    RequestType = c.RequestType,
+                    ModifiedByUser = new User { },
+                    CollectionTime = c.CollectionTime,
+                    RetrievalID = c.RetrievalID
+                    
+                }
+                ).ToList();
+            return requests;
+        }
+
         //[HttpGet("{id}")]
         //[Route("getAllRequestByDepID/{id}")]
         //public List<Request> GetAllRequest(int id)
@@ -80,7 +105,22 @@ namespace LUSS_API.Controllers
         public IEnumerable<Request> GetRequestByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == st).ToList();
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == st).Select(
+                c => new Request()
+                {
+                    RequestID = c.RequestID,
+                    RequestStatus = c.RequestStatus,
+                    RequestBy = c.RequestBy,
+                    ModifiedBy = c.ModifiedBy,
+                    RequestDate = c.RequestDate,
+                    RequestByUser = new User { Department = new Department { DepartmentCode = c.RequestByUser.Department.DepartmentCode, DepartmentName = c.RequestByUser.Department.DepartmentName, DepartmentID = c.RequestByUser.DepartmentID } },
+                    RequestType = c.RequestType,
+                    ModifiedByUser = new User { },
+                    CollectionTime = c.CollectionTime,
+                    RetrievalID = c.RetrievalID
+
+                }
+                ).ToList();
 
             return requestList;
         }
@@ -110,6 +150,20 @@ namespace LUSS_API.Controllers
         public Request GetById(int id)
         {
             Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
+            return request;
+        }
+
+
+        [HttpGet("get-request-lower/{id}")]
+        public Request GetRequestById(int id)
+        {
+            Request request = context123.Request.Where(x => x.RequestID == id).Select(c => new Request
+            {
+                ModifiedByUser = new User { FirstName = c.ModifiedByUser.FirstName, LastName = c.ModifiedByUser.LastName,
+                UserID = c.ModifiedByUser.UserID, Email = c.ModifiedByUser.Email},
+                CollectionTime = c.CollectionTime,
+                RequestStatus = c.RequestStatus
+            }).FirstOrDefault();
             return request;
         }
 
@@ -200,12 +254,12 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
-        [HttpGet("{status}/{retrievalID}")]
-        [Route("GetItemByStatus/{status}/{retrievalID}")]
-        public IEnumerable<dynamic> GetItemsByStatus(string status, int retrievalId)
+        [HttpGet("{status}/{retrievalID}/{deptID}")]
+        [Route("GetItemByStatus/{status}/{retrievalID}/{deptID}")]
+        public IEnumerable<dynamic> GetItemsByStatus(string status, int retrievalId, int deptID)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requests = context123.Request.Where(x => x.RequestStatus == st).ToList(); //all request with status = st
+            List<Request> requests = context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptID).ToList(); //all request with status = st
             List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
             List<Item> items = context123.Item.ToList();
 
@@ -224,19 +278,22 @@ namespace LUSS_API.Controllers
                             itemName = i.ItemName,
                             itemUOM = i.UOM,
                             collectionTime = n.Select(x => x.Request.CollectionTime).First(),
-                            requestIDs = n.Select(x => x.RequestID).ToList(),
-                            deptId = n.Select(x => x.Request.RequestByUser.DepartmentID).First()
+                            requestIDs = n.Select(x => x.RequestID).ToList()
+                            //deptId = n.Select(x => x.Request.RequestByUser.DepartmentID).ToList()
                         }).ToList();
             return iter;
         }
 
-        [HttpPost("{acceptedQty}/{retrievalID}")]
-        public string allocateStationary(List<int> acceptedQty, int retrievalID)
+        [HttpPost("{acceptedQty}/{retrievalID}/{deptID}")]
+        public string allocateStationary(List<int> acceptedQty, int retrievalID, int deptID)
         {
             if (acceptedQty != null && retrievalID != 0)
             {
                 //get the chunk of info passed to the View
-                IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID);
+                IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID, deptID);
+                //IEnumerable<dynamic> listByDept = list.Where(x => x.deptId = deptID).ToList();
+
+
                 //create a dic: item code -- accptQty
                 Dictionary<int, int> allocationList = new Dictionary<int, int>();
                 foreach (var item in list)
@@ -578,11 +635,11 @@ namespace LUSS_API.Controllers
         [HttpGet("GetItemByRetrievalByDept/{retrId}/{deptId}")]
         public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
         {
-            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId);
-            IEnumerable<dynamic> requests_byDept = requests.Where(x => x.deptId == deptId).ToList();
+            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId, deptId);
+            //IEnumerable<dynamic> requests_byDept = requests.Where(x => x.deptId == deptId).ToList();
             List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
 
-            foreach (var r in requests_byDept)
+            foreach (var r in requests)
             {
                 CustomRetrieval rt = new CustomRetrieval
                 {
@@ -598,10 +655,10 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
-        [HttpGet("GetItemByRetrieval/{retrId}")]
-        public List<CustomRetrieval> GetItemByRetrieval(int retrId)
+/*        [HttpGet("GetItemByRetrieval/{retrId}/{deptId}")]
+        public List<CustomRetrieval> GetItemByRetrieval(int retrId, int deptId)
         {
-            IEnumerable<dynamic> requests = GetItemsByStatus("Received", retrId);
+            IEnumerable<dynamic> requests = GetItemsByStatus("Received", retrId, deptId);
             List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
 
             foreach (var r in requests)
@@ -620,7 +677,7 @@ namespace LUSS_API.Controllers
                 retrievals.Add(rt);
             }
             return retrievals;
-        }
+        }*/
 
         [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]
@@ -710,8 +767,8 @@ namespace LUSS_API.Controllers
 
 
 
-        [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}")]
-        public void GetAllocateStationary(string acceptedQty, int retrievalID)
+        [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}/{deptID}")]
+        public void GetAllocateStationary(string acceptedQty, int retrievalID, int deptID)
         {
             //parse string to array
             string[] separators = { ",", "[", "]" };
@@ -722,7 +779,7 @@ namespace LUSS_API.Controllers
                 qty.Add(int.Parse(s));
             }
 
-            allocateStationary(qty, retrievalID);
+            allocateStationary(qty, retrievalID, deptID);
 
         }
     }

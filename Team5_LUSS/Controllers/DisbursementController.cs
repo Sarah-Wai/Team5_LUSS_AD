@@ -95,7 +95,7 @@ namespace Team5_LUSS.Controllers
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
-                using (var reponse = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty + "/" + retrievalId + "/" + collectionDate + "/" + id, content))
+                using (var reponse = await httpClient.PostAsync(api_url_retrieval + "/allocate/" + retrievedQty + "/" + retrievalId + "/" + collectionDate + "/" + id, content))
                 {
                     string apiResponse = await reponse.Content.ReadAsStringAsync();
                     toID = JsonConvert.DeserializeObject<List<User>>(apiResponse);

@@ -78,7 +78,7 @@ namespace LUSS_API.DB
             Supplier supplier8 = new Supplier()
             {
                 SupplierID = 8,
-                SupplierName = "Centocor Ortho Biotech, Inc., Mitsubishi Tanabe Pharma",
+                SupplierName = "Centocor Ortho Biotech, Inc.",
                 Address = "Blk 111 E Jeff Davis Hwy, Elkton, KY, 42220",
                 ContactNo = "369 7812",
                 email = "ALPHA@gmail.com",

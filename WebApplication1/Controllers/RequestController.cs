@@ -41,6 +41,31 @@ namespace LUSS_API.Controllers
             return requests;
         }
 
+        [HttpGet]
+        [Route("get-all-requests")]
+        public IEnumerable<Request> GetAllRequestDelivery()
+        {
+            List<Request> requests = context123.Request.Where(x=>x.RequestStatus == EOrderStatus.PendingDelivery
+            || x.RequestStatus == EOrderStatus.Completed
+            || x.RequestStatus == EOrderStatus.Received).Select(
+                c => new Request()
+                {
+                    RequestID = c.RequestID,
+                    RequestStatus = c.RequestStatus,
+                    RequestBy = c.RequestBy,
+                    ModifiedBy = c.ModifiedBy,
+                    RequestDate = c.RequestDate,
+                    RequestByUser = new User { Department = new Department { DepartmentCode = c.RequestByUser.Department.DepartmentCode, DepartmentName = c.RequestByUser.Department.DepartmentName, DepartmentID = c.RequestByUser.DepartmentID} },
+                    RequestType = c.RequestType,
+                    ModifiedByUser = new User { },
+                    CollectionTime = c.CollectionTime,
+                    RetrievalID = c.RetrievalID
+                    
+                }
+                ).ToList();
+            return requests;
+        }
+
         //[HttpGet("{id}")]
         //[Route("getAllRequestByDepID/{id}")]
         //public List<Request> GetAllRequest(int id)
@@ -80,7 +105,22 @@ namespace LUSS_API.Controllers
         public IEnumerable<Request> GetRequestByStatus(string status)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == st).ToList();
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == st).Select(
+                c => new Request()
+                {
+                    RequestID = c.RequestID,
+                    RequestStatus = c.RequestStatus,
+                    RequestBy = c.RequestBy,
+                    ModifiedBy = c.ModifiedBy,
+                    RequestDate = c.RequestDate,
+                    RequestByUser = new User { Department = new Department { DepartmentCode = c.RequestByUser.Department.DepartmentCode, DepartmentName = c.RequestByUser.Department.DepartmentName, DepartmentID = c.RequestByUser.DepartmentID } },
+                    RequestType = c.RequestType,
+                    ModifiedByUser = new User { },
+                    CollectionTime = c.CollectionTime,
+                    RetrievalID = c.RetrievalID
+
+                }
+                ).ToList();
 
             return requestList;
         }
@@ -110,6 +150,20 @@ namespace LUSS_API.Controllers
         public Request GetById(int id)
         {
             Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
+            return request;
+        }
+
+
+        [HttpGet("get-request-lower/{id}")]
+        public Request GetRequestById(int id)
+        {
+            Request request = context123.Request.Where(x => x.RequestID == id).Select(c => new Request
+            {
+                ModifiedByUser = new User { FirstName = c.ModifiedByUser.FirstName, LastName = c.ModifiedByUser.LastName,
+                UserID = c.ModifiedByUser.UserID, Email = c.ModifiedByUser.Email},
+                CollectionTime = c.CollectionTime,
+                RequestStatus = c.RequestStatus
+            }).FirstOrDefault();
             return request;
         }
 

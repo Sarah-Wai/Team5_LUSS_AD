@@ -35,11 +35,13 @@ namespace LUSS_API.Controllers
         [HttpGet("get-by-request-lowdata/{id}")]
         public List<RequestDetails> GetByRequestWithSData(int id)
         {
-            List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == id && x.isActive == true).Select(c =>
+            List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == id).Select(c =>
               new RequestDetails()
               {
                   RequestDetailID = c.RequestDetailID,
                   RequestQty = c.RequestQty,
+                  FullfillQty = c.FullfillQty,
+                  ReceivedQty = c.ReceivedQty,
                   ItemID = c.ItemID,
                   RequestID = c.RequestID,
                   Item = c.Item

@@ -29,7 +29,7 @@ namespace Team5_LUSS.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.GetAsync(api_url_rqst + "/" + "getAllRequest"))
+                    using (var response = await httpClient.GetAsync(api_url_rqst + "/get-all-requests"))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         allRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
@@ -45,12 +45,11 @@ namespace Team5_LUSS.Controllers
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         allRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                     }
-
                 }
             }
 
 
-            allRequests = filterForStoreClerkView(allRequests);
+            //allRequests = filterForStoreClerkView(allRequests);
             ViewData["allRqt"] = allRequests;
             return View();
         }
@@ -82,7 +81,7 @@ namespace Team5_LUSS.Controllers
                 //if status = null, get all the requests
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.GetAsync(api_url_rqst + "/getAllRequest"))
+                    using (var response = await httpClient.GetAsync(api_url_rqst + "/get-all-requests"))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         dept_Request = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
@@ -141,7 +140,7 @@ namespace Team5_LUSS.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url_rqst_detail + "/get-by-request/" + reqID))
+                using (var response = await httpClient.GetAsync(api_url_rqst_detail + "/get-by-request-lowdata/" + reqID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     requestDetails = JsonConvert.DeserializeObject<List<RequestDetails>>(apiResponse);
@@ -177,7 +176,7 @@ namespace Team5_LUSS.Controllers
             //get the list of items based on retrieval ID & status
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID))
+                using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID + "/" + deptID))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     pd_collectionList = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
@@ -191,15 +190,15 @@ namespace Team5_LUSS.Controllers
 
             }
 
-            //department_filter for item list
+/*            //department_filter for item list
             List<dynamic> dept_pd_collectionList = new List<dynamic>();
             foreach (var item in pd_collectionList)
             {
                 dept_pd_collectionList = pd_collectionList.Where(x => x.deptId == deptID).ToList();
-            }
+            }*/
 
             ViewData["deptRep"] = representative;
-            ViewData["retrievalDetails"] = dept_pd_collectionList;
+            ViewData["retrievalDetails"] = pd_collectionList;
             ViewData["status"] = status;
 
             return View("Disbursement_Form_View _Dept");

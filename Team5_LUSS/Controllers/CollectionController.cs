@@ -120,7 +120,7 @@ namespace Team5_LUSS.Controllers
                 //get the list of items based on retrieval ID and status
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID))
+                    using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID + "/" + deptID))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         pd_collectionList = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
@@ -133,22 +133,23 @@ namespace Team5_LUSS.Controllers
                 ViewData["collectionRequest"] = null;
             }
 
-            //department_filter for item list
+/*            //department_filter for item list
             List<dynamic> dept_pd_collectionList = new List<dynamic>();
             foreach (var item in pd_collectionList)
             {
                 dept_pd_collectionList = pd_collectionList.Where(x => x.deptId == deptID).ToList();
-            }
+            }*/
  
-            ViewData["collectionRequest"] = dept_pd_collectionList;
+            ViewData["collectionRequest"] = pd_collectionList;
             ViewData["retrieval_time"] = retrievalID_CollectionTime;
             ViewData["collectionPoint"] = cp;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> collectionList(List<int> acceptedQty, int retrievalID, int deptID)
+        public async Task<IActionResult> collectionList(List<int> acceptedQty, int retrievalID)
         {
+            int deptID = (int)HttpContext.Session.GetInt32("DeptId");
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(acceptedQty), Encoding.UTF8, "application/json");

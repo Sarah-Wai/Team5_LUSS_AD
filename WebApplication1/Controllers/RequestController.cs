@@ -200,12 +200,12 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
-        [HttpGet("{status}/{retrievalID}")]
-        [Route("GetItemByStatus/{status}/{retrievalID}")]
-        public IEnumerable<dynamic> GetItemsByStatus(string status, int retrievalId)
+        [HttpGet("{status}/{retrievalID}/{deptID}")]
+        [Route("GetItemByStatus/{status}/{retrievalID}/{deptID}")]
+        public IEnumerable<dynamic> GetItemsByStatus(string status, int retrievalId, int deptID)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requests = context123.Request.Where(x => x.RequestStatus == st).ToList(); //all request with status = st
+            List<Request> requests = context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptID).ToList(); //all request with status = st
             List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
             List<Item> items = context123.Item.ToList();
 
@@ -224,8 +224,8 @@ namespace LUSS_API.Controllers
                             itemName = i.ItemName,
                             itemUOM = i.UOM,
                             collectionTime = n.Select(x => x.Request.CollectionTime).First(),
-                            requestIDs = n.Select(x => x.RequestID).ToList(),
-                            deptId = n.Select(x => x.Request.RequestByUser.DepartmentID).First()
+                            requestIDs = n.Select(x => x.RequestID).ToList()
+                            //deptId = n.Select(x => x.Request.RequestByUser.DepartmentID).ToList()
                         }).ToList();
             return iter;
         }
@@ -236,19 +236,19 @@ namespace LUSS_API.Controllers
             if (acceptedQty != null && retrievalID != 0)
             {
                 //get the chunk of info passed to the View
-                IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID);
-                IEnumerable<dynamic> listByDept = list.Where(x => x.deptId == deptID).ToList();
+                IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID, deptID);
+                //IEnumerable<dynamic> listByDept = list.Where(x => x.deptId = deptID).ToList();
 
 
                 //create a dic: item code -- accptQty
                 Dictionary<int, int> allocationList = new Dictionary<int, int>();
-                foreach (var item in listByDept)
+                foreach (var item in list)
                 {
                     int key = item.itemIds;
                     int value = 0;
                     allocationList.Add(key, value);
                 }
-                if (listByDept.Count() > 0)
+                if (list.Count() > 0)
                 {
                     for (int i = 0; i < acceptedQty.Count(); i++)
                     {
@@ -266,7 +266,7 @@ namespace LUSS_API.Controllers
                     int reqQTY;
                     int balance = allocationList.ElementAt(i).Value;
 
-                    List<int> requestIdList = listByDept.Where(x => x.itemIds == allocationList.ElementAt(i).Key)
+                    List<int> requestIdList = list.Where(x => x.itemIds == allocationList.ElementAt(i).Key)
                                                 .Select(x => x.requestIDs).FirstOrDefault();
 
 
@@ -581,11 +581,11 @@ namespace LUSS_API.Controllers
         [HttpGet("GetItemByRetrievalByDept/{retrId}/{deptId}")]
         public List<CustomRetrieval> GetItemByRetrievalBydept(int retrId, int deptId)
         {
-            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId);
-            IEnumerable<dynamic> requests_byDept = requests.Where(x => x.deptId == deptId).ToList();
+            IEnumerable<dynamic> requests = GetItemsByStatus("PendingDelivery", retrId, deptId);
+            //IEnumerable<dynamic> requests_byDept = requests.Where(x => x.deptId == deptId).ToList();
             List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
 
-            foreach (var r in requests_byDept)
+            foreach (var r in requests)
             {
                 CustomRetrieval rt = new CustomRetrieval
                 {
@@ -601,10 +601,10 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
-        [HttpGet("GetItemByRetrieval/{retrId}")]
-        public List<CustomRetrieval> GetItemByRetrieval(int retrId)
+/*        [HttpGet("GetItemByRetrieval/{retrId}/{deptId}")]
+        public List<CustomRetrieval> GetItemByRetrieval(int retrId, int deptId)
         {
-            IEnumerable<dynamic> requests = GetItemsByStatus("Received", retrId);
+            IEnumerable<dynamic> requests = GetItemsByStatus("Received", retrId, deptId);
             List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
 
             foreach (var r in requests)
@@ -623,7 +623,7 @@ namespace LUSS_API.Controllers
                 retrievals.Add(rt);
             }
             return retrievals;
-        }
+        }*/
 
         [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]

@@ -230,22 +230,25 @@ namespace LUSS_API.Controllers
             return iter;
         }
 
-        [HttpPost("{acceptedQty}/{retrievalID}")]
-        public string allocateStationary(List<int> acceptedQty, int retrievalID)
+        [HttpPost("{acceptedQty}/{retrievalID}/{deptID}")]
+        public string allocateStationary(List<int> acceptedQty, int retrievalID, int deptID)
         {
             if (acceptedQty != null && retrievalID != 0)
             {
                 //get the chunk of info passed to the View
                 IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID);
+                IEnumerable<dynamic> listByDept = list.Where(x => x.deptId == deptID).ToList();
+
+
                 //create a dic: item code -- accptQty
                 Dictionary<int, int> allocationList = new Dictionary<int, int>();
-                foreach (var item in list)
+                foreach (var item in listByDept)
                 {
                     int key = item.itemIds;
                     int value = 0;
                     allocationList.Add(key, value);
                 }
-                if (list.Count() > 0)
+                if (listByDept.Count() > 0)
                 {
                     for (int i = 0; i < acceptedQty.Count(); i++)
                     {
@@ -263,7 +266,7 @@ namespace LUSS_API.Controllers
                     int reqQTY;
                     int balance = allocationList.ElementAt(i).Value;
 
-                    List<int> requestIdList = list.Where(x => x.itemIds == allocationList.ElementAt(i).Key)
+                    List<int> requestIdList = listByDept.Where(x => x.itemIds == allocationList.ElementAt(i).Key)
                                                 .Select(x => x.requestIDs).FirstOrDefault();
 
 
@@ -710,8 +713,8 @@ namespace LUSS_API.Controllers
 
 
 
-        [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}")]
-        public void GetAllocateStationary(string acceptedQty, int retrievalID)
+        [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}/{deptID}")]
+        public void GetAllocateStationary(string acceptedQty, int retrievalID, int deptID)
         {
             //parse string to array
             string[] separators = { ",", "[", "]" };
@@ -722,7 +725,7 @@ namespace LUSS_API.Controllers
                 qty.Add(int.Parse(s));
             }
 
-            allocateStationary(qty, retrievalID);
+            allocateStationary(qty, retrievalID, deptID);
 
         }
     }

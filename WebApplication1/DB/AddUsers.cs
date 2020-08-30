@@ -177,61 +177,59 @@ namespace LUSS_API.DB
                 DepartmentID = 2
             };
 
-            /*            User u13 = new User()
-                        {
-                            FirstName = "YuTing",
-                            LastName = "Li",
-                            ContactNumber = "92323672",
-                            Email = "yuting@gmail.com",
-                            Password = Encrypt("123"),
-                            Role = "dept_employee",
-                            IsRepresentative = false,
-                            Designation = "Department Assistant",
-                            ReportToID = u1.UserID,
-                            DepartmentID = 7
-                        };
+            User u13 = new User()
+            {
+                FirstName = "YuTing",
+                LastName = "Li",
+                ContactNumber = "92323672",
+                Email = "yuting@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_head",
+                IsRepresentative = false,
+                Designation = "Department Manager",
+                DepartmentID = 7
+            };
 
-                        User u14 = new User()
-                        {
-                            FirstName = "Ben",
-                            LastName = "Tan",
-                            ContactNumber = "97626772",
-                            Email = "ben@gmail.com",
-                            Password = Encrypt("123"),
-                            Role = "dept_employee",
-                            IsRepresentative = false,
-                            Designation = "Department Assistant",
-                            ReportToID = u1.UserID,
-                            DepartmentID = 8
-                        };
+            User u14 = new User()
+            {
+                FirstName = "Ben",
+                LastName = "Tan",
+                ContactNumber = "97626772",
+                Email = "ben@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Assistant",
+                ReportToID = u13.UserID,
+                DepartmentID = 7
+            };
 
-                        User u15 = new User()
-                        {
-                            FirstName = "Jan",
-                            LastName = "Tan",
-                            ContactNumber = "94626432",
-                            Email = "jan@gmail.com",
-                            Password = Encrypt("123"),
-                            Role = "dept_employee",
-                            IsRepresentative = false,
-                            Designation = "Department Assistant",
-                            ReportToID = u1.UserID,
-                            DepartmentID = 9
-                        };
+            User u15 = new User()
+            {
+                FirstName = "Jan",
+                LastName = "Tan",
+                ContactNumber = "94626432",
+                Email = "jan@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_head",
+                IsRepresentative = false,
+                Designation = "Department Manager",
+                DepartmentID = 9
+            };
 
-                        User u16 = new User()
-                        {
-                            FirstName = "Ryan",
-                            LastName = "Tan",
-                            ContactNumber = "94626432",
-                            Email = "ryan@gmail.com",
-                            Password = Encrypt("123"),
-                            Role = "dept_rep",
-                            IsRepresentative = false,
-                            Designation = "Department Assistant",
-                            ReportToID = u1.UserID,
-                            DepartmentID = 10
-                        };*/
+            User u16 = new User()
+            {
+                FirstName = "Ryan",
+                LastName = "Tan",
+                ContactNumber = "94626432",
+                Email = "ryan@gmail.com",
+                Password = Encrypt("123"),
+                Role = "dept_rep",
+                IsRepresentative = true,
+                Designation = "Department Assistant",
+                ReportToID = u15.UserID,
+                DepartmentID = 9
+            };
             users.Add(u1);
             users.Add(u2);
             users.Add(u3);
@@ -244,10 +242,10 @@ namespace LUSS_API.DB
             users.Add(u10);
             users.Add(u11);
             users.Add(u12);
-/*            users.Add(u13);
+            users.Add(u13);
             users.Add(u14);
             users.Add(u15);
-            users.Add(u16);*/
+            users.Add(u16);
             return users;
 
             static string Encrypt(string value)

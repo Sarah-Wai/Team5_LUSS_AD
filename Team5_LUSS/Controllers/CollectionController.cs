@@ -147,12 +147,12 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> collectionList(List<int> acceptedQty, int retrievalID)
+        public async Task<IActionResult> collectionList(List<int> acceptedQty, int retrievalID, int deptID)
         {
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(acceptedQty), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(api_url_rqst + "/" + acceptedQty +"/" + retrievalID, content))
+                using (var response = await httpClient.PostAsync(api_url_rqst + "/" + acceptedQty +"/" + retrievalID + "/" + deptID, content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                 }

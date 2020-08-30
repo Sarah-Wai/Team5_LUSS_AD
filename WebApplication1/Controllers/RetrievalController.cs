@@ -177,7 +177,7 @@ namespace LUSS_API.Controllers
         }
 
 
-        [HttpPost("{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
+        [HttpPost("allocate/{retrievedQty}/{retrievalId}/{collectionDate}/{id}")]
         public List<User> allocateFulfilledQty(List<int> retrievedQty, int retrievalId, string collectionDate, int id)
         {
 

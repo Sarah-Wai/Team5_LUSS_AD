@@ -22,7 +22,7 @@ namespace LUSS_API.DB
             adj1.Comment = "None";
             adj1.Reason = "None";
             adj1.ItemID = items[0].ItemID;
-            adj1.RequestByID = users[7].UserID;
+            adj1.RequestByID = users[8].UserID;
 
             AdjustmentVoucher adj2 = new AdjustmentVoucher();
             adj2.AdjustQty = 4;
@@ -34,7 +34,7 @@ namespace LUSS_API.DB
             adj2.Comment = "None";
             adj2.Reason = "None";
             adj2.ItemID = items[2].ItemID;
-            adj2.RequestByID = users[7].UserID;
+            adj2.RequestByID = users[8].UserID;
 
 
             AdjustmentVoucher adj3 = new AdjustmentVoucher();
@@ -47,8 +47,8 @@ namespace LUSS_API.DB
             adj3.Comment = "None";
             adj3.Reason = "None";
             adj3.ItemID = items[5].ItemID;
-            adj3.RequestByID = users[7].UserID;
-            adj3.ApprovedByID = users[6].UserID;
+            adj3.RequestByID = users[8].UserID;
+            adj3.ApprovedByID = users[7].UserID;
 
             AdjustmentVoucher adj4 = new AdjustmentVoucher();
             adj4.AdjustQty = 10;
@@ -60,7 +60,7 @@ namespace LUSS_API.DB
             adj4.Comment = "None";
             adj4.Reason = "None";
             adj4.ItemID = items[14].ItemID;
-            adj4.RequestByID = users[7].UserID;
+            adj4.RequestByID = users[8].UserID;
             adj4.ApprovedByID = users[6].UserID;
 
             AdjustmentVoucher adj5 = new AdjustmentVoucher();
@@ -73,7 +73,7 @@ namespace LUSS_API.DB
             adj5.Comment = "None";
             adj5.Reason = "None";
             adj5.ItemID = items[36].ItemID;
-            adj5.RequestByID = users[7].UserID;
+            adj5.RequestByID = users[8].UserID;
 
 
             AdjustmentVoucher adj6 = new AdjustmentVoucher();
@@ -86,7 +86,7 @@ namespace LUSS_API.DB
             adj6.Comment = "None";
             adj6.Reason = "None";
             adj6.ItemID = items[14].ItemID;
-            adj6.RequestByID = users[7].UserID;
+            adj6.RequestByID = users[8].UserID;
 
 
             AdjustmentVoucher adj7 = new AdjustmentVoucher();
@@ -99,7 +99,7 @@ namespace LUSS_API.DB
             adj7.Comment = "None";   
             adj7.Reason = "None";
             adj7.ItemID = items[55].ItemID;
-            adj7.RequestByID = users[7].UserID;
+            adj7.RequestByID = users[8].UserID;
 
 
             AdjustmentVoucher adj8 = new AdjustmentVoucher();
@@ -112,7 +112,7 @@ namespace LUSS_API.DB
             adj8.Comment = "None";
             adj8.Reason = "None";
             adj8.ItemID = items[21].ItemID;
-            adj8.RequestByID = users[7].UserID;
+            adj8.RequestByID = users[8].UserID;
 
             AdjustmentVoucher adj9 = new AdjustmentVoucher();
             adj9.AdjustQty = 20;
@@ -124,8 +124,8 @@ namespace LUSS_API.DB
             adj9.Comment = "None";
             adj9.Reason = "misplaced in another box";
             adj9.ItemID = items[19].ItemID;
-            adj9.RequestByID = users[7].UserID;
-            adj9.ApprovedByID = users[5].UserID;
+            adj9.RequestByID = users[8].UserID;
+            adj9.ApprovedByID = users[6].UserID;
 
             AdjustmentVoucher adj10 = new AdjustmentVoucher();
             adj10.AdjustQty = 40;
@@ -137,8 +137,8 @@ namespace LUSS_API.DB
             adj10.Comment = "None";
             adj10.Reason = "None";
             adj10.ItemID = items[40].ItemID;
-            adj10.RequestByID = users[7].UserID;
-            adj10.ApprovedByID = users[6].UserID;
+            adj10.RequestByID = users[8].UserID;
+            adj10.ApprovedByID = users[7].UserID;
 
             AdjustmentVoucher adj11 = new AdjustmentVoucher();
             adj11.AdjustQty = 40;
@@ -150,7 +150,7 @@ namespace LUSS_API.DB
             adj11.Comment = "None";
             adj11.Reason = "None";
             adj11.ItemID = items[60].ItemID;
-            adj11.RequestByID = users[7].UserID;
+            adj11.RequestByID = users[8].UserID;
 
 
             AdjustmentVoucher adj12 = new AdjustmentVoucher();
@@ -163,7 +163,7 @@ namespace LUSS_API.DB
             adj12.Comment = "None";
             adj12.Reason = "None";
             adj12.ItemID = items[56].ItemID;
-            adj12.RequestByID = users[7].UserID;
+            adj12.RequestByID = users[8].UserID;
 
             AdjustmentVoucher adj13 = new AdjustmentVoucher();
             adj13.AdjustQty = 10;
@@ -175,8 +175,8 @@ namespace LUSS_API.DB
             adj13.Comment = "Reuse";
             adj13.Reason = "None";
             adj13.ItemID = items[3].ItemID;
-            adj13.RequestByID = users[7].UserID;
-            adj13.ApprovedByID = users[6].UserID;
+            adj13.RequestByID = users[8].UserID;
+            adj13.ApprovedByID = users[7].UserID;
 
             AdjustmentVoucher adj14 = new AdjustmentVoucher();
             adj14.AdjustQty = 10;
@@ -188,8 +188,8 @@ namespace LUSS_API.DB
             adj14.Comment = "None";
             adj14.Reason = "Broken";
             adj14.ItemID = items[66].ItemID;
-            adj14.RequestByID = users[7].UserID;
-            adj14.ApprovedByID = users[5].UserID;
+            adj14.RequestByID = users[8].UserID;
+            adj14.ApprovedByID = users[6].UserID;
 
 
             adjustmentVouchers.Add(adj1);

@@ -242,13 +242,13 @@
               success: function (result) {
                   if (status == '1') {
                       toastr["success"]('Approved!');
-                      //$('#editrequest').close();
-                      location.reload();
+                      $('#editrequest').modal('hide');
+                      //location.reload();
                   }
                   else {
                       toastr["success"]('Rejected!');
-                      $('#editrequest').modal('toggle');
-                      location.reload();
+                      $('#editrequest').modal('hide');
+                      //location.reload();
                   }
 
               }

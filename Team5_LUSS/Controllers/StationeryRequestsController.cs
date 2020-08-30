@@ -41,7 +41,7 @@ namespace Team5_LUSS.Controllers
         [HttpGet]
         public async Task<IActionResult> ApproveRequestByDepHead(int id,int status, string comment)
         {
-            if (comment == "")
+            if (comment == "" || comment=="null" || comment==null)
             {
                 comment = "-";
             }

@@ -35,7 +35,25 @@ namespace LUSS_API.Controllers
         public IEnumerable<AdjustmentVoucher> GetAdjustmentVoucherByRequestor(int id)
         {
             List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher
-                .Where(x => x.RequestByID == id).ToList();
+                .Where(x => x.RequestByID == id).Select(a => new AdjustmentVoucher
+                {
+                    AdjustmentID = a.AdjustmentID,
+                    AdjustQty = a.AdjustQty,
+                    AdjustType = a.AdjustType,
+                    Status = a.Status,
+                    TotalCost = a.TotalCost,
+                    IssuedDate = a.IssuedDate,
+                    VoucherNo = a.VoucherNo,
+                    Comment = a.Comment,
+                    Reason = a.Reason,
+                    ItemID = a.ItemID,
+                    ApprovedByID = a.ApprovedByID,
+                    RequestByID = a.RequestByID,
+                    Item = new Item(),
+                    ApprovedByUser = new User(),
+                    RequestedByUser = new User()
+
+                }).ToList();
             return adjustments;
         }
 
@@ -44,9 +62,52 @@ namespace LUSS_API.Controllers
         public IEnumerable<AdjustmentVoucher> GetRequestByStatus(int id,string status)
         {
             AdjustmentVoucherStatus.AdjustmentStatus st = (AdjustmentVoucherStatus.AdjustmentStatus)Enum.Parse(typeof(AdjustmentVoucherStatus.AdjustmentStatus), status);
-            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher.Where(x => x.Status == st && x.RequestByID == id).ToList();
+            List<AdjustmentVoucher> adjustments = context123.AdjustmentVoucher.Where(x => x.Status == st && x.RequestByID == id).Select(a=> new AdjustmentVoucher
+            {
+                AdjustmentID = a.AdjustmentID,
+                AdjustQty = a.AdjustQty,
+                AdjustType = a.AdjustType,
+                Status = a.Status,
+                TotalCost = a.TotalCost,
+                IssuedDate = a.IssuedDate,
+                VoucherNo = a.VoucherNo,
+                Comment = a.Comment,
+                Reason = a.Reason,
+                ItemID = a.ItemID,
+                ApprovedByID = a.ApprovedByID,
+                RequestByID = a.RequestByID,
+                Item = new Item(),
+                ApprovedByUser = new User(),
+                RequestedByUser = new User()
+
+            }).ToList();
+
+           /* List<AdjustmentVoucher> vouchers = new List<AdjustmentVoucher>();
+            foreach(AdjustmentVoucher a in adjustments)
+            {
+                AdjustmentVoucher aVoucher = new AdjustmentVoucher()
+                {
+                    AdjustQty = a.AdjustQty,
+                    AdjustType = a.AdjustType,
+                    Status = a.Status,
+                    TotalCost = a.TotalCost,
+                    IssuedDate = a.IssuedDate,
+                    VoucherNo = a.VoucherNo,
+                    Comment = a.Comment,
+                    Reason = a.Reason,
+                    ItemID = a.ItemID,
+                    ApprovedByID = a.ApprovedByID,
+                    RequestByID = a.RequestByID,
+                    Item = new Item (),
+                    ApprovedByUser = new User (),
+                    RequestedByUser = new User ()
+                };
+                vouchers.Add(aVoucher);
+            }
+*/
 
             return adjustments;
+            //return vouchers;
         }
 
         [HttpGet("adjustmentId/{id}")]

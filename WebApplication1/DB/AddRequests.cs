@@ -14,202 +14,6 @@ namespace LUSS_API.DB
         {
             List<Request> requests = new List<Request>();
 
-            /*           Request r1 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Approved,
-                           RequestDate = DateTime.Now.AddDays(-10),
-                           RequestBy = users[2].UserID,
-                           ModifiedBy = users[0].UserID,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                       };
-                       Request r2 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Pending,
-                           RequestDate = DateTime.Now,
-                           RequestBy = users[5].UserID,
-                           ModifiedBy = users[5].UserID,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                       };
-
-                       Request r3 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Completed,
-                           RequestDate = DateTime.Now.AddDays(-6),
-                           RequestBy = users[4].UserID,
-                           ModifiedBy = users[7].UserID,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.Discrepancy,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now.AddDays(-2),
-                           RetrievalID = retrievals[0].RetrievalID
-                       };
-
-                       Request r4 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Received,
-                           RequestDate = DateTime.Now.AddDays(-2),
-                           RequestBy = users[4].UserID,
-                           ModifiedBy = users[7].UserID,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now.AddDays(-1),
-                           RetrievalID = 2
-
-                       };
-                       Request r5 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.PendingDelivery,
-                           RequestDate = DateTime.Now.AddDays(-8),
-                           RequestBy = users[5].UserID,
-                           ModifiedBy = users[7].UserID,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now.AddDays(4),
-                           RetrievalID = 1
-
-                       };
-                       Request r6 = new Request()
-                       {
-
-                       };
-
-                       Request r7 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Rejected,
-                           RequestDate = DateTime.Now.AddDays(-19),
-                           RequestBy = users[5].UserID,
-                           ModifiedBy = users[0].UserID,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                       };
-                       Request r8 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Cancelled,
-                           RequestDate = DateTime.Now.AddDays(-2),
-                           RequestBy = users[4].UserID,
-                           ModifiedBy = users[4].UserID,
-                           Comment = "Test Cancel",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-
-                       };
-                      Request r9 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Pending,
-                           RequestDate = DateTime.Now,
-                           RequestBy = 2,
-                           ModifiedBy = 1,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now
-
-                       };
-
-                       Request r10 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Rejected,
-                           RequestDate = DateTime.Now,
-                           RequestBy = 2,
-                           ModifiedBy = 1,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now
-
-                       };
-                       Request r11 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Received,
-                           RequestDate = DateTime.Now,
-                           RequestBy = 2,
-                           ModifiedBy = 1,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now,
-                           RetrievalID = 5
-
-                       };
-                       Request r12 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.PendingDelivery,
-                           RequestDate = DateTime.Now,
-                           RequestBy = 2,
-                           ModifiedBy = 1,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now,
-                           RetrievalID = 1
-
-                       };
-                       Request r13 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Packed,
-                           RequestDate = DateTime.Now,
-                           RequestBy = 2,
-                           ModifiedBy = 1,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now,
-                           RetrievalID = 3
-
-                       };
-                       Request r14 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Completed,
-                           RequestDate = DateTime.Now,
-                           RequestBy = 2,
-                           ModifiedBy = 1,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now,
-                           RetrievalID = 4
-
-                       };
-                       Request r15 = new Request()
-                       {
-                           RequestStatus = EOrderStatus.Approved,
-                           RequestDate = DateTime.Now,
-                           RequestBy = 2,
-                           ModifiedBy = 1,
-                           Comment = "Test",
-                           RequestType = RequestType.ERequestType.New,
-                           ParentRequestID = null,
-                           CollectionTime = DateTime.Now
-
-                       };
-                       requests.Add(r1);
-                       requests.Add(r2);
-                       requests.Add(r3);
-                       requests.Add(r4);
-                       requests.Add(r5);
-                       requests.Add(r6);
-                       requests.Add(r7);
-                       requests.Add(r8);
-                       requests.Add(r9);
-                       requests.Add(r10);
-                       requests.Add(r11);
-                       requests.Add(r12);
-                       requests.Add(r13);
-                       requests.Add(r14);
-                       requests.Add(r15);*/
-
-
-
-
-
-
             //history data = completed requests
             Request r1 = new Request(); r1.RequestStatus = EOrderStatus.Completed; r1.RequestDate = DateTime.Now.AddDays(-30); r1.RequestBy = users[4].UserID; r1.ModifiedBy = users[8].UserID; r1.Comment = "ok"; r1.RequestType = 0; r1.ParentRequestID = null; r1.CollectionTime = DateTime.Now.AddDays(-27); r1.RetrievalID = retrievals[0].RetrievalID; requests.Add(r1);
             Request r2 = new Request(); r2.RequestStatus = EOrderStatus.Completed; r2.RequestDate = DateTime.Now.AddDays(-60); r2.RequestBy = users[4].UserID; r2.ModifiedBy = users[8].UserID; r2.Comment = "ok"; r2.RequestType = 0; r2.ParentRequestID = null; r2.CollectionTime = DateTime.Now.AddDays(-57); r2.RetrievalID = retrievals[0].RetrievalID; requests.Add(r2);
@@ -234,10 +38,16 @@ namespace LUSS_API.DB
             Request r19 = new Request(); r19.RequestStatus = EOrderStatus.Pending; r19.RequestDate = DateTime.Now.AddDays(-1); r19.RequestBy = users[2].UserID; r19.ModifiedBy = users[2].UserID; r19.Comment = "ok"; r19.RequestType = 0; r19.ParentRequestID = null; r19.CollectionTime = DateTime.Now.AddDays(-2); r19.RetrievalID = null; requests.Add(r19);
             Request r20 = new Request(); r20.RequestStatus = EOrderStatus.Rejected; r20.RequestDate = DateTime.Now.AddDays(-2); r20.RequestBy = users[2].UserID; r20.ModifiedBy = users[2].UserID; r20.Comment = "ok"; r20.RequestType = 0; r20.ParentRequestID = null; r20.CollectionTime = DateTime.Now.AddDays(-1); r20.RetrievalID = null; requests.Add(r20);
             Request r21 = new Request(); r21.RequestStatus = EOrderStatus.Received; r21.RequestDate = DateTime.Now.AddDays(-3); r21.RequestBy = users[2].UserID; r21.ModifiedBy = users[8].UserID; r21.Comment = "ok"; r21.RequestType = 0; r21.ParentRequestID = null; r21.CollectionTime = DateTime.Now.AddDays(-0); r21.RetrievalID = 4; requests.Add(r21);
-            Request r22 = new Request(); r22.RequestStatus = EOrderStatus.PendingDelivery; r22.RequestDate = DateTime.Now.AddDays(-4); r22.RequestBy = users[4].UserID; r22.ModifiedBy = users[8].UserID; r22.Comment = "ok"; r22.RequestType = 0; r22.ParentRequestID = null; r22.CollectionTime = DateTime.Now.AddDays(-1); r22.RetrievalID = 2; requests.Add(r22);
+            Request r22 = new Request(); r22.RequestStatus = EOrderStatus.PendingDelivery; r22.RequestDate = DateTime.Now.AddDays(-4); r22.RequestBy = users[4].UserID; r22.ModifiedBy = users[8].UserID; r22.Comment = "ok"; r22.RequestType = 0; r22.ParentRequestID = null; r22.CollectionTime = DateTime.Now.AddDays(3); r22.RetrievalID = 2; requests.Add(r22);
             Request r23 = new Request(); r23.RequestStatus = EOrderStatus.Received; r23.RequestDate = DateTime.Now.AddDays(-5); r23.RequestBy = users[2].UserID; r23.ModifiedBy = users[8].UserID; r23.Comment = "ok"; r23.RequestType = 0; r23.ParentRequestID = null; r23.CollectionTime = DateTime.Now.AddDays(-2); r23.RetrievalID = 5; requests.Add(r23);
             Request r24 = new Request(); r24.RequestStatus = EOrderStatus.Approved; r24.RequestDate = DateTime.Now.AddDays(-6); r24.RequestBy = users[4].UserID; r24.ModifiedBy = users[4].UserID; r24.Comment = "ok"; r24.RequestType = 0; r24.ParentRequestID = null; r24.CollectionTime = DateTime.Now.AddDays(-3); r24.RetrievalID = 3; requests.Add(r24);
             Request r25 = new Request(); r25.RequestStatus = EOrderStatus.Approved; r25.RequestDate = DateTime.Now.AddDays(-7); r25.RequestBy = users[2].UserID; r25.ModifiedBy = users[2].UserID; r25.Comment = "ok"; r25.RequestType = 0; r25.ParentRequestID = null; r25.CollectionTime = DateTime.Now.AddDays(-4); r25.RetrievalID = 3; requests.Add(r25);
+            //new
+            Request r26 = new Request(); r26.RequestStatus = EOrderStatus.PendingDelivery; r26.RequestDate = DateTime.Now.AddDays(-8); r26.RequestBy = users[4].UserID; r26.ModifiedBy = users[8].UserID; r26.Comment = "ok"; r26.RequestType = 0; r26.ParentRequestID = null; r26.CollectionTime = DateTime.Now.AddDays(6); r26.RetrievalID = 3; requests.Add(r26);
+            Request r27 = new Request(); r27.RequestStatus = EOrderStatus.PendingDelivery; r27.RequestDate = DateTime.Now.AddDays(-6); r27.RequestBy = users[4].UserID; r27.ModifiedBy = users[8].UserID; r27.Comment = "ok"; r27.RequestType = 0; r27.ParentRequestID = null; r27.CollectionTime = DateTime.Now.AddDays(4); r27.RetrievalID = 3; requests.Add(r27);
+
+
+
 
             return requests;
         }

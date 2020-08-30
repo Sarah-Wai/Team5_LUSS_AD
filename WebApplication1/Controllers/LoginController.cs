@@ -75,7 +75,7 @@ namespace LUSS_API.Controllers
 
         //}
 
-        [HttpPost("MobileLogin/{Email}/{Password}")]
+        [HttpGet("MobileLogin/{Email}/{Password}")]
         public User MCheckLogin(string Email, string Password)
         {
             string hpwd = Encrypt(Password);

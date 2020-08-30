@@ -74,11 +74,11 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CancelRetrieval(int id)
+        public async Task<IActionResult> CancelRetrieval(int retrievalID)
         {
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrievalId/" + id))
+                using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrievalId/" + retrievalID))
                 {
                     var apiResponse = await response.Content.ReadAsStringAsync();
                 }

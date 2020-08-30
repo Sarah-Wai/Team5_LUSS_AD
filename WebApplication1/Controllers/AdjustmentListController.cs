@@ -123,35 +123,43 @@ namespace LUSS_API.Controllers
         {
             List<AdjustmentVoucher> adjustmentpendingVoucherStatusUp = context123.AdjustmentVoucher.Where(x => x.Status == AdjustmentStatus.Pending && x.TotalCost >= 250).ToList();
             List<CustomAdjustmentVoucher> adjustmentVouchers = new List<CustomAdjustmentVoucher>();
-            
-            foreach(AdjustmentVoucher a in adjustmentpendingVoucherStatusUp)
+
+            if(adjustmentpendingVoucherStatusUp.Count() == 0)
             {
-                CustomAdjustmentVoucher c = new CustomAdjustmentVoucher
-                {
-                    AdjustmentID = a.AdjustmentID,
-                    AdjustQty = a.AdjustQty,
-                    AdjustType = a.AdjustType,
-                    Status = a.Status,
-                    TotalCost = a.TotalCost,
-                    //IssuedDate = a.IssuedDate,
-                    VoucherNo = a.VoucherNo,
-                    Comment = a.Comment,
-                    Reason = a.Reason,
-                    ItemID = a.ItemID,
-                    ApprovedByID = a.ApprovedByID,
-                    RequestByID = a.RequestByID,
-                    RequestedByUser = a.RequestedByUser.FirstName + " " + a.RequestedByUser.LastName,
-                    ApprovedByUser = a.ApprovedByUser.FirstName + " " + a.ApprovedByUser.LastName,
-                    ItemCode = a.Item.ItemCode,
-                    ItemName = a.Item.ItemName,
-                    CategoryName = a.Item.ItemCategory.CategoryName,
-                    UOM = a.Item.UOM  
-                };
-
-                adjustmentVouchers.Add(c);
+                return null;
             }
+            else
+            {
+                foreach (AdjustmentVoucher a in adjustmentpendingVoucherStatusUp)
+                {
+                    CustomAdjustmentVoucher c = new CustomAdjustmentVoucher
+                    {
+                        AdjustmentID = a.AdjustmentID,
+                        AdjustQty = a.AdjustQty,
+                        AdjustType = a.AdjustType,
+                        Status = a.Status,
+                        TotalCost = a.TotalCost,
+                        IssuedDate = a.IssuedDate,
+                        VoucherNo = a.VoucherNo,
+                        Comment = a.Comment,
+                        Reason = a.Reason,
+                        ItemID = a.ItemID,
+                        ApprovedByID = a.ApprovedByID,
+                        RequestByID = a.RequestByID,
+                        RequestedByUser = a.RequestedByUser.FirstName + " " + a.RequestedByUser.LastName,
+                        ItemCode = a.Item.ItemCode,
+                        ItemName = a.Item.ItemName,
+                        CategoryName = a.Item.ItemCategory.CategoryName,
+                        UOM = a.Item.UOM
+                    };
 
-            return adjustmentVouchers;
+                    adjustmentVouchers.Add(c);
+                }
+
+                return adjustmentVouchers;
+            }
+            
+            
 
         }
 

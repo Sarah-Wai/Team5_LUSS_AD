@@ -206,7 +206,6 @@ namespace Team5_LUSS.Controllers
         }
 
 
-
         #endregion
 
 
@@ -236,7 +235,15 @@ namespace Team5_LUSS.Controllers
                     }
                 }
             }
-
+            if(actionTaken == "deny")
+            {
+                TempData["AlertMessage"] = "Deny";
+            }
+            else
+            {
+                TempData["AlertMessage"] = "Complete";
+            }
+            
             return RedirectToAction("ConfirmDelivery");
         }
 
@@ -249,7 +256,14 @@ namespace Team5_LUSS.Controllers
             {
                 await FinalActionByStore(actionTaken, id);
             }
-
+            if (actionTaken == "deny")
+            {
+                TempData["AlertMessage"] = "Deny";
+            }
+            else
+            {
+                TempData["AlertMessage"] = "Complete";
+            }
             return RedirectToAction("DeptConfirmDelivery");
         }
         #endregion

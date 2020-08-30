@@ -98,9 +98,18 @@ namespace LUSS_API
             //dbcontext.AddRange(itemCategories);
             //List<Item> items = AddItems.getAllItem();
             //dbcontext.AddRange(items);
+
+            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
+            //dbcontext.AddRange(retrievals);
+            //dbcontext.SaveChanges();
+            //List<Request> requests = AddRequests.getAllRequest(allUsers, retrievals);
+            //dbcontext.AddRange(requests);
+
+            //dbcontext.SaveChanges();
             //List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
             //dbcontext.AddRange(itemPrices);
             //dbcontext.SaveChanges();
+
 
             //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher(allUsers, items);
             //dbcontext.AddRange(adjustmentVouchers);
@@ -108,13 +117,7 @@ namespace LUSS_API
             //dbcontext.AddRange(notifications);
             //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO(suppliers, allUsers);
             //dbcontext.AddRange(purchaseOrders);
-            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
-            //dbcontext.AddRange(retrievals);
-            //dbcontext.SaveChanges();
 
-            //List<Request> requests = AddRequests.getAllRequest(allUsers, retrievals);
-            //dbcontext.AddRange(requests);
-            //dbcontext.SaveChanges();
 
             //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails(items, requests);
             //dbcontext.AddRange(requestDetails);

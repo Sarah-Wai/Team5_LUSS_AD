@@ -16,8 +16,8 @@ namespace LUSS_API.DB
                 RequestQty = 10,
                 ItemID = items[4].ItemID,
                 RequestID = requests[2].RequestID,
-                FullfillQty = null,
-                ReceivedQty = null,
+                FullfillQty = 8,
+                ReceivedQty = 8,
 
             };
             RequestDetails del2 = new RequestDetails()
@@ -60,7 +60,7 @@ namespace LUSS_API.DB
 
                RequestQty = 6,
                ItemID = items[44].ItemID,
-               RequestID = requests[1].RequestID,
+               RequestID = requests[0].RequestID,
                FullfillQty = 6,
                ReceivedQty = 6,
            };
@@ -197,9 +197,9 @@ namespace LUSS_API.DB
             requestDetails.Add(del3);
             requestDetails.Add(del4);
             requestDetails.Add(del5);
-/*            requestDetails.Add(del6);
+            requestDetails.Add(del6);
             requestDetails.Add(del7);
-            requestDetails.Add(del8);
+ /*           requestDetails.Add(del8);
             requestDetails.Add(del9);
             requestDetails.Add(del10);
             requestDetails.Add(del11);

@@ -17,7 +17,7 @@ namespace Team5_LUSS.Controllers
     public class HomeController : Controller
     {
 
-        List<User> Users = new List<User>();
+        //List<User> Users = new List<User>();
 
 
         string api_url = "https://localhost:44312/Login"; // connect to API project Controller class
@@ -28,19 +28,16 @@ namespace Team5_LUSS.Controllers
             string action_name = "";string controller_name = "";
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url+"/CheckLogin/" + Email+"/"+ Hword)) // connect to call api
+                using (var response = await httpClient.GetAsync(api_url + "/CheckLogin/" + Email + "/" + Hword)) // connect to call api
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    login_user = JsonConvert.DeserializeObject<User>(apiResponse); // convert the packets from https link to the object
-                }
-                if (login_user == null)
-                {
-                    //userModel.LoginErrorMessage = "Wrong Credentials.";
-                    TempData["Alert"] = "Login Failed";
-                    return RedirectToAction("Privacy", "Home");
+                    if (apiResponse != "" && !apiResponse.Contains("<!DOCTYPE html"))
+                    {
+                        login_user = JsonConvert.DeserializeObject<User>(apiResponse); // convert the packets from https link to the object
+                    }
                 }
 
-                else
+                if (login_user.UserID != 0)
                 {
                     ViewData["User"] = login_user;
                     HttpContext.Session.SetString("Email", Email);
@@ -50,51 +47,25 @@ namespace Team5_LUSS.Controllers
                     HttpContext.Session.SetInt32("DeptId", login_user.DepartmentID);
                     HttpContext.Session.SetString("UserRole", login_user.Role);
 
-                    SessionHelper.SetObjectAsJson(HttpContext.Session, "UserObj", login_user);
-
-
-                   // List<WtrStudent> _sessionList = SessionHelper.GetObjectFromJson<List<WtrStudent>>(HttpContext.Session, "userObject");
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "UserObj", login_user);                  
                     TempData["Alert"] = "Login Successful";
-
-
-                    //if (HttpContext.Session.GetString("cartHistoryList") != null && HttpContext.Session.GetString("cartHistoryList") != "")
-                    //if (userDetails.Role == "sales")
-                    //store_clerk / store_supervisor / store_manager /  dept_employee / dept_rep / dept_delegate / dept_head
-                    //if (login_user.Department.DepartmentName == "store")
-                    //{
-                    //    switch (login_user.Role)
-                    //    {
-                    //        case "store_clerk": action_name = "Index"; controller_name = "ItemList"; break;
-                    //        case "store_supervisor": action_name = "Dashboard"; controller_name = "Dashboard"; break;
-                    //        case "store_manager": action_name = "Dashboard"; controller_name = "Dashboard"; break;  ;
-                    //    }
-                    //    return RedirectToAction("Dashboard", "Dashboard");
-                    //}
-                    //else
-                    //{
-                    //    switch (login_user.Role)
-                    //    {
-                    //        case "dept_employee": action_name = "Index";controller_name = "ItemList"; break;
-                    //        case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break;
-                    //            //case "dept_delegate": break;
-                    //    }
-
-                    //}
-                    //return RedirectToAction(action_name, controller_name);
 
                     switch (login_user.Role)
                     {
                         case "store_clerk": action_name = "Index"; controller_name = "ClerkDash"; break;
                         case "store_supervisor": action_name = "Index"; controller_name = "SupDash"; break;
                         case "store_manager": action_name = "Index"; controller_name = "SupDash"; break;
-                        case "dept_rep": action_name = "Index"; controller_name = "ItemList"; break; 
-                        case "dept_delegate": action_name = "StationeryRequests"; controller_name = "StationeryRequests"; break; 
+                        case "dept_rep": action_name = "Index"; controller_name = "ItemList"; break;
+                        case "dept_delegate": action_name = "StationeryRequests"; controller_name = "StationeryRequests"; break;
                         case "dept_head": action_name = "Index"; controller_name = "DHeadDash"; break;
                         case "dept_employee": action_name = "Index"; controller_name = "ItemList"; break;
                     }
                     return RedirectToAction(action_name, controller_name);
                 }
-                }
+            }
+
+            TempData["Alert"] = "Login Failed";
+            return View("Index");
         }
 
 

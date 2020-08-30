@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    var message = TempData["Alert"] ?? string.Empty;
 }
 <div class="col-12">
     <form  asp-action="Login" method="post" class="row row-eq-height lockscreen  mt-5 mb-5">
@@ -11,6 +12,15 @@
             <div class="form-group mb-3" style="margin-left:65px;">
                 <img src="~/images/LU_Full_png.png" style="width:78%; height:52%" />
             </div>
+            @if (message == "Login Failed")
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Login Failed.</strong> Pleae try again or contact the IT support.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            }
             <div class="form-group mb-3">
                 <label for="emailaddress">Email address</label>
                 <input class="form-control" type="email" id="emailaddress" name="Email" required="" placeholder="Enter your email">
@@ -24,10 +34,9 @@
             <div class="form-group mb-3">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked="">
-                   @* <label class="custom-control-label" for="checkbox-signin">Remember me</label>*@
+                    @* <label class="custom-control-label" for="checkbox-signin">Remember me</label>*@
                 </div>
             </div>
-
             <div class="form-group mb-0">
                 <button class="btn btn-primary" type="submit"> Log In </button>
             </div>

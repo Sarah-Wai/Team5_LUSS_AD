@@ -25,6 +25,9 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
+
+        [HttpGet("{id}")]
+        [Route("get-by-request/{id}")]
         public List<RequestDetails> GetByRequest(int id)
         {
             List<RequestDetails> requestItems = context123.RequestDetails.Where(x => x.RequestID == id).Select(c =>

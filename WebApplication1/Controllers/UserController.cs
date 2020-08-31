@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LUSS_API.DB;
 using LUSS_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,7 +24,8 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-
+        [HttpGet("{id}")]
+        [Route("get-representative/{id}")]
         public User GetDeptRep(int id)
         {
             User rep = context123.User.Where(x => x.DepartmentID == id && x.IsRepresentative == true).Select(c =>

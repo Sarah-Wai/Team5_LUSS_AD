@@ -180,7 +180,6 @@
                                         <label for="minimal-radio-12" style="min-width:50px" id="deduct" asp-for="AdjustType">Deduct</label>
                                         <input tabindex="7" type="radio" id="adjustType" class="radioBtn" value="Add" asp-for="AdjustType" name="AdjustType" onchange="pick();calculate()">
                                         <label for="minimal-radio-12" style="min-width:50px" id="add" asp-for="AdjustType">Add</label>
-                                        @*<input type="number" id="qty_deduct" onchange="calculate()" value="1" min="1" style="width:40px; height:25px">*@
                                     </td>
                                 </tr>
                                 <tr>
@@ -189,7 +188,6 @@
                                         <input type="number" id="adjustQty" asp-for="AdjustQty" name="AdjustQty" onchange="calculate()" min="1" style="width:60px; height:25px">
                                     </td>
                                 </tr>
-                                @*<input type="hidden" value="5" asp-for="AdjustQty" name="AdjustQty" />*@
                                 <tr>
                                     <td>
                                         <b>Total Value</b>
@@ -204,7 +202,7 @@
                                     <td>
                                         <input type="text" asp-for="Reason" name="Reason" id="reason" placeholder="" style="width:250px; height:80px">
                                     </td>
-                                    @*<input type="hidden" asp-for="Status" name="Status" value="@AdjustmentVoucherStatus.AdjustmentStatus.Pending" />*@
+                                   
                                 </tr>
                             </table>
                         </div>
@@ -245,18 +243,10 @@
                                                     <td class="text-right"><b>Department</b></td>
                                                     <td class="text-right"><b>UOM</b></td>
                                                     <td class="text-right"><b>Requested Qty</b></td>
-                                                    @*<td class="text-right"><b>Allocated Qty</b></td>*@
                                                 </tr>
                                             </thead>
                                             <tbody id="distributionList">
-                                                @*<tr>
-                                                        <td class="text-right" id="requestID"></td>
-                                                        <td class="text-right" id="departmentCode"></td>
-                                                        <td class="text-right" id="departmentName"></td>
-                                                        <td class="text-right" id="uom"></td>
-                                                        <td class="text-right" id="requestedQty"></td>
-                                                        <td class="text-right"><input type="number" value="10" min="0" /></td>
-                                                    </tr>*@
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -345,15 +335,6 @@
             var b = parseFloat($("#itemPrice").html());
             $("#totalPrice").html(a * b);
         }
-
-        //function pick() {
-        //    $checked = $("input[name='AdjustType']:checked").next().next();
-        //    $unchecked = $("input[name='AdjustType']:not(:checked)").next().next();
-
-        //    $checked.removeAttr('disabled');
-        //    $unchecked.attr('disabled', true);
-        //    $unchecked.val("1");
-        //}
 
         function resetForm() {
             $("input[name='AdjustType']").removeProp('checked');

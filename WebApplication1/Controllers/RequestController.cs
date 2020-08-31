@@ -416,10 +416,9 @@ namespace LUSS_API.Controllers
         public int DisburseByRequest(int id, int userId, string collectionTime, List<int> fulfillQty)
         {
 
-            //To do: generate retrieval id , find out why is 0 when generated
+            //Generate Retrieval 
             Retrieval retrieval = new Retrieval()
             {
-                //RetrievalID = GetNewRetrievalId(), 
                 IssueDate = DateTime.Now,
                 Status = EOrderStatus.PendingDelivery
             };
@@ -441,11 +440,6 @@ namespace LUSS_API.Controllers
             {
                 reqItems[i].FullfillQty = fulfillQty[i];
                 reqItems[i].Item.InStockQty -= fulfillQty[i]; // less out stock
-                //if (reqItems[i].FullfillQty == null && reqItems[i].RequestID == id)
-                //{
-                //    reqItems[i].FullfillQty = fulfillQty[i];
-                //    break;
-                //}
             }
 
             context123.SaveChanges();

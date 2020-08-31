@@ -82,32 +82,8 @@ namespace LUSS_API.Controllers
 
             }).ToList();
 
-           /* List<AdjustmentVoucher> vouchers = new List<AdjustmentVoucher>();
-            foreach(AdjustmentVoucher a in adjustments)
-            {
-                AdjustmentVoucher aVoucher = new AdjustmentVoucher()
-                {
-                    AdjustQty = a.AdjustQty,
-                    AdjustType = a.AdjustType,
-                    Status = a.Status,
-                    TotalCost = a.TotalCost,
-                    IssuedDate = a.IssuedDate,
-                    VoucherNo = a.VoucherNo,
-                    Comment = a.Comment,
-                    Reason = a.Reason,
-                    ItemID = a.ItemID,
-                    ApprovedByID = a.ApprovedByID,
-                    RequestByID = a.RequestByID,
-                    Item = new Item (),
-                    ApprovedByUser = new User (),
-                    RequestedByUser = new User ()
-                };
-                vouchers.Add(aVoucher);
-            }
-*/
-
             return adjustments;
-            //return vouchers;
+
         }
 
         [HttpGet("adjustmentId/{id}")]
@@ -125,7 +101,6 @@ namespace LUSS_API.Controllers
             List<User> users = new List<User>();
             int price = context123.ItemPrice
                 .Where(x => x.ItemID == itemId).FirstOrDefault().Price;
-            //int id = GetNewAdjVoucherId();
 
             AdjustmentVoucher adjustment = new AdjustmentVoucher()
             {
@@ -189,18 +164,6 @@ namespace LUSS_API.Controllers
             }
             return users;
 
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

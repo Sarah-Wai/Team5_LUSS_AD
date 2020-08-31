@@ -20,14 +20,6 @@ namespace Team5_LUSS.Controllers
         string api_url_user = "https://localhost:44312/User/";
         string api_url_requestDetails = "https://localhost:44312/RequestDetails/";
         string api_url_retrieval = "https://localhost:44312/Retrieval";
-        public IActionResult Index()
-        {
-            //return View();
-            //return View("Disbursement_Form_View");
-            return View("Disbursement_Manage");
-            //return View("Retrieval_Form");
-            //return View("Disbursement_Form_Create");
-        }
 
         //public async Task<IActionResult> GetAllRetrieval()
         //{
@@ -286,14 +278,7 @@ namespace Team5_LUSS.Controllers
             int toID;
             using (var httpClient = new HttpClient())
             {
-                //for (int i = 0; i < fulfillQty.Count(); i++)
-                //{
-                //    using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty[i]))
-                //    {
-                //        string apiResponse = await response.Content.ReadAsStringAsync();
-                //    }
-                //}
-
+               
                 StringContent content = new StringContent(JsonConvert.SerializeObject(fulfillQty), Encoding.UTF8, "application/json");
 
                 using (var response = await httpClient.PostAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty, content))
@@ -301,11 +286,6 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     toID = JsonConvert.DeserializeObject<int>(apiResponse);
                 }
-
-                //using (var response = await httpClient.GetAsync(api_url + "disburse-by-request/" + id + "/" + userId + "/" + collectionTime + "/" + fulfillQty))
-                //{
-                //    string apiResponse = await response.Content.ReadAsStringAsync();
-                //}
 
                 NotificationController.ReadyForCollection(fromID, toID);
 

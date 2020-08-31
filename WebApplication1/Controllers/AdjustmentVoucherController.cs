@@ -145,11 +145,11 @@ namespace LUSS_API.Controllers
 
             if(adjustQty * price < 250)
             {
-                users = context123.User.Where(x => x.Role.Equals("supervisor")).ToList();
+                users = context123.User.Where(x => x.Role.Equals("store_supervisor")).ToList();
             }
             else
             {
-                users = context123.User.Where(x => x.Role.Equals("manager")).ToList();
+                users = context123.User.Where(x => x.Role.Equals("store_manager")).ToList();
             }
             return users;
 

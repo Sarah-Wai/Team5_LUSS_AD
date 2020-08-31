@@ -140,19 +140,24 @@ namespace LUSS_API.Controllers
         public IEnumerable<Request> GetRequestByStatusByDept(string status, int deptId)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requestList =  context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptId).ToList();
+            List<Request> requestList =  context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptId).Select(c=>
+            new Request {
+                RequestID = c.RequestID,
+                RequestStatus = c.RequestStatus,
+                RequestBy = c.RequestBy,
+                ModifiedBy = c.ModifiedBy,
+                RequestDate = c.RequestDate,
+                RequestByUser = new User { },
+                RequestType = c.RequestType,
+                ModifiedByUser = new User { },
+                CollectionTime = c.CollectionTime,
+                RetrievalID = c.RetrievalID
+            }).ToList();
+            
             return requestList;
         }
 
-
-
         [HttpGet("get-request/{id}")]
-        //public Request GetById(int id)
-        //{
-        //    Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
-        //    return request;
-        //}
-
         public Request GetById(int id)
         {
             Request request = context123.Request.Where(x => x.RequestID == id).Select(
@@ -422,11 +427,12 @@ namespace LUSS_API.Controllers
             context123.SaveChanges();
 
             //update request
-            Request request = GetById(id);
+            Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
             request.RequestStatus = EOrderStatus.PendingDelivery;
             request.CollectionTime = Convert.ToDateTime(collectionTime);
             request.ModifiedBy = userId;
             request.RetrievalID = retrieval.RetrievalID;
+            
 
             List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
 
@@ -442,10 +448,10 @@ namespace LUSS_API.Controllers
                 //}
             }
 
-
             context123.SaveChanges();
-            int userID = (int)request.RequestBy;
 
+            int userID = (int)request.RequestBy;
+            
             return userID;
         }
 

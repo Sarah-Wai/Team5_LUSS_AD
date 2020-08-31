@@ -39,7 +39,7 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ApproveRequestByDepHead(int id,int status, string comment)
+        public async Task<string> ApproveRequestByDepHead(int id,int status, string comment)
         {
             if (comment == "" || comment=="null" || comment==null)
             {
@@ -54,8 +54,9 @@ namespace Team5_LUSS.Controllers
                    
                 }
             }
+            return "Success";
 
-            return RedirectToAction("StationeryRequests");
+            //return RedirectToAction("StationeryRequests");
         }
 
         [HttpGet]

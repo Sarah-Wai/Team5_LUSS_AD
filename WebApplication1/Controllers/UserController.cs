@@ -66,7 +66,22 @@ namespace LUSS_API.Controllers
             }).FirstOrDefault();
             return rep;
         }
+    
+       [HttpGet("get-none-delegate-lower/{id}")]
+        public List<User> GetNoneDelegate_lower(int id)
+        {
+            List<User> rep = context123.User.Where(x => x.DepartmentID == id && x.Role != "dept_delegate" && x.Role!= "dept_head").Select(c => new User
+            {
+                UserID = c.UserID,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                IsRepresentative=c.IsRepresentative,
+                Designation=c.Designation
+            
 
+            }).ToList();
+            return rep;
+        }
 
         [HttpGet("{id}")]
         [Route("GetAllDeptUsers/{id}")]

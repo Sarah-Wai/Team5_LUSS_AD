@@ -13,7 +13,7 @@ namespace Team5_LUSS.Controllers
 {
     public class RepresentativeController : Controller
     {
-        string api_user_url = "https://localhost:44312/User/GetAllDeptUsers"; // connect to API project Controller class
+        string api_user_url = "https://localhost:44312/User/get-none-delegate-lower"; // connect to API project Controller class
         string api_representative_url = "https://localhost:44312/Representative";
         //string msg = "";
         [HttpGet]
@@ -42,9 +42,10 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> AddRepresentative(int id)
         {
             string apiResponse = "";
+            int depID = (int)HttpContext.Session.GetInt32("DeptId");
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_representative_url + "/" + id+ "/"+true))
+                using (var response = await httpClient.GetAsync(api_representative_url + "/" + id+ "/"+true+"/"+depID))
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }

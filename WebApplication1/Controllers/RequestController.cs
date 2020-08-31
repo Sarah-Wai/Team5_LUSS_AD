@@ -504,7 +504,7 @@ namespace LUSS_API.Controllers
 
             foreach (var rq in requestDetails)
             {
-                if (rq.FullfillQty < rq.RequestQty)
+                if (rq.ReceivedQty < rq.RequestQty)
                 {
                     dcp_RequestDetails.Add(rq);
                 }
@@ -534,7 +534,7 @@ namespace LUSS_API.Controllers
             {
                 RequestDetails rqt_Details = new RequestDetails
                 {
-                    RequestQty = (int)(rd.RequestQty - rd.FullfillQty),
+                    RequestQty = (int)(rd.RequestQty - rd.ReceivedQty),
                     ItemID = rd.Item.ItemID,
                     isActive = true,
                     RequestID = requestID

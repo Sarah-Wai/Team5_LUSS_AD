@@ -140,18 +140,23 @@ namespace LUSS_API.Controllers
         public IEnumerable<Request> GetRequestByStatusByDept(string status, int deptId)
         {
             EOrderStatus st = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), status);
-            List<Request> requestList =  context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptId).ToList();
+            List<Request> requestList =  context123.Request.Where(x => x.RequestStatus == st && x.RequestByUser.DepartmentID == deptId).Select(c=>
+            new Request {
+                RequestID = c.RequestID,
+                RequestStatus = c.RequestStatus,
+                RequestBy = c.RequestBy,
+                ModifiedBy = c.ModifiedBy,
+                RequestDate = c.RequestDate,
+                RequestByUser = new User { },
+                RequestType = c.RequestType,
+                ModifiedByUser = new User { },
+                CollectionTime = c.CollectionTime,
+                RetrievalID = c.RetrievalID
+            }).ToList();
+            
             return requestList;
         }
 
-
-
-        [HttpGet("get-request/{id}")]
-        //public Request GetById(int id)
-        //{
-        //    Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
-        //    return request;
-        //}
 
         public Request GetById(int id)
         {

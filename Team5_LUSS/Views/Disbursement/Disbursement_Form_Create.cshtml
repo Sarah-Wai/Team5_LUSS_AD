@@ -117,7 +117,6 @@
             } else {
                 document.getElementById("fulfillQty-" + itemId).value = instockQty;
             }
-            //$("fulfillQty-"+itemId).val(value);
         }
 
         //get todaydate and set min value for collectionDate
@@ -138,84 +137,10 @@
                 sum += parseInt($(this).val());
             })
             if (sum === 0) {
-                //alert(sum);
                 toastr["error"]("No disbursement issued");
                 e.preventDefault();
             }
         });
     </script>
 
-
-
-    @*<script>
-            $('#btnConfirm').click(function (e) {
-                e.preventDefault;
-
-                var fulfillQtyList = [];
-                $('#fulfillQty').find('input:number').each(function () {
-                    fulfillQtyList.push($(this).val());
-                });
-                //var model = {
-                //    id: $("#id").val(),
-                //    userId: $("#userId").val(),
-                //    fulfillQty: fulfillQtyList,
-                //    collectionTime: $("#collectionTime").val(),
-                //};
-
-
-                var id = $("#id").val();
-                var userId= $("#userId").val();
-                var fulfillQty= fulfillQtyList;
-                var collectionTime= $("#collectionTime").val();
-
-
-
-
-                $.ajax({
-                    type: "POST",
-                    url: "https://localhost:44312/Request/"+ id + "/" + userId + "/" + fulfillQty + "/" + collectionTime,
-                    //data: JSON.stringify(model),
-                    //contentType: "application/json; charset = utf-8",
-                    //datatype: "json",
-                    //async: true,
-                    //cache: false,
-                    //success: function (response) {
-                    //    console.log(response);
-                    //},
-                    //error: function (x, e) {
-                    //    console.log('err');
-                    }
-                });
-
-            });
-        </script>*@
-
-
-    @*<script>
-            $("body").on("click", "#btnConfirm", function () {
-                //Loop through the table rows and build JSON array
-                var reqItems = new Array();
-                $("#tblReqItems TBODY TR").each(function () {
-                    var row = $(this);
-                    var reqItem = {};
-                    reqItem.requestDetailID = row.find("TD").eq(0).html();
-                    reqItem.requestQty = row.find("TD").eq(5).html();
-                    reqItem.itemID = row.find("TD").eq(2).html();
-                    reqItem.fullfillQty = row.find("TD").eq(6).html();
-                    reqItems.push(reqItem);
-                });
-
-                //Send the JSON array to Controller using AJAX.
-                $.ajax({
-                    type: "POST",
-                    url: "/Disbursement/Create",
-                    data: JSON.stringify(reqItems),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (r) {
-                        alert(r + " record(s) inserted.");
-                    }
-                });
-            })
-        </script>*@
 

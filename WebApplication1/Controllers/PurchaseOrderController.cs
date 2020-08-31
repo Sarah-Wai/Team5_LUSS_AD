@@ -133,29 +133,6 @@ namespace LUSS_API.Controllers
             return "ok";
         }
 
-        //To delete 
-        //[HttpPost]
-        //public async Task<ActionResult<PurchaseOrder>> Post([FromBody]PurchaseOrder po, int itemID, int orderQty, int supplierId)
-        //{
-        //    //, int itemID, int orderQty, int supplierId
-        //    po.POID = GetNewPOId();
-        //    po.PONo = "PO " + po.POID;
-        //    po.SupplierID = supplierId;
-        //    po.Status = POStatus.Pending;
-        //    po.Supplier = null;
-        //    po.CreatedOn = DateTime.Now;
-        //    context123.PurchaseOrder.Add(po);
-        //    try
-        //    {
-        //        context123.SaveChanges();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //    }
-        //    return CreatedAtAction(nameof(GetPurchaseOrderById), po);
-        //}
-
     }
 
 

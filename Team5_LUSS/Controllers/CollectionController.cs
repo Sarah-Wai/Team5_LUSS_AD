@@ -30,7 +30,6 @@ namespace Team5_LUSS.Controllers
         {
 
             int user_CPId = (int)HttpContext.Session.GetInt32("CPId");
-            //Get All the Collection Points
             List<CollectionPoint> collectionPointInfo = new List<CollectionPoint>();
             CollectionPoint dept_CP = new CollectionPoint();
 
@@ -42,8 +41,6 @@ namespace Team5_LUSS.Controllers
                     collectionPointInfo = JsonConvert.DeserializeObject<List<CollectionPoint>>(apiResponse);
                 }
             }
-                //test notification
-                //NotificationController.Index();
 
             ViewData["collectionPoints"] = collectionPointInfo;
             if (newCP.CollectionPointID == 0)
@@ -88,8 +85,6 @@ namespace Team5_LUSS.Controllers
             int user_CPId = (int)HttpContext.Session.GetInt32("CPId");
             int deptID = (int)HttpContext.Session.GetInt32("DeptId");
 
-
-            //get list of retrieval id - collection time
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(api_url_rqst + "/GetRequestByStatusByDept/" + status + "/" + deptID))
@@ -97,7 +92,7 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     pendingDeliveryRequests = JsonConvert.DeserializeObject<List<Request>>(apiResponse);
                 }
-                //get collection point
+
                 using (var response = await httpClient.GetAsync(api_url + "/" + user_CPId))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
@@ -117,7 +112,6 @@ namespace Team5_LUSS.Controllers
 
             if (retrievalID != 0)
             {
-                //get the list of items based on retrieval ID and status
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.GetAsync(api_url_rqst + "/GetItemByStatus/" + status + "/" + retrievalID + "/" + deptID))
@@ -132,13 +126,6 @@ namespace Team5_LUSS.Controllers
             {
                 ViewData["collectionRequest"] = null;
             }
-
-/*            //department_filter for item list
-            List<dynamic> dept_pd_collectionList = new List<dynamic>();
-            foreach (var item in pd_collectionList)
-            {
-                dept_pd_collectionList = pd_collectionList.Where(x => x.deptId == deptID).ToList();
-            }*/
  
             ViewData["collectionRequest"] = pd_collectionList;
             ViewData["retrieval_time"] = retrievalID_CollectionTime;

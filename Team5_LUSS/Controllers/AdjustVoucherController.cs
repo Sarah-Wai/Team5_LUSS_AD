@@ -68,33 +68,6 @@ namespace Team5_LUSS.Controllers
             return View("AdjustVoucherListingClerk");
         }
 
-        //public ViewResult GetAdjustmentVoucherByRequestor()
-        //{
-        //    return View("AdjustVoucherListingClerk");
-        //}
-
-        //public ViewResult AddAdjustmentVoucher() => View();
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddAdjustmentVoucher(AdjustmentVoucher adj)
-        //{
-        //    AdjustmentVoucher adjustment = new AdjustmentVoucher();
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        StringContent content = new StringContent(JsonConvert.SerializeObject(adj), Encoding.UTF8, "application/json");
-
-        //        using (var response = await httpClient.PostAsync(api_url, content))
-        //        {
-        //            string apiResponse = await response.Content.ReadAsStringAsync();
-        //            adjustment = JsonConvert.DeserializeObject<AdjustmentVoucher>(apiResponse);
-        //        }
-        //    }
-
-        //    ViewData["adjustment"] = adjustment;
-        //    //return View(adjustment);
-        //    return RedirectToAction("RetrievalForm", "Disbursement");
-        //}
-
         [HttpPost]
         public async Task<IActionResult> AddAdjustmentVoucher(string adjustType, int itemId, int adjustQty, string reason, int userId, string entryPoint)
         {
@@ -175,12 +148,6 @@ namespace Team5_LUSS.Controllers
             ViewData["adjustmentById"] = adjustment;
             return View("AdjustVoucherDetailsClerk");
         }
-
-        //public ViewResult GetAdjustmentVoucherById()
-        //{
-        //    return View("AdjustVoucherDetailsClerk");
-        //}
-
 
         public IActionResult Index()
         {

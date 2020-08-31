@@ -181,7 +181,7 @@ namespace LUSS_API.Controllers
             return request;
         }
 
-
+        //MAKE APPROVE /REJECT BY DEPARTMENT HEAD
         [HttpGet("{id}/{status}/{comment}")]
         [Route("ApproveRequestByDepHead/{id}/{status}/{comment}")]
         public Request ApproveRequestByDepHead(int id, int status, string comment)
@@ -212,6 +212,7 @@ namespace LUSS_API.Controllers
             return getRequest;
         }
 
+        //MOBILE END POINT FOR APPRIE/REJECT REQUEST
         [HttpGet("{id}/{status}/{comment}")]
         [Route("ApproveRequestByDepHeadMB/{id}/{status}/{comment}")]
         public string ApproveRequestByDepHeadMB(int id, int status, string comment)   // TO Approve or Reject The Status by requestID
@@ -682,7 +683,6 @@ namespace LUSS_API.Controllers
         [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]
         public String MDisburseByRequest(int id, int userId, string collectionTime, string fulfillQty)
         {
-            //parse string to array
             string[] separators = { ",", "[", "]" };
             string[] str = fulfillQty.Split(separators, StringSplitOptions.RemoveEmptyEntries);
             List<int> qty = new List<int>();
@@ -696,6 +696,10 @@ namespace LUSS_API.Controllers
             return "ok";
         }
 
+
+        //SOME END POINT CANNOT USE TOGETHER WITH MOBILE AND WEB EVEN THE SAME FACTION BECAUSE 
+        //WE NEED DIFFERENT TYPE OF DATE TO SHOW THE UI //WE HAVE SOME DATA SIZE LIMITAION
+        //GET REQUEST BY REQUEST STATUS AND DEPARTMENT ID //MOBILE END POIT
         [HttpGet("{status}/{deptId}")]
         [Route("GetRequestMBByStatusByDept/{status}/{deptId}")]
         public IEnumerable<Request> GetRequestMBByStatusByDept(string status, int deptId)
@@ -738,6 +742,7 @@ namespace LUSS_API.Controllers
             return return_requestList;
         }
 
+        //REDUCE DATA SIZE OF REQUESET DETAIL LIST
         public List<RequestDetails> PrepareForRequestDetail(ICollection<RequestDetails> details)
         {
             List<RequestDetails> return_list = new List<RequestDetails>();
@@ -763,7 +768,6 @@ namespace LUSS_API.Controllers
 
             return return_list;
         }
-
 
 
         [HttpGet("Mobile_GetAccptQty/{acceptedQty}/{retrievalID}/{deptID}")]

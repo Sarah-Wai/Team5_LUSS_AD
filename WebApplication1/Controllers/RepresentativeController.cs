@@ -21,7 +21,7 @@ namespace LUSS_API.Models
             this.context123 = context123;
         }
 
-
+        //SAVE AND UPDATE REPRESENTAIVE USER
         [HttpGet("{id}/{status}/{depID}")]
         [Route("SaveRepresentative/{id}/{status}/{depID}")]
         public string SaveRepresentative(int id,bool status,int depID)

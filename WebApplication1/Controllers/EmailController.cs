@@ -24,6 +24,7 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
+        //MUST USE THIS CONTROLLE TO SEND EMAIL /// GET USER EMAIL BY USER ID
         [HttpGet("SendingEmail/{toUserID}/{template}")]
         public string SendingEmail(int toUserID,string template)
         {
@@ -34,6 +35,7 @@ namespace LUSS_API.Controllers
             }
             return result;
         }
+        //SENDIG EMAIL ACCORDING TO TEMPLATE //MESSAGE BODY AND SUBJECT WILL DIFFERENT
         public static string SendEmail(string toEmail, string toName, string template)
         {
             string email_body = "";

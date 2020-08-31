@@ -30,9 +30,7 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-
-        [HttpGet("{Email}/{Password}")]
-        //[Route("CheckLogin/{Email}/{Password}")]
+        //DEFAULT LOGIN CONTROLLER
         public User CheckLogin(string Email, string Password)
         {
             User user = (from i in context123.User
@@ -41,6 +39,8 @@ namespace LUSS_API.Controllers
             return user;
         }
 
+
+        //MBOLE LOGIN END POINT
         [HttpGet("MobileLogin/{Email}/{Password}")]
         public User MCheckLogin(string Email, string Password)
         {
@@ -67,6 +67,7 @@ namespace LUSS_API.Controllers
            
         }
 
+        //ENCRYPT THE PASSWORD
         static string Encrypt(string value)
         {
             using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
@@ -77,14 +78,14 @@ namespace LUSS_API.Controllers
             }
         }
 
-        
+        //THIS API CONTROLLER METHOD ONLY CAN BE CALL WITH JSON TOKEN KEY
         [HttpGet("{Email}/{Password}")]
         [Route("CheckLogin/{Email}/{Password}")]
-        [Authorize]
+        [Authorize]               
         public User Login(string Email, string Password)
         {
           
-            IActionResult response = Unauthorized();
+            IActionResult response = Unauthorized();   // SET DEFAULT UNAUTHORIZED
             var user = AuthenticateUser(Email, Password);
 
             if (user != null)
@@ -95,10 +96,9 @@ namespace LUSS_API.Controllers
           
         }
 
+        //VALIDATE THE USER CREDENTIALS  
         private User AuthenticateUser(string Email, string Password)
         {
-
-            //Validate the User Credentials     
             User user = (from i in context123.User
                          where i.Email == Email && i.Password == Password
                          select i).FirstOrDefault();

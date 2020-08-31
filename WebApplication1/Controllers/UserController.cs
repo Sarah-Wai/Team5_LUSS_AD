@@ -44,6 +44,8 @@ namespace LUSS_API.Controllers
             return rep;
         }
 
+
+        //GET ALL REPRESENTAIVE USER
         [HttpGet("get-rept-lower/{id}")]
         public User GetDepRep_lower(int id)
         {
@@ -60,8 +62,9 @@ namespace LUSS_API.Controllers
             }).FirstOrDefault();
             return rep;
         }
-    
-       [HttpGet("get-none-delegate-lower/{id}")]
+
+        //GET ONLY DEPARTMENT USER WITHOUT DELEGATE AND DEPARTMENT HEAD , THIS TWO USER ROLE CANNOT BE REPRESENTATIVE
+        [HttpGet("get-none-delegate-lower/{id}")]
         public List<User> GetNoneDelegate_lower(int id)
         {
             List<User> rep = context123.User.Where(x => x.DepartmentID == id && x.Role != "dept_delegate" && x.Role!= "dept_head").Select(c => new User
@@ -71,12 +74,12 @@ namespace LUSS_API.Controllers
                 LastName = c.LastName,
                 IsRepresentative=c.IsRepresentative,
                 Designation=c.Designation
-            
 
             }).ToList();
             return rep;
         }
 
+        //GETTING ALL USER OF THE DEPARTMENT WITH LARGE DATA SIZE
         [HttpGet("{id}")]
         [Route("GetAllDeptUsers/{id}")]
         public IEnumerable<User> GetAllDeptUsers(int id)
@@ -86,6 +89,8 @@ namespace LUSS_API.Controllers
             return Users;
 
         }
+
+        //GETTIN ALL EMPLOYEE OF THE DEPATMENT
         [HttpGet("{id}")]
         [Route("GetAllDeptEmpUsers/{id}")]
         public IEnumerable<User> GetAllDeptEmpUsers(int id)
@@ -96,6 +101,8 @@ namespace LUSS_API.Controllers
 
         }
 
+
+        //GET ONLY DEPARTMENT USER WITHOUT DELEGATE AND DEPARTMENT HEAD , THIS TWO USER ROLE CANNOT BE REPRESENTATIVE
         [HttpGet("{id}")]
         [Route("GetAllRepresentativeUsers/{id}")]
         public IEnumerable<User> GetAllRepresentativeUsers(int id)
@@ -106,17 +113,18 @@ namespace LUSS_API.Controllers
 
         }
 
-
+        //GETTING USER BY USER ID
         [HttpGet("{id}")]
         [Route("GetUsersByID/{id}")]
         public User GetUsersByID(int id)
         {
-            User user = context123.User
-                  .First(x => x.UserID == id);
+            User user = context123.User.First(x => x.UserID == id);
             return user;
 
         }
 
+
+        //GET DEPARTMENT USER ,THIS CONTROLLER WILL RETURN USER LIST WITH SAMLL SIZE
         [HttpGet("{id}")]
         [Route("GetAllDeptUsersMB/{id}")]
         public IEnumerable<User> GetAllDeptUsersMB(int id)

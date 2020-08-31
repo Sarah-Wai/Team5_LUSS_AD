@@ -110,9 +110,36 @@ namespace Team5_LUSS.Controllers
                 dept_Request = dept_Request.Where(x => x.RequestByUser.Department.DepartmentName == deptName).ToList();
             }
 
+            //filter by retrieval ID
+            var iter = (from r in dept_Request
+                        select new
+                        {
+                            RetrievalID = r.RetrievalID,
+                            DepartmentCode = r.RequestByUser.Department.DepartmentCode,
+                            DepartmentName = r.RequestByUser.Department.DepartmentName,
+                            DepartmentID = r.RequestByUser.Department.DepartmentID,
+                            Time = r.CollectionTime.ToString("MMMM dd, yyyy"),
+                            Status = r.RequestStatus.ToString()
+
+                        }).Distinct().ToList();
+            List<dynamic> x = new List<dynamic> {};
+
+
+            foreach (var r in iter)
+            {
+                dynamic return_value = new System.Dynamic.ExpandoObject();
+                return_value.RetrievalID = r.RetrievalID;
+                return_value.DepartmentCode = r.DepartmentCode;
+                return_value.DepartmentName = r.DepartmentName;
+                return_value.DepartmentID = r.DepartmentID;
+                return_value.Time = r.Time;
+                return_value.Status = r.Status;
+                x.Add(return_value);
+            }
+
 
             ViewData["deptName"] = deptName;
-            ViewData["dept_Requests"] = dept_Request;
+            ViewData["dept_Requests"] = x;
             ViewData["status_byDept"] = status_byDept;
             return View();
         }

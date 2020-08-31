@@ -4,7 +4,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     Dictionary<string, string> status_byDept = (Dictionary<string, string>)ViewData["status_byDept"];
-    List<Request> dept_request = (List<Request>)ViewData["dept_Requests"];
+    List<dynamic> dept_request = (List<dynamic>)ViewData["dept_Requests"];
     string deptName = (string)ViewData["deptName"];
     var message = TempData["AlertMessage"] ?? string.Empty;
     string username = (string)Context.Session.GetString("User");
@@ -77,11 +77,10 @@
             <div class="card border h-100 invoice-list-section">
                 <div class="card-body p-0">
                     <div class="invoices liststatus_byDept">
-                        @foreach (Request r in dept_request)
-                        {
-                            var orderType = "";
-                            string status = r.RequestStatus.ToString();
-                            switch (status)
+                            @foreach (var r in dept_request)
+                            {
+                             var orderType = "";
+                            @switch (r.Status)
                             {
                                 case "PendingDelivery":
                                     orderType = "badge-warning";
@@ -96,48 +95,48 @@
                                     orderType = "badge-primary";
                                     break;
                             }
-                            <div class="invoice">
-                                <div class="invoice-content">
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Retrieval ID</p>
-                                        <p class="cliname">@r.RetrievalID</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Department Name</p>
-                                        <p class="cliname">@r.RequestByUser.Department.DepartmentCode</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Delivery Date</p>
-                                        <p class="cliname">@r.CollectionTime.Date.ToString("MMMM dd, yyyy")</p>
-                                    </div>
-                                    <div class="invoice-info">
-                                        <p class="mb-0 small">Status</p>
-                                        <p class="invoice-due-date badge @orderType">@r.RequestStatus</p>
-                                    </div>
-                                    <div class="btn-group mb-2">
-                                        <form method="post" asp-action="DisbursementDetailsByDept">
-                                            <input style="display:none" name="retrievalID" value="@r.RetrievalID" />
-                                            <input style="display:none" name="status" value="@r.RequestStatus" />
-                                            <input style="display:none" name="deptID" value="@r.RequestByUser.Department.DepartmentID" />
-                                            @if (@r.RequestStatus != Status.EOrderStatus.Received)
-                                            {
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    Details
-                                                </button>
-                                            }
-                                            else
-                                            {
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    Confirm
-                                                </button>
-                                            }
-                                        </form>
+                                <div class="invoice">
+                                    <div class="invoice-content">
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Retrieval ID</p>
+                                            <p class="cliname">@r.RetrievalID</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Department Name</p>
+                                            <p class="cliname">@r.DepartmentCode</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Delivery Date</p>
+                                            <p class="cliname">@r.Time</p>
+                                        </div>
+                                        <div class="invoice-info">
+                                            <p class="mb-0 small">Status</p>
+                                            <p class="invoice-due-date badge @orderType">@r.Status</p>
+                                        </div>
+                                        <div class="btn-group mb-2">
+                                            <form method="post" asp-action="DisbursementDetailsByDept">
+                                                <input style="display:none" name="retrievalID" value="@r.RetrievalID" />
+                                                <input style="display:none" name="status" value="@r.Status" />
+                                                <input style="display:none" name="deptID" value="@r.DepartmentID" />
+                                                @if (@r.Status != "Received")
+                                                {
+                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                        Details
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                        Confirm
+                                                    </button>
+                                                }
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        }
-                    </div>
+                            }
+                        </div>
                 </div>
             </div>
         </div>

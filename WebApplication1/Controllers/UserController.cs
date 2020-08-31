@@ -23,7 +23,7 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-
+        [HttpGet("get-representative/{id}")]
         public User GetDeptRep(int id)
         {
             User rep = context123.User.Where(x => x.DepartmentID == id && x.IsRepresentative == true).Select(c =>

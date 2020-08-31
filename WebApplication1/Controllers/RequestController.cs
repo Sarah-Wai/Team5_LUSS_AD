@@ -147,9 +147,28 @@ namespace LUSS_API.Controllers
 
 
         [HttpGet("get-request/{id}")]
+        //public Request GetById(int id)
+        //{
+        //    Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
+        //    return request;
+        //}
+
         public Request GetById(int id)
         {
-            Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
+            Request request = context123.Request.Where(x => x.RequestID == id).Select(
+                c => new Request()
+                {
+                    RequestID = c.RequestID,
+                    RequestStatus = c.RequestStatus,
+                    RequestBy = c.RequestBy,
+                    ModifiedBy = c.ModifiedBy,
+                    RequestDate = c.RequestDate,
+                    RequestByUser = new User { DepartmentID=c.RequestByUser.DepartmentID, FirstName=c.RequestByUser.FirstName, LastName=c.RequestByUser.LastName, Email = c.RequestByUser.Email, Department = new Department { DepartmentCode = c.RequestByUser.Department.DepartmentCode, DepartmentName = c.RequestByUser.Department.DepartmentName, DepartmentID = c.RequestByUser.DepartmentID } },
+                    RequestType = c.RequestType,
+                    ModifiedByUser = new User { },
+                    CollectionTime = c.CollectionTime,
+                    RetrievalID = c.RetrievalID
+                }).FirstOrDefault();
             return request;
         }
 
@@ -241,7 +260,22 @@ namespace LUSS_API.Controllers
         [Route("get-approved-request")]
         public IEnumerable<Request> Get()
         {
-            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == EOrderStatus.Approved).ToList();
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == EOrderStatus.Approved).Select(
+                c => new Request()
+                {
+                    RequestID = c.RequestID,
+                    RequestStatus = c.RequestStatus,
+                    RequestBy = c.RequestBy,
+                    ModifiedBy = c.ModifiedBy,
+                    RequestDate = c.RequestDate,
+                    RequestByUser = new User { Department = new Department { DepartmentCode = c.RequestByUser.Department.DepartmentCode, DepartmentName = c.RequestByUser.Department.DepartmentName, DepartmentID = c.RequestByUser.DepartmentID } },
+                    RequestType = c.RequestType,
+                    ModifiedByUser = new User { },
+                    CollectionTime = c.CollectionTime,
+                    RetrievalID = c.RetrievalID
+                }).ToList();
+
+
             return requestList;
         }
 
@@ -250,7 +284,20 @@ namespace LUSS_API.Controllers
         public IEnumerable<Request> GetByType(string type)
         {
             RequestType.ERequestType st = (RequestType.ERequestType)Enum.Parse(typeof(RequestType.ERequestType), type);
-            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == EOrderStatus.Approved && x.RequestType == st).ToList();
+            List<Request> requestList = context123.Request.Where(x => x.RequestStatus == EOrderStatus.Approved && x.RequestType == st).Select(
+                c => new Request()
+                {
+                    RequestID = c.RequestID,
+                    RequestStatus = c.RequestStatus,
+                    RequestBy = c.RequestBy,
+                    ModifiedBy = c.ModifiedBy,
+                    RequestDate = c.RequestDate,
+                    RequestByUser = new User { Department = new Department { DepartmentCode = c.RequestByUser.Department.DepartmentCode, DepartmentName = c.RequestByUser.Department.DepartmentName, DepartmentID = c.RequestByUser.DepartmentID } },
+                    RequestType = c.RequestType,
+                    ModifiedByUser = new User { },
+                    CollectionTime = c.CollectionTime,
+                    RetrievalID = c.RetrievalID
+                }).ToList();
             return requestList;
         }
 

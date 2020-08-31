@@ -24,9 +24,29 @@ namespace LUSS_API.Controllers
         }
 
         [HttpGet("get-representative/{id}")]
+        //public User GetDeptRep(int id)
+        //{
+        //    User rep = context123.User.First(x => x.DepartmentID == id && x.IsRepresentative == true);
+        //    return rep;
+        //}
+
         public User GetDeptRep(int id)
         {
-            User rep = context123.User.First(x => x.DepartmentID == id && x.IsRepresentative == true);
+            User rep = context123.User.Where(x => x.DepartmentID == id && x.IsRepresentative == true).Select(c =>
+
+            new User
+            {
+                UserID = c.UserID,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                Department = new Department
+                {
+                    DepartmentCode = c.Department.DepartmentCode,
+                    DepartmentName = c.Department.DepartmentName,
+                    CollectionPoint = new CollectionPoint { Location = c.Department.CollectionPoint.Location, Description = c.Department.CollectionPoint.Description }
+                }
+
+            }).FirstOrDefault(); ;
             return rep;
         }
 

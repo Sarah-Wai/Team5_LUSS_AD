@@ -14,11 +14,12 @@ using X.PagedList;
 
 namespace Team5_LUSS.Controllers
 {
+
     public class ItemListController : Controller
     {
         string api_url = "https://localhost:44312/";
 
-        //Product List Page
+        //Nnag Sandar: Product List Page
         public async Task<IActionResult> Index(int? page)
         {
             List<Item> itemList = new List<Item>();                       
@@ -68,7 +69,7 @@ namespace Team5_LUSS.Controllers
             return View(onePageOfItems);
         }
 
-        //FindItemByCategory action for dropdownList using Session to store data
+        //Nang Sandar: FindItemByCategory action for dropdownList using Session to store data
         public async Task<IActionResult>FindByCat(int id)
         {
             List<Item> itemList = new List<Item>();
@@ -88,7 +89,7 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("Index");
         }
 
-        //getting param ID and ItemName from dropdownList and search box by View side
+        //Nang Sandar: getting param ID and ItemName from dropdownList and search box by View side
         public async Task<IActionResult> FindByCatIDAndName(int id, string name)
         {
             List<Item> itemList = new List<Item>();
@@ -108,7 +109,7 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("Index");
         }
 
-        //Add to Cart 
+        //Nang Sandar: Add to Cart 
         public async Task<IActionResult> AddToCart(int itemId, string qty)
         {
             List<AddToCartItem> allItem = new List<AddToCartItem>();
@@ -178,13 +179,13 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("Index");
         }
         
-        //Basket Partial View
+        //Nang Sandar: Basket Partial View
         public ActionResult PartialViewCart()
         {
             return PartialView("_CartPartial");
         }
 
-        //View Cart Page 
+        //Nang Sandar: View Cart Page 
         public async Task<IActionResult> ViewCart()
         {
             string cartItemJson = HttpContext.Session.GetString("addedItemSession");
@@ -210,6 +211,7 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
+        //Nang Sandar: Update Cart
         public ActionResult UpdateCart()
         {
             // formData ---> getting string value from View(ViewCart) side
@@ -255,7 +257,7 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("ViewCart");
         }
 
-        //remove item from cart 
+        //Nang Sandar: remove item from cart 
         public ActionResult RemoveItem(int id)
         {
             var count = 0;
@@ -279,7 +281,7 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("ViewCart");
         }
 
-        //Create New Order Request
+        //Nang Sandar: Create New Order Request
         public async Task<IActionResult> CreateRequest()
         {
             int userId = (int)HttpContext.Session.GetInt32("UserID");
@@ -311,6 +313,7 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("ViewCart");
         }
 
+        //Nang Sandar: Inventory List
         public async Task<IActionResult> InventoryList(int id)
         {
             int userId = (int)HttpContext.Session.GetInt32("UserID");
@@ -330,6 +333,7 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
+        //Nang Sandar: Inventory List Detail View
         public async Task<IActionResult> ViewItemDetail(int id)
         {
             Item item = new Item();

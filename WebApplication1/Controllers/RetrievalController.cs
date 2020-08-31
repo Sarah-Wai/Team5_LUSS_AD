@@ -130,7 +130,7 @@ namespace LUSS_API.Controllers
 
             var iter = (from r in requests
                         join rd in requestDetailsList on r.RequestID equals rd.RequestID
-                        where rd.ItemID == id
+                        where rd.ItemID == id && r.RequestStatus == EOrderStatus.Approved
                         orderby r.RequestDate ascending
                         select new
                         {

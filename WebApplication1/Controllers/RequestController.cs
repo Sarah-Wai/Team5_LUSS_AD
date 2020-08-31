@@ -157,7 +157,7 @@ namespace LUSS_API.Controllers
             return requestList;
         }
 
-
+        [HttpGet("get-request/{id}")]
         public Request GetById(int id)
         {
             Request request = context123.Request.Where(x => x.RequestID == id).Select(
@@ -427,11 +427,12 @@ namespace LUSS_API.Controllers
             context123.SaveChanges();
 
             //update request
-            Request request = GetById(id);
+            Request request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
             request.RequestStatus = EOrderStatus.PendingDelivery;
             request.CollectionTime = Convert.ToDateTime(collectionTime);
             request.ModifiedBy = userId;
             request.RetrievalID = retrieval.RetrievalID;
+            
 
             List<RequestDetails> reqItems = context123.RequestDetails.Where(x => x.RequestID == id).ToList();
 
@@ -447,10 +448,10 @@ namespace LUSS_API.Controllers
                 //}
             }
 
-
             context123.SaveChanges();
-            int userID = (int)request.RequestBy;
 
+            int userID = (int)request.RequestBy;
+            
             return userID;
         }
 

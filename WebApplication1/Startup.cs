@@ -96,52 +96,52 @@ namespace LUSS_API
 
             //run all at the same time
 
-            dbcontext.Database.EnsureDeleted();
-            dbcontext.Database.EnsureCreated();
+            //dbcontext.Database.EnsureDeleted();
+            //dbcontext.Database.EnsureCreated();
 
-            List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
-            dbcontext.AddRange(allCollectionPoints);
-            dbcontext.SaveChanges();
-            List<Department> allDepartments = AddDepartment.getAllDepartment(allCollectionPoints);
-            dbcontext.AddRange(allDepartments);
-            dbcontext.SaveChanges();
-            List<User> allUsers = AddUsers.getAllUsers();
-            dbcontext.AddRange(allUsers);
-            dbcontext.SaveChanges();
-            List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
-            dbcontext.AddRange(retrievals);
-            dbcontext.SaveChanges();
-            List<Request> requests = AddRequests.getAllRequest(allUsers, retrievals);
-            dbcontext.AddRange(requests);
-            dbcontext.SaveChanges();
-            List<Supplier> suppliers = AddSupplier.getAllSuppliers();
-            dbcontext.AddRange(suppliers);
-            dbcontext.SaveChanges();
-            List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
-            dbcontext.AddRange(itemCategories);
-            dbcontext.SaveChanges();
-            List<Item> items = AddItems.getAllItem();
-            dbcontext.AddRange(items);
-            dbcontext.SaveChanges();
-            List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
-            dbcontext.AddRange(itemPrices);
-            dbcontext.SaveChanges();
-            List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher(allUsers, items);
-            dbcontext.AddRange(adjustmentVouchers);
-            dbcontext.SaveChanges();
-            List<PurchaseOrder> purchaseOrders = AddPO.getAllPO(suppliers, allUsers);
-            dbcontext.AddRange(purchaseOrders);
-            dbcontext.SaveChanges();
-            List<PurchaseOrderItems> poItems = AddPODetails.getAllPOItems(purchaseOrders, items);
-            dbcontext.AddRange(poItems);
-            dbcontext.SaveChanges();
-            List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails(items, requests);
-            dbcontext.AddRange(requestDetails);
-            dbcontext.SaveChanges();
+            //List<CollectionPoint> allCollectionPoints = AddCollectionPoints.getAllCollectionPoints();
+            //dbcontext.AddRange(allCollectionPoints);
+            //dbcontext.SaveChanges();
+            //List<Department> allDepartments = AddDepartment.getAllDepartment(allCollectionPoints);
+            //dbcontext.AddRange(allDepartments);
+            //dbcontext.SaveChanges();
+            //List<User> allUsers = AddUsers.getAllUsers();
+            //dbcontext.AddRange(allUsers);
+            //dbcontext.SaveChanges();
+            //List<Retrieval> retrievals = AddRetrieval.getAllRetrievals();
+            //dbcontext.AddRange(retrievals);
+            //dbcontext.SaveChanges();
+            //List<Request> requests = AddRequests.getAllRequest(allUsers, retrievals);
+            //dbcontext.AddRange(requests);
+            //dbcontext.SaveChanges();
+            //List<Supplier> suppliers = AddSupplier.getAllSuppliers();
+            //dbcontext.AddRange(suppliers);
+            //dbcontext.SaveChanges();
+            //List<ItemCategory> itemCategories = AddItemCategory.getAllItemCategories();
+            //dbcontext.AddRange(itemCategories);
+            //dbcontext.SaveChanges();
+            //List<Item> items = AddItems.getAllItem();
+            //dbcontext.AddRange(items);
+            //dbcontext.SaveChanges();
+            //List<ItemPrice> itemPrices = AddItemPrice.getAllItemPrice();
+            //dbcontext.AddRange(itemPrices);
+            //dbcontext.SaveChanges();
+            //List<AdjustmentVoucher> adjustmentVouchers = AddAdjustmentVouchers.getAllAdjustmentVoucher(allUsers, items);
+            //dbcontext.AddRange(adjustmentVouchers);
+            //dbcontext.SaveChanges();
+            //List<PurchaseOrder> purchaseOrders = AddPO.getAllPO(suppliers, allUsers);
+            //dbcontext.AddRange(purchaseOrders);
+            //dbcontext.SaveChanges();
+            //List<PurchaseOrderItems> poItems = AddPODetails.getAllPOItems(purchaseOrders, items);
+            //dbcontext.AddRange(poItems);
+            //dbcontext.SaveChanges();
+            //List<RequestDetails> requestDetails = AddRequestDetail.getAllRequestDetails(items, requests);
+            //dbcontext.AddRange(requestDetails);
+            //dbcontext.SaveChanges();
 
-            DelegatedManager dm1 = AddDelegate.getDelegate();
-            dbcontext.Add(dm1);
-            dbcontext.SaveChanges();
+            //DelegatedManager dm1 = AddDelegate.getDelegate();
+            //dbcontext.Add(dm1);
+            //dbcontext.SaveChanges();
 
         }
     }

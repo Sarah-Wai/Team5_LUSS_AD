@@ -22,10 +22,16 @@ namespace LUSS_API.Models
         }
 
 
-        [HttpGet("{id}/{status}")]
-        [Route("SaveRepresentative/{id}/{status}")]
-        public string SaveRepresentative(int id,bool status)
+        [HttpGet("{id}/{status}/{depID}")]
+        [Route("SaveRepresentative/{id}/{status}/{depID}")]
+        public string SaveRepresentative(int id,bool status,int depID)
         {
+            List<User> Users = context123.User.Where(x => x.DepartmentID == depID && x.UserID!=id && x.IsRepresentative==true).ToList();   
+            foreach(User u in Users)
+            { 
+                u.IsRepresentative = false;   // delegate other representative 
+            }
+
             User representativeUser = context123.User.First(c => c.UserID == id);
             
             if (representativeUser != null)

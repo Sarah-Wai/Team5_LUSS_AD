@@ -21,23 +21,6 @@ namespace Team5_LUSS.Controllers
         string api_url_requestDetails = "https://localhost:44312/RequestDetails/";
         string api_url_retrieval = "https://localhost:44312/Retrieval";
 
-        //public async Task<IActionResult> GetAllRetrieval()
-        //{
-        //    List<Retrieval> retrievals = new List<Retrieval>();
-
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        using (var response = await httpClient.GetAsync(api_url))
-        //        {
-        //            string apiResponse = await response.Content.ReadAsStringAsync();
-        //            retrievals = JsonConvert.DeserializeObject<List<Retrieval>>(apiResponse);
-        //        }
-        //    }
-
-        //    ViewData["retrievals"] = retrievals;
-        //    return View("");
-        //}
-
         public async Task<IActionResult> RetrievalForm()
         {
             int userId = (int)HttpContext.Session.GetInt32("UserID");
@@ -119,50 +102,6 @@ namespace Team5_LUSS.Controllers
             return View("Retrieval_Form");
         }
 
-        #region retrival allocation to be removed
-
-        //public async Task<IActionResult> RetrievalAllocation(int id)
-        //{
-        //    List<dynamic> items = new List<dynamic>();
-        //    Retrieval retrieval = new Retrieval();
-
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrievalID/" + id))
-        //        {
-        //            string apiResponse = await response.Content.ReadAsStringAsync();
-        //            items = JsonConvert.DeserializeObject<List<dynamic>>(apiResponse);
-        //        }
-
-        //        using (var response = await httpClient.GetAsync(api_url_retrieval + "/retrieveID/" + id))
-        //        {
-        //            string apiResponse = await response.Content.ReadAsStringAsync();
-        //            retrieval = JsonConvert.DeserializeObject<Retrieval>(apiResponse);
-        //        }
-        //    }
-
-        //    ViewData["items"] = items;
-        //    ViewData["retrieval"] = retrieval;
-        //    return View("Disbursement_By_Retrieval");
-        //}
-
-        [HttpPost]
-        //public async Task<IActionResult> RetrievalList(List<int> retrievedQty)
-        //{
-
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        StringContent content = new StringContent(JsonConvert.SerializeObject(retrievedQty), Encoding.UTF8, "application/json");
-
-        //        using (var response = await httpClient.PostAsync(api_url_retrieval + "/" + retrievedQty, content))
-        //        {
-        //            string apiResponse = await response.Content.ReadAsStringAsync();
-        //        }
-        //    }
-        //    return RedirectToAction("");
-        //}
-
-        #endregion
 
         #region Manage Disbursement
         [HttpGet]

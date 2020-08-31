@@ -32,7 +32,6 @@ namespace Team5_LUSS.Controllers
                 }
               
             }
-          
 
             ViewData["requests"] = requests;
             return View();
@@ -116,10 +115,7 @@ namespace Team5_LUSS.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewRequestDetail(int id)
         {
-            //if(TempData["AlertMessage"] != null)
-            //{
-            //    TempData["AlertMessage"] = null;
-            //}
+
             Request request = new Request();
             using (var httpClient = new HttpClient())
             {

@@ -219,8 +219,8 @@ namespace Team5_LUSS.Controllers
             ViewData["orderItems"] = orderItems;
             return View("PO_Receive");
         }
-        [HttpPost]
 
+        [HttpPost]
         public async Task<IActionResult> ReceivePO(List<int> receivedQty, int poid)
         {
             

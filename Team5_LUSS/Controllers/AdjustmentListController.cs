@@ -17,8 +17,7 @@ namespace Team5_LUSS.Controllers
 {
     public class AdjustmentListController : Controller
     {
-        string api_url = "https://localhost:44312/AdjustmentList"; // calling the right api
-        string api_url1 = "https://localhost:44312/AdjustmentVoucher";
+        string api_url = "https://localhost:44312/AdjustmentList";
 
 
 
@@ -29,13 +28,13 @@ namespace Team5_LUSS.Controllers
             
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_url + "/" + "pendingUp")) // call the api 
+                using (var response = await httpClient.GetAsync(api_url + "/" + "pendingUp")) 
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     adjustmentsUp = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
                 }
 
-                using (var response = await httpClient.GetAsync(api_url + "/" + "pendingDown")) // call the api 
+                using (var response = await httpClient.GetAsync(api_url + "/" + "pendingDown"))  
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     adjustmentsDown = JsonConvert.DeserializeObject<List<AdjustmentVoucher>>(apiResponse);
@@ -61,24 +60,16 @@ namespace Team5_LUSS.Controllers
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
-            
-
-            //using (var response = await httpClient.GetAsync(api_url + "/get-manager" + "/" + userId))
-
-            //    {
-            //    apiResponse = await response.Content.ReadAsStringAsync();
-            //     user = JsonConvert.DeserializeObject<User>(apiResponse);
-            //    }
             }
             string msg = "Assign Successfully!";
 
-            /*
+
             MailMessage mm = new MailMessage();
             {
                 string Email = "iantanze@gmail.com";
-                mm.To.Add(Email); // content specific
-                mm.Subject = "Voucher Approved"; // content specific
-                mm.Body = "Adjustment Voucher:" + AdjustmentID + ", has been approved"; // content specific
+                mm.To.Add(Email); 
+                mm.Subject = "Voucher Approved"; 
+                mm.Body = "Adjustment Voucher:" + AdjustmentID + ", has been approved"; 
                 mm.From = new MailAddress("team5luss@gmail.com");
                 mm.IsBodyHtml = false;
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
@@ -91,7 +82,7 @@ namespace Team5_LUSS.Controllers
 
                 ViewBag.message = "Email notification sent";
             }
-            */
+            
             return RedirectToAction("AdjustmentVouchers", "AdjustmentList"); 
         }
 
@@ -108,20 +99,15 @@ namespace Team5_LUSS.Controllers
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }
-                //using (var response = await httpClient.GetAsync(api_url + "/get_manager" + "/" + userId))
-
-                //{
-                //    apiResponse = await response.Content.ReadAsStringAsync();
-                //    user = JsonConvert.DeserializeObject<User>(apiResponse);
-                //}
             }
             string msg = "Remove Successfully!";
-            /*
-            MailMessage mm = new MailMessage(); // (email address >> receiver, subject, body )
+
+            MailMessage mm = new MailMessage();
             {
-                mm.To.Add(user.Email); // content specific
-                mm.Subject = "Voucher Rejected"; // content specific
-                mm.Body = "Adjustment Voucher:" + AdjustmentID + " has been rejected"; // content specific
+                string Email = "iantanze@gmail.com";
+                mm.To.Add(Email);
+                mm.Subject = "Voucher Rejected"; 
+                mm.Body = "Adjustment Voucher:" + AdjustmentID + ", has been rejected.";
                 mm.From = new MailAddress("team5luss@gmail.com");
                 mm.IsBodyHtml = false;
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
@@ -131,11 +117,9 @@ namespace Team5_LUSS.Controllers
                 client.Credentials = new System.Net.NetworkCredential
                     ("team5luss@gmail.com", "Profesther");
                 client.Send(mm);
+
                 ViewBag.message = "Email notification sent";
             }
-            */
-
-            //return RedirectToAction("AssignRepresentative", new { id = 1, msg = msg });
 
             return RedirectToAction("AdjustmentVouchers", "AdjustmentList");
         }

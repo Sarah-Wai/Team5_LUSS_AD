@@ -76,7 +76,6 @@ namespace Team5_LUSS.Controllers
                     lowStockItemCount = Int32.Parse(apiResponse);
                 }
 
-
             }
             ViewData["name"] = name;
             ViewData["topSixRequested"] = topSixRequested;
@@ -86,10 +85,6 @@ namespace Team5_LUSS.Controllers
             ViewData["nextCollectionPoint"] = nextCollectionPoint;
             ViewData["nextCollectionDate"] = nextCollectionDate;
             ViewData["lowStockItemCount"] = lowStockItemCount;
-
-
-
-
 
             return View("ClerkDash");
         }

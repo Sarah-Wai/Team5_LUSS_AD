@@ -37,18 +37,7 @@ namespace LUSS_API.Controllers
             _logger = logger;
             this.context123 = context123;
         }
-        
 
-        //[HttpGet]
-        //[Route("get-user-name")]
-        //public string GetName()
-        //{            
-        //    int dummyID = 1;//TO replace by real ID
-        //    User currentUser = context123.User.Where(x => x.UserID == dummyID).FirstOrDefault();
-            
-        //    return currentUser.FirstName.ToString();
-
-        //}
         [HttpGet("{deptID}")]
         [Route("get-top-cost-category/{deptID}")]
         public List<TopSixRequested> GetTopSummed(int deptID)

@@ -252,7 +252,7 @@ namespace LUSS_API.Controllers
                     user.DelegatedManager = new DelegatedManager();
                     user.Role = "dept_employee";
                 }
-                //context123.SaveChanges();
+               
                 DelegatedManager delegated = context123.DelegatedManager.First(c => c.DelegatedManagerID == id);
                 context123.DelegatedManager.Remove(delegated);
                 context123.SaveChanges();
@@ -282,7 +282,7 @@ namespace LUSS_API.Controllers
                         if(delegated.isActive==true)
                         user.Role = "dept_employee";
                     }
-                    //context123.SaveChanges();
+          
 
                     context123.DelegatedManager.Remove(delegated);
                     context123.SaveChanges();
@@ -333,7 +333,7 @@ namespace LUSS_API.Controllers
             users.Contains(x.UserID)
             && ((x.FromDate >= fTime.Date && x.ToDate <= ttime.Date) ||
             (x.FromDate <= fTime.Date && x.ToDate >= fTime.Date))
-            /* && x.isActive == true*/).ToList();
+            ).ToList();
             if (delegated.Count > 0)
             {
                 return true;

@@ -26,16 +26,6 @@
         <div class="card bg-light">
             <div class="card-header">
                 Current Delegate
-                @if (!string.IsNullOrEmpty(@DeleteMsg))
-                {
-                   // <h6><small><span class="text-danger p-sm-0">@DeleteMsg</span></small></h6>
-                   
-                    <script>
-                       
-                    </script>   
-                   
-
-                }
 
             </div>
             <div class="card-body">
@@ -54,12 +44,10 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             @foreach (User user in deptUsers)
                             {
                                 if (user.DelegatedManager != null)
                                 {
-
                                     <tr>
                                         <td>@user.FirstName  @user.LastName</td>
                                         <td> @Html.DisplayFor(modelItem => user.DelegatedManager.FromDate)</td>
@@ -103,9 +91,6 @@
                         <h4 class="card-title">Name</h4>
                     </div>
                     <div class="card-body">
-
-                        <!--remember to replace the value with deptID-->
-                        @*<input type="text" style="display:none" value="2" name="deptID" />*@
                         <div class="skin skin-flat">
                             <ul class="list list-unstyled  mr-3">
                                 @{
@@ -176,7 +161,6 @@
                                     </div>
                                     <div class="row" id="btn_gp" style="display:none;">
                                         <div class="col-sm-4" ></div>
-                                      @*  <span>&nbsp;&nbsp;&nbsp;</span><button type="reset" class="btn btn-primary">Cancel</button>*@
                                         <span>&nbsp;&nbsp;&nbsp;</span><button type="submit" class="btn btn-success" id="btnAssign">Assign</button> 
 
                                     </div>

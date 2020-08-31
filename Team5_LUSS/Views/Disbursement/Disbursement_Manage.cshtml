@@ -22,7 +22,6 @@
             <div class="col-12  align-self-center">
                 <div class="btn-group mb-2">
                     <a asp-action="RetrievalForm" class="btn btn-primary">Retrieval Form</a>
-                    @*<button type="button" class="btn btn-primary">New Adjustment Voucher</button>*@
                 </div>
             </div>
         </div>
@@ -99,10 +98,6 @@
                                             <p class="mb-0 small">Order Type</p>
                                             <p class="invoice-due-date badge @orderType">@r.RequestType</p>
                                         </div>
-                                        @*<div class="invoice-info">
-                                                <p class="mb-0 small">Status</p>
-                                                <p class=" invoice-due-date badge badge-success">@r.RequestStatus</p>
-                                            </div>*@
                                         <div class="mr-3">
                                             <a asp-action="DisburseByRequest" asp-route-id="@r.RequestID" class="bg-primary float-right mr-3  py-1 px-2 rounded text-white ">
                                                 Disburse

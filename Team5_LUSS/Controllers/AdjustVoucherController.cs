@@ -125,7 +125,6 @@ namespace Team5_LUSS.Controllers
             return View("");
         }
    
-        //[HttpPost]
         public async Task<IActionResult> GetAdjustmentVoucherById(int id)
         {
             AdjustmentVoucher adjustment = new AdjustmentVoucher();

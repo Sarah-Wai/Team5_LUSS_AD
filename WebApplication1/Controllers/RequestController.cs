@@ -66,16 +66,6 @@ namespace LUSS_API.Controllers
             return requests;
         }
 
-        //[HttpGet("{id}")]
-        //[Route("getAllRequestByDepID/{id}")]
-        //public List<Request> GetAllRequest(int id)
-        //{
-        //    List<Request> requests = context123.Request.Where(x => x.RequestByUser.DepartmentID == id).ToList();
-        //  //  string return_string= JsonConvert.SerializeObject(requests);
-        //    return requests;
-
-        //}
-
         [HttpGet("{id}")]
         [Route("getAllRequestByDepID/{id}")]
         public List<Request> GetAllRequest(int id)
@@ -331,7 +321,6 @@ namespace LUSS_API.Controllers
                             itemUOM = i.UOM,
                             collectionTime = n.Select(x => x.Request.CollectionTime).First(),
                             requestIDs = n.Select(x => x.RequestID).ToList()
-                            //deptId = n.Select(x => x.Request.RequestByUser.DepartmentID).ToList()
                         }).ToList();
             return iter;
         }
@@ -343,8 +332,6 @@ namespace LUSS_API.Controllers
             {
                 //get the chunk of info passed to the View
                 IEnumerable<dynamic> list = GetItemsByStatus("PendingDelivery", retrievalID, deptID);
-                //IEnumerable<dynamic> listByDept = list.Where(x => x.deptId = deptID).ToList();
-
 
                 //create a dic: item code -- accptQty
                 Dictionary<int, int> allocationList = new Dictionary<int, int>();
@@ -362,7 +349,7 @@ namespace LUSS_API.Controllers
                         allocationList[key] = acceptedQty[i];
                     }
                 }
-                //List<RequestDetails> requestDetailsList = context123.RequestDetails.ToList();
+
                 List<RequestDetails> requestDetailsList = context123.RequestDetails.Where(x => x.Request.RetrievalID == retrievalID).ToList();
 
 
@@ -457,8 +444,6 @@ namespace LUSS_API.Controllers
             EOrderStatus completed = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "Completed");
             EOrderStatus pendingDelivery = (EOrderStatus)Enum.Parse(typeof(EOrderStatus), "PendingDelivery");
             List<Request> request = context123.Request.Where(x => x.RequestBy == id && x.RequestStatus != packed && x.RequestStatus != completed && x.RequestStatus != pendingDelivery).OrderByDescending(x => x.RequestDate).ToList();
-            //request.Select(x => x.RequestDetails.Where(a => a.isActive = true)); // remove cancelled request details
-
             return request;
         }
 
@@ -466,7 +451,7 @@ namespace LUSS_API.Controllers
         [Route("GetAllStatus")]
         public List<EOrderStatus> GetAllStatus()
         {
-            List<EOrderStatus> st = Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>().ToList();// Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>();
+            List<EOrderStatus> st = Enum.GetValues(typeof(EOrderStatus)).Cast<EOrderStatus>().ToList();
             return st;
         }
 
@@ -547,7 +532,7 @@ namespace LUSS_API.Controllers
             if (getRequest != null)
             {
                 getRequest.RequestStatus = EOrderStatus.Cancelled;
-                //List<RequestDetails> reqDetails = new  List<RequestDetails>();
+
                 foreach (var reqDetail in getRequest.RequestDetails)
                 {
                     if (reqDetail.RequestID == getRequest.RequestID)
@@ -607,16 +592,6 @@ namespace LUSS_API.Controllers
         {
             Request request = new Request();
             request = context123.Request.Where(x => x.RequestID == id).FirstOrDefault();
-            //Request request = context123.Request.Select(x => x.RequestDetails.Select(y => y.isActive == false)).ToList();
-            //List<RequestDetails> newReqDetail = new List<RequestDetails>();
-            //foreach (var r in request.RequestDetails)
-            //{
-            //    if(r.isActive == true)
-            //    {
-            //        newReqDetail.Add(r);
-            //    }
-            //}
-            // request.RequestDetails = newReqDetail;
             return request;
         }
 
@@ -702,29 +677,6 @@ namespace LUSS_API.Controllers
             return retrievals;
         }
 
-/*        [HttpGet("GetItemByRetrieval/{retrId}/{deptId}")]
-        public List<CustomRetrieval> GetItemByRetrieval(int retrId, int deptId)
-        {
-            IEnumerable<dynamic> requests = GetItemsByStatus("Received", retrId, deptId);
-            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
-
-            foreach (var r in requests)
-            {
-                CustomRetrieval rt = new CustomRetrieval
-                {
-                    ItemID = r.itemIds,
-                    ItemCode = r.itemCode,
-                    ItemName = r.itemName,
-                    UOM = r.itemUOM,
-                    RequestedQty = r.totalQty,
-                    AcceptedQty = r.rcvedQty,
-                    TotalQty = r.fullQty
-                };
-
-                retrievals.Add(rt);
-            }
-            return retrievals;
-        }*/
 
         [HttpGet("{id}/{userId}/{collectionTime}/{fulfillQty}")]
         [Route("disburse-by-request-mobile/{id}/{userId}/{collectionTime}/{fulfillQty}")]

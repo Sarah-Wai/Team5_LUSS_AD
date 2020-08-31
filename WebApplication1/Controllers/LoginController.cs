@@ -41,40 +41,6 @@ namespace LUSS_API.Controllers
             return user;
         }
 
-
-        //[HttpGet("{Email}/{Password}")]
-        //[Route("CheckLogin/{Email}/{Password}")]
-        //public User CheckLogin(string Email, string Password)
-        //{
-        //    User user = (from i in context123.User
-        //                 where i.Email == Email && i.Password == Password
-        //                 select i).FirstOrDefault();
-        //    if( user!= null)
-        //    {
-        //        User retun_user = new User()
-        //        {
-        //            UserID = user.UserID,
-        //            FirstName = user.FirstName,
-        //            LastName = user.LastName,
-        //            ContactNumber = user.ContactNumber,
-        //            DepartmentID = user.DepartmentID,
-        //            Email = user.Email,
-        //            Password = user.Password,
-        //            Role = user.Role,
-        //            IsRepresentative = user.IsRepresentative,
-        //            Designation = user.Designation,
-        //            ReportToID = user.ReportToID,
-        //            Department = user.Department == null ? context123.Department.First(x => x.DepartmentID == user.DepartmentID) : user.Department,
-        //        };
-
-        //        return retun_user;
-        //    }
-        //    else { return null; }
-
-
-
-        //}
-
         [HttpGet("MobileLogin/{Email}/{Password}")]
         public User MCheckLogin(string Email, string Password)
         {

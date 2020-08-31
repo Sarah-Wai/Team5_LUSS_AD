@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 
 namespace LUSS_API.Controllers
 {
@@ -43,7 +43,7 @@ namespace LUSS_API.Controllers
             return price; 
         }
 
-        //[EnableCors("EnableCors")]
+
         [HttpGet("getItemDetails/{id}")]
         public ItemPrice GetItemById(int id)
         {
@@ -66,8 +66,6 @@ namespace LUSS_API.Controllers
             return itemPrice;
         }
 
-
-
         //get supplier list by item
         [HttpGet("get-supplier-by-item/{id}")]
         public List<Supplier> GetSupplierByItem(int id) 
@@ -77,26 +75,7 @@ namespace LUSS_API.Controllers
             return suppliers;
         }
 
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
         //Mobile API
-
         [HttpGet("mobile/getItemDetails/{id}")]
         public CustomAdjustmentVoucher GetItemDetails(int id)
         {

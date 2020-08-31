@@ -94,8 +94,7 @@
                                     @if (isPending)
                                     {
                                         <button type="button" class="btn btn-danger mr-1" onclick="cancelRequest(@request.RequestID)">Cancel Request</button>
-                                        @*<a class="btn btn-danger mr-1" asp-controller="StationeryRequests" asp-action="CancelRequest" asp-route-id="@request.RequestID">Cancel Request</a>*@
-
+ 
                                         <input type="submit" class="btn btn-primary float-right" value="Update Request">
                                     }
                                     else
@@ -155,9 +154,7 @@
             }
 
         })
-        //$('.btn-remove').on('click', function (e) {
-        //    $(this).closest('tr').remove();
-        //})
+ 
 
         var removeItem = function (reqId, reDetailId) {
             swal({

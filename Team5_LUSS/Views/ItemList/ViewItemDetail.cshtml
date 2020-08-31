@@ -8,7 +8,7 @@
     int DeptId = (int)Context.Session.GetInt32("DeptId");
     string UserRole = (string)Context.Session.GetString("UserRole");
 }
-@if (UserRole == "store_clerk")
+@if (UserRole == "store_clerk" || UserRole == "store_supervisor" || UserRole == "store_manager")
 {
     <h3>Item Detail</h3>
 

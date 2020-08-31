@@ -12,8 +12,6 @@ namespace Team5_LUSS.Controllers
 {
     public class EmailController : Controller
     {
-       
-
 
         public static string getURL()
         {
@@ -106,6 +104,7 @@ namespace Team5_LUSS.Controllers
         }
     }
 }
+
 // Delegate email
 // MailMessage mm = new MailMessage(); // (email address >> receiver, subject, body )
 //                    mm.To.Add(receiver.Email); // content specific

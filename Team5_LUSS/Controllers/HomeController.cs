@@ -21,10 +21,7 @@ namespace Team5_LUSS.Controllers
     public class HomeController : Controller
     {
 
-        //List<User> Users = new List<User>();
-
-
-        string api_url = "https://localhost:44312/Login"; // connect to API project Controller class
+        string api_url = "https://localhost:44312/Login"; 
         private string GenerateJSONWebToken()
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MyTeamIsTeam5SuperHeroes"));
@@ -43,18 +40,18 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> Login(string Email, string Password)
         {
             var tokenString = GenerateJSONWebToken();
-            User login_user = new User(); // create a new objects of "User"
-            string Hword = Encrypt(Password);    // string Hword = Encrypt(Password);    Change Later
+            User login_user = new User(); 
+            string Hword = Encrypt(Password); 
             string action_name = ""; string controller_name = "";
             using (var httpClient = new HttpClient())
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
-                using (var response = await httpClient.GetAsync(api_url + "/CheckLogin/" + Email + "/" + Hword)) // connect to call api
+                using (var response = await httpClient.GetAsync(api_url + "/CheckLogin/" + Email + "/" + Hword)) 
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     if (apiResponse != "" && !apiResponse.Contains("<!DOCTYPE html"))
                     {
-                        login_user = JsonConvert.DeserializeObject<User>(apiResponse); // convert the packets from https link to the object
+                        login_user = JsonConvert.DeserializeObject<User>(apiResponse);
                     }
                 }
 

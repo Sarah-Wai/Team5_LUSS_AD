@@ -44,13 +44,8 @@ namespace Team5_LUSS.Controllers
 
             }
 
-
             ViewData["departmentCategory"] = departmentCategory;
             ViewData["supplierCategory"] = supplierCategory;
-
-
-
-
 
             return View("SupDash");
         }

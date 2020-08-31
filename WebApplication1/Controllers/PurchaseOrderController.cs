@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using static LUSS_API.Models.PurchaseOrderStatus;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LUSS_API.Controllers
 {
@@ -49,8 +48,6 @@ namespace LUSS_API.Controllers
             return purchase;
         }
 
-        //[HttpGet]
-        //[Route("get-new-po-id")]
         public int GetNewPOId()
         {
             int maxId = 0;

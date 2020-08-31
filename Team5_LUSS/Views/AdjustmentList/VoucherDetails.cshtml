@@ -87,18 +87,13 @@
                                 <td><input type="text" asp-for="Comment" name="Comment" id="Comment" placeholder="" style="width:250px; height:80px"></td>
                             </tr>
                             <input type="hidden" asp-for="AdjustmentID" name="AdjustmentID" value="@Model.AdjustmentID" />
-                            @*<tr>
-                                    <td><b>Comment:</b></td>
-                                    <td>@Model.Comment</td>
-                                </tr>*@
+
                         </table>
                     </div>
                 </div>
 
                 <div class="text-center panel-body">
-                    @*<button type="button" class="btn btn-sm btn-success" onclick="location.href='@Url.Action("Approved", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID)'"> Approve</button>
-        <button type="button" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("Rejected", "AdjustmentList", new { AdjustmentID = @Model.AdjustmentID })'">Reject</button>*@
-                    <button type="button" class="btn btn-sm btn-danger" onclick="doSubmit(2)">Reject</button>
+                     <button type="button" class="btn btn-sm btn-danger" onclick="doSubmit(2)">Reject</button>
                     <button type="button" class="btn btn-sm btn-success" onclick="doSubmit(1)"> Approve</button>
                 </div>
     </form>
@@ -113,13 +108,7 @@
 </a>
 <script>
     function doSubmit(type) {
-        @*if (type == 1) {
-            $("#approvalForm").attr('asp-action', '@Url.Action("Approved", "AdjustmentList")');
-        }
-        else {
-            $("#approvalForm").attr('asp-action', '@Url.Action("Rejected", "AdjustmentList")');
-        }
-        $("#approvalForm").submit();*@
+
 
         if (type == 1) {
             $("#approvalForm").attr('action', '/AdjustmentList/Approved');

@@ -47,9 +47,6 @@ namespace Team5_LUSS.Controllers
                     }
                 }
             }
-
-
-            //allRequests = filterForStoreClerkView(allRequests);
             ViewData["allRqt"] = allRequests;
             return View();
         }
@@ -189,13 +186,6 @@ namespace Team5_LUSS.Controllers
                 }
 
             }
-
-/*            //department_filter for item list
-            List<dynamic> dept_pd_collectionList = new List<dynamic>();
-            foreach (var item in pd_collectionList)
-            {
-                dept_pd_collectionList = pd_collectionList.Where(x => x.deptId == deptID).ToList();
-            }*/
 
             ViewData["deptRep"] = representative;
             ViewData["retrievalDetails"] = pd_collectionList;

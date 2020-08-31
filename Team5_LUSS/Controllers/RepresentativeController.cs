@@ -15,7 +15,7 @@ namespace Team5_LUSS.Controllers
     {
         string api_user_url = "https://localhost:44312/User/GetAllDeptUsers"; // connect to API project Controller class
         string api_representative_url = "https://localhost:44312/Representative";
-        //string msg = "";
+
         [HttpGet]
         public async Task<IActionResult> AssignRepresentative(int id,string msg)
         {

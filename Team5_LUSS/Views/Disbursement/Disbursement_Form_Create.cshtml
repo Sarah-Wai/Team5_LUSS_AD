@@ -53,8 +53,7 @@
                                 <table class="table table-bordered" id="tblReqItems">
                                     <thead>
                                         <tr>
-                                            @*<td>#</td>
-                                                <td>#</td>*@
+
                                             <td class="text-right"><b>Item Code</b></td>
                                             <td class="text-right"><b>Description</b></td>
                                             <td class="text-right"><b>UOM</b></td>
@@ -68,8 +67,6 @@
                                         @foreach (RequestDetails r in reqItems)
                                         {
                                             <tr>
-                                                @*<td>@r.RequestDetailID</td>
-                                                    <td>@r.RequestID</td>*@
                                                 <td class="text-right">@r.ItemID <input type="text" style="display:none" name="itemID" value="@r.ItemID"></td>
                                                 <td class="text-right">@r.Item.ItemName</td>
                                                 <td class="text-right">@r.Item.UOM</td>

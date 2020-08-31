@@ -121,7 +121,7 @@ namespace LUSS_API.Controllers
                     }
                 }
             }
-            //if (lowStockList.Count() == 0) { return items; }
+
             return lowStockList;
         }
 
@@ -163,7 +163,7 @@ namespace LUSS_API.Controllers
                     
                     context123.Request.Add(req);
                     context123.SaveChanges();
-                    //Console.WriteLine(req.RequestID);
+
 
                 }
                 catch (Exception ex)
@@ -174,7 +174,7 @@ namespace LUSS_API.Controllers
                 {
                     try
                     {
-                        //List<AddToCartItem> items = JsonConvert.DeserializeObject<List<AddToCartItem>>(jsonData);
+
                         List<AddToCartItem> items = itemreq.ItemList;
                         List<RequestDetails> reqDetails = new List<RequestDetails>();
 

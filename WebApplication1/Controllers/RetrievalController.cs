@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using static LUSS_API.Models.Status;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LUSS_API.Controllers
 {
@@ -188,8 +187,6 @@ namespace LUSS_API.Controllers
                 retrievedQtyList[retrievedQtyList.ElementAt(i).Key] = retrievedQty[i];
             }
 
-            //List<int> items = requests.Select(x => x.ItemID).ToList();
-
             foreach (int u in items)
             {
                 List<RequestDetails> reqByItem = requests.Where(x => x.ItemID == u).OrderBy(x => x.Request.RequestDate).ToList();
@@ -245,7 +242,7 @@ namespace LUSS_API.Controllers
             return users;
         }
 
-        // DELETE api/<controller>/5
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
@@ -255,7 +252,6 @@ namespace LUSS_API.Controllers
         }
 
         // Mobile API
-
         [HttpGet("{status}")]
         [Route("mobile/byStatus/{status}")]
         public List<CustomRetrieval> GetRetrivalList(string status)
@@ -311,42 +307,5 @@ namespace LUSS_API.Controllers
 
             return "ok";
         }
-
- /*       [HttpGet("mDeliveryConfirmation")]
-        public List<CustomRetrieval> GetDeliveryRetrivalList()
-        {
-            IEnumerable<dynamic> requests = GetRequestByStatus("Received");
-            List<CustomRetrieval> retrievals = new List<CustomRetrieval>();
-
-            if (requests == null)
-            {
-                return null;
-            }
-            else
-            {
-                foreach (var r in requests)
-                {
-                    CustomRetrieval rt = new CustomRetrieval
-                    {
-                        RetrievalID = r.RetrievalID,
-                        ReStockLevel = r.ReorderLevel,
-                        ItemID = r.ItemID,
-                        ItemCode = r.ItemCode,
-                        ItemName = r.ItemName,
-                        UOM = r.UOM,
-                        ItemPrice = r.ItemPrice,
-                        Location = r.Location,
-                        InStockQty = r.InStock,
-                        CategoryName = r.Category,
-                        TotalQty = r.TotalQty,
-                        AcceptedQty = r.AcceptedQty
-                        
-                    };
-
-                    retrievals.Add(rt);
-                }
-                return retrievals;
-            
-        }*/
         }
     }

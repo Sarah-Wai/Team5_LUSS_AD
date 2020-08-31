@@ -41,7 +41,7 @@
 
                                 <th scope="col">Name</th>
                                 <th>Designation</th>
-                                <th scope="col"></th>
+                                @*<th scope="col"></th>*@
                             </tr>
                         </thead>
                         <tbody>
@@ -55,9 +55,10 @@
                                     <tr>
                                         <td>@user.FirstName  @user.LastName</td>
                                         <td>@user.Designation</td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger" title="Remove" onclick="location.href='@Url.Action("RemoveRepresentative", "Representative", new { id = user.UserID })'"> Remove</button>
-                                        </td>
+                                        @*<td style="display:none">
+                                            <button type="button" class="btn btn-danger" title="Remove" 
+                                                    onclick="location.href='@Url.Action("RemoveRepresentative", "Representative", new { id = user.UserID })'"> Remove</button>
+                                        </td>*@
 
                                     </tr>
 

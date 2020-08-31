@@ -58,9 +58,10 @@ namespace Team5_LUSS.Controllers
         public async Task<IActionResult> RemoveRepresentative(int id)
         {
             string apiResponse = "";
+            int depID = (int)HttpContext.Session.GetInt32("DeptId");
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(api_representative_url + "/" + id + "/" + false))
+                using (var response = await httpClient.GetAsync(api_representative_url + "/" + id + "/" + false + "/" + depID))
                 {
                     apiResponse = await response.Content.ReadAsStringAsync();
                 }

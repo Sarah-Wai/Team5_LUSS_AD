@@ -116,15 +116,9 @@ namespace Team5_LUSS.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     suppliers = JsonConvert.DeserializeObject<List<Supplier>>(apiResponse);
                 }
-                //get new POID
-                //using (var response = await httpClient.GetAsync(api_url + "/get/new-po-id"))
-                //{
-                //    string apiResponse = await response.Content.ReadAsStringAsync();
-                //    poId = JsonConvert.DeserializeObject<int>(apiResponse);
-                //}
+            
             }
 
-            //string poNo = "PO" + poId;
             ViewData["purchasedBy"] = (int)HttpContext.Session.GetInt32("UserID");
             ViewData["item"] = item;
             ViewData["suppliers"] = suppliers;
@@ -242,17 +236,5 @@ namespace Team5_LUSS.Controllers
         }
         #endregion
 
-
-
-        public IActionResult Index()
-        {
-            //return View();
-            //return View("PO_LowStock");
-            return View("PO_History");
-            //return View("PO_Receive");
-            //return View("PO_Create");
-            //return View("PO_Create_Bulk");
-            //return View("PO_Create_Low");
-        }
     }
 }

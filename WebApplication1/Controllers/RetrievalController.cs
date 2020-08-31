@@ -28,17 +28,7 @@ namespace LUSS_API.Controllers
             this.context123 = context123;
         }
 
-        [HttpGet("get/newRetrievalId")]
-        public int GetNewRetrievalId()
-        {
-            int maxId = 0;
-            int? currentId = context123.Retrieval.Max(x => x.RetrievalID);
-            if (currentId != null)
-            {
-                maxId = (int)currentId;
-            }
-            return maxId + 1;
-        }
+       
 
         [HttpGet]
         public IEnumerable<Retrieval> GetRetrievals()
@@ -79,7 +69,6 @@ namespace LUSS_API.Controllers
             {
                 Retrieval retrieval = new Retrieval()
                 {
-                    //RetrievalID = GetNewRetrievalId(),// for testing, to be removed
                     Status = EOrderStatus.Approved,
                     IssueDate = DateTime.Now
                 };
@@ -130,7 +119,7 @@ namespace LUSS_API.Controllers
 
             var iter = (from r in requests
                         join rd in requestDetailsList on r.RequestID equals rd.RequestID
-                        where rd.ItemID == id
+                        where rd.ItemID == id && r.RequestStatus == EOrderStatus.Approved
                         orderby r.RequestDate ascending
                         select new
                         {
@@ -243,7 +232,6 @@ namespace LUSS_API.Controllers
                 }
                 else if (r.FullfillQty == null)
                 {
-                    //r.Request.RetrievalID = null;
                     r.FullfillQty = null;
                 }
             }
@@ -255,18 +243,6 @@ namespace LUSS_API.Controllers
 
             List<User> users = requests.Select(x => x.Request.RequestByUser).Distinct().ToList();
             return users;
-        }
-
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
         }
 
         // DELETE api/<controller>/5

@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\CartController.cs" />
     <Compile Remove="Controllers\DashboardController.cs" />
     <Compile Remove="Controllers\ItemCategoryController.cs" />
   </ItemGroup>

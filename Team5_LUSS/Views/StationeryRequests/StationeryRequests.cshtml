@@ -72,15 +72,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @*@foreach (RequestDetails d in c.RequestDetails)
-                                                    {
-                                                        <tr>
-                                                            <th scope="row">@d.Item.ItemName</th>
-                                                            <td>@d.Item.UOM</td>
-                                                            <td>@d.RequestQty</td>
-
-                                                        </tr>
-                                                    }*@
+                                             
                                             </tbody>
                                         </table>
                                     </div>
@@ -217,8 +209,6 @@
                             </div>
 
                         }
-
-
                     }
 
                 </div>
@@ -230,12 +220,11 @@
 <!-- START: Page JS-->
 
 <script src="~/js/System/StationeryRequests/jquery.min.js"></script>
-@*<script src="~/js/System/StationeryRequests/stationeryRequests.js"></script>*@
+
 @section Scripts{
     <script>
 
-        function UpdateRequest(status) {
-       
+        function UpdateRequest(status) {       /*  Approve Reject Function*/
             var comment = $("#txtComment").val();
             var id = $("#hidRequestID").val();
           console.log()
@@ -247,8 +236,6 @@
                   if (status == '1') {
                       toastr["success"]('Approved!');
                       $('#editrequest').modal('hide');
-
-
                   }
                   else {
 
@@ -261,7 +248,7 @@
           })
         };
 
-        function GetRequestDetail(id, requestBy, status,comment,modifiedBy) {
+        function GetRequestDetail(id, requestBy, status,comment,modifiedBy) {    /*Show Rewust Detail to make approve/reject*/
 
           $.ajax({
               type: "GET",
@@ -276,7 +263,6 @@
                           detail_items +='<tr><th scope="row">' + value.item.itemCode + '</th>'
                               + '<td>' + value.item.uom + '</td>'
                               + '<td>' + value.requestQty + '</td></tr>';
-
                       });
 
                       $('#requestItem > tbody:last-child').append(detail_items);
@@ -295,7 +281,6 @@
                       else {
                           $('#status').css("display", "none");
                       }
-
                   }
 
               }

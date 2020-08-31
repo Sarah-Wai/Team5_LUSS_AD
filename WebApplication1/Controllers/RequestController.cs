@@ -214,7 +214,7 @@ namespace LUSS_API.Controllers
 
         [HttpGet("{id}/{status}/{comment}")]
         [Route("ApproveRequestByDepHeadMB/{id}/{status}/{comment}")]
-        public string ApproveRequestByDepHeadMB(int id, int status, string comment)
+        public string ApproveRequestByDepHeadMB(int id, int status, string comment)   // TO Approve or Reject The Status by requestID
         {
             string template = "";
             Request getRequest = context123.Request.Where(x => x.RequestID == id).SingleOrDefault();

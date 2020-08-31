@@ -38,7 +38,7 @@ namespace Team5_LUSS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ApproveRequestByDepHead(int id,int status, string comment)
+        public async Task<string> ApproveRequestByDepHead(int id,int status, string comment)
         {
             if (comment == "" || comment=="null" || comment==null)
             {
@@ -53,8 +53,9 @@ namespace Team5_LUSS.Controllers
                    
                 }
             }
+            return "Success";
 
-            return RedirectToAction("StationeryRequests");
+            //return RedirectToAction("StationeryRequests");
         }
 
         [HttpGet]
@@ -75,6 +76,7 @@ namespace Team5_LUSS.Controllers
             return request_detis;
         }
 
+        //Nang Sandar: getting request order list
         [HttpGet]
         public async Task<IActionResult> RequestHistory(string status)
         {
@@ -112,6 +114,7 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
+        //Nang Sandar: Request Detail View
         [HttpGet]
         public async Task<IActionResult> ViewRequestDetail(int id)
         {
@@ -144,6 +147,7 @@ namespace Team5_LUSS.Controllers
             return View();
         }
 
+        //Nang Sandar: for Request Cancel function at 'Pending' state
         public async Task<IActionResult> CancelRequest(int reqId)
         {
             int userId = (int)HttpContext.Session.GetInt32("UserID");
@@ -165,6 +169,7 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("RequestHistory", new { id = userId });
         }
 
+        //Nang Sandar: for update Request function at 'Pending' state
         public async Task<IActionResult> UpdateRequestDetail()
         {
             // formData ---> getting string value from View
@@ -240,6 +245,7 @@ namespace Team5_LUSS.Controllers
             return RedirectToAction("ViewRequestDetail", new { id = reqID });
         }
 
+        //Nang Sandar: for Remove item function for requested order
         public async Task<IActionResult> RemoveRequestedItem(int reqId, int reDetailId)
         {
             bool isRemoved = false;

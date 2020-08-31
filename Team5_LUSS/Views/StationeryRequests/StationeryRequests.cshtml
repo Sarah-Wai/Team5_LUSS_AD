@@ -20,86 +20,96 @@
 <!-- END: Breadcrumbs-->
 <!-- Edit request -->
 
-        <div class="modal fade" id="editrequest">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            <i class="icon-pencil"></i> Request Details
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <i class="icon-close"></i>
-                        </button>
-                    </div>
-
-                    <form class="edit-request-form" asp-action="ApproveRequestByDepHead" method="post">
-                        <div class="modal-body">
+<div class="modal fade" id="editrequest">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="icon-pencil"></i> Request Details
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+            <div class="se-pre-con">
+                <div class="loader"></div>
+            </div>
+            <form class="edit-request-form" asp-action="ApproveRequestByDepHead" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="hidden" id="hidRequestID" />
                             <div class="row">
-                                <div class="col-12">
-                                    <input type="hidden" id="hidRequestID" />
-                                    <div class="row">
-                                        <label for="requestID" class="col-sm-4 col-form-label">Request ID :</label>
-                                        <label for="requestID" class="col-sm-4 col-form-label"><span id="lblRequestID">1</span></label>
+                                <label for="requestID" class="col-sm-4 col-form-label">Request ID :</label>
+                                <label for="requestID" class="col-sm-4 col-form-label"><span id="lblRequestID">1</span></label>
 
-                                    </div>
-                                    <div class="row">
-                                        <label for="requestBy" class="col-sm-4 col-form-label">Request By :</label>
-                                        <label for="requestBy" class="col-sm-4 col-form-label"><span id="lblRequestBy">Test</span></label>
-                                    </div>
-                                    <div class="row">
-                                        <label for="status" class="col-sm-4 col-form-label">Status :</label>
-                                        <label for="status" class="col-sm-4 col-form-label"><span id="lblStatus">Status</span></label>
+                            </div>
+                            <div class="row">
+                                <label for="requestBy" class="col-sm-4 col-form-label">Request By :</label>
+                                <label for="requestBy" class="col-sm-4 col-form-label"><span id="lblRequestBy">Test</span></label>
+                            </div>
+                            <div class="row">
+                                <label for="status" class="col-sm-4 col-form-label">Status :</label>
+                                <label for="status" class="col-sm-4 col-form-label"><span id="lblStatus">Status</span></label>
 
-                                    </div>
-                                    <div class="row">
-                                        <label for="updataBy" class="col-sm-4 col-form-label">Update By :</label>
-                                        <label for="updataBy" class="col-sm-4 col-form-label"><span id="lblUpdateBy">Test</span></label>
+                            </div>
+                            <div class="row">
+                                <label for="updataBy" class="col-sm-4 col-form-label">Update By :</label>
+                                <label for="updataBy" class="col-sm-4 col-form-label"><span id="lblUpdateBy">Test</span></label>
 
-                                    </div>
-                                    <div class="row">
-                                        <label for="username" class="col-sm-2 col-form-label"></label>
-                                        <div class="col-sm-10">
-                                            <div class="table-responsive">
-                                                <table class="table layout-secondary" id="requestItem">
-                                                    <thead>
+                            </div>
+                            <div class="row">
+                                <label for="username" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="table-responsive">
+                                        <table class="table layout-secondary" id="requestItem">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ItemName</th>
+                                                    <th scope="col">UOM</th>
+                                                    <th scope="col">Request Qty</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @*@foreach (RequestDetails d in c.RequestDetails)
+                                                    {
                                                         <tr>
-                                                            <th scope="col">ItemName</th>
-                                                            <th scope="col">UOM</th>
-                                                            <th scope="col">Request Qty</th>
+                                                            <th scope="row">@d.Item.ItemName</th>
+                                                            <td>@d.Item.UOM</td>
+                                                            <td>@d.RequestQty</td>
 
                                                         </tr>
-                                                    </thead>
-                                                    <tbody >
- 
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="username" class="col-sm-2 col-form-label">Comment</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" name="comment" id="txtComment" placeholder="Comment....">-</textarea>
-                                        </div>
+                                                    }*@
+                                            </tbody>
+                                        </table>
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                           
-                            <div class="col-sm-10" id="status">
-                                <button type="button" class="btn btn-danger" onclick="UpdateRequest(2)">Reject</button>
-                                <button type="button" class="btn btn-success" onclick="UpdateRequest(1)"> Approve</button>
+                            <div class="row">
+                                <label for="username" class="col-sm-2 col-form-label">Comment</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="comment" id="txtComment" placeholder="Comment....">-</textarea>
+                                </div>
                             </div>
-                            
 
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+                <div class="modal-footer">
+
+                    <div class="col-sm-10" id="status">
+                        <button type="button" class="btn btn-danger" onclick="UpdateRequest(2)">Reject</button>
+                        <button type="button" class="btn btn-success" onclick="UpdateRequest(1)"> Approve</button>
+                    </div>
+
+
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 
 
 <!-- START: Card Data-->
@@ -121,12 +131,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="approved-request">
-                         Approved
+                        Approved
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-requesttype="rejected-request">
-                         Rejected
+                        Rejected
                     </a>
                 </li>
                 <li class="nav-item">
@@ -196,10 +206,11 @@
                                     </div>
 
                                     <div class="line-h-1 h3">
-                                        <a class="text-success" href="#" data-toggle="modal" @*data-target="#editrequest_@c.RequestID"*@ 
+                                        <a class="text-success" href="#" data-toggle="modal" @*data-target="#editrequest_@c.RequestID"*@
                                            onclick="GetRequestDetail('@c.RequestID','@c.RequestByUser.FirstName  @c.RequestByUser.LastName' ,'@c.RequestStatus',
                                             '@c.Comment','@c.ModifiedByUser.FirstName  @c.ModifiedByUser.LastName');">
-                                        <i class="icon-note"></i></a>
+                                            <i class="icon-note"></i>
+                                        </a>
 
                                     </div>
                                 </div>
@@ -224,6 +235,7 @@
     <script>
 
         function UpdateRequest(status) {
+       
             var comment = $("#txtComment").val();
             var id = $("#hidRequestID").val();
           console.log()
@@ -235,14 +247,16 @@
                   if (status == '1') {
                       toastr["success"]('Approved!');
                       $('#editrequest').modal('hide');
-                      //location.reload();
+
+
                   }
                   else {
-                      toastr["success"]('Rejected!');
+                    
+                    
                       $('#editrequest').modal('hide');
-                      //location.reload();
-                  }
 
+                  }
+                  location.reload();
               }
           })
         };
@@ -262,7 +276,7 @@
                           detail_items +='<tr><th scope="row">' + value.item.itemCode + '</th>'
                               + '<td>' + value.item.uom + '</td>'
                               + '<td>' + value.requestQty + '</td></tr>';
-                         
+
                       });
 
                       $('#requestItem > tbody:last-child').append(detail_items);
